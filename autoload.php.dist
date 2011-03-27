@@ -1,0 +1,20 @@
+<?php
+
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+if (!class_exists('Behat\Mink\ClassLoader\UniversalClassLoader')) {
+    require_once __DIR__ . '/src/Behat/Mink/ClassLoader/UniversalClassLoader.php';
+}
+use Behat\Mink\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader();
+$loader->registerNamespaces(array(
+    'Behat\Mink' => __DIR__ . '/src',
+));
+$loader->register();
