@@ -17,6 +17,10 @@
         </testsuite>
     </testsuites>
 
+    <php>
+        <!-- <server name="WEB_FIXTURES_HOST" value="http://test.mink.loc" /> -->
+    </php>
+
     <filter>
         <whitelist>
             <directory>./src/Behat/Mink/</directory>
