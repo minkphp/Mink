@@ -2,7 +2,8 @@
 
 namespace Behat\Mink\Driver;
 
-use Goutte\Client,
+use Goutte\Client as GoutteClient,
+    Symfony\Component\BrowserKit\Client,
     Symfony\Component\DomCrawler\Crawler,
     Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
@@ -20,7 +21,7 @@ class GoutteDriver implements DriverInterface
     public function __construct(Client $client = null)
     {
         if (null === $client) {
-            $client = new Client();
+            $client = new GoutteClient();
         }
 
         $this->client = $client;
