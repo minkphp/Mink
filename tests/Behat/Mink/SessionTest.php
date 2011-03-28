@@ -71,16 +71,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ret, $this->session->getStatusCode());
     }
 
-    public function testGetCurrentPath()
-    {
-        $this->driver
-            ->expects($this->once())
-            ->method('getCurrentPath')
-            ->will($this->returnValue($ret = '/some/path'));
-
-        $this->assertEquals($ret, $this->session->getCurrentPath());
-    }
-
     public function testGetCurrentUrl()
     {
         $this->driver

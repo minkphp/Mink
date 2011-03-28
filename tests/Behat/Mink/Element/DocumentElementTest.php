@@ -310,7 +310,7 @@ XPATH;
             ->with($xpath);
 
         $this->document->clickLink('some link');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->clickLink('some link');
     }
 
@@ -338,7 +338,7 @@ XPATH;
             ->with($xpath);
 
         $this->document->clickButton('some button');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->clickButton('some button');
     }
 
@@ -362,40 +362,12 @@ XPATH;
 
         $this->session->getDriver()
             ->expects($this->once())
-            ->method('fill')
+            ->method('setValue')
             ->with($xpath, 'some val');
 
         $this->document->fillField('some field', 'some val');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->fillField('some field', 'some val');
-    }
-
-    public function testChooseField()
-    {
-        $xpath = <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][((./@id = 'some field' or ./@name = 'some field') or ./@id = //label[contains(normalize-space(string(.)), 'some field')]/@for)] | .//label[contains(normalize-space(string(.)), 'some field')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
-XPATH;
-
-        $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $node
-            ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
-        $this->session->getDriver()
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('choose')
-            ->with($xpath);
-
-        $this->document->chooseField('some field');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
-        $this->document->chooseField('some field');
     }
 
     public function testCheckField()
@@ -422,7 +394,7 @@ XPATH;
             ->with($xpath);
 
         $this->document->checkField('some field');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->checkField('some field');
     }
 
@@ -450,7 +422,7 @@ XPATH;
             ->with($xpath);
 
         $this->document->uncheckField('some field');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->uncheckField('some field');
     }
 
@@ -478,7 +450,7 @@ XPATH;
             ->with($xpath, 'option2');
 
         $this->document->selectFieldOption('some field', 'option2');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->selectFieldOption('some field', 'option2');
     }
 
@@ -506,7 +478,7 @@ XPATH;
             ->with($xpath, '/path/to/file');
 
         $this->document->attachFileToField('some field', '/path/to/file');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFound');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->attachFileToField('some field', '/path/to/file');
     }
 

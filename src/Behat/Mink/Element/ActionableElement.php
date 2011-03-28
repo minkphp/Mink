@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Exception\ElementNotFound;
+use Behat\Mink\Exception\ElementNotFoundException;
 
 abstract class ActionableElement extends Element
 {
@@ -11,7 +11,7 @@ abstract class ActionableElement extends Element
         $link = $this->getSession()->getPage()->findLink($locator);
 
         if (null === $link) {
-            throw new ElementNotFound('link', $locator);
+            throw new ElementNotFoundException('link', $locator);
         }
 
         $this->getSession()->getDriver()->click($link->getXpath());
@@ -22,7 +22,7 @@ abstract class ActionableElement extends Element
         $button = $this->getSession()->getPage()->findButton($locator);
 
         if (null === $button) {
-            throw new ElementNotFound('button', $locator);
+            throw new ElementNotFoundException('button', $locator);
         }
 
         $this->getSession()->getDriver()->click($button->getXpath());
@@ -33,21 +33,10 @@ abstract class ActionableElement extends Element
         $field = $this->getSession()->getPage()->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFound('field', $field);
+            throw new ElementNotFoundException('field', $field);
         }
 
-        $this->getSession()->getDriver()->fill($field->getXpath(), $value);
-    }
-
-    public function chooseField($locator)
-    {
-        $field = $this->getSession()->getPage()->findField($locator);
-
-        if (null === $field) {
-            throw new ElementNotFound('field', $field);
-        }
-
-        $this->getSession()->getDriver()->choose($field->getXpath());
+        $this->getSession()->getDriver()->setValue($field->getXpath(), $value);
     }
 
     public function checkField($locator)
@@ -55,7 +44,7 @@ abstract class ActionableElement extends Element
         $field = $this->getSession()->getPage()->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFound('field', $field);
+            throw new ElementNotFoundException('field', $field);
         }
 
         $this->getSession()->getDriver()->check($field->getXpath());
@@ -66,7 +55,7 @@ abstract class ActionableElement extends Element
         $field = $this->getSession()->getPage()->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFound('field', $field);
+            throw new ElementNotFoundException('field', $field);
         }
 
         $this->getSession()->getDriver()->uncheck($field->getXpath());
@@ -77,7 +66,7 @@ abstract class ActionableElement extends Element
         $field = $this->getSession()->getPage()->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFound('field', $field);
+            throw new ElementNotFoundException('field', $field);
         }
 
         $this->getSession()->getDriver()->selectOption($field->getXpath(), $value);
@@ -88,7 +77,7 @@ abstract class ActionableElement extends Element
         $field = $this->getSession()->getPage()->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFound('field', $field);
+            throw new ElementNotFoundException('field', $field);
         }
 
         $this->getSession()->getDriver()->attachFile($field->getXpath(), $path);

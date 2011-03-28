@@ -14,6 +14,8 @@ class Session
 
     public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler)
     {
+        $driver->setSession($this);
+
         $this->driver           = $driver;
         $this->page             = new DocumentElement($this);
         $this->selectorsHandler = $selectorsHandler;
@@ -52,11 +54,6 @@ class Session
     public function getStatusCode()
     {
         return $this->driver->getStatusCode();
-    }
-
-    public function getCurrentPath()
-    {
-        return $this->driver->getCurrentPath();
     }
 
     public function getCurrentUrl()

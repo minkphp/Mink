@@ -2,12 +2,14 @@
 
 namespace Behat\Mink\Driver;
 
+use Behat\Mink\Session;
+
 interface DriverInterface
 {
+    function setSession(Session $session);
+
     function visit($url);
     function reset();
-
-    function getCurrentPath();
     function getCurrentUrl();
 
     function getResponseHeaders();
@@ -20,11 +22,10 @@ interface DriverInterface
     function find($xpath);
     function getTagName($xpath);
     function getText($xpath);
+    function getAttribute($xpath, $attr);
     function getValue($xpath);
     function setValue($xpath, $value);
 
-    function fill($xpath, $value);
-    function choose($xpath);
     function check($xpath);
     function uncheck($xpath);
     function selectOption($xpath, $value);
@@ -32,7 +33,6 @@ interface DriverInterface
 
     function isChecked($xpath);
     function isVisible($xpath);
-    function isSelected($xpath);
 
     function attachFile($xpath, $path);
     function triggerEvent($xpath, $event);

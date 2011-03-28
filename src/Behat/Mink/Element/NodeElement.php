@@ -32,6 +32,16 @@ class NodeElement extends ActionableElement
         return $this->getSession()->getDriver()->getValue($this->getXpath());
     }
 
+    public function hasAttribute($name)
+    {
+        return null !== $this->getSession()->getDriver()->getAttribute($this->getXpath(), $name);
+    }
+
+    public function getAttribute($name)
+    {
+        return $this->getSession()->getDriver()->getAttribute($this->getXpath(), $name);
+    }
+
     public function setValue($value)
     {
         $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
@@ -40,6 +50,21 @@ class NodeElement extends ActionableElement
     public function click()
     {
         $this->getSession()->getDriver()->click($this->getXpath());
+    }
+
+    public function check()
+    {
+        $this->getSession()->getDriver()->check($this->getXpath());
+    }
+
+    public function uncheck()
+    {
+        $this->getSession()->getDriver()->uncheck($this->getXpath());
+    }
+
+    public function selectOption($option)
+    {
+        $this->getSession()->getDriver()->selectOption($this->getXpath(), $option);
     }
 
     public function getTagName()

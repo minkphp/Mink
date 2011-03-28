@@ -36,6 +36,33 @@ class NodeElementTest extends ElementTest
         $this->assertEquals('val1', $node->getText());
     }
 
+    public function testHasAttribute()
+    {
+        $node = new NodeElement('input_tag', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->exactly(2))
+            ->method('getAttribute')
+            ->with('input_tag', 'href')
+            ->will($this->onConsecutiveCalls(null, 'http://...'));
+
+        $this->assertFalse($node->hasAttribute('href'));
+        $this->assertTrue($node->hasAttribute('href'));
+    }
+
+    public function testGetAttribute()
+    {
+        $node = new NodeElement('input_tag', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getAttribute')
+            ->with('input_tag', 'href')
+            ->will($this->returnValue('http://...'));
+
+        $this->assertEquals('http://...', $node->getAttribute('href'));
+    }
+
     public function testGetValue()
     {
         $node = new NodeElement('input_tag', $this->session);
@@ -71,6 +98,42 @@ class NodeElementTest extends ElementTest
             ->with('link_or_button');
 
         $node->click();
+    }
+
+    public function testCheck()
+    {
+        $node = new NodeElement('checkbox_or_radio', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('check')
+            ->with('checkbox_or_radio');
+
+        $node->check();
+    }
+
+    public function testUncheck()
+    {
+        $node = new NodeElement('checkbox_or_radio', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('uncheck')
+            ->with('checkbox_or_radio');
+
+        $node->uncheck();
+    }
+
+    public function testSelectOption()
+    {
+        $node = new NodeElement('select', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('selectOption')
+            ->with('select', 'item1');
+
+        $node->selectOption('item1');
     }
 
     public function testGetTagName()
