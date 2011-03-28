@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Exception;
 
-class ElementNotFound extends Exception
+class ElementNotFoundException extends Exception
 {
     public function __construct($type = null, $locator = null, $code = 0, $previous = null)
     {
