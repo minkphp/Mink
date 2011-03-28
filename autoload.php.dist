@@ -15,6 +15,9 @@ use Behat\Mink\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-    'Behat\Mink' => __DIR__ . '/src',
+    'Behat\Mink'        => __DIR__ . '/src',
+    'Symfony\Component' => __DIR__ . '/vendor',
 ));
 $loader->register();
+
+require_once __DIR__ . '/vendor/Goutte/goutte.phar';
