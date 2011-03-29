@@ -2,23 +2,48 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session,
-    Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Session;
 
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Base element.
+ *
+ * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ */
 abstract class Element implements ElementInterface
 {
     private $session;
 
+    /**
+     * Initialize element.
+     *
+     * @param   Behat\Mink\Session  $session
+     */
     public function __construct(Session $session)
     {
         $this->session = $session;
     }
 
+    /**
+     * Returns element session.
+     *
+     * @return  Behat\Mink\Session
+     */
     public function getSession()
     {
         return $this->session;
     }
 
+    /**
+     * @see     Behat\Mink\Element\ElementInterface::find()
+     */
     public function find($selector, $locator)
     {
         $items = $this->findAll($selector, $locator);
@@ -26,6 +51,9 @@ abstract class Element implements ElementInterface
         return count($items) ? current($items) : null;
     }
 
+    /**
+     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     */
     public function findAll($selector, $locator)
     {
         return $this->getSession()->getDriver()->find(
@@ -33,86 +61,11 @@ abstract class Element implements ElementInterface
         );
     }
 
-    public function findField($locator)
-    {
-        return $this->find('named', array(
-            'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
-        ));
-    }
-
-    public function findLink($locator)
-    {
-        return $this->find('named', array(
-            'link', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
-        ));
-    }
-
-    public function findButton($locator)
-    {
-        return $this->find('named', array(
-            'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
-        ));
-    }
-
-    public function findById($id)
-    {
-        $id = $this->getSession()->getSelectorsHandler()->xpathLiteral($id);
-
-        return $this->find('xpath', "//*[@id=$id]");
-    }
-
+    /**
+     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     */
     public function hasSelector($selector, $locator)
     {
         return null !== $this->find($selector, $locator);
-    }
-
-    public function hasContent($content)
-    {
-        return $this->hasSelector('named', array(
-            'content', $this->getSession()->getSelectorsHandler()->xpathLiteral($content)
-        ));
-    }
-
-    public function hasLink($locator)
-    {
-        return null !== $this->findLink($locator);
-    }
-
-    public function hasButton($locator)
-    {
-        return null !== $this->findButton($locator);
-    }
-
-    public function hasField($locator)
-    {
-        return null !== $this->findField($locator);
-    }
-
-    public function hasCheckedField($locator)
-    {
-        $field = $this->findField($locator);
-
-        return null !== $field && $field->isChecked();
-    }
-
-    public function hasUncheckedField($locator)
-    {
-        $field = $this->findField($locator);
-
-        return null !== $field && !$field->isChecked();
-    }
-
-    public function hasSelect($locator)
-    {
-        return $this->hasSelector('named', array(
-            'select', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
-        ));
-    }
-
-    public function hasTable($locator)
-    {
-        return $this->hasSelector('named', array(
-            'table', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
-        ));
     }
 }
