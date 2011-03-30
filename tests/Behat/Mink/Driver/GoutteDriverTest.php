@@ -8,24 +8,35 @@ use Behat\Mink\Selector\SelectorsHandler,
 
 class GoutteDriverTest extends \PHPUnit_Framework_TestCase
 {
+    private $host;
     private $session;
+
+    public function __construct()
+    {
+        $this->host = $_SERVER['WEB_FIXTURES_HOST'];
+        $driver = $this->configureDriver();
+        $driver->start();
+
+        $this->session = new Session($driver, new SelectorsHandler());
+    }
+
+    public function __destruct()
+    {
+        $this->session->getDriver()->stop();
+    }
 
     public function setUp()
     {
-        $this->host     = $_SERVER['WEB_FIXTURES_HOST'];
-        $this->session  = new Session(new GoutteDriver(), new SelectorsHandler());
+        $this->session->getDriver()->reset();
     }
 
-    public function test200Status()
+    public function testStatuses()
     {
         $this->session->visit($this->host . '/index.php');
 
         $this->assertEquals(200, $this->session->getStatusCode());
         $this->assertEquals($this->host . '/index.php', $this->session->getCurrentUrl());
-    }
 
-    public function test404Status()
-    {
         $this->session->visit($this->host . '/404.php');
 
         $this->assertEquals($this->host . '/404.php', $this->session->getCurrentUrl());
@@ -38,7 +49,6 @@ class GoutteDriverTest extends \PHPUnit_Framework_TestCase
         $this->session->visit($this->host . '/redirector.php');
 
         $this->assertEquals($this->host . '/redirect_destination.php', $this->session->getCurrentUrl());
-        $this->assertEquals(200, $this->session->getStatusCode());
         $this->assertEquals('You were redirected!', $this->session->getPage()->getContent());
     }
 
@@ -62,6 +72,27 @@ class GoutteDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($strongs));
         $this->assertEquals('Lorem', $strongs[0]->getText());
         $this->assertEquals('pariatur', $strongs[2]->getText());
+    }
+
+    public function testLinks()
+    {
+        $this->session->visit($this->host . '/links.php');
+        $page = $this->session->getPage();
+        $link = $page->findLink('Redirect me to');
+
+        $this->assertEquals('redirector.php', $link->getAttribute('href'));
+        $link->click();
+
+        $this->assertEquals($this->host . '/redirect_destination.php', $this->session->getCurrentUrl());
+
+        $this->session->visit($this->host . '/links.php');
+        $page = $this->session->getPage();
+        $link = $page->findLink('basic form image');
+
+        $this->assertEquals('/basic_form.php', $link->getAttribute('href'));
+        $link->click();
+
+        $this->assertEquals($this->host . '/basic_form.php', $this->session->getCurrentUrl());
     }
 
     public function testBasicForm()
@@ -164,5 +195,10 @@ Array
 OUT
             , $page->getContent()
         );
+    }
+
+    protected function configureDriver()
+    {
+        return new GoutteDriver($this->host . '/index.php');
     }
 }
