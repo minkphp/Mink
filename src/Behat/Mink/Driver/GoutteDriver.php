@@ -28,22 +28,25 @@ use Behat\Mink\Session,
  */
 class GoutteDriver implements DriverInterface
 {
+    private $startUrl;
     private $session;
     private $client;
     private $forms = array();
+    private $started = false;
 
     /**
      * Initializes Goutte driver.
      *
      * @param   Symfony\Component\BrowserKit\Client $client
      */
-    public function __construct(Client $client = null)
+    public function __construct($startUrl, Client $client = null)
     {
         if (null === $client) {
             $client = new GoutteClient();
         }
 
-        $this->client = $client;
+        $this->startUrl = $startUrl;
+        $this->client   = $client;
         $this->client->followRedirects(true);
     }
 
@@ -65,12 +68,37 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::start()
+     */
+    public function start()
+    {
+        $this->visit($this->startUrl);
+        $this->started = true;
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::isStarted()
+     */
+    public function isStarted()
+    {
+        return $this->started;
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::stop()
+     */
+    public function stop()
+    {
+        $this->started = false;
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::reset()
      */
     public function reset()
     {
         $this->client->restart();
-        $this->forms = array();
+        $this->start();
     }
 
     /**
@@ -385,7 +413,7 @@ class GoutteDriver implements DriverInterface
         $crawler = $this->client->getCrawler();
 
         if (null === $crawler) {
-            throw new DriverException('Crawler can\'t be initialized. Did you opened some page?');
+            throw new DriverException('Crawler can\'t be initialized. Did you started driver?');
         }
 
         return $crawler;

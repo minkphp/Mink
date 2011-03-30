@@ -27,16 +27,33 @@ interface DriverInterface
     function setSession(Session $session);
 
     /**
+     * Starts driver.
+     */
+    function start();
+
+    /**
+     * Cheks whether driver is started.
+     *
+     * @return  Boolean
+     */
+    function isStarted();
+
+    /**
+     * Stops driver.
+     */
+    function stop();
+
+    /**
+     * Resets driver.
+     */
+    function reset();
+
+    /**
      * Visit specified URL.
      *
      * @param   string  $url    url of the page
      */
     function visit($url);
-
-    /**
-     * Resets current driver.
-     */
-    function reset();
 
     /**
      * Returns current URL address.
