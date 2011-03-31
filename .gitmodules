@@ -4,6 +4,6 @@
 [submodule "vendor/Symfony/Component/CssSelector"]
 	path = vendor/Symfony/Component/CssSelector
 	url = git://github.com/symfony/CssSelector.git
-[submodule "vendor/Behat/SahiClient"]
-	path = vendor/Behat/SahiClient
+[submodule "vendor/SahiClient"]
+	path = vendor/SahiClient
 	url = git://github.com/Behat/SahiClient.git
