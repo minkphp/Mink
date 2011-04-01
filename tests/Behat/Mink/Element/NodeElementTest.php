@@ -100,6 +100,18 @@ class NodeElementTest extends ElementTest
         $node->click();
     }
 
+    public function testRightClick()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('rightClick')
+            ->with('elem');
+
+        $node->rightClick();
+    }
+
     public function testCheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
@@ -175,6 +187,42 @@ class NodeElementTest extends ElementTest
 
         $this->assertTrue($node->isChecked());
         $this->assertFalse($node->isChecked());
+    }
+
+    public function testFocus()
+    {
+        $node = new NodeElement('some-element', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('focus')
+            ->with('some-element');
+
+        $node->focus();
+    }
+
+    public function testBlur()
+    {
+        $node = new NodeElement('some-element', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('blur')
+            ->with('some-element');
+
+        $node->blur();
+    }
+
+    public function testMouseOver()
+    {
+        $node = new NodeElement('some-element', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('mouseOver')
+            ->with('some-element');
+
+        $node->mouseOver();
     }
 
     public function testTriggerEvent()

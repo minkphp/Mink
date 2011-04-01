@@ -105,6 +105,14 @@ class NodeElement extends Element
     }
 
     /**
+     * Right-clicks current node.
+     */
+    public function rightClick()
+    {
+        $this->getSession()->getDriver()->rightClick($this->getXpath());
+    }
+
+    /**
      * Checks current node if it's a checkbox field.
      */
     public function check()
@@ -158,6 +166,30 @@ class NodeElement extends Element
     public function isChecked()
     {
         return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+    }
+
+    /**
+     * Brings focus to element.
+     */
+    public function focus()
+    {
+        $this->getSession()->getDriver()->focus($this->getXpath());
+    }
+
+    /**
+     * Removes focus from element.
+     */
+    public function blur()
+    {
+        $this->getSession()->getDriver()->blur($this->getXpath());
+    }
+
+    /**
+     * Simulates a mouse over on the element.
+     */
+    public function mouseOver()
+    {
+        $this->getSession()->getDriver()->mouseOver($this->getXpath());
     }
 
     /**
