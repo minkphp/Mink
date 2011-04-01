@@ -124,7 +124,7 @@ class SahiDriver implements DriverInterface
      */
     public function getResponseHeaders()
     {
-        throw new UnsupportedByDriverException('Response headers is not supported', $this);
+        throw new UnsupportedByDriverException('Response headers are not supported', $this);
     }
 
     /**
