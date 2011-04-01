@@ -49,6 +49,16 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * Returns Sahi client instance.
+     *
+     * @return  Behat\SahiClient\Client
+     */
+    public function getClient()
+    {
+        return $this->client
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setSession()
      */
     public function setSession(Session $session)
