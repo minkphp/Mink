@@ -55,7 +55,7 @@ class SahiDriver implements DriverInterface
      */
     public function getClient()
     {
-        return $this->client
+        return $this->client;
     }
 
     /**
@@ -376,7 +376,7 @@ JS;
      */
     public function executeScript($script)
     {
-        $this->evaluateScript($script);
+        $this->client->getConnection()->executeJavascript($script);
     }
 
     /**
@@ -385,6 +385,14 @@ JS;
     public function evaluateScript($script)
     {
         return $this->client->getConnection()->executeJavascript($script);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::wait()
+     */
+    public function wait($time, $condition)
+    {
+        $this->client->wait($time, $condition);
     }
 
     /**

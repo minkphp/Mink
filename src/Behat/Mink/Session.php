@@ -139,4 +139,15 @@ class Session
     {
         return $this->driver->evaluateScript($script);
     }
+
+    /**
+     * Waits some time or until JS condition turns true.
+     *
+     * @param   integer $time       time in milliseconds
+     * @param   string  $condition  JS condition
+     */
+    public function wait($time, $condition)
+    {
+        $this->driver->wait($time, $condition);
+    }
 }

@@ -336,6 +336,16 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::wait()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function wait($time, $condition)
+    {
+        throw new UnsupportedByDriverException('JS scripts execution is not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::isVisible()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver

@@ -250,4 +250,12 @@ interface DriverInterface
      * @return  mixed           script return value
      */
     function evaluateScript($script);
+
+    /**
+     * Waits some time or until JS condition turns true.
+     *
+     * @param   integer $time       time in milliseconds
+     * @param   string  $condition  JS condition
+     */
+    function wait($time, $condition);
 }

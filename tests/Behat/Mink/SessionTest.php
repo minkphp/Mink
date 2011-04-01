@@ -101,4 +101,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($ret, $this->session->evaluateScript($arg));
     }
+
+    public function testWait()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('wait')
+            ->with(1000, 'function() {}');
+
+        $this->session->wait(1000, 'function() {}');
+    }
 }
