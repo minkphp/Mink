@@ -7,3 +7,6 @@
 [submodule "vendor/SahiClient"]
 	path = vendor/SahiClient
 	url = git://github.com/Behat/SahiClient.git
+[submodule "vendor/Buzz"]
+	path = vendor/Buzz
+	url = git://github.com/kriswallsmith/Buzz.git
