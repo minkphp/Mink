@@ -23,7 +23,7 @@
 
         <label for="sex">
             <span><input type="radio" name="sex" value="m" /> m</span>
-            <span><input type="radio" name="sex" value="w" checked /> w</span>
+            <span><input type="radio" name="sex" value="w" checked="checked" /> w</span>
         </label>
 
         <input type="checkbox" name="mail_list" checked="checked" />

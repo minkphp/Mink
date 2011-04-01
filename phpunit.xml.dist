@@ -19,6 +19,7 @@
 
     <php>
         <!-- <server name="WEB_FIXTURES_HOST" value="http://test.mink.loc" /> -->
+        <!-- <server name="WEB_FIXTURES_BROWSER" value="firefox" /> -->
     </php>
 
     <filter>

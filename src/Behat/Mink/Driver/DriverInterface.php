@@ -151,6 +151,15 @@ interface DriverInterface
     function uncheck($xpath);
 
     /**
+     * Checks whether checkbox checked located by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  Boolean
+     */
+    function isChecked($xpath);
+
+    /**
      * Selects option from select field located by it's XPath query.
      *
      * @param   string  $xpath
@@ -166,21 +175,19 @@ interface DriverInterface
     function click($xpath);
 
     /**
+     * Right-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function rightClick($xpath);
+
+    /**
      * Attaches file path to file field located by it's XPath query.
      *
      * @param   string  $xpath
      * @param   string  $path
      */
     function attachFile($xpath, $path);
-
-    /**
-     * Checks whether checkbox checked located by it's XPath query.
-     *
-     * @param   string  $xpath
-     *
-     * @return  Boolean
-     */
-    function isChecked($xpath);
 
     /**
      * Checks whether element visible located by it's XPath query.
@@ -190,6 +197,27 @@ interface DriverInterface
      * @return  Boolean
      */
     function isVisible($xpath);
+
+    /**
+     * Simulates a mouse over on the element.
+     *
+     * @param   string  $xpath
+     */
+    function mouseOver($xpath);
+
+    /**
+     * Brings focus to element.
+     *
+     * @param   string  $xpath
+     */
+    function focus($xpath);
+
+    /**
+     * Removes focus from element.
+     *
+     * @param   string  $xpath
+     */
+    function blur($xpath);
 
     /**
      * Trigger specific event on element located by XPath query.

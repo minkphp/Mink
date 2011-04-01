@@ -265,6 +265,46 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::rightClick()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function rightClick($xpath)
+    {
+        throw new UnsupportedByDriverException('Right clicking is not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::mouseOver()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function mouseOver($xpath)
+    {
+        throw new UnsupportedByDriverException('Mouse moving is not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::focus()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function focus($xpath)
+    {
+        throw new UnsupportedByDriverException('Focus actions is not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::blur()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function blur($xpath)
+    {
+        throw new UnsupportedByDriverException('Focus actions is not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::executeScript()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
