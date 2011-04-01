@@ -7,8 +7,21 @@ use Behat\SahiClient\Client;
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\DriverException,
-    Behat\Mink\Exception\ElementNotFoundException;
+    Behat\Mink\Exception\UnsupportedByDriverException;
 
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Sahi (JS) driver.
+ *
+ * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ */
 class SahiDriver implements DriverInterface
 {
     private $started = false;
@@ -17,6 +30,13 @@ class SahiDriver implements DriverInterface
     private $client;
     private $session;
 
+    /**
+     * Initialie Sahi driver.
+     *
+     * @param   string                      $startUrl       url to start from
+     * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
+     * @param   Behat\SahiClient\Client     $client         Sahi client instance
+     */
     public function __construct($startUrl, $browserName, Client $client = null)
     {
         if (null === $client) {
@@ -28,11 +48,17 @@ class SahiDriver implements DriverInterface
         $this->browserName  = $browserName;
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setSession()
+     */
     public function setSession(Session $session)
     {
         $this->session = $session;
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::start()
+     */
     public function start()
     {
         $this->client->start($this->browserName);
@@ -40,47 +66,73 @@ class SahiDriver implements DriverInterface
         $this->started = true;
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::isStarted()
+     */
     public function isStarted()
     {
         return $this->started;
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::stop()
+     */
     public function stop()
     {
         $this->client->stop();
         $this->started = false;
     }
 
-    public function visit($url)
-    {
-        $this->client->navigateTo($url);
-    }
-
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::reset()
+     */
     public function reset()
     {
         $this->visit($this->startUrl);
     }
 
-    public function getCurrentUrl()
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::visit()
+     */
+    public function visit($url)
     {
-        return $this->client->getConnection()->executeJavascript('document.URL');
+        $this->client->navigateTo($url);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getCurrentUrl()
+     */
+    public function getCurrentUrl()
+    {
+        return $this->evaluateScript('document.URL');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
     public function getResponseHeaders()
     {
         throw new UnsupportedByDriverException('Response headers is not supported', $this);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getStatusCode()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
     public function getStatusCode()
     {
         throw new UnsupportedByDriverException('Status code is not supported', $this);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getContent()
+     */
     public function getContent()
     {
-        $html = $this->client->getConnection()->executeJavascript(
-            'document.getElementsByTagName("html")[0].innerHTML'
-        );
+        $html = $this->evaluateScript('document.getElementsByTagName("html")[0].innerHTML');
 
         $html   = html_entity_decode($html);
         $start  = strpos($html, '<!--SAHI_INJECT_START-->');
@@ -94,6 +146,9 @@ class SahiDriver implements DriverInterface
         return "<html>\n$html\n</html>";
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::find()
+     */
     public function find($xpath)
     {
         $count = intval($this->evaluateScript(
@@ -108,21 +163,33 @@ class SahiDriver implements DriverInterface
         return $elements;
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getTagName()
+     */
     public function getTagName($xpath)
     {
         return strtolower($this->client->findByXPath($this->prepareXPath($xpath))->getName());
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getText()
+     */
     public function getText($xpath)
     {
         return $this->client->findByXPath($this->prepareXPath($xpath))->getText();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getAttribute()
+     */
     public function getAttribute($xpath, $name)
     {
         return $this->client->findByXPath($this->prepareXPath($xpath))->getAttr($name);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getValue()
+     */
     public function getValue($xpath)
     {
         $xpath  = $this->prepareXPath($xpath);
@@ -161,6 +228,9 @@ JS;
         return $this->client->findByXPath($xpath)->getValue();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setValue()
+     */
     public function setValue($xpath, $value)
     {
         $type = $this->getAttribute($xpath, 'type');
@@ -178,21 +248,33 @@ JS;
         }
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::check()
+     */
     public function check($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->check();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::uncheck()
+     */
     public function uncheck($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->uncheck();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::isChecked()
+     */
     public function isChecked($xpath)
     {
         return $this->client->findByXPath($this->prepareXPath($xpath))->isChecked();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::selectOption()
+     */
     public function selectOption($xpath, $value)
     {
         $type = $this->getAttribute($xpath, 'type');
@@ -204,46 +286,73 @@ JS;
         }
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::click()
+     */
     public function click($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->click();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::rightClick()
+     */
     public function rightClick($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->rightClick();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::attachFile()
+     */
     public function attachFile($xpath, $path)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->setFile($path);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::isVisible()
+     */
     public function isVisible($xpath)
     {
         return $this->client->findByXPath($this->prepareXPath($xpath))->isVisible();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::mouseOver()
+     */
     public function mouseOver($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->mouseOver();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::focus()
+     */
     public function focus($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->focus();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::blur()
+     */
     public function blur($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->blur();
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::triggerEvent()
+     */
     public function triggerEvent($xpath, $event)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->simulateEvent($event);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::dragTo()
+     */
     public function dragTo($sourceXpath, $destinationXpath)
     {
         $from = $this->client->findByXPath($sourceXpath);
@@ -252,16 +361,28 @@ JS;
         $from->dragDrop($to);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::executeScript()
+     */
     public function executeScript($script)
     {
         $this->evaluateScript($script);
     }
 
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::evaluateScript()
+     */
     public function evaluateScript($script)
     {
         return $this->client->getConnection()->executeJavascript($script);
     }
 
+    /**
+     * Selects specific radio option.
+     *
+     * @param   string  $xpath  xpath to one of the radio buttons
+     * @param   string  $value  value to be set
+     */
     private function selectRadioOption($xpath, $value)
     {
         $name = $this->getAttribute($this->prepareXPath($xpath), 'name');
@@ -288,6 +409,13 @@ JS;
         }
     }
 
+    /**
+     * Prepare XPath to be sent via Sahi proxy.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
     private function prepareXPath($xpath)
     {
         return strtr($xpath, array('"' => '\\"'));

@@ -37,7 +37,8 @@ class GoutteDriver implements DriverInterface
     /**
      * Initializes Goutte driver.
      *
-     * @param   Symfony\Component\BrowserKit\Client $client
+     * @param   string                              $startUrl   url to start from
+     * @param   Symfony\Component\BrowserKit\Client $client     BrowserKit client instance
      */
     public function __construct($startUrl, Client $client = null)
     {
@@ -56,15 +57,6 @@ class GoutteDriver implements DriverInterface
     public function setSession(Session $session)
     {
         $this->session = $session;
-    }
-
-    /**
-     * @see     Behat\Mink\Driver\DriverInterface::visit()
-     */
-    public function visit($url)
-    {
-        $this->client->request('GET', $url);
-        $this->forms = array();
     }
 
     /**
@@ -99,6 +91,15 @@ class GoutteDriver implements DriverInterface
     {
         $this->client->restart();
         $this->start();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::visit()
+     */
+    public function visit($url)
+    {
+        $this->client->request('GET', $url);
+        $this->forms = array();
     }
 
     /**
