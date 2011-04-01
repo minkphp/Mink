@@ -16,7 +16,7 @@ Usage
     
     // init Mink and register drivers
     $mink = new Mink('goutte', 'sahi');
-    $mink->registerDriver('goutte',     new GoutteDriver($startUrl), true);  // last argumen === isDefault
+    $mink->registerDriver('goutte',     new GoutteDriver($startUrl), true);  // last argument === isDefault
     $mink->registerDriver('sahi',       new SahiDriver($startUrl, 'firefox'));
     $mink->registerDriver('symfony2',   new GoutteDriver($startUrl, $container->get('client')));
     $mink->registerDriver('custom',     new MyCustomDriver($startUrl));
