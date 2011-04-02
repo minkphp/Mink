@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+define('BEHAT_MINK_PATH', __DIR__);
+
 if (!class_exists('Behat\Mink\ClassLoader\UniversalClassLoader')) {
     require_once __DIR__ . '/src/Behat/Mink/ClassLoader/UniversalClassLoader.php';
 }
