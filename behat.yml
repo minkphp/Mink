@@ -1,0 +1,13 @@
+default:
+  paths:
+    steps:
+      - %behat.paths.features%/steps
+      - %%BEHAT_MINK_PATH%%/src/Behat/Mink/Integration/steps
+    steps-i18n:
+      - %behat.paths.features%/steps/i18n
+      - %%BEHAT_MINK_PATH%%/src/Behat/Mink/Integration/steps/i18n
+    hooks:
+      - %behat.paths.support%/hooks.php
+      - %%BEHAT_MINK_PATH%%/src/Behat/Mink/Integration/support/hooks.php
+  environment:
+    class:  Behat\Mink\Integration\MinkEnvironment
