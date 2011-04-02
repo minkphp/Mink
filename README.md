@@ -15,7 +15,7 @@ Usage
     $startUrl = 'http://example.com';
     
     // init Mink and register drivers
-    $mink = new Mink('goutte', 'sahi');
+    $mink = new Mink();
     $mink->registerDriver('goutte',     new GoutteDriver($startUrl), true);  // last argument === isDefault
     $mink->registerDriver('javascript', new SahiDriver($startUrl, 'firefox'));
     $mink->registerDriver('symfony2',   new GoutteDriver($startUrl, $container->get('client')));
