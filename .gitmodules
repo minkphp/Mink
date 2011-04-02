@@ -10,3 +10,6 @@
 [submodule "vendor/Buzz"]
 	path = vendor/Buzz
 	url = git://github.com/kriswallsmith/Buzz.git
+[submodule "vendor/Symfony/Component/Finder"]
+	path = vendor/Symfony/Component/Finder
+	url = git://github.com/symfony/Finder

@@ -1,0 +1,85 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Release script.
+ *
+ * Usage: bin/release 0.2.0 beta
+ *
+ * @author     Konstantin Kudryashov <ever.zet@gmail.com>
+ */
+
+require_once __DIR__ . '/../autoload.php';
+
+if (!isset($argv[1])) {
+  throw new Exception('You must provide version.');
+}
+
+if (!isset($argv[2])) {
+  throw new Exception('You must provide stability status (alpha/beta/stable).');
+}
+
+$version = $argv[1];
+$stability = $argv[2];
+
+print sprintf("Releasing mink version \"%s\".\n", $version);
+
+if (is_file('package.xml')) {
+    unlink(getcwd().'/package.xml');
+}
+
+copy(getcwd().'/package.xml.tpl', getcwd().'/package.xml');
+
+$dirs = array(
+    'src',
+    'vendor/Symfony/Component/CssSelector',
+    'vendor/SahiClient',
+    'vendor/Buzz'
+);
+
+$xmlSourceFiles = '';
+foreach ($dirs as $dir) {
+    $finder = new Symfony\Component\Finder\Finder();
+    $sourceFiles = $finder->files()->in($dir);
+
+    foreach ($sourceFiles as $file) {
+        $xmlSourceFiles .= '<file role="php" baseinstalldir="mink" install-as="'.$file->getPathName().'" name="'.$file->getPathName().'" />'."\n";
+    }
+}
+
+function replaceTokens($files, $beginToken, $endToken, $tokens)
+{
+    if (!is_array($files)) {
+        $files = array($files);
+    }
+
+    foreach ($files as $file) {
+        $content = file_get_contents($file);
+        foreach ($tokens as $key => $value) {
+            $content = str_replace($beginToken.$key.$endToken, $value, $content, $count);
+        }
+
+        file_put_contents($file, $content);
+    }
+}
+
+replaceTokens(getcwd().'/package.xml', '##', '##', array(
+    'MINK_VERSION'  => $version
+  , 'CURRENT_DATE'  => date('Y-m-d')
+  , 'SOURCE_FILES'  => $xmlSourceFiles
+  , 'STABILITY'     => $stability
+));
+
+system('pear package');
+
+unlink(getcwd().'/package.xml');
+
+exit(0);
