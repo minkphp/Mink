@@ -10,27 +10,27 @@
 
 use Behat\Mink\Exception\ElementNotFoundException;
 
-$steps->Given('/^(?:|I )am on (.+)$/', function($world, $page) {
+$steps->Given('/^(?:|I )am on (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
-$steps->When('/^(?:|I )go to (.+)$/', function($world, $page) {
+$steps->When('/^(?:|I )go to (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
-$steps->When('/^(?:|I )press "([^"]*)"$/', function($world, $button) {
+$steps->When('/^(?:|I )press "(?P<button>[^"]*)"$/', function($world, $button) {
     $world->getSession()->getPage()->clickButton($button);
 });
 
-$steps->When('/^(?:|I )follow "([^"]*)"$/', function($world, $link) {
+$steps->When('/^(?:|I )follow "(?P<link>[^"]*)"$/', function($world, $link) {
     $world->getSession()->getPage()->clickLink($link);
 });
 
-$steps->When('/^(?:|I )fill in "([^"]*)" with "([^"]*)"$/', function($world, $field, $value) {
+$steps->When('/^(?:|I )fill in "(?P<field>[^"]*)" with "(?P<value>[^"]*)"$/', function($world, $field, $value) {
     $world->getSession()->getPage()->fillField($field, $value);
 });
 
-$steps->When('/^(?:|I )fill in "([^"]*)" for "([^"]*)"$/', function($world, $value, $field) {
+$steps->When('/^(?:|I )fill in "(?P<value>[^"]*)" for "(?P<field>[^"]*)"$/', function($world, $field, $value) {
     $world->getSession()->getPage()->fillField($field, $value);
 });
 
@@ -41,31 +41,31 @@ $steps->When('/^(?:|I )fill in the following:$/', function($world, $fieldsTable)
     }
 });
 
-$steps->When('/^(?:|I )select "([^"]*)" from "([^"]*)"$/', function($world, $value, $field) {
-    $world->getSession()->getPage()->selectFieldOption($field, $value);
+$steps->When('/^(?:|I )select "(?P<option>[^"]*)" from "(?P<select>[^"]*)"$/', function($world, $select, $option) {
+    $world->getSession()->getPage()->selectFieldOption($select, $option);
 });
 
-$steps->When('/^(?:|I )check "([^"]*)"$/', function($world, $field) {
-    $world->getSession()->getPage()->checkField($field);
+$steps->When('/^(?:|I )check "(?P<option>[^"]*)"$/', function($world, $option) {
+    $world->getSession()->getPage()->checkField($option);
 });
 
-$steps->When('/^(?:|I )uncheck "([^"]*)"$/', function($world, $field) {
-    $world->getSession()->getPage()->uncheckField($field);
+$steps->When('/^(?:|I )uncheck "(?P<option>[^"]*)"$/', function($world, $option) {
+    $world->getSession()->getPage()->uncheckField($option);
 });
 
-$steps->When('/^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/', function($world, $path, $field) {
+$steps->When('/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/', function($world, $field, $path) {
     $world->getSession()->getPage()->attachFileToField($field, $path);
 });
 
-$steps->Then('/^(?:|I )should see "([^"]*)"$/', function($world, $text) {
+$steps->Then('/^(?:|I )should see "(?P<text>[^"]*)"$/', function($world, $text) {
     assertTrue($world->getSession()->getPage()->hasContent($text));
 });
 
-$steps->Then('/^(?:|I )should not see "([^"]*)"$/', function($world, $text) {
+$steps->Then('/^(?:|I )should not see "(?P<text>[^"]*)"$/', function($world, $text) {
     assertFalse($world->getSession()->getPage()->hasContent($text));
 });
 
-$steps->Then('/^the "([^"]*)" field should contain "([^"]*)"$/', function($world, $field, $value) {
+$steps->Then('/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {
     $node = $world->getSession()->getPage()->findField($field);
 
     if (null === $node) {
@@ -75,37 +75,37 @@ $steps->Then('/^the "([^"]*)" field should contain "([^"]*)"$/', function($world
     assertContains($value, $node->getValue());
 });
 
-$steps->Then('/^the "([^"]*)" field should not contain "([^"]*)"$/', function($world, $name, $value) {
-    $field = $world->getSession()->getPage()->findField($name);
+$steps->Then('/^the "(?P<field>[^"]*)" field should not contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {
+    $node = $world->getSession()->getPage()->findField($field);
 
     if (null === $field) {
-        throw new ElementNotFoundException('field', $name);
+        throw new ElementNotFoundException('field', $field);
     }
 
-    assertNotContains($value, $field->getValue());
+    assertNotContains($value, $node->getValue());
 });
 
-$steps->Then('/^the "([^"]*)" checkbox should be checked$/', function($world, $label) {
-    $field = $world->getSession()->getPage()->findField($label);
+$steps->Then('/^the "(?P<checkbox>[^"]*)" checkbox should be checked$/', function($world, $checkbox) {
+    $field = $world->getSession()->getPage()->findField($checkbox);
 
     if (null === $field) {
-        throw new ElementNotFoundException('field', $name);
+        throw new ElementNotFoundException('field', $checkbox);
     }
 
     assertTrue($field->isChecked());
 });
 
-$steps->Then('/^the "([^"]*)" checkbox should not be checked$/', function($world, $label) {
-    $field = $world->getSession()->getPage()->findField($label);
+$steps->Then('/^the "(?P<checkbox>[^"]*)" checkbox should not be checked$/', function($world, $checkbox) {
+    $field = $world->getSession()->getPage()->findField($checkbox);
 
     if (null === $field) {
-        throw new ElementNotFoundException('field', $name);
+        throw new ElementNotFoundException('field', $checkbox);
     }
 
     assertFalse($field->isChecked());
 });
 
-$steps->Then('/^(?:|I )should be on (.+)$/', function($world, $page) {
+$steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
     assertEquals(
         parse_url($world->getPathTo($page), PHP_URL_PATH),
         parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)

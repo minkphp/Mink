@@ -3,7 +3,7 @@ default:
     steps:
       - %behat.paths.features%/steps
       - %%BEHAT_MINK_PATH%%/src/Behat/Mink/Integration/steps
-    steps-i18n:
+    steps_i18n:
       - %behat.paths.features%/steps/i18n
       - %%BEHAT_MINK_PATH%%/src/Behat/Mink/Integration/steps/i18n
     hooks:
