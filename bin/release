@@ -39,6 +39,7 @@ if (is_file('package.xml')) {
 copy(getcwd().'/package.xml.tpl', getcwd().'/package.xml');
 
 $dirs = array(
+    'features',
     'src',
     'vendor/Symfony/Component/CssSelector',
     'vendor/SahiClient',
