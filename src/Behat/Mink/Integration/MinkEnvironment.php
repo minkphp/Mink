@@ -44,7 +44,7 @@ class MinkEnvironment extends Environment
         };
 
         $world->getPathTo = function($path) {
-            return $path;
+            return ($world->getParameter('start_url') ?: 'http://behat.org/') . $path;
         };
     }
 
