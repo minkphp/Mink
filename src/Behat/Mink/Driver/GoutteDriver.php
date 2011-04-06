@@ -430,8 +430,20 @@ class GoutteDriver implements DriverInterface
             throw new ElementNotFoundException('form submit button');
         }
 
+        $base = $this->client->getCrawler()->filter('base')->extract(array('href'));
+        if (count($base)) {
+            $base = current($base);
+        } else {
+            $base = NULL;
+        }
+
         // init form
-        $button = new Crawler($buttonNode, $this->client->getRequest()->getUri());
+        $button = new Crawler(
+            $buttonNode,
+            $this->client->getRequest()->getUri(),
+            $base
+        );
+
         $this->forms[] = $form = $button->form();
 
         return $form[$fieldNode->getAttribute('name')];
