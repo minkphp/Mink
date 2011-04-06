@@ -2,6 +2,8 @@
 
 namespace Behat\Mink\Exception;
 
+use Behat\Mink\Driver\DriverInterface;
+
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>

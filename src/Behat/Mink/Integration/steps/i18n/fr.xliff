@@ -1,5 +1,5 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file original="global" source-language="en" target-language="ru" datatype="plaintext">
+  <file original="global" source-language="en" target-language="fr" datatype="plaintext">
     <header />
     <body>
         <trans-unit id="i-am-on-page">
@@ -47,12 +47,12 @@
             <target><![CDATA[/^(?:|J' )attache le fichier "(?P<path>[^"]*)" à "(?P<field>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
-            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)"$/]]></source>
-            <target><![CDATA[/^(?:|je )devrais voir "(?P<text>[^"]*)"$/]]></target>
+            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*+)"$/]]></source>
+            <target><![CDATA[/^(?:|je )devrais voir "(?P<text>[^"]*+)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-text">
-            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*)"$/]]></source>
-            <target><![CDATA[/^(?:|je )ne devrais pas voir "(?P<text>[^"]*)"$/]]></target>
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*+)"$/]]></source>
+            <target><![CDATA[/^(?:|je )ne devrais pas voir "(?P<text>[^"]*+)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/]]></source>
