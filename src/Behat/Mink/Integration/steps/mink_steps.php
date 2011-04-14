@@ -111,3 +111,51 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
         parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
     );
 });
+
+$steps->Then('/^the (?P<element>[^"].*) element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should exist$/', function($world, $element)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should link to (?P<href>[^"].*)$/', function($world, $element, $href)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    $href_parts = parse_url($href);
+    $href = array_merge(
+        parse_url($world->getParameter('start_url')),
+        $href_parts
+    );
+
+    assertSame($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"].*) attribute of (?P<value>[^"].*)$/', function($world, $element, $attribute, $value)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    assertSame($value, $node->getAttribute($attribute));
+});
