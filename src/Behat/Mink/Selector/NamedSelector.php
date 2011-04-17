@@ -18,7 +18,10 @@ namespace Behat\Mink\Selector;
 class NamedSelector implements SelectorInterface
 {
     private $selectors = array(
-        'field' => <<<XPATH
+        'fieldset' => <<<XPATH
+.//fieldset[(./@id = %locator% or .//legend[contains(normalize-space(string(.)), %locator%)])]
+XPATH
+        ,'field' => <<<XPATH
 .//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
 XPATH
         ,'link' => <<<XPATH
