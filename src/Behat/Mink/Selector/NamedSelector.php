@@ -25,7 +25,7 @@ XPATH
 .//a[./@href][(((./@id = %locator% or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%)) or .//img[contains(./@alt, %locator%)])]
 XPATH
         ,'button' => <<<XPATH
-.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][(./@id = %locator% or contains(./@value, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//button[((./@id = %locator% or contains(./@value, %locator%)) or contains(normalize-space(string(.)), %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)]
+.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = %locator% or contains(./@value, %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//button[(((./@id = %locator% or contains(./@value, %locator%)) or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)]
 XPATH
         ,'content' => <<<XPATH
 ./descendant-or-self::*[contains(normalize-space(.), %locator%)]
