@@ -163,4 +163,4 @@ $steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"]
 $steps->Then('/the status code should be (?P<status_code>\d+)/', function($world, $status_code)
 {
 	assertSame($world->getSession()->getStatusCode(), (int) $status_code);
-})
+});
