@@ -44,11 +44,7 @@ class Mink
      */
     public function __destruct()
     {
-        foreach ($this->drivers as $driver) {
-            if ($driver->isStarted()) {
-                $driver->stop();
-            }
-        }
+        $this->stopDrivers();
     }
 
     /**
@@ -107,6 +103,18 @@ class Mink
     public function resetDriver()
     {
         $this->getDriver()->reset();
+    }
+
+    /**
+     * Stop all started drivers. 
+     */
+    public function stopDrivers()
+    {
+        foreach ($this->drivers as $driver) {
+            if ($driver->isStarted()) {
+                $driver->stop();
+            }
+        }
     }
 
     /**
