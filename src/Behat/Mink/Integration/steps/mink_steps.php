@@ -112,8 +112,7 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
     );
 });
 
-$steps->Then('/^the (?P<element>[^"].*) element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value)
-{
+$steps->Then('/^the (?P<element>[^"].*) element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
     if (null === $node) {
@@ -123,8 +122,7 @@ $steps->Then('/^the (?P<element>[^"].*) element should contain "(?P<value>[^"]*)
     assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
 });
 
-$steps->Then('/^the (?P<element>[^"].*) element should exist$/', function($world, $element)
-{
+$steps->Then('/^the (?P<element>[^"].*) element should exist$/', function($world, $element) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
     if (null === $node) {
@@ -132,8 +130,7 @@ $steps->Then('/^the (?P<element>[^"].*) element should exist$/', function($world
     }
 });
 
-$steps->Then('/^the (?P<element>[^"].*) element should link to (?P<href>[^"].*)$/', function($world, $element, $href)
-{
+$steps->Then('/^the (?P<element>[^"].*) element should link to (?P<href>[^"].*)$/', function($world, $element, $href) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
     if (null === $node) {
@@ -149,8 +146,7 @@ $steps->Then('/^the (?P<element>[^"].*) element should link to (?P<href>[^"].*)$
     assertSame($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
 });
 
-$steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"].*) attribute of (?P<value>[^"].*)$/', function($world, $element, $attribute, $value)
-{
+$steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"].*) attribute of (?P<value>[^"].*)$/', function($world, $element, $attribute, $value) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
     if (null === $node) {
@@ -160,7 +156,6 @@ $steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"]
     assertSame($value, $node->getAttribute($attribute));
 });
 
-$steps->Then('/the status code should be (?P<status_code>\d+)/', function($world, $status_code)
-{
-	assertSame($world->getSession()->getStatusCode(), (int) $status_code);
+$steps->Then('/the status code should be (?P<status_code>\d+)/', function($world, $status_code) {
+    assertSame($world->getSession()->getStatusCode(), (int) $status_code);
 });
