@@ -18,6 +18,11 @@ $steps->When('/^(?:|I )go to (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
+$steps->When('/^(?:|I ) successfully go to (?P<page>.+)$/', function($world, $page) use($steps) {
+    $world->getSession()->visit($world->getPathTo($page));
+    $steps->Then('the status code should be 200');
+});
+
 $steps->When('/^(?:|I )press "(?P<button>[^"]*)"$/', function($world, $button) {
     $world->getSession()->getPage()->clickButton($button);
 });
@@ -111,3 +116,56 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
         parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
     );
 });
+
+$steps->Then('/^the (?P<element>[^"].*) element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should exist$/', function($world, $element)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should link to (?P<href>[^"].*)$/', function($world, $element, $href)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    $href_parts = parse_url($href);
+    $href = array_merge(
+        parse_url($world->getParameter('start_url')),
+        $href_parts
+    );
+
+    assertSame($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
+});
+
+$steps->Then('/^the (?P<element>[^"].*) element should have a (?P<attribute>[^"].*) attribute of (?P<value>[^"].*)$/', function($world, $element, $attribute, $value)
+{
+    $node = $world->getSession()->getPage()->find('xpath', $element);
+
+    if (null === $node) {
+        throw new ElementNotFoundException('element', $element);
+    }
+
+    assertSame($value, $node->getAttribute($attribute));
+});
+
+$steps->Then('/the status code should be (?P<status_code>\d+)/', function($world, $status_code)
+{
+	assertSame($world->getSession()->getStatusCode(), (int) $status_code);
+})
