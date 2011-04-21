@@ -82,6 +82,10 @@
             <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|Я )должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-not-see-element">
+            <source><![CDATA[/^(?:|I )should not see "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|Я )не должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="the-element-should-link-to">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/]]></source>
             <target><![CDATA[/^элемент "(?P<element>[^"]*)" должен вести на страницу (?P<href>.*)$/]]></target>

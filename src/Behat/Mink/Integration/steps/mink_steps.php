@@ -62,7 +62,7 @@ $steps->Then('/^(?:|I )should see "(?P<text>[^"]*+)"$/', function($world, $text)
 });
 
 $steps->Then('/^(?:|I )should not see "(?P<text>[^"]*+)"$/', function($world, $text) {
-    assertRegExp('/(?!'.preg_quote($text).')/', $world->getSession()->getPage()->getContent());
+    assertNotRegExp('/'.preg_quote($text).'/', $world->getSession()->getPage()->getContent());
 });
 
 $steps->Then('/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {
@@ -128,6 +128,12 @@ $steps->Then('/^(?:|I )should see "(?P<element>[^"]*)" element$/', function($wor
     if (null === $node) {
         throw new ElementNotFoundException('element', $element);
     }
+
+    assertNotNull($node);
+});
+
+$steps->Then('/^(?:|I )should not see "(?P<element>[^"]*)" element$/', function($world, $element) {
+    assertNull($world->getSession()->getPage()->find('xpath', $element));
 });
 
 $steps->Then('/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/', function($world, $element, $href) {
