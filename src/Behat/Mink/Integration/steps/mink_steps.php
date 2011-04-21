@@ -18,11 +18,6 @@ $steps->When('/^(?:|I )go to (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
-$steps->When('/^(?:|I ) successfully go to (?P<page>.+)$/', function($world, $page) use($steps) {
-    $world->getSession()->visit($world->getPathTo($page));
-    $steps->Then('the status code should be 200');
-});
-
 $steps->When('/^(?:|I )press "(?P<button>[^"]*)"$/', function($world, $button) {
     $world->getSession()->getPage()->clickButton($button);
 });
