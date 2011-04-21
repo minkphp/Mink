@@ -5,9 +5,9 @@
     http://pear.php.net/dtd/package-2.0.xsd">
     <name>mink</name>
     <channel>pear.behat.org</channel>
-    <summary>Mink is an browser emulation framework for php5.3</summary>
+    <summary>Behat\Mink is an browser emulation framework for PHP</summary>
     <description>
-        Mink is an open source browser emulation framework for php 5.3.
+        Behat\Mink is an open source browser emulation framework for php 5.3.
     </description>
     <lead>
         <name>Konstantin Kudryashov</name>

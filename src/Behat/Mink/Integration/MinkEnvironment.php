@@ -8,6 +8,11 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver;
 
+use Goutte\Client as GoutteClient;
+
+use Behat\SahiClient\Connection as SahiConnection,
+    Behat\SahiClient\Client as SahiClient;
+
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -30,21 +35,9 @@ class MinkEnvironment extends Environment
     {
         $world = $this;
 
-        $world->initGoutteDriver = function() use($world) {
-            return new GoutteDriver(
-                $world->getParameter('start_url')   ?: 'http://behat.org/'
-            );
-        };
-
-        $world->initSahiDriver = function() use($world) {
-            return new SahiDriver(
-                $world->getParameter('start_url')   ?: 'http://behat.org/',
-                $world->getParameter('browser')     ?: 'firefox'
-            );
-        };
-
+        $world->drivers = array();
         $world->getPathTo = function($path) use($world) {
-            return ($world->getParameter('start_url') ?: 'http://behat.org/') . $path;
+            return 0 !== strpos('http', $path) ? $world->getParameter('start_url') . $path : $path;
         };
     }
 
@@ -76,45 +69,37 @@ class MinkEnvironment extends Environment
     }
 
     /**
-     * Returns default Mink driver name.
-     *
-     * @return  string
-     */
-    public function getDefaultDriverName()
-    {
-        return $this->getParameter('default_driver') ?: 'goutte';
-    }
-
-    /**
-     * Returns default javascript driver name.
-     *
-     * @return  string
-     */
-    public function getJavascriptDriverName()
-    {
-        return $this->getParameter('javascript_driver') ?: 'sahi';
-    }
-
-    /**
      * Registers drivers on mink.
      *
      * @param   Behat\Mink\Mink $mink
      */
-    protected function registerMinkDrivers(Mink $mink)
+    private function registerMinkDrivers(Mink $mink)
     {
-        foreach ($this->getDrivers() as $driver) {
-            $builder = 'init' . ucfirst($driver) . 'Driver';
-            $mink->registerDriver($driver, $this->$builder(), $driver === $this->getDefaultDriverName());
+        if (null === $this->getParameter('start_url')) {
+            throw new \InvalidArgumentException('Specify start_url environment parameter');
         }
-    }
+        $startUrl       = $this->getParameter('start_url');
+        $defaultDriver  = $this->getParameter('default_driver') ?: 'goutte';
+        $browser        = $this->getParameter('browser') ?: 'firefox';
 
-    /**
-     * Returns drivers list (available_drivers parameter).
-     *
-     * @return  array
-     */
-    private function getDrivers()
-    {
-        return (array) ($this->getParameter('available_drivers') ?: array('goutte', 'sahi'));
+        $config = $this->getParameter('goutte', array());
+        $goutte = new GoutteClient(
+            isset($config['zend_config'])       ? $config['zend_config']        : array(),
+            isset($config['server_parameters']) ? $config['server_parameters']  : array()
+        );
+        $mink->registerDriver('goutte', new GoutteDriver($startUrl, $goutte), 'goutte' === $defaultDriver);
+
+        $config = $this->getParameter('sahi', array());
+        $client = new SahiClient(new SahiConnection(
+            isset($config['sid'])   ? $config['sid']    : uniqid(),
+            isset($config['host'])  ? $config['host']   : 'localhost',
+            isset($config['port'])  ? $config['port']   : 9999
+        ));
+        $mink->registerDriver('sahi', new SahiDriver($startUrl, $browser, $client), 'sahi' === $defaultDriver);
+
+
+        foreach ($this->drivers as $alias => $driver) {
+            $mink->registerDriver($alias, $driver, $driver === $this->getDefaultDriverName());
+        }
     }
 }
