@@ -14,15 +14,19 @@ $hooks->beforeScenario('', function($event) {
     $scenario       = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
     $environment    = $event->getEnvironment();
 
-    $driver = $environment->getDefaultDriverName();
+    $driver = null;
     foreach ($scenario->getTags() as $tag) {
         if ('javascript' === $tag) {
-            $driver = $environment->getJavascriptDriverName();
+            $driver = 'sahi';
         } elseif (preg_match('/^mink\:([^\n]+)/', $tag, $matches)) {
             $driver = $matches[1];
         }
     }
+    if (null !== $driver) {
+        $environment->getMink()->switchToDriver($driver);
+    } else {
+        $environment->getMink()->switchToDefaultDriver();
+    }
 
-    $environment->getMink()->switchToDriver($driver);
     $environment->getMink()->resetDriver();
 });
