@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="i-attach-the-file-to-field">
             <source><![CDATA[/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/]]></source>
-            <target><![CDATA[/^(?:|J' )attache le fichier "(?P<path>[^"]*)" à "(?P<field>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|j' )attache le fichier "(?P<path>[^"]*)" à "(?P<field>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
             <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*+)"$/]]></source>
@@ -73,6 +73,26 @@
         <trans-unit id="i-should-be-on-page">
             <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
             <target><![CDATA[/^(?:|je )devrais être sur (?P<page>.+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-contain">
+            <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/]]></source>
+            <target><![CDATA[/^l'élement "(?P<element>[^"]*)" devrait contenir "(?P<value>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-element">
+            <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|je )devrais voir l'élement "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-link-to">
+            <source><![CDATA[/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/]]></source>
+            <target><![CDATA[/^l'élement "(?P<element>[^"]*)" devrait pointer vers (?P<href>.*)$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-have-attribute-of">
+            <source><![CDATA[/^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>[^"]*)"$/]]></source>
+            <target><![CDATA[/^l'élement "(?P<element>[^"]*)" devrait avoir un attribut "(?P<attribute>[a-zA-Z\-\_]*)" de valeur "(?P<value>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="">
+            <source><![CDATA[/the response status code should be (?P<code>\d+)/]]></source>
+            <target><![CDATA[/le code du statut de la réponse devrait être (?P<code>\d+)/]]></target>
         </trans-unit>
     </body>
   </file>
