@@ -38,6 +38,25 @@ $mink->getSession()->getPage()->findLink('Downloads')->click();
 echo $mink->getSession()->getPage()->getContent();
 ```
 
+Existing Sahi session usage
+---------------------------
+
+Everytime Mink inits SahiDriver - it tries to connect to the browser with specific SID and if it can't - it starts new browser automatically. It means, that if you run ANY browser before starting mink and point it to page with correct SID - SahiDriver will use this browser as tests aim. But! By default, SahiDriver will automatically generate unique SID. You can change this behavior with third parameter to SahiDriver, which should be `Behat\SahiClient` instance:
+
+``` php
+<?php
+
+$client = new \Behat\SahiClient\Client(new \Behat\SahiClient\Connection('SAHI_SID'));
+$mink->registerDriver('javascript', new SahiDriver($startUrl, 'firefox', $client));
+```
+
+`SAHI_SID` could be any unique string.
+Now just configure proxy settings in needed browser and point it to:
+
+    http://localhost:9999/_s_/dyn/Driver_start?sahisid=SAHI_SID&startUrl=http://sahi.example.com/_s_/dyn/Driver_initialized
+
+This way you could test your sites on iOS or Android or WinPhone devices.
+
 Copyright
 ---------
 
