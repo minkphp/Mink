@@ -1,3 +1,8 @@
+0.2.3 / 2011-05-01
+==================
+
+  * Updated SahiClient with new version, which is faster and cleaner with it's exceptions
+
 0.2.2 / 2011-05-01
 ==================
 
