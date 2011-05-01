@@ -143,10 +143,10 @@ $steps->Then('/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/',
         throw new ElementNotFoundException('element', $element);
     }
 
-    $href_parts = parse_url($href);
+    $hrefParts = parse_url($href);
     $href = array_merge(
         parse_url($world->getParameter('start_url')),
-        $href_parts
+        $hrefParts
     );
 
     assertSame($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
