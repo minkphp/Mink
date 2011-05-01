@@ -53,7 +53,7 @@ $mink->registerDriver('javascript', new SahiDriver($startUrl, 'firefox', $client
 `SAHI_SID` could be any unique string.
 Now just configure proxy settings in needed browser and point it to:
 
-    http://localhost:9999/_s_/dyn/Driver_start?sahisid=SAHI_SID&startUrl=http://sahi.example.com/_s_/dyn/Driver_initialized
+    http://sahi.example.com/_s_/dyn/Driver_start?sahisid=SAHI_SID&startUrl=http://sahi.example.com/_s_/dyn/Driver_initialized
 
 This way you could test your sites on iOS or Android or WinPhone devices.
 
