@@ -1,3 +1,10 @@
+0.2.2 / 2011-05-01
+==================
+
+  * Ability to use already started browser as SahiDriver aim
+  * Added japanese translation for bundled steps (thanks @hidenorigoto)
+  * 10 seconds limit for browser connection in SahiDriver
+
 0.2.1 / 2011-04-21
 ==================
 
