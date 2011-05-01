@@ -112,6 +112,13 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
     );
 });
 
+$steps->Then('/^(?:|I )should have url like (?P<page>.+)$/', function($world, $page) {
+    assertRegExp(
+        '#^' . preg_quote(parse_url($world->getPathTo($page), PHP_URL_PATH)) . '#',
+        parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
+    );
+});
+
 $steps->Then('/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
