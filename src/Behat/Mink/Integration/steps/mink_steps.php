@@ -112,12 +112,12 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
     );
 });
 
-$steps->Then('/^the url should match (?P<match>.+)$/', function($world, $match) {
-    if (preg_match('/^\/.*\/$', $match)) {
-        assertRegExp($match, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
+$steps->Then('/^the url should match (?P<pattern>.+)$/', function($world, $pattern) {
+    if (preg_match('/^\/.*\/$', $pattern)) {
+        assertRegExp($pattern, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
     } else {
         assertRegExp(
-            '/'.preg_quote($match, '/').'/',
+            '/'.preg_quote($pattern, '/').'/',
             parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
         );
     }
