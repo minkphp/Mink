@@ -74,6 +74,10 @@
             <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
             <target><![CDATA[/^(?:|я )должен быть на странице (?P<page>.+)$/]]></target>
         </trans-unit>
+        <trans-unit id="the-url-should-match">
+            <source><![CDATA[/^the url should match (?P<pattern>.+)$/]]></source>
+            <target><![CDATA[/^(?:url|адрес) должен соответствовать (?P<pattern>.+)$/]]></target>
+        </trans-unit>
         <trans-unit id="the-element-should-contain">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/]]></source>
             <target><![CDATA[/^элемент "(?P<element>[^"]*)" должен содержать "(?P<value>[^"]*)"$/]]></target>
