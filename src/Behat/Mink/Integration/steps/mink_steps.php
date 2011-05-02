@@ -112,6 +112,17 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
     );
 });
 
+$steps->Then('/^the url should match (?P<match>.+)$/', function($world, $match) {
+    if (preg_match('/^\/.*\/$', $match)) {
+        assertRegExp($match, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
+    } else {
+        assertRegExp(
+            '/'.preg_quote($match, '/').'/',
+            parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
+        );
+    }
+});
+
 $steps->Then('/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value) {
     $node = $world->getSession()->getPage()->find('xpath', $element);
 
