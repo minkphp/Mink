@@ -1,3 +1,11 @@
+0.2.4 / 2011-05-12
+==================
+
+  * Fixed wrong url locator function
+  * Fixed wrong regex in `should see` step
+  * Fixed delimiters use in `should see` step
+  * Added url-match step for checking urls against regex
+
 0.2.3 / 2011-05-01
 ==================
 

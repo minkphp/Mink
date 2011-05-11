@@ -47,12 +47,12 @@
             <target><![CDATA[/^(?:|ユーザーが)パス "(?P<path>[^"]*)" にあるファイルを "(?P<field>[^"]*)" に添付する$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
-            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*+)"$/]]></source>
-            <target><![CDATA[/^(?:|画面に )"(?P<text>[^"]*+)" と表示されていること$/]]></target>
+            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<text>[^"]*)" と表示されていること$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-text">
-            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*+)"$/]]></source>
-            <target><![CDATA[/^(?:|画面に )"(?P<text>[^"]*+)" と表示されていないこと$/]]></target>
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<text>[^"]*)" と表示されていないこと$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/]]></source>

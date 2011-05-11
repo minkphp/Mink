@@ -57,12 +57,12 @@ $steps->When('/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
     $world->getSession()->getPage()->attachFileToField($field, $path);
 });
 
-$steps->Then('/^(?:|I )should see "(?P<text>[^"]*+)"$/', function($world, $text) {
-    assertRegExp('/'.preg_quote($text).'/', $world->getSession()->getPage()->getContent());
+$steps->Then('/^(?:|I )should see "(?P<text>[^"]*)"$/', function($world, $text) {
+    assertRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
 });
 
-$steps->Then('/^(?:|I )should not see "(?P<text>[^"]*+)"$/', function($world, $text) {
-    assertNotRegExp('/'.preg_quote($text).'/', $world->getSession()->getPage()->getContent());
+$steps->Then('/^(?:|I )should not see "(?P<text>[^"]*)"$/', function($world, $text) {
+    assertNotRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
 });
 
 $steps->Then('/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {
@@ -110,6 +110,14 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
         parse_url($world->getPathTo($page), PHP_URL_PATH),
         parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
     );
+});
+
+$steps->Then('/^the url should match (?P<pattern>.+)$/', function($world, $pattern) use ($steps) {
+    if (preg_match('/^\/.*\/$', $pattern)) {
+        assertRegExp($pattern, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
+    } else {
+        $steps->Then("I should be on $pattern");
+    }
 });
 
 $steps->Then('/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value) {

@@ -37,7 +37,9 @@ class MinkEnvironment extends Environment
 
         $world->drivers = array();
         $world->getPathTo = function($path) use($world) {
-            return 0 !== strpos('http', $path) ? $world->getParameter('start_url') . $path : $path;
+            $startUrl = rtrim($world->getParameter('start_url'), '/') . '/';
+
+            return 0 !== strpos('http', $path) ? $startUrl . ltrim($path, '/') : $path;
         };
     }
 
