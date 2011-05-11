@@ -47,12 +47,12 @@
             <target><![CDATA[/^(?:|Yo )adjunto el archivo "(?P<path>[^"]*)" a "(?P<field>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
-            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*+)"$/]]></source>
-            <target><![CDATA[/^(?:|Yo )debo ver "(?P<text>[^"]*+)"$/]]></target>
+            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^(?:|Yo )debo ver "(?P<text>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-text">
-            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*+)"$/]]></source>
-            <target><![CDATA[/^(?:|Yo )no debo ver "(?P<text>[^"]*+)"$/]]></target>
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^(?:|Yo )no debo ver "(?P<text>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/]]></source>

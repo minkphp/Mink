@@ -57,11 +57,11 @@ $steps->When('/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
     $world->getSession()->getPage()->attachFileToField($field, $path);
 });
 
-$steps->Then('/^(?:|I )should see "(?P<text>[^"]*+)"$/', function($world, $text) {
+$steps->Then('/^(?:|I )should see "(?P<text>[^"]*)"$/', function($world, $text) {
     assertRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
 });
 
-$steps->Then('/^(?:|I )should not see "(?P<text>[^"]*+)"$/', function($world, $text) {
+$steps->Then('/^(?:|I )should not see "(?P<text>[^"]*)"$/', function($world, $text) {
     assertNotRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
 });
 
