@@ -20,7 +20,7 @@ use Behat\Mink\Driver\DriverInterface,
  */
 class Mink
 {
-    private $activeSessionName;
+    private $defaultSessionName;
     private $sessions = array();
 
     /**
@@ -69,11 +69,11 @@ class Mink
     }
 
     /**
-     * Sets active session name to use.
+     * Sets default session name to use.
      *
-     * @param   null|string $name   name of the registered session
+     * @param   string  $name   name of the registered session
      */
-    public function setActiveSessionName($name)
+    public function setDefaultSessionName($name)
     {
         $name = strtolower($name);
 
@@ -81,17 +81,17 @@ class Mink
             throw new \InvalidArgumentException(sprintf('session "%s" is not registered.', $name));
         }
 
-        $this->activeSessionName = $name;
+        $this->defaultSessionName = $name;
     }
 
     /**
-     * Returns currently active session name or null if none.
+     * Returns default session name or null if none.
      *
      * @return  null|string
      */
-    public function getActiveSessionName()
+    public function getDefaultSessionName()
     {
-        return $this->activeSessionName;
+        return $this->defaultSessionName;
     }
 
     /**
@@ -103,7 +103,7 @@ class Mink
      */
     public function getSession($name = null)
     {
-        $name = strtolower($name) ?: $this->activeSessionName;
+        $name = strtolower($name) ?: $this->defaultSessionName;
 
         if (null === $name) {
             throw new \InvalidArgumentException('specify session name to get');
@@ -118,7 +118,7 @@ class Mink
         // start session if needed
         if (!$session->isStarted()) {
             $session->start();
-            $this->activeSessionName = $name;
+            $this->defaultSessionName = $name;
         }
 
         return $session;

@@ -87,22 +87,22 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($session, $this->mink->getSession('mock_session'));
     }
 
-    public function testSetActiveSessionName()
+    public function testSetDefaultSessionName()
     {
-        $this->assertNull($this->mink->getActiveSessionName());
+        $this->assertNull($this->mink->getDefaultSessionName());
 
         $session = $this->getSessionMock();
         $this->mink->registerSession('session_name', $session);
-        $this->mink->setActiveSessionName('session_name');
+        $this->mink->setDefaultSessionName('session_name');
 
-        $this->assertEquals('session_name', $this->mink->getActiveSessionName());
+        $this->assertEquals('session_name', $this->mink->getDefaultSessionName());
 
         $this->setExpectedException('InvalidArgumentException');
 
-        $this->mink->setActiveSessionName('not_registered');
+        $this->mink->setDefaultSessionName('not_registered');
     }
 
-    public function testGetActiveSession()
+    public function testGetDefaultSession()
     {
         $session1 = $this->getSessionMock();
         $session2 = $this->getSessionMock();
@@ -111,18 +111,18 @@ class MinkTest extends \PHPUnit_Framework_TestCase
 
         $this->mink->registerSession('session_1', $session1);
         $this->mink->registerSession('session_2', $session2);
-        $this->mink->setActiveSessionName('session_2');
+        $this->mink->setDefaultSessionName('session_2');
 
         $this->assertSame($session1, $this->mink->getSession('session_1'));
         $this->assertSame($session2, $this->mink->getSession('session_2'));
         $this->assertSame($session2, $this->mink->getSession());
 
-        $this->mink->setActiveSessionName('session_1');
+        $this->mink->setDefaultSessionName('session_1');
 
         $this->assertSame($session1, $this->mink->getSession());
     }
 
-    public function testGetNoActiveSession()
+    public function testGetNoDefaultSession()
     {
         $session1 = $this->getSessionMock();
 
