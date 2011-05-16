@@ -20,134 +20,119 @@ use Behat\Mink\Driver\DriverInterface,
  */
 class Mink
 {
-    private $selectorsHandler;
-    private $defaultDriverName;
-    private $currentDriverName;
-    private $drivers = array();
+    private $activeSessionName;
+    private $sessions = array();
 
     /**
      * Initializes mink.
      *
      * @param   Behat\Mink\Selector\SelectorsHandler    $selectorsHandler
      */
-    public function __construct(SelectorsHandler $selectorsHandler = null)
+    public function __construct(array $sessions = array())
     {
-        if (null === $selectorsHandler) {
-            $selectorsHandler = new SelectorsHandler();
+        foreach ($sessions as $name => $session) {
+            $this->registerSession($name, $session);
         }
-
-        $this->selectorsHandler = $selectorsHandler;
     }
 
     /**
-     * Stops all started drivers.
+     * Stops all started sessions.
      */
     public function __destruct()
     {
-        $this->stopDrivers();
+        $this->stopSessions();
     }
 
     /**
-     * Registers new driver.
+     * Registers new session.
      *
-     * @param   string                              $name       driver alias name
-     * @param   Behat\Mink\Driver\DriverInterface   $driver     driver instance
-     * @param   Boolean                             $isDefault  should this driver be the default one?
+     * @param   string              $name       session alias name
+     * @param   Behat\Mink\Session  $session    session instance
      */
-    public function registerDriver($name, DriverInterface $driver, $isDefault = false)
+    public function registerSession($name, Session $session)
     {
         $name = strtolower($name);
 
-        $this->drivers[$name] = $driver;
-
-        if ($isDefault) {
-            $this->defaultDriverName = $name;
-        }
+        $this->sessions[$name] = $session;
     }
 
     /**
-     * Switches mink to specific driver.
+     * Checks whether session with specified name is registered.
      *
-     * @param   string  $name   driver alias name
+     * @param   string  $name
+     *
+     * @return  Boolean
      */
-    public function switchToDriver($name)
+    public function hasSession($name)
+    {
+        return isset($this->sessions[strtolower($name)]);
+    }
+
+    /**
+     * Sets active session name to use.
+     *
+     * @param   null|string $name   name of the registered session
+     */
+    public function setActiveSessionName($name)
     {
         $name = strtolower($name);
 
-        if (!isset($this->drivers[$name])) {
-            throw new \InvalidArgumentException(sprintf('Driver "%s" is not registered.', $name));
+        if (!isset($this->sessions[$name])) {
+            throw new \InvalidArgumentException(sprintf('session "%s" is not registered.', $name));
         }
 
-        if (null !== $this->currentDriverName && $name === $this->currentDriverName) {
-            return;
-        }
-
-        $this->currentDriverName = $name;
+        $this->activeSessionName = $name;
     }
 
     /**
-     * Switches mink to default driver.
+     * Returns currently active session name or null if none.
+     *
+     * @return  null|string
      */
-    public function switchToDefaultDriver()
+    public function getActiveSessionName()
     {
-        if (null === $this->defaultDriverName) {
-            throw new \RuntimeException('Default driver is not defined.');
-        }
-
-        $this->switchToDriver($this->defaultDriverName);
+        return $this->activeSessionName;
     }
 
     /**
-     * Resets driver (between tests for example).
-     */
-    public function resetDriver()
-    {
-        $this->getDriver()->reset();
-    }
-
-    /**
-     * Stop all started drivers. 
-     */
-    public function stopDrivers()
-    {
-        foreach ($this->drivers as $driver) {
-            if ($driver->isStarted()) {
-                $driver->stop();
-            }
-        }
-    }
-
-    /**
-     * Returns mink session, initialized with current (or default) driver.
+     * Returns registered session by it's name or active one.
+     *
+     * @param   string  $name   session name
      *
      * @return  Behat\Mink\Session
      */
-    public function getSession()
+    public function getSession($name = null)
     {
-        static $session;
+        $name = strtolower($name) ?: $this->activeSessionName;
 
-        if (null === $session || $session->getDriver() !== $this->getDriver()) {
-            $session = new Session($this->getDriver(), $this->selectorsHandler);
+        if (null === $name) {
+            throw new \InvalidArgumentException('specify session name to get');
+        }
+
+        if (!isset($this->sessions[$name])) {
+            throw new \InvalidArgumentException(sprintf('session "%s" is not registered.', $name));
+        }
+
+        $session = $this->sessions[$name];
+
+        // start session if needed
+        if (!$session->isStarted()) {
+            $session->start();
+            $this->activeSessionName = $name;
         }
 
         return $session;
     }
 
     /**
-     * Returns current (or default) driver.
-     *
-     * @return  Behat\Mink\Driver\DriverInterface
+     * Stop all started sessions.
      */
-    private function getDriver()
+    public function stopSessions()
     {
-        if (null === $this->currentDriverName) {
-            $this->switchToDefaultDriver();
+        foreach ($this->sessions as $session) {
+            if ($session->isStarted()) {
+                $session->stop();
+            }
         }
-
-        if (!$this->drivers[$this->currentDriverName]->isStarted()) {
-            $this->drivers[$this->currentDriverName]->start();
-        }
-
-        return $this->drivers[$this->currentDriverName];
     }
 }
