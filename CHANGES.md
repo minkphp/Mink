@@ -1,4 +1,11 @@
+0.3.1 / 2011-05-17
+==================
+
+  * Small SahiClient update (it generates SID now if no provided)
+  * setActiveSessionName => setDefaultSessionName method rename
+
 0.3.0 / 2011-05-17
+==================
 
   * Rewritten from scratch Mink drivers handler. Now it's sessions handler. And Mink now
     sessions-centric tool. See examples in readme. Much cleaner API now.
