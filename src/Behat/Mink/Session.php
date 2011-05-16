@@ -45,6 +45,40 @@ class Session
     }
 
     /**
+     * Checks whether session (driver) was started.
+     *
+     * @return  Boolean
+     */
+    public function isStarted()
+    {
+        return $this->driver->isStarted();
+    }
+
+    /**
+     * Starts session driver.
+     */
+    public function start()
+    {
+        $this->driver->start();
+    }
+
+    /**
+     * Stops session driver.
+     */
+    public function stop()
+    {
+        $this->driver->stop();
+    }
+
+    /**
+     * Reset session driver.
+     */
+    public function reset()
+    {
+        $this->driver->reset();
+    }
+
+    /**
      * Returns session driver.
      *
      * @return  Behat\Mink\Driver\DriverInterface
@@ -82,14 +116,6 @@ class Session
     public function visit($url)
     {
         $this->driver->visit($url);
-    }
-
-    /**
-     * Reset driver.
-     */
-    public function reset()
-    {
-        $this->driver->reset();
     }
 
     /**
