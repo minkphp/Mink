@@ -1,3 +1,8 @@
+0.3.0 / 2011-05-17
+
+  * Rewritten from scratch Mink drivers handler. Now it's sessions handler. And Mink now
+    sessions-centric tool. See examples in readme. Much cleaner API now.
+
 0.2.4 / 2011-05-12
 ==================
 
