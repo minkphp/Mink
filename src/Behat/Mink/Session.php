@@ -31,13 +31,51 @@ class Session
      * @param   Behat\Mink\Driver\DriverInterface       $driver             driver instance
      * @param   Behat\Mink\Selector\SelectorsHandler    $selectorsHandler   selectors handler
      */
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler)
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
     {
         $driver->setSession($this);
+
+        if (null === $selectorsHandler) {
+            $selectorsHandler = new SelectorsHandler();
+        }
 
         $this->driver           = $driver;
         $this->page             = new DocumentElement($this);
         $this->selectorsHandler = $selectorsHandler;
+    }
+
+    /**
+     * Checks whether session (driver) was started.
+     *
+     * @return  Boolean
+     */
+    public function isStarted()
+    {
+        return $this->driver->isStarted();
+    }
+
+    /**
+     * Starts session driver.
+     */
+    public function start()
+    {
+        $this->driver->start();
+    }
+
+    /**
+     * Stops session driver.
+     */
+    public function stop()
+    {
+        $this->driver->stop();
+    }
+
+    /**
+     * Reset session driver.
+     */
+    public function reset()
+    {
+        $this->driver->reset();
     }
 
     /**
@@ -78,14 +116,6 @@ class Session
     public function visit($url)
     {
         $this->driver->visit($url);
-    }
-
-    /**
-     * Reset driver.
-     */
-    public function reset()
-    {
-        $this->driver->reset();
     }
 
     /**

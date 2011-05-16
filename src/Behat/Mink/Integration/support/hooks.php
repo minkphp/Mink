@@ -14,19 +14,20 @@ $hooks->beforeScenario('', function($event) {
     $scenario       = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
     $environment    = $event->getEnvironment();
 
-    $driver = null;
+    $session = null;
     foreach ($scenario->getTags() as $tag) {
         if ('javascript' === $tag) {
-            $driver = 'sahi';
+            $session = 'sahi';
         } elseif (preg_match('/^mink\:([^\n]+)/', $tag, $matches)) {
-            $driver = $matches[1];
+            $session = $matches[1];
         }
     }
-    if (null !== $driver) {
-        $environment->getMink()->switchToDriver($driver);
-    } else {
-        $environment->getMink()->switchToDefaultDriver();
-    }
 
-    $environment->getMink()->resetDriver();
+    $environment->getMink()->setActiveSessionName(
+        $session ?: ($environment->getParameter('default_driver') ?: 'goutte')
+    );
+
+    if ($environment->getSession()->isStarted()) {
+        $environment->getSession()->reset();
+    }
 });
