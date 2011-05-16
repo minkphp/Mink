@@ -14,6 +14,11 @@ $steps->Given('/^(?:|I )am on (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
+$steps->Given('/^(?P<step>.+) with client (?P<driver>.+)$/', function($world, $driver, $step) use($steps) {
+    $world->getMink()->switchToDriver($driver);
+    $steps->Given($step);
+});
+
 $steps->When('/^(?:|I )go to (?P<page>.+)$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
