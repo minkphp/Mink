@@ -31,9 +31,13 @@ class Session
      * @param   Behat\Mink\Driver\DriverInterface       $driver             driver instance
      * @param   Behat\Mink\Selector\SelectorsHandler    $selectorsHandler   selectors handler
      */
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler)
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
     {
         $driver->setSession($this);
+
+        if (null === $selectorsHandler) {
+            $selectorsHandler = new SelectorsHandler();
+        }
 
         $this->driver           = $driver;
         $this->page             = new DocumentElement($this);
