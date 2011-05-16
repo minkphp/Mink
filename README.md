@@ -25,7 +25,7 @@ $mink = new Mink(
 );
 
 // set active session name
-$mink->setActiveSessionName('goutte2');
+$mink->setDefaultSessionName('goutte2');
 
 // call getSession without argument will always return active session if has one (goutte2 here)
 $mink->getSession()->getPage()->findLink('Downloads')->click();
