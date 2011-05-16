@@ -10,32 +10,38 @@ Usage
 <?php
 
 use Behat\Mink\Mink,
+    Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver;
 
 $startUrl = 'http://example.com';
 
 // init Mink and register drivers
-$mink = new Mink();
-$mink->registerDriver('goutte',     new GoutteDriver($startUrl), true);  // last argument === isDefault
-$mink->registerDriver('javascript', new SahiDriver($startUrl, 'firefox'));
-$mink->registerDriver('symfony2',   new GoutteDriver($startUrl, $container->get('client')));
-$mink->registerDriver('custom',     new MyCustomDriver($startUrl));
+$mink = new Mink(
+    'goutte1'    => new Session(new GoutteDriver($startUrl)),
+    'goutte2'    => new Session(new GoutteDriver($startUrl)),
+    'javascript' => new Session(new SahiDriver($startUrl, 'firefox')),
+    'custom'     => new Session(new MyCustomDriver($startUrl))
+);
 
-// run in default driver ("goutte" is default driver - last argument to registerDriver())
-$mink->switchToDefaultDriver();
+// set active session name
+$mink->setActiveSessionName('goutte2');
+
+// call getSession without argument will always return active session if has one (goutte2 here)
 $mink->getSession()->getPage()->findLink('Downloads')->click();
 echo $mink->getSession()->getPage()->getContent();
 
 // run in javascript (Sahi) driver
-$mink->switchToDriver('javascript');
-$mink->getSession()->getPage()->findLink('Downloads')->click();
-echo $mink->getSession()->getPage()->getContent();
+$mink->getSession('javascript')->getPage()->findLink('Downloads')->click();
+echo $mink->getSession('javascript')->getPage()->getContent();
 
 // run in custom driver
-$mink->switchToDriver('custom');
-$mink->getSession()->getPage()->findLink('Downloads')->click();
-echo $mink->getSession()->getPage()->getContent();
+$mink->getSession('custom')->getPage()->findLink('Downloads')->click();
+echo $mink->getSession('custom')->getPage()->getContent();
+
+// mix sessions
+$mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
+$mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
 
 Existing Sahi session usage
@@ -47,7 +53,7 @@ Everytime Mink inits SahiDriver - it tries to connect to the browser with specif
 <?php
 
 $client = new \Behat\SahiClient\Client(new \Behat\SahiClient\Connection('SAHI_SID'));
-$mink->registerDriver('javascript', new SahiDriver($startUrl, 'firefox', $client));
+$mink->registerSession('javascript', new Session(new SahiDriver($startUrl, 'firefox', $client)));
 ```
 
 `SAHI_SID` could be any unique string.
