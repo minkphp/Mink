@@ -16,7 +16,7 @@ use Behat\Mink\Mink,
 
 $startUrl = 'http://example.com';
 
-// init Mink and register drivers
+// init Mink and register sessions
 $mink = new Mink(
     'goutte1'    => new Session(new GoutteDriver($startUrl)),
     'goutte2'    => new Session(new GoutteDriver($startUrl)),
@@ -24,18 +24,18 @@ $mink = new Mink(
     'custom'     => new Session(new MyCustomDriver($startUrl))
 );
 
-// set active session name
+// set default session name
 $mink->setDefaultSessionName('goutte2');
 
-// call getSession without argument will always return active session if has one (goutte2 here)
+// call getSession without argument will always return default session if has one (goutte2 here)
 $mink->getSession()->getPage()->findLink('Downloads')->click();
 echo $mink->getSession()->getPage()->getContent();
 
-// run in javascript (Sahi) driver
+// run in javascript (Sahi) session
 $mink->getSession('javascript')->getPage()->findLink('Downloads')->click();
 echo $mink->getSession('javascript')->getPage()->getContent();
 
-// run in custom driver
+// run in custom session
 $mink->getSession('custom')->getPage()->findLink('Downloads')->click();
 echo $mink->getSession('custom')->getPage()->getContent();
 
@@ -53,7 +53,7 @@ Everytime Mink inits SahiDriver - it tries to connect to the browser with specif
 <?php
 
 $client = new \Behat\SahiClient\Client(new \Behat\SahiClient\Connection('SAHI_SID'));
-$mink->registerSession('javascript', new Session(new SahiDriver($startUrl, 'firefox', $client)));
+$mink->registerSession('sahi_custom', new Session(new SahiDriver($startUrl, 'firefox', $client)));
 ```
 
 `SAHI_SID` could be any unique string.
