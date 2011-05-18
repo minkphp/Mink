@@ -24,7 +24,7 @@ $hooks->beforeScenario('', function($event) {
     }
 
     $environment->getMink()->setDefaultSessionName(
-        $session ?: ($environment->getParameter('default_driver') ?: 'goutte')
+        $session ?: ($environment->getParameter('default_session') ?: 'goutte')
     );
 
     if ($environment->getSession()->isStarted()) {
