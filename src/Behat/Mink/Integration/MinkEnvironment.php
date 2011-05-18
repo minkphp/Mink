@@ -53,6 +53,10 @@ class MinkEnvironment extends Environment
     {
         static $mink;
 
+        if (isset($this->mink)){
+            $mink = $this->mink;
+        }
+
         if (null === $mink) {
             $mink = new Mink();
             $this->registerMinkSessions($mink);
