@@ -11,10 +11,10 @@ use Behat\Behat\Event\ScenarioEvent;
  */
 
 $hooks->beforeScenario('', function($event) {
-    $scenario       = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
-    $environment    = $event->getEnvironment();
+    $environment = $event->getEnvironment();
+    $scenario    = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
+    $session     = $environment->getParameter('default_session') ?: 'goutte';
 
-    $session = null;
     foreach ($scenario->getTags() as $tag) {
         if ('javascript' === $tag) {
             $session = 'sahi';
@@ -22,10 +22,7 @@ $hooks->beforeScenario('', function($event) {
             $session = $matches[1];
         }
     }
-
-    $environment->getMink()->setDefaultSessionName(
-        $session ?: ($environment->getParameter('default_session') ?: 'goutte')
-    );
+    $environment->getMink()->setDefaultSessionName($session);
 
     if ($environment->getSession()->isStarted()) {
         $environment->getSession()->reset();
