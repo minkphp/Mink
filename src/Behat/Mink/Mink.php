@@ -78,7 +78,7 @@ class Mink
         $name = strtolower($name);
 
         if (!isset($this->sessions[$name])) {
-            throw new \InvalidArgumentException(sprintf('session "%s" is not registered.', $name));
+            throw new \InvalidArgumentException(sprintf('Session "%s" is not registered.', $name));
         }
 
         $this->defaultSessionName = $name;
@@ -106,11 +106,11 @@ class Mink
         $name = strtolower($name) ?: $this->defaultSessionName;
 
         if (null === $name) {
-            throw new \InvalidArgumentException('specify session name to get');
+            throw new \InvalidArgumentException('Specify session name to get');
         }
 
         if (!isset($this->sessions[$name])) {
-            throw new \InvalidArgumentException(sprintf('session "%s" is not registered.', $name));
+            throw new \InvalidArgumentException(sprintf('Session "%s" is not registered.', $name));
         }
 
         $session = $this->sessions[$name];
