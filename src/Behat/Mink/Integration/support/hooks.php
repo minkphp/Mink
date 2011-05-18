@@ -18,7 +18,7 @@ $hooks->beforeScenario('', function($event) {
     foreach ($scenario->getTags() as $tag) {
         if ('javascript' === $tag) {
             $session = 'sahi';
-        } elseif (preg_match('/^mink\:([^\n]+)/', $tag, $matches)) {
+        } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
             $session = $matches[1];
         }
     }
