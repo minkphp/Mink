@@ -101,7 +101,6 @@ class MinkEnvironment extends Environment
         ));
         $mink->registerSession('sahi', new Session(new SahiDriver($startUrl, $browser, $client)));
 
-
         foreach ($this->sessions as $name => $session) {
             $mink->registerSession($name, $session);
         }
