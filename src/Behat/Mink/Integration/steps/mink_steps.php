@@ -58,11 +58,11 @@ $steps->When('/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
 });
 
 $steps->Then('/^(?:|I )should see "(?P<text>[^"]*)"$/', function($world, $text) {
-    assertRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
+    assertRegExp('/'.preg_quote($text, '/').'/', strip_tags($world->getSession()->getPage()->getContent()));
 });
 
 $steps->Then('/^(?:|I )should not see "(?P<text>[^"]*)"$/', function($world, $text) {
-    assertNotRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
+    assertNotRegExp('/'.preg_quote($text, '/').'/', strip_tags($world->getSession()->getPage()->getContent()));
 });
 
 $steps->Then('/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {
