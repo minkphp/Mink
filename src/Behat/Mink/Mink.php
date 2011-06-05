@@ -115,12 +115,6 @@ class Mink
 
         $session = $this->sessions[$name];
 
-        // start session if needed
-        if (!$session->isStarted()) {
-            $session->start();
-            $this->defaultSessionName = $name;
-        }
-
         return $session;
     }
 
