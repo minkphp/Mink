@@ -23,8 +23,4 @@ $hooks->beforeScenario('', function($event) {
         }
     }
     $environment->getMink()->setDefaultSessionName($session);
-
-    if ($environment->getSession()->isStarted()) {
-        $environment->getSession()->reset();
-    }
 });

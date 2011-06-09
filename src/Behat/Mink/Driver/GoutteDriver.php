@@ -28,7 +28,6 @@ use Behat\Mink\Session,
  */
 class GoutteDriver implements DriverInterface
 {
-    private $startUrl;
     private $session;
     private $client;
     private $forms = array();
@@ -37,17 +36,15 @@ class GoutteDriver implements DriverInterface
     /**
      * Initializes Goutte driver.
      *
-     * @param   string                              $startUrl   url to start from
      * @param   Symfony\Component\BrowserKit\Client $client     BrowserKit client instance
      */
-    public function __construct($startUrl, Client $client = null)
+    public function __construct(Client $client = null)
     {
         if (null === $client) {
             $client = new GoutteClient();
         }
 
-        $this->startUrl = $startUrl;
-        $this->client   = $client;
+        $this->client = $client;
         $this->client->followRedirects(true);
     }
 
@@ -74,7 +71,6 @@ class GoutteDriver implements DriverInterface
      */
     public function start()
     {
-        $this->visit($this->startUrl);
         $this->started = true;
     }
 
@@ -100,7 +96,6 @@ class GoutteDriver implements DriverInterface
     public function reset()
     {
         $this->client->restart();
-        $this->start();
     }
 
     /**

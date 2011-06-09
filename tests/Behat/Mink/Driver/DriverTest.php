@@ -13,21 +13,19 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        static::$host = $_SERVER['WEB_FIXTURES_HOST'];
-        $driver = static::configureDriver();
-        $driver->start();
-
-        static::$session = new Session($driver, new SelectorsHandler());
+        static::$host    = $_SERVER['WEB_FIXTURES_HOST'];
+        static::$session = new Session(static::configureDriver(), new SelectorsHandler());
+        static::$session->start();
     }
 
     public static function tearDownAfterClass()
     {
-        static::$session->getDriver()->stop();
+        static::$session->stop();
     }
 
     public function setUp()
     {
-        static::$session->getDriver()->reset();
+        static::$session->reset();
     }
 
     protected static function configureDriver() {}

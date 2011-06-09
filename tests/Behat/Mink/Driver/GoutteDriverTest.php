@@ -26,6 +26,6 @@ class GoutteDriverTest extends DriverTest
 
     protected static function configureDriver()
     {
-        return new GoutteDriver(static::$host . '/index.php');
+        return new GoutteDriver();
     }
 }
