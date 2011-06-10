@@ -77,7 +77,7 @@ abstract class Element implements ElementInterface
     abstract public function getText();
 
     /**
-     * Returns elemenelement text with trimmed tags and non-printable chars.
+     * Returns element text with trimmed tags and non-printable chars.
      *
      * @return  string|null
      */
