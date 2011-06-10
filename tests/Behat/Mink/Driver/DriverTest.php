@@ -127,6 +127,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $sex        = $page->findField('sex');
         $maillist   = $page->findField('mail_list');
         $agreement  = $page->findField('agreement');
+        $about      = $page->findField('about');
 
         $this->assertNotNull($firstname);
         $this->assertNotNull($lastname);
@@ -159,6 +160,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
+        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
         $button = $page->findButton('Register');
 
@@ -180,6 +182,7 @@ Array
     [sex] => m
     [agreement] => on
 )
+1 uploaded file
 
 OUT
             , $page->getContent()
