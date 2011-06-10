@@ -1,6 +1,6 @@
 [submodule "vendor/Goutte"]
 	path = vendor/Goutte
-	url = git://github.com/fabpot/Goutte.git
+	url = git://github.com/everzet/Goutte.git
 [submodule "vendor/Symfony/Component/CssSelector"]
 	path = vendor/Symfony/Component/CssSelector
 	url = git://github.com/symfony/CssSelector.git
