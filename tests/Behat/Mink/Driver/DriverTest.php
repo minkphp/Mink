@@ -164,10 +164,10 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
         $button = $page->findButton('Register');
 
-        $page->fillField('first_name', 'Foo');
+        $page->fillField('first_name', 'Foo "item"');
         $page->fillField('last_name', 'Bar');
 
-        $this->assertEquals('Foo', $firstname->getValue());
+        $this->assertEquals('Foo "item"', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
 
         $button->click();
@@ -175,7 +175,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $this->assertContains(<<<OUT
 Array
 (
-    [first_name] => Foo
+    [first_name] => Foo "item"
     [last_name] => Bar
     [email] => your@email.com
     [select_number] => 10
