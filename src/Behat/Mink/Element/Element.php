@@ -68,4 +68,30 @@ abstract class Element implements ElementInterface
     {
         return null !== $this->find($selector, $locator);
     }
+
+    /**
+     * Returns element text.
+     *
+     * @return  string|null
+     */
+    abstract public function getText();
+
+    /**
+     * Returns elemenelement text with trimmed tags and non-printable chars.
+     *
+     * @return  string|null
+     */
+    public function getPlainText()
+    {
+        $text = $this->getText();
+
+        if (null !== $text) {
+            $text = str_replace("\n", ' ', $text);
+            $text = preg_replace('/\<br *\/?\>/i', "\n", $text);
+            $text = strip_tags($text);
+            $text = preg_replace('/ {2,}/', ' ', $text);
+
+            return $text;
+        }
+    }
 }
