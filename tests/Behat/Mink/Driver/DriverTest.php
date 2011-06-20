@@ -13,21 +13,19 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        static::$host = $_SERVER['WEB_FIXTURES_HOST'];
-        $driver = static::configureDriver();
-        $driver->start();
-
-        static::$session = new Session($driver, new SelectorsHandler());
+        static::$host    = $_SERVER['WEB_FIXTURES_HOST'];
+        static::$session = new Session(static::configureDriver(), new SelectorsHandler());
+        static::$session->start();
     }
 
     public static function tearDownAfterClass()
     {
-        static::$session->getDriver()->stop();
+        static::$session->stop();
     }
 
     public function setUp()
     {
-        static::$session->getDriver()->reset();
+        static::$session->reset();
     }
 
     protected static function configureDriver() {}
@@ -129,6 +127,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $sex        = $page->findField('sex');
         $maillist   = $page->findField('mail_list');
         $agreement  = $page->findField('agreement');
+        $about      = $page->findField('about');
 
         $this->assertNotNull($firstname);
         $this->assertNotNull($lastname);
@@ -161,13 +160,14 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
+        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
         $button = $page->findButton('Register');
 
-        $page->fillField('first_name', 'Foo');
+        $page->fillField('first_name', 'Foo "item"');
         $page->fillField('last_name', 'Bar');
 
-        $this->assertEquals('Foo', $firstname->getValue());
+        $this->assertEquals('Foo "item"', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
 
         $button->click();
@@ -175,13 +175,14 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $this->assertContains(<<<OUT
 Array
 (
-    [first_name] => Foo
+    [first_name] => Foo "item"
     [last_name] => Bar
     [email] => your@email.com
     [select_number] => 10
     [sex] => m
     [agreement] => on
 )
+1 uploaded file
 
 OUT
             , $page->getContent()

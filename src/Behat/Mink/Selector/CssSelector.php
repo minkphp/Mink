@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Selector;
 
-use Symfony\Component\CssSelector\Parser;
+use Symfony\Component\CssSelector\CssSelector as CSS;
 
 /*
  * This file is part of the Behat\Mink.
@@ -24,6 +24,6 @@ class CssSelector implements SelectorInterface
      */
     public function translateToXPath($locator)
     {
-        return Parser::cssToXpath($locator);
+        return CSS::toXPath($locator);
     }
 }

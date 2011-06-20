@@ -83,7 +83,6 @@ class MinkEnvironment extends Environment
         if (null === $this->getParameter('start_url')) {
             throw new \InvalidArgumentException('Specify start_url environment parameter');
         }
-        $startUrl = $this->getParameter('start_url');
         $browser  = $this->getParameter('browser') ?: 'firefox';
 
         $config = $this->getParameter('goutte', array());
@@ -91,7 +90,7 @@ class MinkEnvironment extends Environment
             isset($config['zend_config'])       ? $config['zend_config']        : array(),
             isset($config['server_parameters']) ? $config['server_parameters']  : array()
         );
-        $mink->registerSession('goutte', new Session(new GoutteDriver($startUrl, $goutte)));
+        $mink->registerSession('goutte', new Session(new GoutteDriver($goutte)));
 
         $config = $this->getParameter('sahi', array());
         $client = new SahiClient(new SahiConnection(
@@ -99,8 +98,7 @@ class MinkEnvironment extends Environment
             isset($config['host'])  ? $config['host']   : 'localhost',
             isset($config['port'])  ? $config['port']   : 9999
         ));
-        $mink->registerSession('sahi', new Session(new SahiDriver($startUrl, $browser, $client)));
-
+        $mink->registerSession('sahi', new Session(new SahiDriver($browser, $client)));
 
         foreach ($this->sessions as $name => $session) {
             $mink->registerSession($name, $session);

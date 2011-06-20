@@ -7,7 +7,7 @@
 <body>
     <h1>ADvanced Form Page</h1>
 
-    <form method="POST" action="/advanced_form_post.php">
+    <form method="POST" enctype="multipart/form-data" action="/advanced_form_post.php">
         <input name="first_name" value="Firstname" type="text" />
         <input id="lastn" name="last_name" value="Lastname" type="text" />
         <label for="email">
@@ -28,6 +28,8 @@
 
         <input type="checkbox" name="mail_list" checked="checked" />
         <input type="checkbox" name="agreement" />
+
+        <input type="file" name="about" />
 
         <input type="submit" value="Register" />
     </form>

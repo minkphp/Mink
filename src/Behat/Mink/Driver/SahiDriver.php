@@ -25,7 +25,6 @@ use Behat\Mink\Session,
 class SahiDriver implements DriverInterface
 {
     private $started = false;
-    private $startUrl;
     private $browserName;
     private $client;
     private $session;
@@ -33,19 +32,17 @@ class SahiDriver implements DriverInterface
     /**
      * Initialie Sahi driver.
      *
-     * @param   string                      $startUrl       url to start from
      * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
      * @param   Behat\SahiClient\Client     $client         Sahi client instance
      */
-    public function __construct($startUrl, $browserName, Client $client = null)
+    public function __construct($browserName, Client $client = null)
     {
         if (null === $client) {
             $client = new Client();
         }
 
-        $this->client       = $client;
-        $this->startUrl     = $startUrl;
-        $this->browserName  = $browserName;
+        $this->client      = $client;
+        $this->browserName = $browserName;
     }
 
     /**
@@ -72,7 +69,6 @@ class SahiDriver implements DriverInterface
     public function start()
     {
         $this->client->start($this->browserName);
-        $this->reset();
         $this->started = true;
     }
 
@@ -96,10 +92,7 @@ class SahiDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::reset()
      */
-    public function reset()
-    {
-        $this->visit($this->startUrl);
-    }
+    public function reset() {}
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::visit()

@@ -12,6 +12,6 @@ class SahiDriverTest extends DriverTest
 {
     protected static function configureDriver()
     {
-        return new SahiDriver(static::$host . '/index.php', $_SERVER['WEB_FIXTURES_BROWSER']);
+        return new SahiDriver($_SERVER['WEB_FIXTURES_BROWSER']);
     }
 }

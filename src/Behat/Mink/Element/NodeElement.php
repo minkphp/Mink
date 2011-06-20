@@ -139,6 +139,16 @@ class NodeElement extends Element
     }
 
     /**
+     * Attach file to current node if it's a file input.
+     *
+     * @param   string  $path   path to file (local)
+     */
+    public function attachFile($path)
+    {
+        $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
+    }
+
+    /**
      * Returns current node tag name.
      *
      * @return  string
