@@ -16,5 +16,6 @@ class CssSelectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('descendant-or-self::h3', $selector->translateToXPath('h3'));
         $this->assertEquals('descendant-or-self::h3/span', $selector->translateToXPath('h3 > span'));
+        $this->assertEquals("descendant-or-self::h3/*/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' my_div ')]", $selector->translateToXPath('h3 > .my_div'));
     }
 }
