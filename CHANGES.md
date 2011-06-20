@@ -1,3 +1,14 @@
+0.3.2 / 2011-06-20
+==================
+
+  * Fixed file uploads in Goutte driver
+  * Fixed setting of long texts into fields
+  * Added getPlainText() (returns text without tags and whitespaces) method to the element's API
+  * Start_url is now optional parameter
+  * Default session (if needed) name now need to be always specified by hands with setDefaultSessionName()
+  * default_driver => default_session
+  * Updated Symfony Components
+
 0.3.1 / 2011-05-17
 ==================
 
