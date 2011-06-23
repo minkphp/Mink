@@ -11,9 +11,9 @@ use Behat\Behat\Event\ScenarioEvent;
  */
 
 $hooks->beforeScenario('', function($event) {
-    $environment = $event->getEnvironment();
-    $scenario    = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
-    $session     = $environment->getParameter('default_session') ?: 'goutte';
+    $context  = $event->getContext();
+    $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
+    $session  = $context->parameters['default_session'];
 
     foreach ($scenario->getTags() as $tag) {
         if ('javascript' === $tag) {
@@ -22,5 +22,6 @@ $hooks->beforeScenario('', function($event) {
             $session = $matches[1];
         }
     }
-    $environment->getMink()->setDefaultSessionName($session);
+
+    $context->getMink()->setDefaultSessionName($session);
 });

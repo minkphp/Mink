@@ -153,7 +153,7 @@ $steps->Then('/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/',
 
     $hrefParts = parse_url($href);
     $href = array_merge(
-        parse_url($world->getParameter('start_url')),
+        parse_url($world->parameters['start_url']),
         $hrefParts
     );
 
