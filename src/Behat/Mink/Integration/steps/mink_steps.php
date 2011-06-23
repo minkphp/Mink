@@ -113,10 +113,10 @@ $steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
 });
 
 $steps->Then('/^the url should match (?P<pattern>.+)$/', function($world, $pattern) use ($steps) {
-    if (preg_match('/^\/.*\/$', $pattern)) {
+    if (preg_match('/^\/.*\/$/', $pattern)) {
         assertRegExp($pattern, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
     } else {
-        $steps->Then("I should be on $pattern");
+        $steps->Then("I should be on $pattern", $world);
     }
 });
 
