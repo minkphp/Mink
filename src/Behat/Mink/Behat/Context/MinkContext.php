@@ -3,7 +3,7 @@
 namespace Behat\Mink\Behat\Context;
 
 use Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext as BaseContext,
+    Behat\Behat\Context\BehatContext,
     Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Mink,
@@ -29,7 +29,7 @@ use Behat\SahiClient\Connection as SahiConnection,
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class MinkContext extends BaseContext implements TranslatedContextInterface
+class MinkContext extends BehatContext implements TranslatedContextInterface
 {
     private static $minkInstance;
     private $parameters;
