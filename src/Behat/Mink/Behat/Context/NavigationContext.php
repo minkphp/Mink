@@ -47,7 +47,7 @@ class NavigationContext extends ActionsContext
      */
     public function assertUrlRegExp($pattern)
     {
-        if (preg_match('/^\/.*\/$', $pattern)) {
+        if (preg_match('/^\/.*\/$/', $pattern)) {
             assertRegExp($pattern, parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH));
         } else {
             $this->assertPageAddress($pattern);
