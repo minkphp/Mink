@@ -59,7 +59,6 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         if (null === self::$minkInstance) {
             self::$minkInstance = new Mink();
             $this->registerSessions(self::$minkInstance);
-            self::$minkInstance->setDefaultSessionName($this->getParameter('default_session'));
         }
 
         foreach ($this->getStepsContexts() as $context) {
