@@ -63,7 +63,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         foreach ($this->getStepsContexts() as $context) {
-            $this->addSubcontext($context);
+            $this->useContext($context);
         }
     }
 

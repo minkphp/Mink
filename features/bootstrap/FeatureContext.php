@@ -19,6 +19,6 @@ class FeatureContext extends BehatContext
 {
     public function __construct(array $parameters)
     {
-        $this->addSubcontext(new MinkContext($parameters));
+        $this->useContext(new MinkContext($parameters));
     }
 }
