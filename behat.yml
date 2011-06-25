@@ -1,4 +1,4 @@
 default:
   context:
     parameters:
-      start_url: http://test.mink.dev/
+      base_url:     http://test.mink.dev/

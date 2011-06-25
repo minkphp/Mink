@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Behat\Context;
 
-use Behat\Behat\Context\BehatContext as BaseContext;
+use Behat\Behat\Context\BehatContext;
 
 use Behat\Mink\Mink;
 
@@ -15,26 +15,26 @@ use Behat\Mink\Mink;
  */
 
 /**
- * Behat context for Mink.
+ * Mink actions context.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-abstract class BehatContext extends BaseContext
+abstract class ActionsContext extends BehatContext
 {
-    private $mink;
-    private $parameters = array();
+    private $coreContext;
 
     /**
      * Initializes Mink environment.
+     *
+     * @param   Behat\Mink\Behat\Context\MinkContext    $coreContext    core context
      */
-    public function __construct(Mink $mink, array $parameters = array())
+    public function __construct(MinkContext $coreContext)
     {
-        $this->mink = $mink;
-        $this->parameters = array_merge(array('start_url' => 'http://localhost'), $parameters);
+        $this->coreContext = $coreContext;
     }
 
     /**
-     * Locates url based on provided path.
+     * Locates url, based on provided path.
      *
      * @param   string  $path
      *
@@ -42,9 +42,7 @@ abstract class BehatContext extends BaseContext
      */
     public function locatePath($path)
     {
-        $startUrl = rtrim($this->getParameter('start_url'), '/') . '/';
-
-        return 0 !== strpos('http', $path) ? $startUrl . ltrim($path, '/') : $path;
+        return $this->coreContext->locatePath($path);
     }
 
     /**
@@ -54,7 +52,7 @@ abstract class BehatContext extends BaseContext
      */
     public function getMink()
     {
-        return $this->mink;
+        return $this->coreContext->getMink();
     }
 
     /**
@@ -66,7 +64,7 @@ abstract class BehatContext extends BaseContext
      */
     public function getSession($name = null)
     {
-        return $this->mink->getSession($name);
+        return $this->coreContext->getSession($name);
     }
 
     /**
@@ -76,7 +74,7 @@ abstract class BehatContext extends BaseContext
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->coreContext->getParameters();
     }
 
     /**
@@ -88,6 +86,6 @@ abstract class BehatContext extends BaseContext
      */
     public function getParameter($name)
     {
-        return $this->parameters[$name];
+        return $this->coreContext->getParameter($name);
     }
 }

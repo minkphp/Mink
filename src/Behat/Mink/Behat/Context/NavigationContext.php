@@ -16,11 +16,11 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 
 /**
- * Behat navigation context for Mink.
+ * Navigation actions context.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class NavigationContext extends BehatContext
+class NavigationContext extends ActionsContext
 {
     /**
      * @Given /^(?:|I )am on (?P<page>.+)$/

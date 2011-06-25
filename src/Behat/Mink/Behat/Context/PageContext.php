@@ -20,11 +20,11 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 
 /**
- * Behat context for Mink.
+ * Page actions context.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class PageContext extends BehatContext
+class PageContext extends ActionsContext
 {
     /**
      * @Then /^(?:|I )should see "(?P<text>[^"]*)"$/
@@ -94,7 +94,7 @@ class PageContext extends BehatContext
         }
 
         $hrefParts  = parse_url($href);
-        $href       = array_merge(parse_url($this->getParameter('start_url')), $hrefParts);
+        $href       = array_merge(parse_url($this->getParameter('base_url')), $hrefParts);
 
         assertEquals($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
     }

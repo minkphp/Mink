@@ -3,6 +3,7 @@
 namespace Behat\Mink\Behat\Context;
 
 use Behat\Behat\Context\TranslatedContextInterface,
+    Behat\Behat\Context\BehatContext as BaseContext,
     Behat\Behat\Event\ScenarioEvent;
 
 use Behat\Mink\Mink,
@@ -28,23 +29,21 @@ use Behat\SahiClient\Connection as SahiConnection,
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class MinkContext extends BehatContext implements TranslatedContextInterface
+class MinkContext extends BaseContext implements TranslatedContextInterface
 {
     private static $minkInstance;
+    private $parameters;
 
     /**
      * Initializes Mink environment.
+     *
+     * @param   array   $parameters     list of context parameters
      */
     public function __construct(array $parameters = array())
     {
-        $isNew = false;
-        if (null === self::$minkInstance) {
-            self::$minkInstance = new Mink();
-            $isNew = true;
-        }
-
-        parent::__construct(self::$minkInstance, array_merge_recursive(array(
+        $this->parameters = array_merge(array(
             'default_session' => 'goutte',
+            'base_url'        => 'http://localhost',
             'browser'         => 'firefox',
             'goutte' => array(
                 'zend_config'       => array(),
@@ -55,9 +54,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'host' => 'localhost',
                 'port' => 9999
             )
-        ), $parameters));
+        ), $parameters);
 
-        if ($isNew) {
+        if (null === self::$minkInstance) {
+            self::$minkInstance = new Mink();
             $this->registerSessions(self::$minkInstance);
             self::$minkInstance->setDefaultSessionName($this->getParameter('default_session'));
         }
@@ -68,6 +68,64 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Locates url, based on provided path.
+     *
+     * @param   string  $path
+     *
+     * @return  string
+     */
+    public function locatePath($path)
+    {
+        $startUrl = rtrim($this->getParameter('base_url'), '/') . '/';
+
+        return 0 !== strpos('http', $path) ? $startUrl . ltrim($path, '/') : $path;
+    }
+
+    /**
+     * Returns Mink instance.
+     *
+     * @return  Behat\Mink\Mink
+     */
+    public function getMink()
+    {
+        return self::$minkInstance;
+    }
+
+    /**
+     * Returns current Mink session.
+     *
+     * @param   string|null name of the session OR active session will be used
+     *
+     * @return  Behat\Mink\Session
+     */
+    public function getSession($name = null)
+    {
+        return $this->getMink()->getSession($name);
+    }
+
+    /**
+     * Returns all context parameters.
+     *
+     * @return  array
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Returns context parameter.
+     *
+     * @param   string  $name
+     *
+     * @return  mixed
+     */
+    public function getParameter($name)
+    {
+        return $this->parameters[$name];
+    }
+
+    /**
      * Returns step definition subcontexts.
      *
      * @return  array
@@ -75,9 +133,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     protected function getStepsContexts()
     {
         return array(
-            new NavigationContext($this->getMink(), $this->getParameters()),
-            new PageContext($this->getMink(), $this->getParameters()),
-            new FormContext($this->getMink(), $this->getParameters())
+            new NavigationContext($this),
+            new PageContext($this),
+            new FormContext($this)
         );
     }
 
@@ -127,7 +185,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     /**
      * @BeforeScenario
      */
-    public function switchSessionIfNeeded($event)
+    public function prepareMinkSession($event)
     {
         $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
         $session  = $this->getParameter('default_session');

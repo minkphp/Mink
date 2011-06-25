@@ -20,11 +20,11 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 
 /**
- * Behat context for Mink.
+ * Form actions context.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class FormContext extends BehatContext
+class FormContext extends ActionsContext
 {
     /**
      * @When /^(?:|I )press "(?P<button>[^"]*)"$/
