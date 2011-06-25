@@ -145,10 +145,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     protected function registerSessions(Mink $mink)
     {
-        $mink->registerSession('goutte', new Session($this->initGoutteDriver($this->getParameter('goutte'))));
-        $mink->registerSession('sahi',   new Session($this->initSahiDriver(
-            $this->getParameter('browser'), $this->getParameter('sahi')
-        )));
+        $mink->registerSession('goutte', new Session(
+            $this->initGoutteDriver($this->getParameter('goutte'))
+        ));
+        $mink->registerSession('sahi',   new Session(
+            $this->initSahiDriver($this->getParameter('browser'), $this->getParameter('sahi'))
+        ));
     }
 
     /**
