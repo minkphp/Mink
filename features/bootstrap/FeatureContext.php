@@ -1,6 +1,6 @@
 <?php
 
-use Behat\Mink\Integration\MinkContext;
+use Behat\Mink\Behat\Context\MinkContext;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -15,6 +15,10 @@ require_once __DIR__ . '/../../autoload.php';
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext
+class FeatureContext extends BehatContext
 {
+    public function __construct(array $parameters)
+    {
+        $this->addSubcontext(new MinkContext($parameters));
+    }
 }
