@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Mink\Behat\Context\MinkContext;
-
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -19,6 +17,6 @@ class FeatureContext extends BehatContext
 {
     public function __construct(array $parameters)
     {
-        $this->useContext(new MinkContext($parameters));
+        $this->useContext(new \Behat\Mink\Behat\Context\MinkContext($parameters));
     }
 }
