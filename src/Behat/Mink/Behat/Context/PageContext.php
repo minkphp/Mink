@@ -27,16 +27,6 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 class PageContext extends BehatContext
 {
     /**
-     * Initializes Mink environment.
-     */
-    public function __construct(Mink $mink, array $parameters = array())
-    {
-        parent::__construct($mink, array_merge(array(
-            'start_url' => 'http://localhost'
-        ), $parameters));
-    }
-
-    /**
      * @Then /^(?:|I )should see "(?P<text>[^"]*)"$/
      */
     public function assertPageContains($text)
