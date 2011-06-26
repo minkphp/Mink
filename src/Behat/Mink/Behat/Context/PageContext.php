@@ -59,27 +59,21 @@ class PageContext extends ActionsContext
     /**
      * @Then /^(?:|I )should see "(?P<element>[^"]*)" element$/
      */
-    public function assertElementVisibile($element)
+    public function assertElementOnPage($element)
     {
         $node = $this->getSession()->getPage()->find('xpath', $element);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
         }
-
-        assertTrue($node->isVisible());
     }
 
     /**
      * @Then /^(?:|I )should not see "(?P<element>[^"]*)" element$/
      */
-    public function assertElementInvisibile($element)
+    public function assertElementNotOnPage($element)
     {
-        $node = $this->getSession()->getPage()->find('xpath', $element);
-
-        if (null !== $node) {
-            assertFalse($node->isVisible());
-        }
+        assertNull($this->getSession()->getPage()->find('xpath', $element));
     }
 
     /**
