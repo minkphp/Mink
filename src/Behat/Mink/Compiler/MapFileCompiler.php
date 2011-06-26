@@ -53,12 +53,12 @@ class MapFileCompiler
         }
 
         // autoload Goutte
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_GOUTTE') || false === BEHAT_AUTOLOAD_GOUTTE) {\n";
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_GOUTTE') || true === BEHAT_AUTOLOAD_GOUTTE) {\n";
         $mappings .= "    \$mappings['Goutte\Client'] = __DIR__ . '/vendor/Goutte/src/Goutte/Client.php';\n";
         $mappings .= "}\n";
 
         // autoload SahiClient
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SAHI') || false === BEHAT_AUTOLOAD_SAHI) {\n";
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SAHI') || true === BEHAT_AUTOLOAD_SAHI) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/SahiClient/src') as $file) {
             $path  = str_replace($this->libPath . '/vendor/SahiClient/src/', '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
@@ -67,7 +67,7 @@ class MapFileCompiler
         $mappings .= "}\n";
 
         // autoload Buzz
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_BUZZ') || false === BEHAT_AUTOLOAD_BUZZ) {\n";
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_BUZZ') || true === BEHAT_AUTOLOAD_BUZZ) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Buzz/lib') as $file) {
             $path  = str_replace($this->libPath . '/vendor/Buzz/lib/', '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
@@ -76,7 +76,7 @@ class MapFileCompiler
         $mappings .= "}\n";
 
         // autoload Symfony2
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SF2') || false === BEHAT_AUTOLOAD_SF2) {\n";
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SF2') || true === BEHAT_AUTOLOAD_SF2) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Symfony') as $file) {
             $path  = str_replace($this->libPath . '/vendor/', '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
@@ -85,7 +85,7 @@ class MapFileCompiler
         $mappings .= "}\n";
 
         // autoload ZF2
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_ZF2') || false === BEHAT_AUTOLOAD_ZF2) {\n";
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_ZF2') || true === BEHAT_AUTOLOAD_ZF2) {\n";
         $zendDir   = $this->libPath . '/vendor/Goutte/vendor/zend/library';
         foreach (array(
                 'Zend\Tool\Framework\Exception',
