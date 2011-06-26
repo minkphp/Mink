@@ -51,6 +51,7 @@ class PearCompiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->name('*.xliff')
+            ->name('*.xml')
             ->name('*.feature')
             ->name('LICENSE')
             ->notName('PharCompiler.php')

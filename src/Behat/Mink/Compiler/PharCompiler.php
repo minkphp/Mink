@@ -54,6 +54,7 @@ class PharCompiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
+            ->name('*.xml')
             ->name('*.xliff')
             ->name('LICENSE')
             ->notName('PharCompiler.php')
