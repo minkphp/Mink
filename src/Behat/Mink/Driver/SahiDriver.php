@@ -111,6 +111,16 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function setRequestHeader($name, $value)
+    {
+        throw new UnsupportedByDriverException('Request headers settings are not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver

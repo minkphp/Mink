@@ -119,6 +119,17 @@ class Session
     }
 
     /**
+     * Sets specific request header.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    public function setRequestHeader($name, $value)
+    {
+        $this->driver->setRequestHeader($name, $value);
+    }
+
+    /**
      * Returns all response headers.
      *
      * @return  array

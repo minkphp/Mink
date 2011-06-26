@@ -63,6 +63,14 @@ interface DriverInterface
     function getCurrentUrl();
 
     /**
+     * Sets specific request header on client.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setRequestHeader($name, $value);
+
+    /**
      * Returns last response headers.
      *
      * @return  array
