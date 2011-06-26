@@ -1,1 +1,3 @@
-<?php header('location: http://' . $_SERVER['HTTP_HOST'] . '/redirect_destination.php') ?>
+<?php
+
+header('location: /redirect_destination.php');

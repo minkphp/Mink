@@ -16,6 +16,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         static::$host    = $_SERVER['WEB_FIXTURES_HOST'];
         static::$session = new Session(static::configureDriver(), new SelectorsHandler());
         static::$session->start();
+        static::$session->visit(static::$host . '/index.php');
     }
 
     public static function tearDownAfterClass()
