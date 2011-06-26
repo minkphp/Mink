@@ -1,3 +1,4 @@
 *.tgz
+*.phar
 phpunit.xml
 *.rb
