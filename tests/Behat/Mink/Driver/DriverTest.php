@@ -91,6 +91,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         static::$session->visit(static::$host . '/basic_form.php');
 
         $page = static::$session->getPage();
+
         $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
 
         $firstname  = $page->findField('first_name');
@@ -111,8 +112,8 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $page->findButton('Save')->click();
 
         $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
-        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
-        $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
+        $this->assertContains('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        $this->assertContains('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
     public function testAdvancedForm()

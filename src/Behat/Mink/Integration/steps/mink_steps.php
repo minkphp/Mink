@@ -58,11 +58,19 @@ $steps->When('/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
 });
 
 $steps->Then('/^(?:|I )should see "(?P<text>[^"]*)"$/', function($world, $text) {
-    assertRegExp('/'.preg_quote($text, '/').'/', strip_tags($world->getSession()->getPage()->getContent()));
+    assertTrue($world->getSession()->getPage()->hasContent($text));
 });
 
 $steps->Then('/^(?:|I )should not see "(?P<text>[^"]*)"$/', function($world, $text) {
-    assertNotRegExp('/'.preg_quote($text, '/').'/', strip_tags($world->getSession()->getPage()->getContent()));
+    assertFalse($world->getSession()->getPage()->hasContent($text));
+});
+
+$steps->Then('/^the page should contain "(?P<text>[^"]*)"$/', function($world, $text) {
+    assertRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
+});
+
+$steps->Then('/^the page should not contain "(?P<text>[^"]*)"$/', function($world, $text) {
+    assertNotRegExp('/'.preg_quote($text, '/').'/', $world->getSession()->getPage()->getContent());
 });
 
 $steps->Then('/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/', function($world, $field, $value) {

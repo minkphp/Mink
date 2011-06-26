@@ -54,6 +54,14 @@
             <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*)"$/]]></source>
             <target><![CDATA[/^(?:|я )не должен видеть "(?P<text>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="the-page-should-contain">
+            <source><![CDATA[/^the page should contain "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^страница должна содержать "(?P<text>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-page-should-not-contain">
+            <source><![CDATA[/^the page should not contain "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^страница не должна содержать "(?P<text>[^"]*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/]]></source>
             <target><![CDATA[/^поле "(?P<field>[^"]*)" должно содержать "(?P<value>[^"]*)"$/]]></target>

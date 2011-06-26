@@ -8,7 +8,11 @@
 <body>
     <h1>Anket for <?php echo $_POST['first_name'] ?></h1>
 
-    <span id="first">Firstname: <?php echo $_POST['first_name'] ?></span>
-    <span id="last">Lastname: <?php echo $_POST['last_name'] ?></span>
+    <span id="first">
+        Firstname: <strong><?php echo $_POST['first_name'] ?></strong>
+    </span>
+    <span id="last">
+        Lastname: <strong><?php echo $_POST['last_name'] ?></strong>
+    </span>
 </body>
 </html>

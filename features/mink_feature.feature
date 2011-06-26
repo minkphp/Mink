@@ -11,6 +11,8 @@ Feature: Mink steps
     And I press "Save"
     Then I should see "Anket for Konstantin"
     And I should see "Lastname: Kudryashov"
+    And the page should contain "<strong>Kudryashov</strong>"
+    And the page should not contain "Lastname: Kudryashov"
 
   Scenario: Basic form (through Goutte)
     Given I am on basic_form.php
@@ -19,3 +21,5 @@ Feature: Mink steps
     And I press "Save"
     Then I should see "Anket for Konstantin"
     And I should see "Lastname: Kudryashov"
+    And the page should contain "<strong>Kudryashov</strong>"
+    And the page should not contain "Lastname: Kudryashov"
