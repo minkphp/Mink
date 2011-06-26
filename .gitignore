@@ -2,3 +2,4 @@
 *.phar
 phpunit.xml
 *.rb
+MinkBundle
