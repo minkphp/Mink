@@ -8,8 +8,6 @@
  * file that was distributed with this source code.
  */
 
-define('BEHAT_MINK_PATH', __DIR__);
-
 if (!class_exists('Behat\Mink\ClassLoader\UniversalClassLoader')) {
     require_once __DIR__ . '/src/Behat/Mink/ClassLoader/UniversalClassLoader.php';
 }
@@ -21,7 +19,7 @@ $loader->registerNamespaces(array(
     'Behat\SahiClient'  => __DIR__ . '/vendor/SahiClient/src',
     'Symfony\Component' => __DIR__ . '/vendor',
     'Buzz'              => __DIR__ . '/vendor/Buzz/lib',
+    'Goutte'            => __DIR__ . '/vendor/Goutte/src',
+    'Zend'              => __DIR__ . '/vendor/Goutte/vendor/zend/library',
 ));
 $loader->register();
-
-require_once __DIR__ . '/vendor/Goutte/goutte.phar';
