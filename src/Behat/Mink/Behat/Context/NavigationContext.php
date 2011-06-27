@@ -37,7 +37,7 @@ class NavigationContext extends ActionsContext
     public function assertPageAddress($page)
     {
         assertEquals(
-            parse_url($this->getPathTo($page), PHP_URL_PATH),
+            parse_url($this->locatePath($page), PHP_URL_PATH),
             parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH)
         );
     }
