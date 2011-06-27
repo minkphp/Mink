@@ -10,16 +10,20 @@
 
 use Behat\Mink\Exception\ElementNotFoundException;
 
-$steps->Given('/^(?:|I )am on (?P<page>.+)$/', function($world, $page) {
+$steps->Given('/^(?:|I )am on (the )*"(?P<page>[^"]*)"$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
-$steps->When('/^(?:|I )go to (?P<page>.+)$/', function($world, $page) {
+$steps->When('/^(?:|I )go to (the )*"(?P<page>[^"]*)"$/', function($world, $page) {
     $world->getSession()->visit($world->getPathTo($page));
 });
 
 $steps->When('/^(?:|I )press "(?P<button>[^"]*)"$/', function($world, $button) {
     $world->getSession()->getPage()->clickButton($button);
+});
+
+$steps->When('/^I click on "(?P<link>[^"]*)"$/', function($world, $link) {
+  $world->getSession()->getPage()->clickLink($link);
 });
 
 $steps->When('/^(?:|I )follow "(?P<link>[^"]*)"$/', function($world, $link) {
@@ -105,14 +109,14 @@ $steps->Then('/^the "(?P<checkbox>[^"]*)" checkbox should not be checked$/', fun
     assertFalse($field->isChecked());
 });
 
-$steps->Then('/^(?:|I )should be on (?P<page>.+)$/', function($world, $page) {
+$steps->Then('/^(?:|I )should be on (the )*"(?P<page>[^"]*)"$/', function($world, $page) {
     assertEquals(
         parse_url($world->getPathTo($page), PHP_URL_PATH),
         parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH)
     );
 });
 
-$steps->Then('/^the url should match (?P<pattern>.+)$/', function($world, $pattern) use ($steps) {
+$steps->Then('/^the url should match "(?P<pattern>.+)"$/', function($world, $pattern) use ($steps) {
     if (preg_match('/^\/.*\/$', $pattern)) {
         assertRegExp($pattern, parse_url($world->getSession()->getCurrentUrl(), PHP_URL_PATH));
     } else {
@@ -121,7 +125,7 @@ $steps->Then('/^the url should match (?P<pattern>.+)$/', function($world, $patte
 });
 
 $steps->Then('/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/', function($world, $element, $value) {
-    $node = $world->getSession()->getPage()->find('xpath', $element);
+    $node = $world->getSession()->getPage()->find('css', $element);
 
     if (null === $node) {
         throw new ElementNotFoundException('element', $element);
@@ -130,8 +134,8 @@ $steps->Then('/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*
     assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
 });
 
-$steps->Then('/^(?:|I )should see "(?P<element>[^"]*)" element$/', function($world, $element) {
-    $node = $world->getSession()->getPage()->find('xpath', $element);
+$steps->Then('/^(?:|I )should see a(n)* "(?P<element>[^"]*)" element$/', function($world, $element) {
+    $node = $world->getSession()->getPage()->find('css', $element);
 
     if (null === $node) {
         throw new ElementNotFoundException('element', $element);
@@ -140,12 +144,12 @@ $steps->Then('/^(?:|I )should see "(?P<element>[^"]*)" element$/', function($wor
     assertNotNull($node);
 });
 
-$steps->Then('/^(?:|I )should not see "(?P<element>[^"]*)" element$/', function($world, $element) {
-    assertNull($world->getSession()->getPage()->find('xpath', $element));
+$steps->Then('/^(?:|I )should not see a(n)* "(?P<element>[^"]*)" element$/', function($world, $element) {
+    assertNull($world->getSession()->getPage()->find('css', $element));
 });
 
 $steps->Then('/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/', function($world, $element, $href) {
-    $node = $world->getSession()->getPage()->find('xpath', $element);
+    $node = $world->getSession()->getPage()->find('css', $element);
 
     if (null === $node) {
         throw new ElementNotFoundException('element', $element);
@@ -161,7 +165,7 @@ $steps->Then('/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/',
 });
 
 $steps->Then('/^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>[^"]*)"$/', function($world, $element, $attribute, $value) {
-    $node = $world->getSession()->getPage()->find('xpath', $element);
+    $node = $world->getSession()->getPage()->find('css', $element);
 
     if (null === $node) {
         throw new ElementNotFoundException('element', $element);
@@ -172,4 +176,12 @@ $steps->Then('/^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a
 
 $steps->Then('/the response status code should be (?P<code>\d+)/', function($world, $code) {
     assertSame($world->getSession()->getStatusCode(), (int) $code);
+});
+
+$steps->Then('/^print the response$/', function($world) {
+  var_dump($world->getSession()->getPage()->getContent());
+});
+
+$steps->Then('/^print the URL$/i', function($world) {
+  var_dump($world->getSession()->getCurrentUrl());
 });
