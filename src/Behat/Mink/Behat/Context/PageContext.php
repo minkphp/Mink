@@ -106,4 +106,12 @@ class PageContext extends ActionsContext
 
         assertEquals($value, $node->getAttribute($attribute));
     }
+
+    /**
+     * @Then /^print last response$/
+     */
+    public function printLastResponse()
+    {
+        $this->printDebug($this->getSession()->getPage()->getContent());
+    }
 }
