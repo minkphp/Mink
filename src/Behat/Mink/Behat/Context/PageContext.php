@@ -41,6 +41,19 @@ class PageContext extends ActionsContext
     {
         assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
     }
+
+    /**
+     * @Then /^the response should contain "(?P<text>[^"]*)"$/
+     */
+    public function assertResponseContains($text)
+    {
+        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+    }
+
+    /**
+     * @Then /^the response should not contain "(?P<text>[^"]*)"$/
+     */
+    public function assertResponseNotContains($text)
     {
         assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
     }
