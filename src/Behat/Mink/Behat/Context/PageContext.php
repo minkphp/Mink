@@ -53,7 +53,7 @@ class PageContext extends ActionsContext
             throw new ElementNotFoundException('element', $element);
         }
 
-        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
+        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getPlainText())));
     }
 
     /**
