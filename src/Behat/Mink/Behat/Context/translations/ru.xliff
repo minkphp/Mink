@@ -50,9 +50,17 @@
             <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)"$/]]></source>
             <target><![CDATA[/^(?:|я )должен видеть "(?P<text>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="the-response-should-contain">
+            <source><![CDATA[/^the response should contain "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^тело ответа должно содержать "(?P<text>[^"]*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="i-should-not-see-text">
             <source><![CDATA[/^(?:|I )should not see "(?P<text>[^"]*)"$/]]></source>
             <target><![CDATA[/^(?:|я )не должен видеть "(?P<text>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-not-contain">
+            <source><![CDATA[/^the response should not contain "(?P<text>[^"]*)"$/]]></source>
+            <target><![CDATA[/^тело ответа не должно содержать "(?P<text>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/]]></source>
@@ -82,6 +90,10 @@
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/]]></source>
             <target><![CDATA[/^элемент "(?P<element>[^"]*)" должен содержать "(?P<value>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-see-text-in-element">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)" in the "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|Я )должен видеть "(?P<text>[^"]*)" внутри элемента "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|Я )должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
@@ -98,9 +110,13 @@
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>[^"]*)"$/]]></source>
             <target><![CDATA[/^элемент "(?P<element>[^"]*)" должен иметь аттрибут "(?P<attribute>[a-zA-Z\-\_]*)", содержащий "(?P<value>[^"]*)"$/]]></target>
         </trans-unit>
-        <trans-unit id="">
-            <source><![CDATA[/the response status code should be (?P<code>\d+)/]]></source>
-            <target><![CDATA[/код ответа сервера должен быть (?P<code>\d+)/]]></target>
+        <trans-unit id="the-response-status-code-should-be">
+            <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^код ответа сервера должен быть (?P<code>\d+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="print-last-response">
+            <source><![CDATA[/^print last response$/]]></source>
+            <target><![CDATA[/^выведи последний ответ сервера$/]]></target>
         </trans-unit>
     </body>
   </file>
