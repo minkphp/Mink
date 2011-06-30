@@ -47,7 +47,7 @@ class PageContext extends ActionsContext
      */
     public function assertElementContains($element, $value)
     {
-        $node = $this->getSession()->getPage()->find('xpath', $element);
+        $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -61,7 +61,7 @@ class PageContext extends ActionsContext
      */
     public function assertElementOnPage($element)
     {
-        $node = $this->getSession()->getPage()->find('xpath', $element);
+        $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -73,7 +73,7 @@ class PageContext extends ActionsContext
      */
     public function assertElementNotOnPage($element)
     {
-        assertNull($this->getSession()->getPage()->find('xpath', $element));
+        assertNull($this->getSession()->getPage()->find('css', $element));
     }
 
     /**
@@ -81,7 +81,7 @@ class PageContext extends ActionsContext
      */
     public function assertElementHref($element, $href)
     {
-        $node = $this->getSession()->getPage()->find('xpath', $element);
+        $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -98,7 +98,7 @@ class PageContext extends ActionsContext
      */
     public function assertElementAttributeValue($element, $attribute, $value)
     {
-        $node = $this->getSession()->getPage()->find('xpath', $element);
+        $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
