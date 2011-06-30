@@ -55,7 +55,7 @@ class NavigationContext extends ActionsContext
     }
 
     /**
-     * @Then /the response status code should be (?P<code>\d+)/
+     * @Then /^the response status code should be (?P<code>\d+)$/
      */
     public function assertResponseStatus($code)
     {
