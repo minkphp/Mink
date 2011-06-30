@@ -22,7 +22,7 @@ class DocumentElement extends ActionableElement
      */
     public function getXpath()
     {
-        return '/html';
+        return '//html';
     }
 
     /**
