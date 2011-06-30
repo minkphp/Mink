@@ -29,15 +29,18 @@ class PageContext extends ActionsContext
     /**
      * @Then /^(?:|I )should see "(?P<text>[^"]*)"$/
      */
-    public function assertPageContains($text)
+    public function assertPageContainsText($text)
     {
-        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
     }
 
     /**
      * @Then /^(?:|I )should not see "(?P<text>[^"]*)"$/
      */
-    public function assertPageNotContains($text)
+    public function assertPageNotContainsText($text)
+    {
+        assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
+    }
     {
         assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
     }
