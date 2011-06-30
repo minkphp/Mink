@@ -59,6 +59,20 @@ class PageContext extends ActionsContext
     }
 
     /**
+     * @Then /^(?:|I )should see "(?P<text>[^"]*)" in the "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementContainsText($element, $text)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+
+        assertContains($text, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getPlainText())));
+    }
+
+    /**
      * @Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/
      */
     public function assertElementContains($element, $value)
@@ -69,7 +83,7 @@ class PageContext extends ActionsContext
             throw new ElementNotFoundException('element', $element);
         }
 
-        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getPlainText())));
+        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
     }
 
     /**
