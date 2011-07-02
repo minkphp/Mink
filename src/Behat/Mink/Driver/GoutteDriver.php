@@ -279,13 +279,23 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function doubleClick($xpath)
+    {
+        throw new UnsupportedByDriverException('Double-clicking is not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::rightClick()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
      */
     public function rightClick($xpath)
     {
-        throw new UnsupportedByDriverException('Right clicking is not supported', $this);
+        throw new UnsupportedByDriverException('Right-clicking is not supported', $this);
     }
 
     /**

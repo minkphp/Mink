@@ -308,6 +308,14 @@ JS;
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     */
+    public function doubleClick($xpath)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->doubleClick();
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::rightClick()
      */
     public function rightClick($xpath)

@@ -183,6 +183,13 @@ interface DriverInterface
     function click($xpath);
 
     /**
+     * Double-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function doubleClick($xpath);
+
+    /**
      * Right-clicks button or link located by it's XPath query.
      *
      * @param   string  $xpath

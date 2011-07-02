@@ -105,6 +105,14 @@ class NodeElement extends Element
     }
 
     /**
+     * Double-clicks current node.
+     */
+    public function doubleClick()
+    {
+        $this->getSession()->getDriver()->doubleClick($this->getXpath());
+    }
+
+    /**
      * Right-clicks current node.
      */
     public function rightClick()
