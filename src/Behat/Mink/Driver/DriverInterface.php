@@ -63,6 +63,21 @@ interface DriverInterface
     function getCurrentUrl();
 
     /**
+     * Reloads current page.
+     */
+    function reload();
+
+    /**
+     * Moves browser forward 1 page.
+     */
+    function forward();
+
+    /**
+     * Moves browser backward 1 page.
+     */
+    function back();
+
+    /**
      * Sets specific request header on client.
      *
      * @param   string  $name

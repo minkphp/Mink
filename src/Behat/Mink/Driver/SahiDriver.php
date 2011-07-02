@@ -111,6 +111,30 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     */
+    public function reload()
+    {
+        $this->client->navigateTo($this->getCurrentUrl(), true);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     */
+    public function forward()
+    {
+        $this->executeScript('history.forward()');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::back()
+     */
+    public function back()
+    {
+        $this->executeScript('history.back()');
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver

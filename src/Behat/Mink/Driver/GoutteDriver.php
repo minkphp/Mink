@@ -116,6 +116,30 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     */
+    public function reload()
+    {
+        $this->client->reload();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     */
+    public function forward()
+    {
+        $this->client->forward();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::back()
+     */
+    public function back()
+    {
+        $this->client->back();
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
      */
     public function setRequestHeader($name, $value)

@@ -160,6 +160,30 @@ class Session
     }
 
     /**
+     * Reloads current session page.
+     */
+    public function reload()
+    {
+        $this->driver->reload();
+    }
+
+    /**
+     * Moves backward 1 page in history.
+     */
+    public function back()
+    {
+        $this->driver->back();
+    }
+
+    /**
+     * Moves forward 1 page in history.
+     */
+    public function forward()
+    {
+        $this->driver->forward();
+    }
+
+    /**
      * Execute JS in browser.
      *
      * @param   string  $script     javascript
