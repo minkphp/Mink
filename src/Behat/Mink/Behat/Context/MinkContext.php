@@ -134,18 +134,28 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * @When /^(?:|I )reload the page$/
      */
+    public function reload()
     {
+        $this->getSession()->reload();
     }
 
     /**
+     * @When /^(?:|I )move backward one page$/
      */
+    public function back()
     {
+        $this->getSession()->back();
     }
 
     /**
+     * @When /^(?:|I )move forward one page$/
      */
+    public function forward()
     {
+        $this->getSession()->forward();
+    }
 
     /**
      * @When /^(?:|I )press "(?P<button>[^"]*)"$/
