@@ -5,7 +5,7 @@ Feature: Mink steps
 
   @javascript
   Scenario: Basic form (through Sahi)
-    Given I am on basic_form.php
+    Given I am on "basic_form.php"
     When I fill in "first_name" with "Konstantin"
     And I fill in "Kudryashov" for "lastn"
     And I press "Save"
@@ -13,7 +13,7 @@ Feature: Mink steps
     And I should see "Lastname: Kudryashov"
 
   Scenario: Basic form (through Goutte)
-    Given I am on basic_form.php
+    Given I am on "basic_form.php"
     When I fill in "first_name" with "Konstantin"
     And I fill in "lastn" with "Kudryashov"
     And I press "Save"

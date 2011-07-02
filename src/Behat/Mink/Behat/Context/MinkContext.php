@@ -9,12 +9,16 @@ use Behat\Behat\Context\TranslatedContextInterface,
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\SahiDriver;
+    Behat\Mink\Driver\SahiDriver,
+    Behat\Mink\Exception\ElementNotFoundException;
 
 use Goutte\Client as GoutteClient;
 
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
+
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 /*
  * This file is part of the Behat\Mink.
@@ -59,10 +63,6 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         if (null === self::$minkInstance) {
             self::$minkInstance = new Mink();
             $this->registerSessions(self::$minkInstance);
-        }
-
-        foreach ($this->getStepsContexts() as $context) {
-            $this->useContext($context);
         }
     }
 
@@ -125,16 +125,332 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * Returns step definition subcontexts.
+     * @Given /^(?:|I )am on "(?P<page>[^"]+)"$/
+     * @When /^(?:|I )go to "(?P<page>[^"]+)"$/
+     */
+    public function visit($page)
+    {
+        $this->getSession()->visit($this->locatePath($page));
+    }
+
+    /**
+     */
+    {
+    }
+
+    /**
+     */
+    {
+    }
+
+    /**
+     */
+    {
+
+    /**
+     * @When /^(?:|I )press "(?P<button>[^"]*)"$/
+     */
+    public function pressButton($button)
+    {
+        $this->getSession()->getPage()->clickButton($button);
+    }
+
+    /**
+     * @When /^(?:|I )follow "(?P<link>[^"]*)"$/
+     */
+    public function clickLink($link)
+    {
+        $this->getSession()->getPage()->clickLink($link);
+    }
+
+    /**
+     * @When /^(?:|I )fill in "(?P<field>[^"]*)" with "(?P<value>[^"]*)"$/
+     * @When /^(?:|I )fill in "(?P<value>[^"]*)" for "(?P<field>[^"]*)"$/
+     */
+    public function fillField($field, $value)
+    {
+        $this->getSession()->getPage()->fillField($field, $value);
+    }
+
+    /**
+     * @When /^(?:|I )fill in the following:$/
+     */
+    public function fillFields(TableNode $fields)
+    {
+        foreach ($fieldsTable->getRowsHash() as $field => $value) {
+            $this->fillField($field, $value);
+        }
+    }
+
+    /**
+     * @When /^(?:|I )select "(?P<option>[^"]*)" from "(?P<select>[^"]*)"$/
+     */
+    public function selectOption($select, $option)
+    {
+        $this->getSession()->getPage()->selectFieldOption($select, $option);
+    }
+
+    /**
+     * @When /^(?:|I )check "(?P<option>[^"]*)"$/
+     */
+    public function checkOption($option)
+    {
+        $this->getSession()->getPage()->checkField($option);
+    }
+
+    /**
+     * @When /^(?:|I )uncheck "(?P<option>[^"]*)"$/
+     */
+    public function uncheckOption($option)
+    {
+        $this->getSession()->getPage()->uncheckField($option);
+    }
+
+    /**
+     * @When /^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
+     */
+    public function attachFileToField($field, $path)
+    {
+        $this->getSession()->getPage()->attachFileToField($field, $path);
+    }
+
+    /**
+     * @Then /^(?:|I )should be on "(?P<page>[^"]+)"$/
+     */
+    public function assertPageAddress($page)
+    {
+        assertEquals(
+            parse_url($this->locatePath($page), PHP_URL_PATH),
+            parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH)
+        );
+    }
+
+    /**
+     * @Then /^the url should match "(?P<pattern>[^"]+)"$/
+     */
+    public function assertUrlRegExp($pattern)
+    {
+        if (preg_match('/^\/.*\/$/', $pattern)) {
+            assertRegExp($pattern, parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH));
+        } else {
+            $this->assertPageAddress($pattern);
+        }
+    }
+
+    /**
+     * @Then /^the response status code should be (?P<code>\d+)$/
+     */
+    public function assertResponseStatus($code)
+    {
+        assertEquals($this->getSession()->getStatusCode(), $code);
+    }
+
+    /**
+     * @Then /^(?:|I )should see "(?P<text>[^"]*)"$/
+     */
+    public function assertPageContainsText($text)
+    {
+        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
+    }
+
+    /**
+     * @Then /^(?:|I )should not see "(?P<text>[^"]*)"$/
+     */
+    public function assertPageNotContainsText($text)
+    {
+        assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
+    }
+
+    /**
+     * @Then /^the response should contain "(?P<text>[^"]*)"$/
+     */
+    public function assertResponseContains($text)
+    {
+        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+    }
+
+    /**
+     * @Then /^the response should not contain "(?P<text>[^"]*)"$/
+     */
+    public function assertResponseNotContains($text)
+    {
+        assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+    }
+
+    /**
+     * @Then /^(?:|I )should see "(?P<text>[^"]*)" in the "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementContainsText($element, $text)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+
+        assertContains($text, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getPlainText())));
+    }
+
+    /**
+     * @Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/
+     */
+    public function assertElementContains($element, $value)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+
+        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
+    }
+
+    /**
+     * @Then /^(?:|I )should see "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementOnPage($element)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+    }
+
+    /**
+     * @Then /^(?:|I )should not see "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementNotOnPage($element)
+    {
+        assertNull($this->getSession()->getPage()->find('css', $element));
+    }
+
+    /**
+     * @Then /^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/
+     */
+    public function assertElementHref($element, $href)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+
+        $hrefParts  = parse_url($href);
+        $href       = array_merge(parse_url($this->getParameter('base_url')), $hrefParts);
+
+        assertEquals($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
+    }
+
+    /**
+     * @Then /^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>[^"]*)"$/
+     */
+    public function assertElementAttributeValue($element, $attribute, $value)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+
+        if (null === $node) {
+            throw new ElementNotFoundException('element', $element);
+        }
+
+        assertEquals($value, $node->getAttribute($attribute));
+    }
+
+    /**
+     * @Then /^print last response$/
+     */
+    public function printLastResponse()
+    {
+        $this->printDebug($this->getSession()->getPage()->getContent());
+    }
+
+    /**
+     * @Then /^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/
+     */
+    public function assertFieldContains($value)
+    {
+        $field = $this->getSession()->getPage()->findField($field);
+
+        if (null === $field) {
+            throw new ElementNotFoundException('field', $field);
+        }
+
+        assertContains($value, $field->getValue());
+    }
+
+    /**
+     * @Then /^the "(?P<field>[^"]*)" field should not contain "(?P<value>[^"]*)"$/
+     */
+    public function assertFieldNotContains($value)
+    {
+        $field = $this->getSession()->getPage()->findField($field);
+
+        if (null === $field) {
+            throw new ElementNotFoundException('field', $field);
+        }
+
+        assertNotContains($value, $field->getValue());
+    }
+
+    /**
+     * @Then /^the "(?P<checkbox>[^"]*)" checkbox should be checked$/
+     */
+    public function assertCheckboxChecked($checkbox)
+    {
+        $field = $this->getSession()->getPage()->findField($checkbox);
+
+        if (null === $field) {
+            throw new ElementNotFoundException('field', $field);
+        }
+
+        assertTrue($field->isChecked());
+    }
+
+    /**
+     * @Then /^the "(?P<checkbox>[^"]*)" checkbox should not be checked$/
+     */
+    public function assertCheckboxNotChecked($checkbox)
+    {
+        $field = $this->getSession()->getPage()->findField($checkbox);
+
+        if (null === $field) {
+            throw new ElementNotFoundException('field', $field);
+        }
+
+        assertFalse($field->isChecked());
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function prepareMinkSession($event)
+    {
+        $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
+        $session  = $this->getParameter('default_session');
+
+        foreach ($scenario->getTags() as $tag) {
+            if ('javascript' === $tag) {
+                $session = 'sahi';
+            } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
+                $session = $matches[1];
+            }
+        }
+
+        $this->getMink()->setDefaultSessionName($session);
+    }
+
+    /**
+     * Returns list of definition translation resources paths.
      *
      * @return  array
      */
-    protected function getStepsContexts()
+    public function getTranslationResources()
     {
         return array(
-            new NavigationContext($this),
-            new PageContext($this),
-            new FormContext($this)
+            __DIR__ . '/translations/ru.xliff',
+            __DIR__ . '/translations/fr.xliff',
+            __DIR__ . '/translations/ja.xliff',
+            __DIR__ . '/translations/es.xliff',
         );
     }
 
@@ -180,40 +496,6 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         return new SahiDriver(
             $browser,
             new SahiClient(new SahiConnection($connection['sid'], $connection['host'], $connection['port']))
-        );
-    }
-
-    /**
-     * @BeforeScenario
-     */
-    public function prepareMinkSession($event)
-    {
-        $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
-        $session  = $this->getParameter('default_session');
-
-        foreach ($scenario->getTags() as $tag) {
-            if ('javascript' === $tag) {
-                $session = 'sahi';
-            } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
-                $session = $matches[1];
-            }
-        }
-
-        $this->getMink()->setDefaultSessionName($session);
-    }
-
-    /**
-     * Returns list of definition translation resources paths.
-     *
-     * @return  array
-     */
-    public function getTranslationResources()
-    {
-        return array(
-            __DIR__ . '/translations/ru.xliff',
-            __DIR__ . '/translations/fr.xliff',
-            __DIR__ . '/translations/ja.xliff',
-            __DIR__ . '/translations/es.xliff',
         );
     }
 }

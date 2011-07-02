@@ -3,12 +3,24 @@
     <header />
     <body>
         <trans-unit id="i-am-on-page">
-            <source><![CDATA[/^(?:|I )am on (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|я )на странице (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )am on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|я )на странице "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-go-to-page">
-            <source><![CDATA[/^(?:|I )go to (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|я )перехожу на (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )go to "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|я )перехожу на "(?P<page>[^"]+)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="reload-the-page">
+            <source><![CDATA[/^(?:|I )reload the page$/]]></source>
+            <target><![CDATA[/^(?:|я )обновляю страницу$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-backward-one-page">
+            <source><![CDATA[/^(?:|I )move backward one page$/]]></source>
+            <target><![CDATA[/^(?:|я )перехожу на одну страницу назад$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-forward-one-page">
+            <source><![CDATA[/^(?:|I )move forward one page$/]]></source>
+            <target><![CDATA[/^(?:|я )перехожу на одну страницу вперед$/]]></target>
         </trans-unit>
         <trans-unit id="i-press-button">
             <source><![CDATA[/^(?:|I )press "(?P<button>[^"]*)"$/]]></source>
@@ -79,12 +91,12 @@
             <target><![CDATA[/^галочка "(?P<checkbox>[^"]*)" не должна быть отмечена$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-be-on-page">
-            <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|я )должен быть на странице (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|я )должен быть на странице "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-url-should-match">
-            <source><![CDATA[/^the url should match (?P<pattern>.+)$/]]></source>
-            <target><![CDATA[/^(?:url|адрес) должен соответствовать (?P<pattern>.+)$/]]></target>
+            <source><![CDATA[/^the url should match "(?P<pattern>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:url|адрес) должен соответствовать "(?P<pattern>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-contain">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/]]></source>
@@ -92,15 +104,15 @@
         </trans-unit>
         <trans-unit id="i-should-see-text-in-element">
             <source><![CDATA[/^(?:|I )should see "(?P<text>[^"]*)" in the "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Я )должен видеть "(?P<text>[^"]*)" внутри элемента "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|я )должен видеть "(?P<text>[^"]*)" внутри элемента "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Я )должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|я )должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-element">
             <source><![CDATA[/^(?:|I )should not see "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Я )не должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|я )не должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-link-to">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/]]></source>
