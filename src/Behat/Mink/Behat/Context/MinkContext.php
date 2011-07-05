@@ -158,27 +158,31 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @When /^(?:|I )press "(?P<button>[^"]*)"$/
+     * @When /^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/
      */
     public function pressButton($button)
     {
+        $button = str_replace('\\"', '"', $button);
         $this->getSession()->getPage()->clickButton($button);
     }
 
     /**
-     * @When /^(?:|I )follow "(?P<link>[^"]*)"$/
+     * @When /^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/
      */
     public function clickLink($link)
     {
+        $link = str_replace('\\"', '"', $link);
         $this->getSession()->getPage()->clickLink($link);
     }
 
     /**
-     * @When /^(?:|I )fill in "(?P<field>[^"]*)" with "(?P<value>[^"]*)"$/
-     * @When /^(?:|I )fill in "(?P<value>[^"]*)" for "(?P<field>[^"]*)"$/
+     * @When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+     * @When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
      */
     public function fillField($field, $value)
     {
+        $field = str_replace('\\"', '"', $field);
+        $value = str_replace('\\"', '"', $value);
         $this->getSession()->getPage()->fillField($field, $value);
     }
 
@@ -193,34 +197,39 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @When /^(?:|I )select "(?P<option>[^"]*)" from "(?P<select>[^"]*)"$/
+     * @When /^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/
      */
     public function selectOption($select, $option)
     {
+        $select = str_replace('\\"', '"', $option);
+        $option = str_replace('\\"', '"', $option);
         $this->getSession()->getPage()->selectFieldOption($select, $option);
     }
 
     /**
-     * @When /^(?:|I )check "(?P<option>[^"]*)"$/
+     * @When /^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/
      */
     public function checkOption($option)
     {
+        $option = str_replace('\\"', '"', $option);
         $this->getSession()->getPage()->checkField($option);
     }
 
     /**
-     * @When /^(?:|I )uncheck "(?P<option>[^"]*)"$/
+     * @When /^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/
      */
     public function uncheckOption($option)
     {
+        $option = str_replace('\\"', '"', $option);
         $this->getSession()->getPage()->uncheckField($option);
     }
 
     /**
-     * @When /^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>[^"]*)"$/
+     * @When /^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/
      */
     public function attachFileToField($field, $path)
     {
+        $field = str_replace('\\"', '"', $field);
         $this->getSession()->getPage()->attachFileToField($field, $path);
     }
 
@@ -236,10 +245,11 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the url should match "(?P<pattern>[^"]+)"$/
+     * @Then /^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/
      */
     public function assertUrlRegExp($pattern)
     {
+        $pattern = str_replace('\\"', '"', $pattern);
         if (preg_match('/^\/.*\/$/', $pattern)) {
             assertRegExp($pattern, parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH));
         } else {
@@ -256,43 +266,48 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^(?:|I )should see "(?P<text>[^"]*)"$/
+     * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertPageContainsText($text)
     {
+        $text = str_replace('\\"', '"', $text);
         assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
     }
 
     /**
-     * @Then /^(?:|I )should not see "(?P<text>[^"]*)"$/
+     * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertPageNotContainsText($text)
     {
+        $text = str_replace('\\"', '"', $text);
         assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
     }
 
     /**
-     * @Then /^the response should contain "(?P<text>[^"]*)"$/
+     * @Then /^the response should contain "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertResponseContains($text)
     {
+        $text = str_replace('\\"', '"', $text);
         assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
     }
 
     /**
-     * @Then /^the response should not contain "(?P<text>[^"]*)"$/
+     * @Then /^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertResponseNotContains($text)
     {
+        $text = str_replace('\\"', '"', $text);
         assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
     }
 
     /**
-     * @Then /^(?:|I )should see "(?P<text>[^"]*)" in the "(?P<element>[^"]*)" element$/
+     * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
      */
     public function assertElementContainsText($element, $text)
     {
         $node = $this->getSession()->getPage()->find('css', $element);
+        $text = str_replace('\\"', '"', $text);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -302,11 +317,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>[^"]*)"$/
+     * @Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/
      */
     public function assertElementContains($element, $value)
     {
-        $node = $this->getSession()->getPage()->find('css', $element);
+        $node  = $this->getSession()->getPage()->find('css', $element);
+        $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -353,11 +369,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>[^"]*)"$/
+     * @Then /^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>(?:[^"]|\\")*)"$/
      */
     public function assertElementAttributeValue($element, $attribute, $value)
     {
-        $node = $this->getSession()->getPage()->find('css', $element);
+        $node  = $this->getSession()->getPage()->find('css', $element);
+        $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
             throw new ElementNotFoundException('element', $element);
@@ -375,11 +392,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<field>[^"]*)" field should contain "(?P<value>[^"]*)"$/
+     * @Then /^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/
      */
-    public function assertFieldContains($value)
+    public function assertFieldContains($field, $value)
     {
+        $field = str_replace('\\"', '"', $field);
         $field = $this->getSession()->getPage()->findField($field);
+        $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
             throw new ElementNotFoundException('field', $field);
@@ -389,11 +408,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<field>[^"]*)" field should not contain "(?P<value>[^"]*)"$/
+     * @Then /^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/
      */
-    public function assertFieldNotContains($value)
+    public function assertFieldNotContains($field, $value)
     {
+        $field = str_replace('\\"', '"', $field);
         $field = $this->getSession()->getPage()->findField($field);
+        $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
             throw new ElementNotFoundException('field', $field);
@@ -403,11 +424,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<checkbox>[^"]*)" checkbox should be checked$/
+     * @Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/
      */
     public function assertCheckboxChecked($checkbox)
     {
-        $field = $this->getSession()->getPage()->findField($checkbox);
+        $checkbox = str_replace('\\"', '"', $checkbox);
+        $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
             throw new ElementNotFoundException('field', $field);
@@ -417,11 +439,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<checkbox>[^"]*)" checkbox should not be checked$/
+     * @Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/
      */
     public function assertCheckboxNotChecked($checkbox)
     {
-        $field = $this->getSession()->getPage()->findField($checkbox);
+        $checkbox = str_replace('\\"', '"', $checkbox);
+        $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
             throw new ElementNotFoundException('field', $field);
