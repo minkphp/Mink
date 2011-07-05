@@ -201,7 +201,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function selectOption($select, $option)
     {
-        $select = str_replace('\\"', '"', $option);
+        $select = str_replace('\\"', '"', $select);
         $option = str_replace('\\"', '"', $option);
         $this->getSession()->getPage()->selectFieldOption($select, $option);
     }
