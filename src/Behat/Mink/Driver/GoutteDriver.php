@@ -455,7 +455,7 @@ class GoutteDriver implements DriverInterface
             // use the ancestor form element
             if (null === $formNode = $formNode->parentNode) {
                 throw new ElementNotFoundException(
-                    $this->session, 'form for field with xpath "'.$xpath.'"'
+                    $this->session, 'the form field with xpath "'.$xpath.'" was found, but no form element surrounding that field could be found'
                 );
             }
         } while ('form' != $formNode->nodeName);
