@@ -52,6 +52,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $this->parameters = array_merge(array(
             'default_session' => 'goutte',
             'base_url'        => 'http://localhost',
+            'show_cmd'        => null,
             'browser'         => 'firefox',
             'goutte' => array(
                 'zend_config'       => array(),
