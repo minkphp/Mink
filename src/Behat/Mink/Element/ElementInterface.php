@@ -52,7 +52,7 @@ interface ElementInterface
     function findAll($selector, $locator);
 
     /**
-     * Checks wheter element with specified selector exists.
+     * Checks whether element with specified selector exists.
      *
      * @param   string  $selector   selector engine name
      * @param   string  $locator    selector locator
