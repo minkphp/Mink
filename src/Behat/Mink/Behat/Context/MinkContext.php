@@ -366,7 +366,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $text = str_replace('\\"', '"', $text);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->getSession(), 'element', $element);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
         }
 
         try {
@@ -386,7 +388,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->getSession(), 'element', $element);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
         }
 
         try {
@@ -405,7 +409,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->getSession(), 'element', $element);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
         }
     }
 
@@ -440,7 +446,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->getSession(), 'element', $element);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
         }
 
         $expected = $value;
@@ -464,7 +472,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
-            throw new ElementNotFoundException($this->getSession(), 'field', $field);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'field', 'id|name|label|value', $field
+            );
         }
 
         assertContains($value, $field->getValue());
@@ -480,7 +490,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
-            throw new ElementNotFoundException($this->getSession(), 'field', $field);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'field', 'id|name|label|value', $field
+            );
         }
 
         assertNotContains($value, $field->getValue());
@@ -495,7 +507,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
-            throw new ElementNotFoundException($this->getSession(), 'field', $field);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'field', 'id|name|label|value', $field
+            );
         }
 
         assertTrue($field->isChecked());
@@ -510,7 +524,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
-            throw new ElementNotFoundException($this->getSession(), 'field', $field);
+            throw new ElementNotFoundException(
+                $this->getSession(), 'field', 'id|name|label|value', $field
+            );
         }
 
         assertFalse($field->isChecked());

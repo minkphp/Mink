@@ -24,10 +24,10 @@ class ElementNotFoundException extends Exception
      *
      * @param   Behat\Mink\Session  $session    session instance
      * @param   string              $type       element type
+     * @param   string              $selector   element selector type
      * @param   string              $locator    element locator
-     * @param   Exception           $previous   previous exception
      */
-    public function __construct(Session $session, $type = null, $locator = null, $previous = null)
+    public function __construct(Session $session, $type = null, $selector = null, $locator = null)
     {
         $message = '';
 
@@ -38,12 +38,13 @@ class ElementNotFoundException extends Exception
         }
 
         if (null !== $locator) {
-            $message .= ' with locator "' . $locator . '" ';
+            $selector = $selector ?: 'locator';
+            $message .= ' with '.$selector.' "' . $locator . '" ';
         }
 
         $message .= 'not found';
 
-        parent::__construct($message, $session, 0, $previous);
+        parent::__construct($message, $session, 0);
     }
 
     /**

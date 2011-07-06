@@ -265,7 +265,9 @@ class GoutteDriver implements DriverInterface
     public function click($xpath)
     {
         if (!count($nodes = $this->getCrawler()->filterXPath($xpath))) {
-            throw new ElementNotFoundException($this->session, 'link or button', $xpath);
+            throw new ElementNotFoundException(
+                $this->session, 'link or button', 'xpath', $xpath
+            );
         }
         $node = $nodes->eq(0);
 
@@ -441,7 +443,9 @@ class GoutteDriver implements DriverInterface
     private function getField($xpath)
     {
         if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
-            throw new ElementNotFoundException($this->session, 'field', $xpath);
+            throw new ElementNotFoundException(
+                $this->session, 'field', 'xpath', $xpath
+            );
         }
 
         $fieldNode  = $this->getCrawlerNode($crawler);
@@ -450,7 +454,9 @@ class GoutteDriver implements DriverInterface
         do {
             // use the ancestor form element
             if (null === $formNode = $formNode->parentNode) {
-                throw new ElementNotFoundException($this->session, 'form for field "'.$xpath.'"');
+                throw new ElementNotFoundException(
+                    $this->session, 'form for field with xpath "'.$xpath.'"'
+                );
             }
         } while ('form' != $formNode->nodeName);
 
@@ -464,7 +470,9 @@ class GoutteDriver implements DriverInterface
         // find form button
         $buttonNode = $this->findFormButton($formNode);
         if (null === $buttonNode) {
-            throw new ElementNotFoundException($this->session, 'form submit button for field "'.$xpath.'"');
+            throw new ElementNotFoundException(
+                $this->session, 'form submit button for field with xpath "'.$xpath.'"'
+            );
         }
 
         $base = $this->client->getCrawler()->filter('base')->extract(array('href'));
