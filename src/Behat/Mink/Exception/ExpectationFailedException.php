@@ -13,37 +13,22 @@ use Behat\Mink\Session;
  */
 
 /**
- * Mink "element not found" exception.
+ * Mink "expectation failed" exception.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ElementNotFoundException extends Exception
+class ExpectationFailedException extends Exception
 {
     /**
      * Initializes exception.
      *
      * @param   Behat\Mink\Session  $session    session instance
-     * @param   string              $type       element type
-     * @param   string              $locator    element locator
-     * @param   Exception           $previous   previous exception
+     * @param   Exception           $exception  expectation exception
+     * @param   string              $message    optional message
      */
-    public function __construct(Session $session, $type = null, $locator = null, $previous = null)
+    public function __construct(Session $session, \Exception $exception, $message = null)
     {
-        $message = '';
-
-        if (null !== $type) {
-            $message .= ucfirst($type);
-        } else {
-            $message .= 'Tag';
-        }
-
-        if (null !== $locator) {
-            $message .= ' with locator "' . $locator . '" ';
-        }
-
-        $message .= 'not found';
-
-        parent::__construct($message, $session, 0, $previous);
+        parent::__construct($message ?: $exception->getMessage(), $session);
     }
 
     /**

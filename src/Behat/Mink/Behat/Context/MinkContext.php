@@ -10,7 +10,11 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Exception\ElementNotFoundException;
+    Behat\Mink\Exception\ElementNotFoundException,
+    Behat\Mink\Exception\ExpectationFailedException,
+    Behat\Mink\Exception\PlainTextResponseException,
+    Behat\Mink\Exception\ElementContentException,
+    Behat\Mink\Exception\ElementTextException;
 
 use Goutte\Client as GoutteClient;
 
@@ -121,6 +125,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getParameter($name)
     {
+        if (!isset($this->parameters[$name])) {
+            return;
+        }
+
         return $this->parameters[$name];
     }
 
@@ -238,10 +246,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertPageAddress($page)
     {
-        assertEquals(
-            parse_url($this->locatePath($page), PHP_URL_PATH),
-            parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH)
-        );
+        $expected = parse_url($this->locatePath($page), PHP_URL_PATH);
+        $actual   = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+
+        try {
+            assertEquals($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('Current page is "%s", but "%s" expected', $actual, $expected);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -250,10 +263,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertUrlRegExp($pattern)
     {
         $pattern = str_replace('\\"', '"', $pattern);
-        if (preg_match('/^\/.*\/$/', $pattern)) {
-            assertRegExp($pattern, parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH));
-        } else {
+        if (!preg_match('/^\/.*\/$/', $pattern)) {
             $this->assertPageAddress($pattern);
+
+            return;
+        }
+
+        $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+        try {
+            assertRegExp($pattern, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('Current page "%s", does not matches "%s" pattern', $actual, $pattern);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
         }
     }
 
@@ -262,7 +283,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertResponseStatus($code)
     {
-        assertEquals($this->getSession()->getStatusCode(), $code);
+        $actual = $this->getSession()->getStatusCode();
+        try {
+            assertEquals($actual, $code);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('Current response code is %d, but %d expected', $actual, $code);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -270,8 +297,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertPageContainsText($text)
     {
-        $text = str_replace('\\"', '"', $text);
-        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
+        $expected = str_replace('\\"', '"', $text);
+        $actual   = $this->getSession()->getPage()->getPlainText();
+
+        try {
+            assertContains($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is no "%s" text', $expected);
+            throw new PlainTextResponseException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -279,8 +313,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertPageNotContainsText($text)
     {
-        $text = str_replace('\\"', '"', $text);
-        assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getPlainText());
+        $expected = str_replace('\\"', '"', $text);
+        $actual   = $this->getSession()->getPage()->getPlainText();
+
+        try {
+            assertNotContains($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is "%s" text', $expected);
+            throw new PlainTextResponseException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -288,8 +329,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertResponseContains($text)
     {
-        $text = str_replace('\\"', '"', $text);
-        assertRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+        $expected = str_replace('\\"', '"', $text);
+        $actual   = $this->getSession()->getPage()->getContent();
+
+        try {
+            assertContains($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is no "%s" content', $expected);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -297,8 +345,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertResponseNotContains($text)
     {
-        $text = str_replace('\\"', '"', $text);
-        assertNotRegExp('/'.preg_quote($text, '/').'/', $this->getSession()->getPage()->getContent());
+        $expected = str_replace('\\"', '"', $text);
+        $actual   = $this->getSession()->getPage()->getContent();
+
+        try {
+            assertNotContains($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is "%s" content', $expected);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -310,10 +365,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $text = str_replace('\\"', '"', $text);
 
         if (null === $node) {
-            throw new ElementNotFoundException('element', $element);
+            throw new ElementNotFoundException($this->getSession(), 'element', $element);
         }
 
-        assertContains($text, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getPlainText())));
+        try {
+            assertContains($text, $node->getPlainText());
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is no "%s" text in "%s" element', $text, $element);
+            throw new ElementTextException($this->getSession(), $node, $e, $message);
+        }
     }
 
     /**
@@ -325,10 +385,15 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
-            throw new ElementNotFoundException('element', $element);
+            throw new ElementNotFoundException($this->getSession(), 'element', $element);
         }
 
-        assertContains($value, preg_replace('/\s+/', ' ', str_replace("\n", '', $node->getText())));
+        try {
+            assertContains($value, $node->getText());
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is no "%s" content in "%s" element', $value, $element);
+            throw new ElementContentException($this->getSession(), $node, $e, $message);
+        }
     }
 
     /**
@@ -339,7 +404,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $node = $this->getSession()->getPage()->find('css', $element);
 
         if (null === $node) {
-            throw new ElementNotFoundException('element', $element);
+            throw new ElementNotFoundException($this->getSession(), 'element', $element);
         }
     }
 
@@ -348,7 +413,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertElementNotOnPage($element)
     {
-        assertNull($this->getSession()->getPage()->find('css', $element));
+        try {
+            assertNull($this->getSession()->getPage()->find('css', $element));
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('There is "%s" element', $element);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -356,16 +426,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function assertElementHref($element, $href)
     {
-        $node = $this->getSession()->getPage()->find('css', $element);
-
-        if (null === $node) {
-            throw new ElementNotFoundException('element', $element);
-        }
-
-        $hrefParts  = parse_url($href);
-        $href       = array_merge(parse_url($this->getParameter('base_url')), $hrefParts);
-
-        assertEquals($href['scheme'].'://'.$href['host'].$href['path'], $node->getAttribute('href'));
+        $value = $href['scheme'].'://'.$href['host'].$href['path'];
+        $this->assertElementAttributeValue($element, 'href', $value);
     }
 
     /**
@@ -377,18 +439,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $node) {
-            throw new ElementNotFoundException('element', $element);
+            throw new ElementNotFoundException($this->getSession(), 'element', $element);
         }
 
-        assertEquals($value, $node->getAttribute($attribute));
-    }
+        $expected = $value;
+        $actual   = $node->getAttribute($attribute);
 
-    /**
-     * @Then /^print last response$/
-     */
-    public function printLastResponse()
-    {
-        $this->printDebug($this->getSession()->getPage()->getContent());
+        try {
+            assertEquals($expected, $actual);
+        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            $message = sprintf('"%s"[%s=%s], but "%s" expected', $element, $attribute, $actual, $expected);
+            throw new ExpectationFailedException($this->getSession(), $e, $message);
+        }
     }
 
     /**
@@ -401,7 +463,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $field);
         }
 
         assertContains($value, $field->getValue());
@@ -417,7 +479,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $value = str_replace('\\"', '"', $value);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $field);
         }
 
         assertNotContains($value, $field->getValue());
@@ -432,7 +494,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $field);
         }
 
         assertTrue($field->isChecked());
@@ -447,10 +509,35 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         $field    = $this->getSession()->getPage()->findField($checkbox);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $field);
         }
 
         assertFalse($field->isChecked());
+    }
+
+    /**
+     * @Then /^print last response$/
+     */
+    public function printLastResponse()
+    {
+        $this->printDebug(
+            $this->getSession()->getCurrentUrl()."\n\n".
+            $this->getSession()->getPage()->getContent()
+        );
+    }
+
+    /**
+     * @Then /^show last response$/
+     */
+    public function showLastResponse()
+    {
+        if (null === $this->getParameter('show_cmd')) {
+            throw new \RuntimeException('Set "show_cmd" parameter in behat.yml to be able to open page in browser (ex.: "show_cmd: firefox %s")');
+        }
+
+        $filename = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid().'.html';
+        file_put_contents($filename, $this->getSession()->getPage()->getContent());
+        system(sprintf($this->getParameter('show_cmd'), $filename));
     }
 
     /**

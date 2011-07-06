@@ -58,7 +58,7 @@ abstract class ActionableElement extends Element
         $link = $this->findLink($locator);
 
         if (null === $link) {
-            throw new ElementNotFoundException('link', $locator);
+            throw new ElementNotFoundException($this->getSession(), 'link', $locator);
         }
 
         $this->getSession()->getDriver()->click($link->getXpath());
@@ -76,7 +76,7 @@ abstract class ActionableElement extends Element
         $button = $this->findButton($locator);
 
         if (null === $button) {
-            throw new ElementNotFoundException('button', $locator);
+            throw new ElementNotFoundException($this->getSession(), 'button', $locator);
         }
 
         $this->getSession()->getDriver()->click($button->getXpath());
@@ -94,7 +94,7 @@ abstract class ActionableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $locator);
         }
 
         $this->getSession()->getDriver()->setValue($field->getXpath(), $value);
@@ -112,7 +112,7 @@ abstract class ActionableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $locator);
         }
 
         $this->getSession()->getDriver()->check($field->getXpath());
@@ -130,7 +130,7 @@ abstract class ActionableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $locator);
         }
 
         $this->getSession()->getDriver()->uncheck($field->getXpath());
@@ -148,7 +148,7 @@ abstract class ActionableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $locator);
         }
 
         $this->getSession()->getDriver()->selectOption($field->getXpath(), $value);
@@ -166,7 +166,7 @@ abstract class ActionableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException('field', $field);
+            throw new ElementNotFoundException($this->getSession(), 'field', $locator);
         }
 
         $this->getSession()->getDriver()->attachFile($field->getXpath(), $path);
