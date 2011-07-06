@@ -30,7 +30,7 @@ class SahiDriver implements DriverInterface
     private $session;
 
     /**
-     * Initialie Sahi driver.
+     * Initializes Sahi driver.
      *
      * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
      * @param   Behat\SahiClient\Client     $client         Sahi client instance
