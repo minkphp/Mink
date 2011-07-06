@@ -22,11 +22,11 @@ class ExpectationFailedException extends Exception
     /**
      * Initializes exception.
      *
+     * @param   string              $message    optional message
      * @param   Behat\Mink\Session  $session    session instance
      * @param   Exception           $exception  expectation exception
-     * @param   string              $message    optional message
      */
-    public function __construct(Session $session, \Exception $exception, $message = null)
+    public function __construct($message = null, Session $session, \Exception $exception = null)
     {
         parent::__construct($message ?: $exception->getMessage(), $session);
     }

@@ -254,7 +254,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current page is "%s", but "%s" expected', $actual, $expected);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -275,7 +275,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertRegExp($pattern, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current page "%s", does not matches "%s" pattern', $actual, $pattern);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -289,7 +289,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($actual, $code);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current response code is %d, but %d expected', $actual, $code);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -305,7 +305,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is no "%s" text', $expected);
-            throw new PlainTextResponseException($this->getSession(), $e, $message);
+            throw new PlainTextResponseException($message, $this->getSession(), $e);
         }
     }
 
@@ -321,7 +321,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNotContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is "%s" text', $expected);
-            throw new PlainTextResponseException($this->getSession(), $e, $message);
+            throw new PlainTextResponseException($message, $this->getSession(), $e);
         }
     }
 
@@ -337,7 +337,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is no "%s" content', $expected);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -353,7 +353,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNotContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is "%s" content', $expected);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -375,7 +375,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertContains($text, $node->getPlainText());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is no "%s" text in "%s" element', $text, $element);
-            throw new ElementTextException($this->getSession(), $node, $e, $message);
+            throw new ElementTextException($message, $this->getSession(), $node, $e);
         }
     }
 
@@ -397,7 +397,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertContains($value, $node->getText());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is no "%s" content in "%s" element', $value, $element);
-            throw new ElementContentException($this->getSession(), $node, $e, $message);
+            throw new ElementContentException($message, $this->getSession(), $node, $e);
         }
     }
 
@@ -424,7 +424,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNull($this->getSession()->getPage()->find('css', $element));
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('There is "%s" element', $element);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 
@@ -458,7 +458,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('"%s"[%s=%s], but "%s" expected', $element, $attribute, $actual, $expected);
-            throw new ExpectationFailedException($this->getSession(), $e, $message);
+            throw new ExpectationFailedException($message, $this->getSession(), $e);
         }
     }
 

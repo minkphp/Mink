@@ -27,9 +27,12 @@ abstract class Exception extends \Exception
     private $session;
 
     /**
-     * Initializes exception.
+     * Initializes Mink exception.
      *
-     * @param   Session $session
+     * @param   string              $message
+     * @param   Behat\Mink\Session  $session
+     * @param   integer             $code
+     * @param   \Exception          $previous
      */
     public function __construct($message, Session $session = null, $code = 0, \Exception $previous = null)
     {

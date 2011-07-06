@@ -44,7 +44,7 @@ class ElementNotFoundException extends Exception
 
         $message .= 'not found';
 
-        parent::__construct($message, $session, 0);
+        parent::__construct($message, $session);
     }
 
     /**

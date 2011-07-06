@@ -26,7 +26,7 @@ class UnsupportedByDriverException extends DriverException
      * @param   Behat\Mink\Driver\DriverInterface   $driver     driver instance
      * @param   Exception                           $previous   previous exception
      */
-    public function __construct($title, DriverInterface $driver, $previous = null)
+    public function __construct($title, DriverInterface $driver, \Exception $previous = null)
     {
         $message = sprintf('%s by %s', $title, get_class($driver));
 
