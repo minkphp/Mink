@@ -130,6 +130,10 @@
             <source><![CDATA[/^print last response$/]]></source>
             <target><![CDATA[/^выведи последний ответ сервера$/]]></target>
         </trans-unit>
+        <trans-unit id="show-last-response">
+            <source><![CDATA[/^show last response$/]]></source>
+            <target><![CDATA[/^покажи последний ответ сервера$/]]></target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
