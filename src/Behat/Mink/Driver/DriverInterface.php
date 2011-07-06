@@ -32,7 +32,7 @@ interface DriverInterface
     function start();
 
     /**
-     * Cheks whether driver is started.
+     * Checks whether driver is started.
      *
      * @return  Boolean
      */

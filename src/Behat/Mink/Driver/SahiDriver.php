@@ -30,7 +30,7 @@ class SahiDriver implements DriverInterface
     private $session;
 
     /**
-     * Initialie Sahi driver.
+     * Initialize Sahi driver.
      *
      * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
      * @param   Behat\SahiClient\Client     $client         Sahi client instance
@@ -197,7 +197,6 @@ class SahiDriver implements DriverInterface
     {
         $xpath  = $this->prepareXPath($xpath);
         $type   = $this->getAttribute($xpath, 'type');
-        $value  = null;
 
         if ('radio' === $type) {
             $name = $this->getAttribute($xpath, 'name');
