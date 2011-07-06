@@ -473,7 +473,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
@@ -491,7 +491,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
@@ -508,7 +508,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
@@ -525,7 +525,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 

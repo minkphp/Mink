@@ -69,7 +69,7 @@ class DocumentElement extends ActionableElement
     public function findField($locator)
     {
         return $this->find('named', array(
-            'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'form field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 

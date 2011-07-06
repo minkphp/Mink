@@ -99,7 +99,7 @@ abstract class ActionableElement extends Element
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $locator
+                $this->getSession(), 'form field', 'id|name|label|value', $locator
             );
         }
 
@@ -119,7 +119,7 @@ abstract class ActionableElement extends Element
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $locator
+                $this->getSession(), 'form field', 'id|name|label|value', $locator
             );
         }
 
@@ -139,7 +139,7 @@ abstract class ActionableElement extends Element
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $locator
+                $this->getSession(), 'form field', 'id|name|label|value', $locator
             );
         }
 
@@ -159,7 +159,7 @@ abstract class ActionableElement extends Element
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $locator
+                $this->getSession(), 'form field', 'id|name|label|value', $locator
             );
         }
 
@@ -179,7 +179,7 @@ abstract class ActionableElement extends Element
 
         if (null === $field) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'field', 'id|name|label|value', $locator
+                $this->getSession(), 'form field', 'id|name|label|value', $locator
             );
         }
 

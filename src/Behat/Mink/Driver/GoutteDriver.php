@@ -444,7 +444,7 @@ class GoutteDriver implements DriverInterface
     {
         if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
             throw new ElementNotFoundException(
-                $this->session, 'field', 'xpath', $xpath
+                $this->session, 'form field', 'xpath', $xpath
             );
         }
 
