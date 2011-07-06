@@ -38,8 +38,12 @@ class ElementNotFoundException extends Exception
         }
 
         if (null !== $locator) {
-            $selector = $selector ?: 'locator';
-            $message .= ' with '.$selector.' "' . $locator . '" ';
+            if (null === $selector || in_array($selector, array('css', 'xpath'))) {
+                $selector = 'matching '.($selector ?: 'locator');
+            } else {
+                $selector = 'with '.$selector;
+            }
+            $message .= ' '.$selector.' "' . $locator . '" ';
         }
 
         $message .= 'not found';
@@ -54,7 +58,7 @@ class ElementNotFoundException extends Exception
      */
     public function __toString()
     {
-        return $this->getMessage()." on page:\n\n"
+        return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
              . $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
     }

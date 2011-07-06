@@ -38,7 +38,7 @@ class ExpectationFailedException extends Exception
      */
     public function __toString()
     {
-        return $this->getMessage()." on page:\n\n"
+        return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
              . $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
     }

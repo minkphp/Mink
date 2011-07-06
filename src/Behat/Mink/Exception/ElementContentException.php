@@ -49,7 +49,7 @@ class ElementContentException extends ExpectationFailedException
      */
     public function __toString()
     {
-        return $this->getMessage()." on page:\n\n"
+        return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
              . $this->pipeString($this->trimString($this->element->getText()) . "\n");
     }

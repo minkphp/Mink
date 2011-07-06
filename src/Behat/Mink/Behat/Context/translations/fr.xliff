@@ -79,7 +79,7 @@
             <target><![CDATA[/^l'élement "(?P<element>[^"]*)" devrait contenir "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-element">
-            <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
+            <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|je )devrais voir l'élement "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-link-to">

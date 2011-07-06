@@ -27,7 +27,7 @@ class ElementTextException extends ElementContentException
      */
     public function __toString()
     {
-        return $this->getMessage()." on page:\n\n"
+        return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
              . $this->pipeString($this->trimString($this->element->getPlainText()) . "\n");
     }

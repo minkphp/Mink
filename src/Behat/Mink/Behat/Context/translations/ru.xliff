@@ -107,11 +107,11 @@
             <target><![CDATA[/^(?:|я )должен видеть "(?P<text>(?:[^"]|\\")*)" внутри элемента "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-element">
-            <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
+            <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|я )должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-element">
-            <source><![CDATA[/^(?:|I )should not see "(?P<element>[^"]*)" element$/]]></source>
+            <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|я )не должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-link-to">

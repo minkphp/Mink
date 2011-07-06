@@ -79,11 +79,11 @@
             <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<value>(?:[^"]|\\")*)" という値が含まれていること$/]]></target>
         </trans-unit>
         <trans-unit id="should-see-element">
-            <source><![CDATA[/^(?:|I )should see "(?P<element>[^"]*)" element$/]]></source>
+            <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていること$/]]></target>
         </trans-unit>
         <trans-unit id="should-not-see-element">
-            <source><![CDATA[/^(?:|I )should not see "(?P<element>[^"]*)" element$/]]></source>
+            <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていないこと$/]]></target>
         </trans-unit>
         <trans-unit id="element-should-link-to">
