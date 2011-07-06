@@ -8,7 +8,6 @@ Feature: Mink steps
     Given I am on "basic_form.php"
     When I fill in "first_name" with "Konstantin"
     And I fill in "Kudryashov" for "lastn"
-    Then print last response
     And I press "Save"
     Then I should see "Anket for Konstantin"
     And I should see "Lastname: Kudryashov"
