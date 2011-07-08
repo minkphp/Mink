@@ -248,7 +248,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertPageAddress($page)
     {
         $expected = parse_url($this->locatePath($page), PHP_URL_PATH);
-        $actual   = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+        $expected = preg_replace('/^\/[^\.\/]+\.php/', '', $expected);
+
+        $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+        $actual = preg_replace('/^\/[^\.\/]+\.php/', '', $actual);
 
         try {
             assertEquals($expected, $actual);
