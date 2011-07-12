@@ -134,6 +134,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Opens specified page.
+     *
      * @Given /^(?:|I )am on "(?P<page>[^"]+)"$/
      * @When /^(?:|I )go to "(?P<page>[^"]+)"$/
      */
@@ -143,6 +145,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Reloads current page.
+     *
      * @When /^(?:|I )reload the page$/
      */
     public function reload()
@@ -151,6 +155,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Moves backward one page in history.
+     *
      * @When /^(?:|I )move backward one page$/
      */
     public function back()
@@ -159,6 +165,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Moves forward one page in history
+     *
      * @When /^(?:|I )move forward one page$/
      */
     public function forward()
@@ -167,6 +175,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Presses button with specified id|name|title|alt|value.
+     *
      * @When /^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/
      */
     public function pressButton($button)
@@ -176,6 +186,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Clicks link with specified id|title|alt|text.
+     *
      * @When /^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/
      */
     public function clickLink($link)
@@ -185,6 +197,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Fills in form field with specified id|name|label|value.
+     *
      * @When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
      * @When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
      */
@@ -196,6 +210,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Fills in form fields with provided table.
+     *
      * @When /^(?:|I )fill in the following:$/
      */
     public function fillFields(TableNode $fields)
@@ -206,6 +222,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Selects option in select field with specified id|name|label|value.
+     *
      * @When /^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/
      */
     public function selectOption($select, $option)
@@ -216,6 +234,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks checkbox with specified id|name|label|value.
+     *
      * @When /^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/
      */
     public function checkOption($option)
@@ -225,6 +245,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Unchecks checkbox with specified id|name|label|value.
+     *
      * @When /^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/
      */
     public function uncheckOption($option)
@@ -234,6 +256,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Attaches file to field with specified id|name|label|value.
+     *
      * @When /^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/
      */
     public function attachFileToField($field, $path)
@@ -243,6 +267,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that current page PATH is equal to specified.
+     *
      * @Then /^(?:|I )should be on "(?P<page>[^"]+)"$/
      */
     public function assertPageAddress($page)
@@ -262,6 +288,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that current page PATH matches regular expression.
+     *
      * @Then /^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/
      */
     public function assertUrlRegExp($pattern)
@@ -283,6 +311,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that current page response status is equal to specified.
+     *
      * @Then /^the response status code should be (?P<code>\d+)$/
      */
     public function assertResponseStatus($code)
@@ -297,6 +327,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that page contains specified text.
+     *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertPageContainsText($text)
@@ -313,6 +345,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that page doesn't contains specified text.
+     *
      * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertPageNotContainsText($text)
@@ -329,6 +363,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that HTML response contains specified string.
+     *
      * @Then /^the response should contain "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertResponseContains($text)
@@ -345,6 +381,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that HTML response doesn't contains specified string.
+     *
      * @Then /^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/
      */
     public function assertResponseNotContains($text)
@@ -361,6 +399,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that element with specified CSS contains specified text.
+     *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
      */
     public function assertElementContainsText($element, $text)
@@ -383,6 +423,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that element with specified CSS contains specified HTML.
+     *
      * @Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/
      */
     public function assertElementContains($element, $value)
@@ -405,6 +447,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that element with specified CSS exists on page.
+     *
      * @Then /^(?:|I )should see an? "(?P<element>[^"]*)" element$/
      */
     public function assertElementOnPage($element)
@@ -419,6 +463,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that element with specified CSS doesn't exists on page.
+     *
      * @Then /^(?:|I )should not see an? "(?P<element>[^"]*)" element$/
      */
     public function assertElementNotOnPage($element)
@@ -432,40 +478,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @Then /^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/
-     */
-    public function assertElementHref($element, $href)
-    {
-        $value = $href['scheme'].'://'.$href['host'].$href['path'];
-        $this->assertElementAttributeValue($element, 'href', $value);
-    }
-
-    /**
-     * @Then /^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>(?:[^"]|\\")*)"$/
-     */
-    public function assertElementAttributeValue($element, $attribute, $value)
-    {
-        $node  = $this->getSession()->getPage()->find('css', $element);
-        $value = str_replace('\\"', '"', $value);
-
-        if (null === $node) {
-            throw new ElementNotFoundException(
-                $this->getSession(), 'element', 'css', $element
-            );
-        }
-
-        $expected = $value;
-        $actual   = $node->getAttribute($attribute);
-
-        try {
-            assertEquals($expected, $actual);
-        } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Element matching css "%s" has "%s=%s", but "%s=%s" was expected', $element, $attribute, $actual, $attribute, $expected);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
-        }
-    }
-
-    /**
+     * Checks, that form field with specified id|name|label|value has specified value.
+     *
      * @Then /^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/
      */
     public function assertFieldContains($field, $value)
@@ -489,6 +503,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that form field with specified id|name|label|value doesn't have specified value.
+     *
      * @Then /^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/
      */
     public function assertFieldNotContains($field, $value)
@@ -512,6 +528,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that checkbox with specified in|name|label|value is checked.
+     *
      * @Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/
      */
     public function assertCheckboxChecked($checkbox)
@@ -534,6 +552,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Checks, that checkbox with specified in|name|label|value is unchecked.
+     *
      * @Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/
      */
     public function assertCheckboxNotChecked($checkbox)
@@ -556,6 +576,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Prints last response to console.
+     *
      * @Then /^print last response$/
      */
     public function printLastResponse()
@@ -567,6 +589,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * Opens last response content in browser.
+     *
      * @Then /^show last response$/
      */
     public function showLastResponse()
