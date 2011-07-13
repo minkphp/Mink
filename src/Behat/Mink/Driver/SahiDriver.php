@@ -135,6 +135,16 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::setAuth()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function setAuth($user, $password, $type)
+    {
+        throw new UnsupportedByDriverException('HTTP authentication is not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver

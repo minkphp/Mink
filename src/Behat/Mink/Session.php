@@ -119,6 +119,18 @@ class Session
     }
 
     /**
+     * Set HTTP authentication parameters
+     *
+     * @param string|false $user User name or false disable authentication
+     * @param string $password Password
+     * @param string $type Authentication type
+     */
+    public function setAuth($user, $password = '', $type = 'basic')
+    {
+        $this->driver->setAuth($user, $password, $type);
+    }
+
+    /**
      * Sets specific request header.
      *
      * @param   string  $name
