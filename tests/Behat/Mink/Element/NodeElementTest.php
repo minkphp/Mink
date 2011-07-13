@@ -112,6 +112,18 @@ class NodeElementTest extends ElementTest
         $node->rightClick();
     }
 
+    public function testDoubleClick()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('doubleClick')
+            ->with('elem');
+
+        $node->doubleClick();
+    }
+
     public function testCheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);

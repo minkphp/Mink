@@ -116,6 +116,38 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     */
+    public function reload()
+    {
+        $this->client->reload();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     */
+    public function forward()
+    {
+        $this->client->forward();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::back()
+     */
+    public function back()
+    {
+        $this->client->back();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     */
+    public function setRequestHeader($name, $value)
+    {
+        $this->client->setHeader($name, $value);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
      */
     public function getResponseHeaders()
@@ -233,7 +265,9 @@ class GoutteDriver implements DriverInterface
     public function click($xpath)
     {
         if (!count($nodes = $this->getCrawler()->filterXPath($xpath))) {
-            throw new ElementNotFoundException('link or button', $xpath);
+            throw new ElementNotFoundException(
+                $this->session, 'link or button', 'xpath', $xpath
+            );
         }
         $node = $nodes->eq(0);
 
@@ -271,13 +305,23 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function doubleClick($xpath)
+    {
+        throw new UnsupportedByDriverException('Double-clicking is not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::rightClick()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
      */
     public function rightClick($xpath)
     {
-        throw new UnsupportedByDriverException('Right clicking is not supported', $this);
+        throw new UnsupportedByDriverException('Right-clicking is not supported', $this);
     }
 
     /**
@@ -357,7 +401,7 @@ class GoutteDriver implements DriverInterface
      */
     public function triggerEvent($xpath, $event)
     {
-        throw new UnsupportedByDriverException('Event triggering is not supported', $this);
+        throw new UnsupportedByDriverException('JS event triggering is not supported', $this);
     }
 
     /**
@@ -367,7 +411,7 @@ class GoutteDriver implements DriverInterface
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        throw new UnsupportedByDriverException('Elements dragging is not supported', $this);
+        throw new UnsupportedByDriverException('Element dragging is not supported', $this);
     }
 
     /**
@@ -399,7 +443,9 @@ class GoutteDriver implements DriverInterface
     private function getField($xpath)
     {
         if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
-            throw new ElementNotFoundException('field', $xpath);
+            throw new ElementNotFoundException(
+                $this->session, 'form field', 'xpath', $xpath
+            );
         }
 
         $fieldNode  = $this->getCrawlerNode($crawler);
@@ -408,7 +454,9 @@ class GoutteDriver implements DriverInterface
         do {
             // use the ancestor form element
             if (null === $formNode = $formNode->parentNode) {
-                throw new ElementNotFoundException('form');
+                throw new ElementNotFoundException(
+                    $this->session, 'the form field with xpath "'.$xpath.'" was found, but no form element surrounding that field could be found'
+                );
             }
         } while ('form' != $formNode->nodeName);
 
@@ -422,7 +470,9 @@ class GoutteDriver implements DriverInterface
         // find form button
         $buttonNode = $this->findFormButton($formNode);
         if (null === $buttonNode) {
-            throw new ElementNotFoundException('form submit button');
+            throw new ElementNotFoundException(
+                $this->session, 'form submit button for field with xpath "'.$xpath.'"'
+            );
         }
 
         $base = $this->client->getCrawler()->filter('base')->extract(array('href'));

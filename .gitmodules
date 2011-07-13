@@ -1,6 +1,6 @@
 [submodule "vendor/Goutte"]
 	path = vendor/Goutte
-	url = git://github.com/everzet/Goutte.git
+	url = git://github.com/fabpot/Goutte.git
 [submodule "vendor/Symfony/Component/CssSelector"]
 	path = vendor/Symfony/Component/CssSelector
 	url = git://github.com/symfony/CssSelector.git
@@ -13,3 +13,12 @@
 [submodule "vendor/Symfony/Component/Finder"]
 	path = vendor/Symfony/Component/Finder
 	url = git://github.com/symfony/Finder
+[submodule "vendor/Symfony/Component/BrowserKit"]
+	path = vendor/Symfony/Component/BrowserKit
+	url = git://github.com/symfony/BrowserKit.git
+[submodule "vendor/Symfony/Component/Process"]
+	path = vendor/Symfony/Component/Process
+	url = git://github.com/symfony/Process.git
+[submodule "vendor/Symfony/Component/DomCrawler"]
+	path = vendor/Symfony/Component/DomCrawler
+	url = git://github.com/symfony/DomCrawler.git

@@ -24,6 +24,14 @@ class GoutteDriverTest extends DriverTest
         $this->assertEquals('Sorry, page not found', static::$session->getPage()->getContent());
     }
 
+    public function testHeaders()
+    {
+        static::$session->setRequestHeader('Accept-Language', 'fr');
+        static::$session->visit(static::$host . '/headers.php');
+
+        $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', static::$session->getPage()->getContent());
+    }
+
     protected static function configureDriver()
     {
         return new GoutteDriver();

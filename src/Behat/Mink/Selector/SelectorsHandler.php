@@ -48,7 +48,7 @@ class SelectorsHandler
     }
 
     /**
-     * Checks whether selecter with specified name is registered on handler.
+     * Checks whether selector with specified name is registered on handler.
      *
      * @param   string  $name   selector engine name
      *

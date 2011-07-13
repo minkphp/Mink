@@ -30,7 +30,7 @@ class SahiDriver implements DriverInterface
     private $session;
 
     /**
-     * Initialie Sahi driver.
+     * Initializes Sahi driver.
      *
      * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
      * @param   Behat\SahiClient\Client     $client         Sahi client instance
@@ -111,13 +111,47 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     */
+    public function reload()
+    {
+        $this->client->navigateTo($this->getCurrentUrl(), true);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     */
+    public function forward()
+    {
+        $this->executeScript('history.forward()');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::back()
+     */
+    public function back()
+    {
+        $this->executeScript('history.back()');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function setRequestHeader($name, $value)
+    {
+        throw new UnsupportedByDriverException('Request headers settings are not supported', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
      */
     public function getResponseHeaders()
     {
-        throw new UnsupportedByDriverException('Response headers are not supported', $this);
+        throw new UnsupportedByDriverException('Response headers reading is not supported', $this);
     }
 
     /**
@@ -127,7 +161,7 @@ class SahiDriver implements DriverInterface
      */
     public function getStatusCode()
     {
-        throw new UnsupportedByDriverException('Status code is not supported', $this);
+        throw new UnsupportedByDriverException('Status code reading is not supported', $this);
     }
 
     /**
@@ -295,6 +329,14 @@ JS;
     public function click($xpath)
     {
         $this->client->findByXPath($this->prepareXPath($xpath))->click();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     */
+    public function doubleClick($xpath)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->doubleClick();
     }
 
     /**

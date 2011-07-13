@@ -505,7 +505,7 @@ XPATH;
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
-            ->with('/html')
+            ->with('//html')
             ->will($this->onConsecutiveCalls(array(), array($node)));
 
         $this->assertNull($this->document->getText());

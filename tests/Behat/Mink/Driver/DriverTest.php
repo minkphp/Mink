@@ -16,6 +16,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         static::$host    = $_SERVER['WEB_FIXTURES_HOST'];
         static::$session = new Session(static::configureDriver(), new SelectorsHandler());
         static::$session->start();
+        static::$session->visit(static::$host . '/index.php');
     }
 
     public static function tearDownAfterClass()
@@ -34,6 +35,28 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
     {
         static::$session->visit(static::$host . '/redirector.php');
         $this->assertEquals(static::$host . '/redirect_destination.php', static::$session->getCurrentUrl());
+    }
+
+    public function testPageControlls()
+    {
+        static::$session->visit(static::$host . '/randomizer.php');
+        $number1 = static::$session->getPage()->find('css', '#number')->getText();
+
+        static::$session->reload();
+        $number2 = static::$session->getPage()->find('css', '#number')->getText();
+
+        $this->assertNotEquals($number1, $number2);
+
+        static::$session->visit(static::$host . '/links.php');
+        static::$session->getPage()->clickLink('Random number page');
+
+        $this->assertEquals(static::$host . '/randomizer.php', static::$session->getCurrentUrl());
+
+        static::$session->back();
+        $this->assertEquals(static::$host . '/links.php', static::$session->getCurrentUrl());
+
+        static::$session->forward();
+        $this->assertEquals(static::$host . '/randomizer.php', static::$session->getCurrentUrl());
     }
 
     public function testIndexPage()

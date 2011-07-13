@@ -32,7 +32,7 @@ interface DriverInterface
     function start();
 
     /**
-     * Cheks whether driver is started.
+     * Checks whether driver is started.
      *
      * @return  Boolean
      */
@@ -61,6 +61,29 @@ interface DriverInterface
      * @return  string
      */
     function getCurrentUrl();
+
+    /**
+     * Reloads current page.
+     */
+    function reload();
+
+    /**
+     * Moves browser forward 1 page.
+     */
+    function forward();
+
+    /**
+     * Moves browser backward 1 page.
+     */
+    function back();
+
+    /**
+     * Sets specific request header on client.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setRequestHeader($name, $value);
 
     /**
      * Returns last response headers.
@@ -173,6 +196,13 @@ interface DriverInterface
      * @param   string  $xpath
      */
     function click($xpath);
+
+    /**
+     * Double-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function doubleClick($xpath);
 
     /**
      * Right-clicks button or link located by it's XPath query.

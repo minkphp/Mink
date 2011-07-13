@@ -119,6 +119,17 @@ class Session
     }
 
     /**
+     * Sets specific request header.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    public function setRequestHeader($name, $value)
+    {
+        $this->driver->setRequestHeader($name, $value);
+    }
+
+    /**
      * Returns all response headers.
      *
      * @return  array
@@ -146,6 +157,30 @@ class Session
     public function getCurrentUrl()
     {
         return $this->driver->getCurrentUrl();
+    }
+
+    /**
+     * Reloads current session page.
+     */
+    public function reload()
+    {
+        $this->driver->reload();
+    }
+
+    /**
+     * Moves backward 1 page in history.
+     */
+    public function back()
+    {
+        $this->driver->back();
+    }
+
+    /**
+     * Moves forward 1 page in history.
+     */
+    public function forward()
+    {
+        $this->driver->forward();
     }
 
     /**
