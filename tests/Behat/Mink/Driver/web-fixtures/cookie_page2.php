@@ -7,6 +7,6 @@
     </script>
 </head>
 <body>
-    Previous cookie: <?php echo isset($_COOKIE['server_cookie']) ? $_COOKIE['server_cookie'] : 'NO'; ?>
+    Previous cookie: <?php echo isset($_COOKIE['srvr_cookie']) ? $_COOKIE['srvr_cookie'] : 'NO'; ?>
 </body>
 </html>

@@ -176,7 +176,7 @@ class SahiDriver implements DriverInterface
     public function getCookie($name)
     {
         try {
-            return $this->evaluateScript('_sahi._cookie("server_cookie")');
+            return $this->evaluateScript(sprintf('_sahi._cookie("%s")', $name));
         } catch (ConnectionException $e) {}
     }
 
