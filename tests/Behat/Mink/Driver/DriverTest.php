@@ -49,6 +49,25 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
     }
 
+    public function testSessionPersistsBetweenRequests()
+    {
+        static::$session->visit(static::$host . '/session_test.php');
+        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $sessionId = $node->getText();
+
+        static::$session->visit(static::$host . '/session_test.php');
+        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->assertEquals($sessionId, $node->getText());
+
+        static::$session->visit(static::$host . '/session_test.php?login');
+        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->assertNotEquals($sessionId, $newSessionId = $node->getText());
+
+        static::$session->visit(static::$host . '/session_test.php');
+        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->assertEquals($newSessionId, $node->getText());
+    }
+
     public function testPageControlls()
     {
         static::$session->visit(static::$host . '/randomizer.php');
