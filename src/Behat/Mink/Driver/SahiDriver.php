@@ -165,6 +165,7 @@ class SahiDriver implements DriverInterface
                 $this->executeScript(sprintf('_sahi._deleteCookie("%s")', $name));
             } catch (ConnectionException $e) {}
         } else {
+            $value = str_replace('"', '\\"', $value);
             $this->executeScript(sprintf('_sahi._createCookie("%s", "%s")', $name, $value));
         }
     }
