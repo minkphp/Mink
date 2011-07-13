@@ -41,10 +41,21 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
     {
         static::$session->visit(static::$host . '/cookie_page2.php');
         $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertNull(static::$session->getCookie('server_cookie'));
+
+        static::$session->setCookie('server_cookie', 'client cookie set');
+        static::$session->reload();
+        $this->assertContains('Previous cookie: client cookie set', static::$session->getPage()->getPlainText());
+        $this->assertEquals('client cookie set', static::$session->getCookie('server_cookie'));
+
+        static::$session->setCookie('server_cookie', null);
+        static::$session->reload();
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
 
         static::$session->visit(static::$host . '/cookie_page1.php');
         static::$session->visit(static::$host . '/cookie_page2.php');
         $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getPlainText());
+        static::$session->setCookie('server_cookie', null);
         static::$session->reload();
         $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
     }

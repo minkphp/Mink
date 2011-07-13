@@ -2,7 +2,8 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\SahiClient\Client;
+use Behat\SahiClient\Client,
+    Behat\SahiClient\Exception\ConnectionException;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -152,6 +153,30 @@ class SahiDriver implements DriverInterface
     public function getResponseHeaders()
     {
         throw new UnsupportedByDriverException('Response headers reading is not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setCookie()
+     */
+    public function setCookie($name, $value = null)
+    {
+        if (null === $value) {
+            try {
+                $this->executeScript(sprintf('_sahi._deleteCookie("%s")', $name));
+            } catch (ConnectionException $e) {}
+        } else {
+            $this->executeScript(sprintf('_sahi._createCookie("%s", "%s")', $name, $value));
+        }
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getCookie()
+     */
+    public function getCookie($name)
+    {
+        try {
+            return $this->evaluateScript('_sahi._cookie("server_cookie")');
+        } catch (ConnectionException $e) {}
     }
 
     /**

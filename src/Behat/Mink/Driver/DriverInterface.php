@@ -93,6 +93,23 @@ interface DriverInterface
     function getResponseHeaders();
 
     /**
+     * Sets cookie.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setCookie($name, $value = null);
+
+    /**
+     * Returns cookie by name.
+     *
+     * @param   string  $name
+     *
+     * @return  string|null
+     */
+    function getCookie($name);
+
+    /**
      * Returns last response status code.
      *
      * @return  integer
