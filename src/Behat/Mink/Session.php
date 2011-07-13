@@ -140,6 +140,29 @@ class Session
     }
 
     /**
+     * Sets cookie.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    public function setCookie($name, $value = null)
+    {
+        $this->driver->setCookie($name, $value);
+    }
+
+    /**
+     * Returns cookie by name.
+     *
+     * @param   string  $name
+     *
+     * @return  string|null
+     */
+    public function getCookie($name)
+    {
+        return $this->driver->getCookie($name);
+    }
+
+    /**
      * Returns response status code.
      *
      * @return  integer

@@ -4,6 +4,7 @@ namespace Behat\Mink\Driver;
 
 use Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Client,
+    Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
     Symfony\Component\DomCrawler\Field\ChoiceFormField;
 
@@ -153,6 +154,36 @@ class GoutteDriver implements DriverInterface
     public function getResponseHeaders()
     {
         return $this->client->getResponse()->getHeaders();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setCookie()
+     */
+    public function setCookie($name, $value = null)
+    {
+        $jar = $this->client->getCookieJar();
+
+        if (null === $value) {
+            if (null !== $jar->get($name)) {
+                $jar->expire($name);
+            }
+
+            return;
+        }
+
+        $jar->set(new Cookie($name, $value));
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getCookie()
+     */
+    public function getCookie($name)
+    {
+        $jar = $this->client->getCookieJar();
+
+        if (null !== $cookie = $jar->get($name)) {
+            return $cookie->getValue();
+        }
     }
 
     /**
