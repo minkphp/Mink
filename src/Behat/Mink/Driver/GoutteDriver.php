@@ -140,11 +140,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setAuth()
+     * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
      */
-    public function setAuth($user, $password, $type)
+    public function setBasicAuth($user, $password)
     {
-        $this->client->setAuth($user, $password, $type);
+        $this->client->setAuth($user, $password);
     }
 
     /**

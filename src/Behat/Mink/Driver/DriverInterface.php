@@ -78,13 +78,12 @@ interface DriverInterface
     function back();
 
     /**
-     * Set HTTP authentication parameters
+     * Set HTTP Basic authentication parameters
      *
      * @param string|false $user User name or false disable authentication
      * @param string $password Password
-     * @param string $type Authentication type
      */
-    function setAuth($user, $password, $type);
+    function setBasicAuth($user, $password);
 
     /**
      * Sets specific request header on client.
