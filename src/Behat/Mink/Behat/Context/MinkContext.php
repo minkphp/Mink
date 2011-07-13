@@ -2,6 +2,8 @@
 
 namespace Behat\Mink\Behat\Context;
 
+use Behat\Gherkin\Node\TableNode;
+
 use Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
     Behat\Behat\Event\ScenarioEvent;
@@ -200,7 +202,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function fillFields(TableNode $fields)
     {
-        foreach ($fieldsTable->getRowsHash() as $field => $value) {
+        foreach ($fields->getRowsHash() as $field => $value) {
             $this->fillField($field, $value);
         }
     }
