@@ -67,13 +67,13 @@ abstract class ActionableElement extends Element
     }
 
     /**
-     * Clicks button (input[type=submit|image|button], button) with specified locator.
+     * Presses button (input[type=submit|image|button], button) with specified locator.
      *
      * @param   string  $locator    button id, value or alt
      *
      * @throws  Behat\Mink\Exception\ElementNotFoundException
      */
-    public function clickButton($locator)
+    public function pressButton($locator)
     {
         $button = $this->findButton($locator);
 
