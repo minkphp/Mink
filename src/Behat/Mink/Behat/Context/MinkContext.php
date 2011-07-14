@@ -94,6 +94,12 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getMink()
     {
+        if (null === self::$minkInstance) {
+            throw new \RuntimeException(
+                'Mink is not initialized. Forgot to call parent context constructor?'
+            );
+        }
+
         return self::$minkInstance;
     }
 
