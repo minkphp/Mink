@@ -337,9 +337,9 @@ XPATH;
             ->method('click')
             ->with($xpath);
 
-        $this->document->clickButton('some button');
+        $this->document->pressButton('some button');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        $this->document->clickButton('some button');
+        $this->document->pressButton('some button');
     }
 
     public function testFillField()

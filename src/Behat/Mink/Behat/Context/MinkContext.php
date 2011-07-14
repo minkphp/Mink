@@ -190,7 +190,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function pressButton($button)
     {
         $button = str_replace('\\"', '"', $button);
-        $this->getSession()->getPage()->clickButton($button);
+        $this->getSession()->getPage()->pressButton($button);
     }
 
     /**

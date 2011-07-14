@@ -15,7 +15,7 @@ class SahiDriverTest extends DriverTest
         static::$session->visit(static::$host . '/aria_roles.php');
 
         static::$session->wait(5000, '$("#toggle-element").is(":visible") === false');
-        static::$session->getPage()->clickButton('Toggle');
+        static::$session->getPage()->pressButton('Toggle');
         static::$session->wait(5000, '$("#toggle-element").is(":visible") === true');
 
         static::$session->getPage()->clickLink('Go to Index');
