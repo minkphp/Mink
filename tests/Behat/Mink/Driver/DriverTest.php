@@ -60,6 +60,45 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
     }
 
+    public function testReset()
+    {
+        static::$session->visit(static::$host . '/cookie_page1.php');
+        static::$session->visit(static::$host . '/cookie_page2.php');
+        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getPlainText());
+
+        static::$session->reset();
+        static::$session->visit(static::$host . '/cookie_page2.php');
+
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+
+        static::$session->setCookie('srvr_cookie', 'test_cookie');
+        static::$session->visit(static::$host . '/cookie_page2.php');
+        $this->assertContains('Previous cookie: test_cookie', static::$session->getPage()->getPlainText());
+        static::$session->reset();
+        static::$session->visit(static::$host . '/cookie_page2.php');
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+
+        static::$session->setCookie('client_cookie1', 'some_val');
+        static::$session->setCookie('client_cookie2', 123);
+        static::$session->visit(static::$host . '/session_test.php');
+        static::$session->visit(static::$host . '/cookie_page1.php');
+
+        static::$session->visit(static::$host . '/print_cookies.php');
+        $this->assertContains(
+            'Array ( [client_cookie1] => some_val [client_cookie2] => 123 [_SESS] =>',
+            static::$session->getPage()->getPlainText()
+        );
+        $this->assertContains(
+            ' [srvr_cookie] => srv_var_is_set )', static::$session->getPage()->getPlainText()
+        );
+
+        static::$session->reset();
+        static::$session->visit(static::$host . '/print_cookies.php');
+        $this->assertContains(
+            'Array ( )', static::$session->getPage()->getPlainText()
+        );
+    }
+
     public function testSessionPersistsBetweenRequests()
     {
         static::$session->visit(static::$host . '/session_test.php');
