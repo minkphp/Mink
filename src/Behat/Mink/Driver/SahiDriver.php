@@ -107,7 +107,7 @@ class SahiDriver implements DriverInterface
      */
     public function visit($url)
     {
-        $this->client->navigateTo($url);
+        $this->client->navigateTo($url, true);
     }
 
     /**
