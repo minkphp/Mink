@@ -632,6 +632,14 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
+     * @AfterScenario
+     */
+    public function resetMinkSession($event)
+    {
+        $this->getMink()->resetSessions();
+    }
+
+    /**
      * Returns list of definition translation resources paths.
      *
      * @return  array
