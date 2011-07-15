@@ -35,7 +35,7 @@ class ElementContentException extends ExpectationFailedException
      * @param   Behat\Mink\Element\Element  $element    element
      * @param   Exception                   $exception  expectation exception
      */
-    public function __construct($message = null, Session $session, Element $element, \Exception $exception)
+    public function __construct($message = null, Session $session, Element $element, \Exception $exception = null)
     {
         $this->element = $element;
 
