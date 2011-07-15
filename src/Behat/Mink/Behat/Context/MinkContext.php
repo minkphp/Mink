@@ -41,7 +41,7 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 class MinkContext extends BehatContext implements TranslatedContextInterface
 {
-    private static $minkInstance;
+    private $minkInstance;
     private $parameters;
 
     /**
@@ -67,10 +67,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             )
         ), $parameters);
 
-        if (null === self::$minkInstance) {
-            self::$minkInstance = new Mink();
-            $this->registerSessions(self::$minkInstance);
-        }
+        $this->minkInstance = new Mink();
+        $this->registerSessions($this->minkInstance);
     }
 
     /**
@@ -94,13 +92,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getMink()
     {
-        if (null === self::$minkInstance) {
+        if (null === $this->minkInstance) {
             throw new \RuntimeException(
                 'Mink is not initialized. Forgot to call parent context constructor?'
             );
         }
 
-        return self::$minkInstance;
+        return $this->minkInstance;
     }
 
     /**
