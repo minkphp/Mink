@@ -266,11 +266,12 @@ class SahiDriver implements DriverInterface
                 $function = <<<JS
 function(){
     for (var i = 0; i < document.forms.length; i++) {
-        if (document.forms[i].{$name}) {
+        if (document.forms[i].elements['{$name}']) {
             var form  = document.forms[i];
-            var value = form.{$name}[0].value;
-            for (var f = 0; f < form.{$name}.length; f++) {
-                var item = form.{$name}[f];
+            var elements = form.elements['{$name}'];
+            var value = elements[0].value;
+            for (var f = 0; f < elements.length; f++) {
+                var item = elements[f];
                 if (item.checked) {
                     return item.value;
                 }
@@ -470,11 +471,12 @@ JS;
             $function = <<<JS
 function(){
 for (var i = 0; i < document.forms.length; i++) {
-    if (document.forms[i].{$name}) {
+    if (document.forms[i].elements['{$name}']) {
         var form  = document.forms[i];
-        var value = form.{$name}[0].value;
-        for (var f = 0; f < form.{$name}.length; f++) {
-            var item = form.{$name}[f];
+        var elements = form.elements['{$name}'];
+        var value = elements[0].value;
+        for (var f = 0; f < elements.length; f++) {
+            var item = elements[f];
             if ("{$value}" == item.value) {
                 item.checked = true;
             }
