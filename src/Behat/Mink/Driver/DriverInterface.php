@@ -151,6 +151,15 @@ interface DriverInterface
     function getText($xpath);
 
     /**
+     * Returns element's html by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
+    function getHtml($xpath);
+
+    /**
      * Returns element's attribute by it's XPath query.
      *
      * @param   string  $xpath

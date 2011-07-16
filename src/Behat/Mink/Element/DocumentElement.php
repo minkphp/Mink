@@ -50,20 +50,6 @@ class DocumentElement extends ActionableElement
     }
 
     /**
-     * Returns page text (inside HTML tag).
-     *
-     * @return  string|null
-     */
-    public function getText()
-    {
-        $html = $this->find('xpath', $this->getXpath());
-
-        if (null !== $html) {
-            return $html->getText();
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function findField($locator)

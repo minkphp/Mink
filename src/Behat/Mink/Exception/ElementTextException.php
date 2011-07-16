@@ -29,6 +29,6 @@ class ElementTextException extends ElementContentException
     {
         return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
-             . $this->pipeString($this->trimString($this->element->getPlainText()) . "\n");
+             . $this->pipeString($this->trimString($this->element->getText()) . "\n");
     }
 }

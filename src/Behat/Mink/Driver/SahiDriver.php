@@ -250,6 +250,14 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::getHtml()
+     */
+    public function getHtml($xpath)
+    {
+        return $this->client->findByXPath($this->prepareXPath($xpath))->getHTML();
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::getAttribute()
      */
     public function getAttribute($xpath, $name)

@@ -494,21 +494,12 @@ XPATH;
 
     public function testGetText()
     {
-        $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $node
+        $this->session->getDriver()
             ->expects($this->once())
             ->method('getText')
-            ->will($this->returnValue($ret = 'page text'));
-
-        $this->session->getDriver()
-            ->expects($this->exactly(2))
-            ->method('find')
             ->with('//html')
-            ->will($this->onConsecutiveCalls(array(), array($node)));
+            ->will($this->returnValue('val1'));
 
-        $this->assertNull($this->document->getText());
-        $this->assertEquals($ret, $this->document->getText());
+        $this->assertEquals('val1', $this->document->getText());
     }
 }

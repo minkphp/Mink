@@ -234,7 +234,25 @@ class GoutteDriver implements DriverInterface
      */
     public function getText($xpath)
     {
-        return $this->getCrawler()->filterXPath($xpath)->eq(0)->text();
+        $text = $this->getCrawler()->filterXPath($xpath)->eq(0)->text();
+        $text = str_replace("\n", ' ', $text);
+        $text = preg_replace('/ {2,}/', ' ', $text);
+
+        return trim($text);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getHtml()
+     */
+    public function getHtml($xpath)
+    {
+        $node = $this->getCrawlerNode($this->getCrawler()->filterXPath($xpath)->eq(0));
+        $text = $node->ownerDocument->saveXML($node);
+
+        // cut the tag itself (making innerHTML out of outerHTML)
+        $text = preg_replace('/^\<[^\>]+\>|\<[^\>]+\>$/', '', $text);
+
+        return $text;
     }
 
     /**

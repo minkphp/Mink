@@ -70,28 +70,22 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns element text.
+     * Returns element text (inside tag).
      *
      * @return  string|null
      */
-    abstract public function getText();
+    public function getText()
+    {
+        return $this->getSession()->getDriver()->getText($this->getXpath());
+    }
 
     /**
-     * Returns element text with trimmed tags and non-printable chars.
+     * Returns element html.
      *
      * @return  string|null
      */
-    public function getPlainText()
+    public function getHtml()
     {
-        $text = $this->getText();
-
-        if (null !== $text) {
-            $text = str_replace("\n", ' ', $text);
-            $text = preg_replace('/\<br *\/?\>/i', "\n", $text);
-            $text = strip_tags($text);
-            $text = preg_replace('/ {2,}/', ' ', $text);
-
-            return $text;
-        }
+        return $this->getSession()->getDriver()->getHtml($this->getXpath());
     }
 }

@@ -45,16 +45,6 @@ class NodeElement extends Element
     }
 
     /**
-     * Returns element text (inside tag).
-     *
-     * @return  string|null
-     */
-    public function getText()
-    {
-        return trim($this->getSession()->getDriver()->getText($this->getXpath()));
-    }
-
-    /**
      * Returns element value.
      *
      * @return  mixed

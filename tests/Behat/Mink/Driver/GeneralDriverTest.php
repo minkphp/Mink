@@ -15,44 +15,44 @@ abstract class GeneralDriverTest extends DriverTest
     public function testCookie()
     {
         static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
         $this->assertNull(static::$session->getCookie('srvr_cookie'));
 
         static::$session->setCookie('srvr_cookie', 'client cookie set');
         static::$session->reload();
-        $this->assertContains('Previous cookie: client cookie set', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: client cookie set', static::$session->getPage()->getText());
         $this->assertEquals('client cookie set', static::$session->getCookie('srvr_cookie'));
 
         static::$session->setCookie('srvr_cookie', null);
         static::$session->reload();
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
 
         static::$session->visit(static::$host . '/cookie_page1.php');
         static::$session->visit(static::$host . '/cookie_page2.php');
 
-        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getText());
         static::$session->setCookie('srvr_cookie', null);
         static::$session->reload();
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
     }
 
     public function testReset()
     {
         static::$session->visit(static::$host . '/cookie_page1.php');
         static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getText());
 
         static::$session->reset();
         static::$session->visit(static::$host . '/cookie_page2.php');
 
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
 
         static::$session->setCookie('srvr_cookie', 'test_cookie');
         static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: test_cookie', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: test_cookie', static::$session->getPage()->getText());
         static::$session->reset();
         static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getPlainText());
+        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
 
         static::$session->setCookie('client_cookie1', 'some_val');
         static::$session->setCookie('client_cookie2', 123);
@@ -62,16 +62,16 @@ abstract class GeneralDriverTest extends DriverTest
         static::$session->visit(static::$host . '/print_cookies.php');
         $this->assertContains(
             'Array ( [client_cookie1] => some_val [client_cookie2] => 123 [_SESS] =>',
-            static::$session->getPage()->getPlainText()
+            static::$session->getPage()->getText()
         );
         $this->assertContains(
-            ' [srvr_cookie] => srv_var_is_set )', static::$session->getPage()->getPlainText()
+            ' [srvr_cookie] => srv_var_is_set )', static::$session->getPage()->getText()
         );
 
         static::$session->reset();
         static::$session->visit(static::$host . '/print_cookies.php');
         $this->assertContains(
-            'Array ( )', static::$session->getPage()->getPlainText()
+            'Array ( )', static::$session->getPage()->getText()
         );
     }
 
@@ -158,12 +158,18 @@ abstract class GeneralDriverTest extends DriverTest
 
         $element = $page->find('css', '#some-element');
 
-        $this->assertEquals('some interesting text', $element->getPlainText());
+        $this->assertEquals('some very interesting text', $element->getText());
+        $this->assertEquals(
+            "\n            some <div>very\n            </div>\n".
+            "<em>interesting</em>      text\n        ",
+            $element->getHtml()
+        );
+
         $this->assertTrue($element->hasAttribute('data-href'));
         $this->assertFalse($element->hasAttribute('data-url'));
         $this->assertEquals('http://mink.behat.org', $element->getAttribute('data-href'));
         $this->assertNull($element->getAttribute('data-url'));
-        $this->assertEquals('span', $element->getTagName());
+        $this->assertEquals('div', $element->getTagName());
     }
 
     public function testLinks()
