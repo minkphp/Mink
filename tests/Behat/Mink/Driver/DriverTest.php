@@ -24,7 +24,7 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         static::$session->stop();
     }
 
-    public function setUp()
+    public function teardown()
     {
         static::$session->reset();
     }

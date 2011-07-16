@@ -71,6 +71,15 @@ class Session
     }
 
     /**
+     * Restart session driver.
+     */
+    public function restart()
+    {
+        $this->driver->stop();
+        $this->driver->start();
+    }
+
+    /**
      * Reset session driver.
      */
     public function reset()
