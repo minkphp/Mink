@@ -101,14 +101,14 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
 
     public function testHttpOnlyCookieIsDeleted()
     {
-        static::$session->reset();
+        static::$session->restart();
         static::$session->visit(static::$host . '/cookie_page3.php');
         $this->assertEquals('Has Cookie: false', static::$session->getPage()->findById('cookie-status')->getText());
 
         static::$session->reload();
         $this->assertEquals('Has Cookie: true', static::$session->getPage()->findById('cookie-status')->getText());
 
-        static::$session->reset();
+        static::$session->restart();
         static::$session->visit(static::$host . '/cookie_page3.php');
         $this->assertEquals('Has Cookie: false', static::$session->getPage()->findById('cookie-status')->getText());
     }
