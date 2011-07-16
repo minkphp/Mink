@@ -107,6 +107,18 @@ class Mink
     }
 
     /**
+     * Restart all started sessions.
+     */
+    public function restartSessions()
+    {
+        foreach ($this->sessions as $name => $session) {
+            if ($session->isStarted()) {
+                $session->restart();
+            }
+        }
+    }
+
+    /**
      * Returns registered session by it's name or active one.
      *
      * @param   string  $name   session name

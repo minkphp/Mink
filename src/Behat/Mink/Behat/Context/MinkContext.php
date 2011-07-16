@@ -61,7 +61,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'server_parameters' => array()
             ),
             'sahi' => array(
-                'sid'  => uniqid(),
+                'sid'  => null,
                 'host' => 'localhost',
                 'port' => 9999
             )
@@ -618,9 +618,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function prepareMinkSession($event)
     {
         $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
+        $feature  = $scenario->getFeature();
         $session  = $this->getParameter('default_session');
 
-        foreach ($scenario->getTags() as $tag) {
+        foreach (array_merge($scenario->getTags(), $feature->getTags()) as $tag) {
             if ('javascript' === $tag) {
                 $session = 'sahi';
             } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
@@ -628,15 +629,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             }
         }
 
-        $this->getMink()->setDefaultSessionName($session);
-    }
+        if ($scenario->hasTag('insulated') || $feature->hasTag('insulated')) {
+            $this->getMink()->restartSessions();
+        } else {
+            $this->getMink()->resetSessions();
+        }
 
-    /**
-     * @AfterScenario
-     */
-    public function resetMinkSession($event)
-    {
-        $this->getMink()->resetSessions();
+        $this->getMink()->setDefaultSessionName($session);
     }
 
     /**
@@ -695,7 +694,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     {
         return new SahiDriver(
             $browser,
-            new SahiClient(new SahiConnection($connection['sid'], $connection['host'], $connection['port']))
+            new SahiClient(new SahiConnection(
+                $connection['sid'], $connection['host'], $connection['port']
+            ))
         );
     }
 }
