@@ -195,7 +195,7 @@ abstract class GeneralDriverTest extends DriverTest
         $this->assertEquals('Lastname', $lastname->getValue());
 
         $firstname->setValue('Konstantin');
-        $lastname->setValue('Kudryashov');
+        $page->fillField('last_name', 'Kudryashov');
 
         $this->assertEquals('Konstantin', $firstname->getValue());
         $this->assertEquals('Kudryashov', $lastname->getValue());
