@@ -42,6 +42,14 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     */
+    public function has($selector, $locator)
+    {
+        return null !== $this->find($selector, $locator);
+    }
+
+    /**
      * @see     Behat\Mink\Element\ElementInterface::find()
      */
     public function find($selector, $locator)
@@ -59,14 +67,6 @@ abstract class Element implements ElementInterface
         return $this->getSession()->getDriver()->find(
             $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator)
         );
-    }
-
-    /**
-     * @see     Behat\Mink\Element\ElementInterface::findAll()
-     */
-    public function hasSelector($selector, $locator)
-    {
-        return null !== $this->find($selector, $locator);
     }
 
     /**

@@ -138,8 +138,8 @@ XPATH;
             ->with($xpath = 'some xpath selector')
             ->will($this->onConsecutiveCalls(array('id2', 'id3'), array()));
 
-        $this->assertTrue($this->document->hasSelector('xpath', $xpath));
-        $this->assertFalse($this->document->hasSelector('xpath', $xpath));
+        $this->assertTrue($this->document->has('xpath', $xpath));
+        $this->assertFalse($this->document->has('xpath', $xpath));
     }
 
     public function testHasContent()

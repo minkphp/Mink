@@ -32,7 +32,7 @@ class DocumentElement extends ActionableElement
      */
     public function getContent()
     {
-        return $this->getSession()->getDriver()->getContent();
+        return trim($this->getSession()->getDriver()->getContent());
     }
 
     /**
@@ -44,7 +44,7 @@ class DocumentElement extends ActionableElement
      */
     public function hasContent($content)
     {
-        return $this->hasSelector('named', array(
+        return $this->has('named', array(
             'content', $this->getSession()->getSelectorsHandler()->xpathLiteral($content)
         ));
     }
@@ -180,7 +180,7 @@ class DocumentElement extends ActionableElement
      */
     public function hasSelect($locator)
     {
-        return $this->hasSelector('named', array(
+        return $this->has('named', array(
             'select', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
@@ -194,7 +194,7 @@ class DocumentElement extends ActionableElement
      */
     public function hasTable($locator)
     {
-        return $this->hasSelector('named', array(
+        return $this->has('named', array(
             'table', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }

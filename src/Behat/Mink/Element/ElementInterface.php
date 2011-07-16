@@ -32,6 +32,16 @@ interface ElementInterface
     function getSession();
 
     /**
+     * Checks whether element with specified selector exists.
+     *
+     * @param   string  $selector   selector engine name
+     * @param   string  $locator    selector locator
+     *
+     * @return  Boolean
+     */
+    function has($selector, $locator);
+
+    /**
      * Finds first element with specified selector.
      *
      * @param   string  $selector   selector engine name
@@ -50,14 +60,4 @@ interface ElementInterface
      * @return  array
      */
     function findAll($selector, $locator);
-
-    /**
-     * Checks whether element with specified selector exists.
-     *
-     * @param   string  $selector   selector engine name
-     * @param   string  $locator    selector locator
-     *
-     * @return  Boolean
-     */
-    function hasSelector($selector, $locator);
 }

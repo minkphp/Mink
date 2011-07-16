@@ -130,7 +130,7 @@ abstract class GeneralDriverTest extends DriverTest
         $this->assertEquals(static::$host . '/randomizer.php', static::$session->getCurrentUrl());
     }
 
-    public function testIndexPage()
+    public function testElementsTraversing()
     {
         static::$session->visit(static::$host . '/index.php');
 
@@ -155,6 +155,15 @@ abstract class GeneralDriverTest extends DriverTest
         $this->assertEquals(3, count($strongs));
         $this->assertEquals('Lorem', $strongs[0]->getText());
         $this->assertEquals('pariatur', $strongs[2]->getText());
+
+        $element = $page->find('css', '#some-element');
+
+        $this->assertEquals('some interesting text', $element->getPlainText());
+        $this->assertTrue($element->hasAttribute('data-href'));
+        $this->assertFalse($element->hasAttribute('data-url'));
+        $this->assertEquals('http://mink.behat.org', $element->getAttribute('data-href'));
+        $this->assertNull($element->getAttribute('data-url'));
+        $this->assertEquals('span', $element->getTagName());
     }
 
     public function testLinks()
@@ -277,7 +286,6 @@ Array
     [agreement] => on
 )
 1 uploaded file
-
 OUT
             , $page->getContent()
         );

@@ -51,7 +51,7 @@ class NodeElement extends Element
      */
     public function getText()
     {
-        return $this->getSession()->getDriver()->getText($this->getXpath());
+        return trim($this->getSession()->getDriver()->getText($this->getXpath()));
     }
 
     /**
