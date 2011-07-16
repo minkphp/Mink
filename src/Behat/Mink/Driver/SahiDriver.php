@@ -422,11 +422,33 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::triggerEvent()
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
      */
-    public function triggerEvent($xpath, $event)
+    public function keyPress($xpath, $char, $modifier = null)
     {
-        $this->client->findByXPath($this->prepareXPath($xpath))->simulateEvent($event);
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyPress(
+            $char, strtoupper($modifier)
+        );
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     */
+    public function keyDown($xpath, $char, $modifier = null)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyDown(
+            $char, strtoupper($modifier)
+        );
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     */
+    public function keyUp($xpath, $char, $modifier = null)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyUp(
+            $char, strtoupper($modifier)
+        );
     }
 
     /**

@@ -211,13 +211,36 @@ class NodeElement extends Element
     }
 
     /**
-     * Triggers specific event on current node.
+     * Presses specific keyboard key.
      *
-     * @param   string  $event  event name
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    public function triggerEvent($event)
+    public function keyPress($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->triggerEvent($this->getXpath(), $event);
+        $this->getSession()->getDriver()->keyPress($this->getXpath(), $char, $modifier);
+    }
+
+    /**
+     * Pressed down specific keyboard key.
+     *
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    public function keyDown($char, $modifier = null)
+    {
+        $this->getSession()->getDriver()->keyDown($this->getXpath(), $char, $modifier);
+    }
+
+    /**
+     * Pressed up specific keyboard key.
+     *
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    public function keyUp($char, $modifier = null)
+    {
+        $this->getSession()->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
 
     /**

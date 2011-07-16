@@ -237,18 +237,6 @@ class NodeElementTest extends ElementTest
         $node->mouseOver();
     }
 
-    public function testTriggerEvent()
-    {
-        $node = new NodeElement('some_tag', $this->session);
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('triggerEvent')
-            ->with('some_tag', 'onClick');
-
-        $node->triggerEvent('onClick');
-    }
-
     public function dragTo()
     {
         $node = new NodeElement('some_tag1', $this->session);

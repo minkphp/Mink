@@ -373,7 +373,7 @@ class GoutteDriver implements DriverInterface
      */
     public function focus($xpath)
     {
-        throw new UnsupportedByDriverException('Focus actions is not supported', $this);
+        throw new UnsupportedByDriverException('Focus actions are not supported', $this);
     }
 
     /**
@@ -383,7 +383,37 @@ class GoutteDriver implements DriverInterface
      */
     public function blur($xpath)
     {
-        throw new UnsupportedByDriverException('Focus actions is not supported', $this);
+        throw new UnsupportedByDriverException('Focus actions are not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function keyPress($xpath, $char, $modifier = null)
+    {
+        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function keyDown($xpath, $char, $modifier = null)
+    {
+        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     */
+    public function keyUp($xpath, $char, $modifier = null)
+    {
+        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
     }
 
     /**
@@ -424,16 +454,6 @@ class GoutteDriver implements DriverInterface
     public function isVisible($xpath)
     {
         throw new UnsupportedByDriverException('Element visibility check is not supported', $this);
-    }
-
-    /**
-     * @see     Behat\Mink\Driver\DriverInterface::triggerEvent()
-     *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
-     */
-    public function triggerEvent($xpath, $event)
-    {
-        throw new UnsupportedByDriverException('JS event triggering is not supported', $this);
     }
 
     /**

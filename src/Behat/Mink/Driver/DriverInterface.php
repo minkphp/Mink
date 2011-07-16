@@ -267,12 +267,31 @@ interface DriverInterface
     function blur($xpath);
 
     /**
-     * Trigger specific event on element located by XPath query.
+     * Presses specific keyboard key.
      *
      * @param   string  $xpath
-     * @param   string  $event  event name
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function triggerEvent($xpath, $event);
+    function keyPress($xpath, $char, $modifier = null);
+
+    /**
+     * Pressed down specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyDown($xpath, $char, $modifier = null);
+
+    /**
+     * Pressed up specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyUp($xpath, $char, $modifier = null);
 
     /**
      * Drag one element onto another.
