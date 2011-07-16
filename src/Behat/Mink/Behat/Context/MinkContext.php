@@ -618,10 +618,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function prepareMinkSession($event)
     {
         $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
-        $feature  = $scenario->getFeature();
         $session  = $this->getParameter('default_session');
 
-        foreach (array_merge($scenario->getTags(), $feature->getTags()) as $tag) {
+        foreach ($scenario->getTags() as $tag) {
             if ('javascript' === $tag) {
                 $session = 'sahi';
             } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
@@ -629,7 +628,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             }
         }
 
-        if ($scenario->hasTag('insulated') || $feature->hasTag('insulated')) {
+        if ($scenario->hasTag('insulated')) {
             $this->getMink()->restartSessions();
         } else {
             $this->getMink()->resetSessions();
