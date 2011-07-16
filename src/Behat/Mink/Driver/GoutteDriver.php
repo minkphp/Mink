@@ -88,6 +88,7 @@ class GoutteDriver implements DriverInterface
      */
     public function stop()
     {
+        $this->client->restart();
         $this->started = false;
     }
 
