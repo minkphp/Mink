@@ -301,6 +301,7 @@ abstract class GeneralDriverTest extends DriverTest
 
         $page->fillField('first_name', 'Foo "item"');
         $page->fillField('last_name', 'Bar');
+        $page->fillField('Your email:', 'ever.zet@gmail.com');
 
         $this->assertEquals('Foo "item"', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
@@ -312,7 +313,7 @@ Array
 (
     [first_name] => Foo "item"
     [last_name] => Bar
-    [email] => your@email.com
+    [email] => ever.zet@gmail.com
     [select_number] => 10
     [sex] => m
     [agreement] => on
