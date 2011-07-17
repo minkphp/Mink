@@ -13,11 +13,11 @@ use Behat\Mink\Session;
  */
 
 /**
- * Mink "expectation failed" exception.
+ * Mink's expectation exception.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ExpectationFailedException extends Exception
+class ExpectationException extends Exception
 {
     /**
      * Initializes exception.

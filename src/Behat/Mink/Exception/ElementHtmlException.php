@@ -14,11 +14,11 @@ use Behat\Mink\Session,
  */
 
 /**
- * Mink "plain text response exception failed" exception.
+ * Mink's element HTML exception.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ElementContentException extends ExpectationFailedException
+class ElementHtmlException extends ExpectationFailedException
 {
     /**
      * Element instance.
@@ -51,6 +51,6 @@ class ElementContentException extends ExpectationFailedException
     {
         return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
-             . $this->pipeString($this->trimString($this->element->getText()) . "\n");
+             . $this->pipeString($this->trimString($this->element->getHtml()) . "\n");
     }
 }

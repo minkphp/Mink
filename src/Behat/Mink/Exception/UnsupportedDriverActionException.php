@@ -17,18 +17,18 @@ use Behat\Mink\Driver\DriverInterface;
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class UnsupportedByDriverException extends DriverException
+class UnsupportedDriverActionException extends DriverException
 {
     /**
      * Initializes exception.
      *
-     * @param   string                              $title      what is unsupported?
+     * @param   string                              $template   what is unsupported?
      * @param   Behat\Mink\Driver\DriverInterface   $driver     driver instance
      * @param   Exception                           $previous   previous exception
      */
-    public function __construct($title, DriverInterface $driver, \Exception $previous = null)
+    public function __construct($template, DriverInterface $driver, \Exception $previous = null)
     {
-        $message = sprintf('%s by %s', $title, get_class($driver));
+        $message = sprintf($template, get_class($driver));
 
         parent::__construct($message, 0, $previous);
     }

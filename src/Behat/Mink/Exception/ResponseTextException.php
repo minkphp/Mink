@@ -13,11 +13,11 @@ use Behat\Mink\Session;
  */
 
 /**
- * Mink "plain text response exception failed" exception.
+ * Mink response's text exception.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class PlainTextResponseException extends ExpectationFailedException
+class ResponseTextException extends ExpectationException
 {
     /**
      * Returns exception message with additional context info.
@@ -28,6 +28,6 @@ class PlainTextResponseException extends ExpectationFailedException
     {
         return $this->getMessage()."\n\n"
              . $this->getResponseInfo()
-             . $this->pipeString($this->trimString($this->getSession()->getPage()->getPlainText()) . "\n");
+             . $this->pipeString($this->trimString($this->getSession()->getPage()->getText()) . "\n");
     }
 }

@@ -13,9 +13,9 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Exception\ElementNotFoundException,
-    Behat\Mink\Exception\ExpectationFailedException,
-    Behat\Mink\Exception\PlainTextResponseException,
-    Behat\Mink\Exception\ElementContentException,
+    Behat\Mink\Exception\ExpectationException,
+    Behat\Mink\Exception\ResponseTextException,
+    Behat\Mink\Exception\ElementHtmlException,
     Behat\Mink\Exception\ElementTextException;
 
 use Goutte\Client as GoutteClient;
@@ -291,7 +291,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current page is "%s", but "%s" expected', $actual, $expected);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -314,7 +314,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertRegExp($pattern, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current page "%s" does not match the pattern "%s"', $actual, $pattern);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -330,7 +330,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($actual, $code);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Current response status code is %d, but %d expected', $actual, $code);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -342,13 +342,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertPageContainsText($text)
     {
         $expected = str_replace('\\"', '"', $text);
-        $actual   = $this->getSession()->getPage()->getPlainText();
+        $actual   = $this->getSession()->getPage()->getText();
 
         try {
             assertContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The text "%s" was not found anywhere in the text of the current page', $expected);
-            throw new PlainTextResponseException($message, $this->getSession(), $e);
+            throw new ResponseTextException($message, $this->getSession(), $e);
         }
     }
 
@@ -360,13 +360,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertPageNotContainsText($text)
     {
         $expected = str_replace('\\"', '"', $text);
-        $actual   = $this->getSession()->getPage()->getPlainText();
+        $actual   = $this->getSession()->getPage()->getText();
 
         try {
             assertNotContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $expected);
-            throw new PlainTextResponseException($message, $this->getSession(), $e);
+            throw new ResponseTextException($message, $this->getSession(), $e);
         }
     }
 
@@ -384,7 +384,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page', $expected);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -402,7 +402,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNotContains($expected, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The string "%s" appears in the HTML response of this page, but it should not.', $expected);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -423,7 +423,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         try {
-            assertContains($text, $node->getPlainText());
+            assertContains($text, $node->getText());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The text "%s" was not found in the text of the element matching css "%s"', $text, $element);
             throw new ElementTextException($message, $this->getSession(), $node, $e);
@@ -447,10 +447,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         try {
-            assertContains($value, $node->getText());
+            assertContains($value, $node->getHtml());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('The string "%s" was not found in the contents of the element matching css "%s"', $value, $element);
-            throw new ElementContentException($message, $this->getSession(), $node, $e);
+            throw new ElementHtmlException($message, $this->getSession(), $node, $e);
         }
     }
 
@@ -481,7 +481,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNull($this->getSession()->getPage()->find('css', $element));
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('An element matching css "%s" appears on this page, but it should not.', $element);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -506,7 +506,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertEquals($value, $field->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but should have "%s"', $element, $field->getValue(), $value);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -531,7 +531,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertNotEquals($value, $field->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but it should not have that value', $element, $field->getValue());
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -555,7 +555,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertTrue($field->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Checkbox with id|name|label|value "%s" is not checked, but it should be', $element);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 
@@ -579,7 +579,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             assertFalse($field->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $message = sprintf('Checkbox with id|name|label|value "%s" is checked, but it should not be', $element);
-            throw new ExpectationFailedException($message, $this->getSession(), $e);
+            throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
 

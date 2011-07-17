@@ -11,7 +11,7 @@ use Goutte\Client as GoutteClient,
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\DriverException,
-    Behat\Mink\Exception\UnsupportedByDriverException,
+    Behat\Mink\Exception\UnsupportedDriverActionException,
     Behat\Mink\Exception\ElementNotFoundException;
 
 /*
@@ -360,131 +360,131 @@ class GoutteDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function doubleClick($xpath)
     {
-        throw new UnsupportedByDriverException('Double-clicking is not supported', $this);
+        throw new UnsupportedDriverActionException('Double-clicking is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::rightClick()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function rightClick($xpath)
     {
-        throw new UnsupportedByDriverException('Right-clicking is not supported', $this);
+        throw new UnsupportedDriverActionException('Right-clicking is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::mouseOver()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function mouseOver($xpath)
     {
-        throw new UnsupportedByDriverException('Mouse moving is not supported', $this);
+        throw new UnsupportedDriverActionException('Mouse moving is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::focus()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function focus($xpath)
     {
-        throw new UnsupportedByDriverException('Focus actions are not supported', $this);
+        throw new UnsupportedDriverActionException('Focus actions are not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::blur()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function blur($xpath)
     {
-        throw new UnsupportedByDriverException('Focus actions are not supported', $this);
+        throw new UnsupportedDriverActionException('Focus actions are not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::keyPress()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
+        throw new UnsupportedDriverActionException('Keyboard actions are not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::keyPress()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
+        throw new UnsupportedDriverActionException('Keyboard actions are not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::keyPress()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedByDriverException('Keyboard actions are not supported', $this);
+        throw new UnsupportedDriverActionException('Keyboard actions are not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::executeScript()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function executeScript($script)
     {
-        throw new UnsupportedByDriverException('JS scripts execution is not supported', $this);
+        throw new UnsupportedDriverActionException('JS scripts execution is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::evaluateScript()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function evaluateScript($script)
     {
-        throw new UnsupportedByDriverException('JS scripts execution is not supported', $this);
+        throw new UnsupportedDriverActionException('JS scripts execution is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::wait()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function wait($time, $condition)
     {
-        throw new UnsupportedByDriverException('JS scripts execution is not supported', $this);
+        throw new UnsupportedDriverActionException('JS scripts execution is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::isVisible()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function isVisible($xpath)
     {
-        throw new UnsupportedByDriverException('Element visibility check is not supported', $this);
+        throw new UnsupportedDriverActionException('Element visibility check is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::dragTo()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        throw new UnsupportedByDriverException('Element dragging is not supported', $this);
+        throw new UnsupportedDriverActionException('Element dragging is not supported by %s', $this);
     }
 
     /**

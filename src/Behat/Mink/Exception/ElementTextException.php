@@ -14,11 +14,11 @@ use Behat\Mink\Session,
  */
 
 /**
- * Mink "plain text response exception failed" exception.
+ * Mink's element text exception.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ElementTextException extends ElementContentException
+class ElementTextException extends ElementHtmlException
 {
     /**
      * Returns exception message with additional context info.

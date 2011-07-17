@@ -8,7 +8,7 @@ use Behat\SahiClient\Client,
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\DriverException,
-    Behat\Mink\Exception\UnsupportedByDriverException;
+    Behat\Mink\Exception\UnsupportedDriverActionException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -145,21 +145,21 @@ class SahiDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function setRequestHeader($name, $value)
     {
-        throw new UnsupportedByDriverException('Request headers settings are not supported', $this);
+        throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function getResponseHeaders()
     {
-        throw new UnsupportedByDriverException('Response headers reading is not supported', $this);
+        throw new UnsupportedDriverActionException('Response headers manipulation is not supported by %s', $this);
     }
 
     /**
@@ -190,11 +190,11 @@ class SahiDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::getStatusCode()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function getStatusCode()
     {
-        throw new UnsupportedByDriverException('Status code reading is not supported', $this);
+        throw new UnsupportedDriverActionException('Status code reading is not supported by %s', $this);
     }
 
     /**
