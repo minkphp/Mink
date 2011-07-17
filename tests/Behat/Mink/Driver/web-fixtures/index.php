@@ -15,6 +15,16 @@
 <em>interesting</em>      text
         </div>
 
+        <div class="travers">
+            <div class="sub">el1</div>
+            <div class="sub">el2</div>
+            <div class="sub">
+                <a href="some_url">some <strong>deep</strong> url</a>
+            </div>
+        </div>
+
+        <div class="sub">el4</div>
+
     </p>
 </body>
 </html>

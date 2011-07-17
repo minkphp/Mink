@@ -13,12 +13,38 @@ use Behat\Mink\Exception\ElementNotFoundException;
  */
 
 /**
- * Actions holder element.
+ * Traversable element.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-abstract class ActionableElement extends Element
+abstract class TraversableElement extends Element
 {
+    /**
+     * Finds element by it's id.
+     *
+     * @param   string  $id     element id
+     *
+     * @return  Behat\Mink\Element\NodeElement|null
+     */
+    public function findById($id)
+    {
+        $id = $this->getSession()->getSelectorsHandler()->xpathLiteral($id);
+
+        return $this->find('xpath', "//*[@id=$id]");
+    }
+
+    /**
+     * Checks whether document has a link with specified locator.
+     *
+     * @param   string  $locator    link id, title, text or image alt
+     *
+     * @return  Boolean
+     */
+    public function hasLink($locator)
+    {
+        return null !== $this->findLink($locator);
+    }
+
     /**
      * Finds link with specified locator.
      *
@@ -26,25 +52,12 @@ abstract class ActionableElement extends Element
      *
      * @return  Behat\Mink\Element\NodeElement|null
      */
-    abstract public function findLink($locator);
-
-    /**
-     * Finds button (input[type=submit|image|button], button) with specified locator.
-     *
-     * @param   string  $locator    button id, value or alt
-     *
-     * @return  Behat\Mink\Element\NodeElement|null
-     */
-    abstract public function findButton($locator);
-
-    /**
-     * Finds field (input, textarea, select) with specified locator.
-     *
-     * @param   string  $locator    input id, name or label
-     *
-     * @return  Behat\Mink\Element\NodeElement|null
-     */
-    abstract public function findField($locator);
+    public function findLink($locator)
+    {
+        return $this->find('named', array(
+            'link', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
+    }
 
     /**
      * Clicks link with specified locator.
@@ -64,6 +77,32 @@ abstract class ActionableElement extends Element
         }
 
         $this->getSession()->getDriver()->click($link->getXpath());
+    }
+
+    /**
+     * Checks whether document has a button (input[type=submit|image|button], button) with specified locator.
+     *
+     * @param   string  $locator    button id, value or alt
+     *
+     * @return  Boolean
+     */
+    public function hasButton($locator)
+    {
+        return null !== $this->findButton($locator);
+    }
+
+    /**
+     * Finds button (input[type=submit|image|button], button) with specified locator.
+     *
+     * @param   string  $locator    button id, value or alt
+     *
+     * @return  Behat\Mink\Element\NodeElement|null
+     */
+    public function findButton($locator)
+    {
+        return $this->find('named', array(
+            'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
     }
 
     /**
@@ -87,6 +126,32 @@ abstract class ActionableElement extends Element
     }
 
     /**
+     * Checks whether document has a field (input, textarea, select) with specified locator.
+     *
+     * @param   string  $locator    input id, name or label
+     *
+     * @return  Boolean
+     */
+    public function hasField($locator)
+    {
+        return null !== $this->findField($locator);
+    }
+
+    /**
+     * Finds field (input, textarea, select) with specified locator.
+     *
+     * @param   string  $locator    input id, name or label
+     *
+     * @return  Behat\Mink\Element\NodeElement|null
+     */
+    public function findField($locator)
+    {
+        return $this->find('named', array(
+            'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
+    }
+
+    /**
      * Fills in field (input, textarea, select) with specified locator.
      *
      * @param   string  $locator    input id, name or label
@@ -104,6 +169,34 @@ abstract class ActionableElement extends Element
         }
 
         $this->getSession()->getDriver()->setValue($field->getXpath(), $value);
+    }
+
+    /**
+     * Checks whether document has a checkbox with specified locator, which is checked.
+     *
+     * @param   string  $locator    input id, name or label
+     *
+     * @return  Boolean
+     */
+    public function hasCheckedField($locator)
+    {
+        $field = $this->findField($locator);
+
+        return null !== $field && $field->isChecked();
+    }
+
+    /**
+     * Checks whether document has a checkbox with specified locator, which is unchecked.
+     *
+     * @param   string  $locator    input id, name or label
+     *
+     * @return  Boolean
+     */
+    public function hasUncheckedField($locator)
+    {
+        $field = $this->findField($locator);
+
+        return null !== $field && !$field->isChecked();
     }
 
     /**
@@ -147,6 +240,20 @@ abstract class ActionableElement extends Element
     }
 
     /**
+     * Checks whether document has a select field with specified locator.
+     *
+     * @param   string  $locator    select id, name or label
+     *
+     * @return  Boolean
+     */
+    public function hasSelect($locator)
+    {
+        return $this->has('named', array(
+            'select', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
+    }
+
+    /**
      * Selects option from select field with specified locator.
      *
      * @param   string  $locator    input id, name or label
@@ -164,6 +271,20 @@ abstract class ActionableElement extends Element
         }
 
         $this->getSession()->getDriver()->selectOption($field->getXpath(), $value);
+    }
+
+    /**
+     * Checks whether document has a table with specified locator.
+     *
+     * @param   string  $locator    table id or caption
+     *
+     * @return  Boolean
+     */
+    public function hasTable($locator)
+    {
+        return $this->has('named', array(
+            'table', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
     }
 
     /**

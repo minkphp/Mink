@@ -172,6 +172,32 @@ abstract class GeneralDriverTest extends DriverTest
         $this->assertEquals('div', $element->getTagName());
     }
 
+    public function testDeepTraversing()
+    {
+        static::$session->visit(static::$host . '/index.php');
+
+        $traversDiv = static::$session->getPage()->findAll('css', 'div.travers');
+
+        $this->assertEquals(1, count($traversDiv));
+        $traversDiv = $traversDiv[0];
+
+        $subDivs = $traversDiv->findAll('css', 'div.sub');
+        $this->assertEquals(3, count($subDivs));
+
+        $this->assertTrue($subDivs[2]->hasLink('some deep url'));
+        $this->assertFalse($subDivs[2]->hasLink('come deep url'));
+        $subUrl = $subDivs[2]->findLink('some deep url');
+        $this->assertNotNull($subUrl);
+
+        $this->assertEquals('some_url', $subUrl->getAttribute('href'));
+        $this->assertEquals('some deep url', $subUrl->getText());
+        $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
+
+        $this->assertTrue($subUrl->has('css', 'strong'));
+        $this->assertFalse($subUrl->has('css', 'em'));
+        $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
+    }
+
     public function testLinks()
     {
         static::$session->visit(static::$host . '/links.php');

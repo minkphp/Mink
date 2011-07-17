@@ -64,9 +64,16 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        return $this->getSession()->getDriver()->find(
-            $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator)
-        );
+        $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
+
+        // add parent xpath before element selector
+        if (0 === strpos($xpath, '/')) {
+            $xpath = $this->getXpath().$xpath;
+        } else {
+            $xpath = $this->getXpath().'/'.$xpath;
+        }
+
+        return $this->getSession()->getDriver()->find($xpath);
     }
 
     /**

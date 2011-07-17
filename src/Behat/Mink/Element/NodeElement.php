@@ -15,11 +15,11 @@ use Behat\Mink\Session,
  */
 
 /**
- * Page node element.
+ * Page element node.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class NodeElement extends Element
+class NodeElement extends TraversableElement
 {
     private $xpath;
 
