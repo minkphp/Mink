@@ -83,4 +83,15 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertFalse($invisible->isVisible());
         $this->assertTrue($clicker->isVisible());
     }
+
+    public function testDragDrop()
+    {
+        static::$session->visit(static::$host . '/js_test.php');
+
+        $draggable = static::$session->getPage()->find('css', '#draggable');
+        $droppable = static::$session->getPage()->find('css', '#droppable');
+
+        $draggable->dragTo($droppable);
+        $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());
+    }
 }
