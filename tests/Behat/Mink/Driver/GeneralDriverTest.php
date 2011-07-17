@@ -305,7 +305,7 @@ abstract class GeneralDriverTest extends DriverTest
         $this->assertEquals('Foo "item"', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());
 
-        $button->click();
+        $button->press();
 
         $this->assertContains(<<<OUT
 Array

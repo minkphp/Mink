@@ -105,6 +105,14 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Presses current button.
+     */
+    public function press()
+    {
+        $this->click();
+    }
+
+    /**
      * Double-clicks current node.
      */
     public function doubleClick()
