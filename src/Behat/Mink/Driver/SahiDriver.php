@@ -483,7 +483,7 @@ JS;
      */
     public function evaluateScript($script)
     {
-        return $this->client->getConnection()->executeJavascript($script);
+        return $this->client->getConnection()->evaluateJavascript($script);
     }
 
     /**
