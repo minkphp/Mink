@@ -76,7 +76,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->click($link->getXpath());
+        $link->click();
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->click($button->getXpath());
+        $button->press();
     }
 
     /**
@@ -168,7 +168,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->setValue($field->getXpath(), $value);
+        $field->setValue($value);
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->check($field->getXpath());
+        $field->check();
     }
 
     /**
@@ -236,7 +236,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->uncheck($field->getXpath());
+        $field->uncheck();
     }
 
     /**
@@ -270,7 +270,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->selectOption($field->getXpath(), $value);
+        $field->selectOption($value);
     }
 
     /**
@@ -304,6 +304,6 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $this->getSession()->getDriver()->attachFile($field->getXpath(), $path);
+        $field->attachFile($path);
     }
 }

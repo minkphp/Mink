@@ -297,17 +297,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('click');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('click')
-            ->with($xpath);
 
         $this->document->clickLink('some link');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -325,17 +319,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('press');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('click')
-            ->with($xpath);
 
         $this->document->pressButton('some button');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -353,17 +341,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('setValue')
+            ->with('some val');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('setValue')
-            ->with($xpath, 'some val');
 
         $this->document->fillField('some field', 'some val');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -381,17 +364,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('check');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('check')
-            ->with($xpath);
 
         $this->document->checkField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -409,17 +386,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('uncheck');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('uncheck')
-            ->with($xpath);
 
         $this->document->uncheckField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -437,17 +408,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('selectOption')
+            ->with('option2');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('selectOption')
-            ->with($xpath, 'option2');
 
         $this->document->selectFieldOption('some field', 'option2');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -465,17 +431,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('attachFile')
+            ->with('/path/to/file');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('attachFile')
-            ->with($xpath, '/path/to/file');
 
         $this->document->attachFileToField('some field', '/path/to/file');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
