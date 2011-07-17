@@ -45,6 +45,16 @@ class NodeElement extends Element
     }
 
     /**
+     * Returns current node tag name.
+     *
+     * @return  string
+     */
+    public function getTagName()
+    {
+        return $this->getSession()->getDriver()->getTagName($this->getXpath());
+    }
+
+    /**
      * Returns element value.
      *
      * @return  mixed
@@ -52,6 +62,16 @@ class NodeElement extends Element
     public function getValue()
     {
         return $this->getSession()->getDriver()->getValue($this->getXpath());
+    }
+
+    /**
+     * Sets node value.
+     *
+     * @param   string  $value
+     */
+    public function setValue($value)
+    {
+        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
     }
 
     /**
@@ -74,16 +94,6 @@ class NodeElement extends Element
     public function getAttribute($name)
     {
         return $this->getSession()->getDriver()->getAttribute($this->getXpath(), $name);
-    }
-
-    /**
-     * Sets node value.
-     *
-     * @param   string  $value
-     */
-    public function setValue($value)
-    {
-        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
     }
 
     /**
@@ -127,6 +137,16 @@ class NodeElement extends Element
     }
 
     /**
+     * Checks whether current node is checked if it's a checkbox field.
+     *
+     * @return  Boolean
+     */
+    public function isChecked()
+    {
+        return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+    }
+
+    /**
      * Selects current node specified option if it's a select field.
      *
      * @param   string  $option
@@ -147,16 +167,6 @@ class NodeElement extends Element
     }
 
     /**
-     * Returns current node tag name.
-     *
-     * @return  string
-     */
-    public function getTagName()
-    {
-        return $this->getSession()->getDriver()->getTagName($this->getXpath());
-    }
-
-    /**
      * Checks whether current node is visible on page.
      *
      * @return  Boolean
@@ -167,13 +177,21 @@ class NodeElement extends Element
     }
 
     /**
-     * Checks whether current node is checked if it's a checkbox field.
-     *
-     * @return  Boolean
+     * Simulates a mouse over on the element.
      */
-    public function isChecked()
+    public function mouseOver()
     {
-        return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+        $this->getSession()->getDriver()->mouseOver($this->getXpath());
+    }
+
+    /**
+     * Drags current node onto other node.
+     *
+     * @param   ElementInterface    $destination    other node
+     */
+    public function dragTo(ElementInterface $destination)
+    {
+        $this->getSession()->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
     }
 
     /**
@@ -190,14 +208,6 @@ class NodeElement extends Element
     public function blur()
     {
         $this->getSession()->getDriver()->blur($this->getXpath());
-    }
-
-    /**
-     * Simulates a mouse over on the element.
-     */
-    public function mouseOver()
-    {
-        $this->getSession()->getDriver()->mouseOver($this->getXpath());
     }
 
     /**
@@ -231,15 +241,5 @@ class NodeElement extends Element
     public function keyUp($char, $modifier = null)
     {
         $this->getSession()->getDriver()->keyUp($this->getXpath(), $char, $modifier);
-    }
-
-    /**
-     * Drags current node onto other node.
-     *
-     * @param   ElementInterface    $destination    other node
-     */
-    public function dragTo(ElementInterface $destination)
-    {
-        $this->getSession()->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
     }
 }

@@ -70,9 +70,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns element text (inside tag).
-     *
-     * @return  string|null
+     * @see     Behat\Mink\Element\ElementInterface::getText()
      */
     public function getText()
     {
@@ -80,9 +78,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns element html.
-     *
-     * @return  string|null
+     * @see     Behat\Mink\Element\ElementInterface::getHtml()
      */
     public function getHtml()
     {

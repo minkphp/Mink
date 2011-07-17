@@ -60,4 +60,18 @@ interface ElementInterface
      * @return  array
      */
     function findAll($selector, $locator);
+
+    /**
+     * Returns element text (inside tag).
+     *
+     * @return  string|null
+     */
+    function getText();
+
+    /**
+     * Returns element html.
+     *
+     * @return  string|null
+     */
+    function getHtml();
 }
