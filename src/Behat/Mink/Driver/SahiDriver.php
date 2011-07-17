@@ -221,11 +221,12 @@ class SahiDriver implements DriverInterface
      */
     public function find($xpath)
     {
-        $count = intval($this->evaluateScript(
-            'document.evaluate("' . $this->prepareXPath($xpath) . '", document, null, 7, null).snapshotLength'
-        ));
-
         $elements = array();
+        $document = new \DOMDocument('1.0');
+        @$document->loadHTML($this->getContent());
+        $domxpath = new \DOMXPath($document);
+
+        $count = $domxpath->query($xpath)->length;
         for ($i = 0; $i < $count; $i++) {
             $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i + 1), $this->session);
         }
