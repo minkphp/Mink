@@ -123,7 +123,7 @@ class SahiDriver implements DriverInterface
      */
     public function reload()
     {
-        $this->client->navigateTo($this->getCurrentUrl(), true);
+        $this->visit($this->getCurrentUrl());
     }
 
     /**
