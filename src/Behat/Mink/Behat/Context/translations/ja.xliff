@@ -3,12 +3,24 @@
     <header />
     <body>
         <trans-unit id="i-am-on-page">
-            <source><![CDATA[/^(?:|I )am on (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|ユーザーは )(?P<page>[^\s]+) を表示している$/]]></target>
+            <source><![CDATA[/^(?:|I )am on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーは )"(?P<page>[^\s]+)" を表示している$/]]></target>
         </trans-unit>
         <trans-unit id="i-go-to-page">
-            <source><![CDATA[/^(?:|I )go to (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|ユーザーが )(?P<page>[^\s]+) へ移動する$/]]></target>
+            <source><![CDATA[/^(?:|I )go to "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<page>[^\s]+)" へ移動する$/]]></target>
+        </trans-unit>
+        <trans-unit id="reload-the-page">
+            <source><![CDATA[/^(?:|I )reload the page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )ページをリロードする$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-backward-one-page">
+            <source><![CDATA[/^(?:|I )move backward one page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )履歴の前のページに戻る$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-forward-one-page">
+            <source><![CDATA[/^(?:|I )move forward one page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )履歴の次のページヘ進む$/]]></target>
         </trans-unit>
         <trans-unit id="i-press-button">
             <source><![CDATA[/^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/]]></source>
@@ -50,9 +62,17 @@
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<text>(?:[^"]|\\")*)" と表示されていること$/]]></target>
         </trans-unit>
+        <trans-unit id="the-response-should-contain">
+            <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^レスポンスに "(?P<text>(?:[^"]|\\")*)" が含まれていること$/]]></target>
+        </trans-unit>
         <trans-unit id="i-should-not-see-text">
             <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<text>(?:[^"]|\\")*)" と表示されていないこと$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-not-contain">
+            <source><![CDATA[/^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^レスポンスに "(?P<text>(?:[^"]|\\")*)" が含まれていないこと$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
@@ -71,32 +91,40 @@
             <target><![CDATA[/^チェックボックス "(?P<checkbox>(?:[^"]|\\")*)" のチェックがはずれていること$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-be-on-page">
-            <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
+            <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
             <target><![CDATA[/^(?:|ユーザーが )(?P<page>[^\s]+) を表示していること$/]]></target>
         </trans-unit>
-        <trans-unit id="element-should-contain">
+        <trans-unit id="the-url-should-match">
+            <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^URLが "(?P<pattern>(?:[^"]|\\")*)" にマッチすること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-contain">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<value>(?:[^"]|\\")*)" という値が含まれていること$/]]></target>
         </trans-unit>
-        <trans-unit id="should-see-element">
+        <trans-unit id="i-should-see-text-in-element">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<text>(?:[^"]|\\")*)" と表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていること$/]]></target>
         </trans-unit>
-        <trans-unit id="should-not-see-element">
+        <trans-unit id="i-should-not-see-element">
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていないこと$/]]></target>
         </trans-unit>
-        <trans-unit id="element-should-link-to">
-            <source><![CDATA[/^the "(?P<element>[^"]*)" element should link to (?P<href>.*)$/]]></source>
-            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントが (?P<href>.*) へリンクされていること$/]]></target>
-        </trans-unit>
-        <trans-unit id="element-should-have-attribute">
-            <source><![CDATA[/^the "(?P<element>[^"]*)" element should have a "(?P<attribute>[a-zA-Z\-\_]*)" attribute of "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<attribute>[a-zA-Z\-\_]*)" 属性があり、値が "(?P<value>(?:[^"]|\\")*)" であること$/]]></target>
-        </trans-unit>
         <trans-unit id="response-status-code-should-be">
-            <source><![CDATA[/the response status code should be (?P<code>\d+)/]]></source>
+            <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
             <target><![CDATA[/レスポンスコードが (?P<code>\d+) であること/]]></target>
+        </trans-unit>
+        <trans-unit id="print-last-response">
+            <source><![CDATA[/^print last response$/]]></source>
+            <target><![CDATA[/^最後のレスポンスを表示$/]]></target>
+        </trans-unit>
+        <trans-unit id="show-last-response">
+            <source><![CDATA[/^show last response$/]]></source>
+            <target><![CDATA[/^最後のレスポンスをブラウザで表示$/]]></target>
         </trans-unit>
     </body>
   </file>
