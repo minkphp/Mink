@@ -208,10 +208,7 @@ class GoutteDriver implements DriverInterface
      */
     public function getContent()
     {
-        $content = $this->client->getResponse()->getContent();
-        $content = preg_replace('/^.*\<html[^\>]*\>/is', '<html>', $content);
-
-        return $content;
+        return $this->client->getResponse()->getContent();
     }
 
     /**
