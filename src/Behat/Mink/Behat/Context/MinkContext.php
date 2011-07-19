@@ -69,8 +69,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
 
         if (null === self::$minkInstance) {
             self::$minkInstance = new Mink();
-            $this->registerSessions(self::$minkInstance);
         }
+
+        $this->registerSessions(self::$minkInstance);
     }
 
     /**
@@ -659,43 +660,46 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     protected function registerSessions(Mink $mink)
     {
-        $mink->registerSession('goutte', new Session(
-            $this->initGoutteDriver($this->getParameter('goutte'))
-        ));
-        $mink->registerSession('sahi',   new Session(
-            $this->initSahiDriver($this->getParameter('browser'), $this->getParameter('sahi'))
-        ));
+        if (!$mink->hasSession('goutte')) {
+            $params = $this->getParameter('goutte');
+            $mink->registerSession('goutte', static::initGoutteSession(
+                $params['zend_config'], $params['server_parameters']
+            ));
+        }
+
+        if (!$mink->hasSession('sahi')) {
+            $params = $this->getParameter('sahi');
+            $mink->registerSession('sahi', static::initSahiSession(
+                $this->getParameter('browser'), $params['sid'], $params['host'], $params['port']
+            ));
+        }
     }
 
     /**
-     * Initizalizes and returns new GoutteDriver instance.
+     * Initizalizes and returns new GoutteDriver session.
      *
-     * @param   array   $connection     connection settings
+     * @param   array   $zendConfig         zend config parameters
+     * @param   array   $serverParameters   server parameters
      *
-     * @return  Behat\Mink\Driver\GoutteDriver
+     * @return  Behat\Mink\Session
      */
-    protected function initGoutteDriver(array $connection)
+    protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
     {
-        return new GoutteDriver(
-            new GoutteClient($connection['zend_config'], $connection['server_parameters'])
-        );
+        return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
     }
 
     /**
-     * Initizalizes and returns new SahiDriver instance.
+     * Initizalizes and returns new SahiDriver session.
      *
-     * @param   string  $browser        browser name to use (default = firefox)
-     * @param   array   $connection     connection settings
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   array   $sid        sahi SID
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
      *
-     * @return  Behat\Mink\Driver\SahiDriver
+     * @return  Behat\Mink\Session
      */
-    protected function initSahiDriver($browser, array $connection)
+    protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
     {
-        return new SahiDriver(
-            $browser,
-            new SahiClient(new SahiConnection(
-                $connection['sid'], $connection['host'], $connection['port']
-            ))
-        );
+        return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
     }
 }
