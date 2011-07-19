@@ -2,32 +2,21 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Selector\SelectorsHandler,
-    Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Session;
+use Behat\Mink\Mink,
+    Behat\Mink\Session,
+    Behat\Mink\PHPUnit\TestCase;
 
-abstract class DriverTest extends \PHPUnit_Framework_TestCase
+abstract class DriverTest extends TestCase
 {
-    protected static $host;
-    protected static $session;
-
-    public static function setUpBeforeClass()
+    /**
+     * Returns path to test.
+     *
+     * @param   string  $path
+     *
+     * @return  string
+     */
+    protected function pathTo($path)
     {
-        static::$host = $_SERVER['WEB_FIXTURES_HOST'];
-
-        static::$session = new Session(static::configureDriver(), new SelectorsHandler());
-        static::$session->start();
+        return $_SERVER['WEB_FIXTURES_HOST'].$path;
     }
-
-    public static function tearDownAfterClass()
-    {
-        static::$session->stop();
-    }
-
-    public function teardown()
-    {
-        static::$session->reset();
-    }
-
-    protected static function configureDriver() {}
 }

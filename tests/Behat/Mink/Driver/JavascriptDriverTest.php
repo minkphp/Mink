@@ -8,21 +8,21 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 {
     public function testAriaRoles()
     {
-        static::$session->visit(static::$host . '/aria_roles.php');
+        $this->getSession()->visit($this->pathTo('/aria_roles.php'));
 
-        static::$session->wait(5000, '$("#toggle-element").is(":visible") === false');
-        static::$session->getPage()->pressButton('Toggle');
-        static::$session->wait(5000, '$("#toggle-element").is(":visible") === true');
+        $this->getSession()->wait(5000, '$("#toggle-element").is(":visible") === false');
+        $this->getSession()->getPage()->pressButton('Toggle');
+        $this->getSession()->wait(5000, '$("#toggle-element").is(":visible") === true');
 
-        static::$session->getPage()->clickLink('Go to Index');
-        $this->assertEquals(static::$host . '/index.php', static::$session->getCurrentUrl());
+        $this->getSession()->getPage()->clickLink('Go to Index');
+        $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
     }
 
     public function testMouseEvents()
     {
-        static::$session->visit(static::$host . '/js_test.php');
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $clicker = static::$session->getPage()->find('css', '.elements div#clicker');
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
 
         $this->assertEquals('not clicked', $clicker->getText());
 
@@ -47,12 +47,12 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
     public function testKeyboardEvents()
     {
-        static::$session->visit(static::$host . '/js_test.php');
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $input1 = static::$session->getPage()->find('css', '.elements input.input.first');
-        $input2 = static::$session->getPage()->find('css', '.elements input.input.second');
-        $input3 = static::$session->getPage()->find('css', '.elements input.input.third');
-        $event  = static::$session->getPage()->find('css', '.elements .text-event');
+        $input1 = $this->getSession()->getPage()->find('css', '.elements input.input.first');
+        $input2 = $this->getSession()->getPage()->find('css', '.elements input.input.second');
+        $input3 = $this->getSession()->getPage()->find('css', '.elements input.input.third');
+        $event  = $this->getSession()->getPage()->find('css', '.elements .text-event');
 
         $input1->keyDown('u');
         $this->assertEquals('key downed:0', $event->getText());
@@ -75,10 +75,10 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
     public function testVisibility()
     {
-        static::$session->visit(static::$host . '/js_test.php');
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $clicker   = static::$session->getPage()->find('css', '.elements div#clicker');
-        $invisible = static::$session->getPage()->find('css', '#invisible');
+        $clicker   = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+        $invisible = $this->getSession()->getPage()->find('css', '#invisible');
 
         $this->assertFalse($invisible->isVisible());
         $this->assertTrue($clicker->isVisible());
@@ -86,10 +86,10 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
     public function testDragDrop()
     {
-        static::$session->visit(static::$host . '/js_test.php');
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $draggable = static::$session->getPage()->find('css', '#draggable');
-        $droppable = static::$session->getPage()->find('css', '#droppable');
+        $draggable = $this->getSession()->getPage()->find('css', '#draggable');
+        $droppable = $this->getSession()->getPage()->find('css', '#droppable');
 
         $draggable->dragTo($droppable);
         $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());

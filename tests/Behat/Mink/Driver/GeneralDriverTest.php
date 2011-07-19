@@ -8,133 +8,133 @@ abstract class GeneralDriverTest extends DriverTest
 {
     public function testRedirect()
     {
-        static::$session->visit(static::$host . '/redirector.php');
-        $this->assertEquals(static::$host . '/redirect_destination.php', static::$session->getCurrentUrl());
+        $this->getSession()->visit($this->pathTo('/redirector.php'));
+        $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
     }
 
     public function testCookie()
     {
-        static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
-        $this->assertNull(static::$session->getCookie('srvr_cookie'));
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
+        $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
+        $this->assertNull($this->getSession()->getCookie('srvr_cookie'));
 
-        static::$session->setCookie('srvr_cookie', 'client cookie set');
-        static::$session->reload();
-        $this->assertContains('Previous cookie: client cookie set', static::$session->getPage()->getText());
-        $this->assertEquals('client cookie set', static::$session->getCookie('srvr_cookie'));
+        $this->getSession()->setCookie('srvr_cookie', 'client cookie set');
+        $this->getSession()->reload();
+        $this->assertContains('Previous cookie: client cookie set', $this->getSession()->getPage()->getText());
+        $this->assertEquals('client cookie set', $this->getSession()->getCookie('srvr_cookie'));
 
-        static::$session->setCookie('srvr_cookie', null);
-        static::$session->reload();
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
+        $this->getSession()->setCookie('srvr_cookie', null);
+        $this->getSession()->reload();
+        $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
 
-        static::$session->visit(static::$host . '/cookie_page1.php');
-        static::$session->visit(static::$host . '/cookie_page2.php');
+        $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
 
-        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getText());
-        static::$session->setCookie('srvr_cookie', null);
-        static::$session->reload();
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
+        $this->assertContains('Previous cookie: srv_var_is_set', $this->getSession()->getPage()->getText());
+        $this->getSession()->setCookie('srvr_cookie', null);
+        $this->getSession()->reload();
+        $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
     }
 
     public function testReset()
     {
-        static::$session->visit(static::$host . '/cookie_page1.php');
-        static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: srv_var_is_set', static::$session->getPage()->getText());
+        $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
+        $this->assertContains('Previous cookie: srv_var_is_set', $this->getSession()->getPage()->getText());
 
-        static::$session->reset();
-        static::$session->visit(static::$host . '/cookie_page2.php');
+        $this->getSession()->reset();
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
 
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
+        $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
 
-        static::$session->setCookie('srvr_cookie', 'test_cookie');
-        static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: test_cookie', static::$session->getPage()->getText());
-        static::$session->reset();
-        static::$session->visit(static::$host . '/cookie_page2.php');
-        $this->assertContains('Previous cookie: NO', static::$session->getPage()->getText());
+        $this->getSession()->setCookie('srvr_cookie', 'test_cookie');
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
+        $this->assertContains('Previous cookie: test_cookie', $this->getSession()->getPage()->getText());
+        $this->getSession()->reset();
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
+        $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
 
-        static::$session->setCookie('client_cookie1', 'some_val');
-        static::$session->setCookie('client_cookie2', 123);
-        static::$session->visit(static::$host . '/session_test.php');
-        static::$session->visit(static::$host . '/cookie_page1.php');
+        $this->getSession()->setCookie('client_cookie1', 'some_val');
+        $this->getSession()->setCookie('client_cookie2', 123);
+        $this->getSession()->visit($this->pathTo('/session_test.php'));
+        $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
 
-        static::$session->visit(static::$host . '/print_cookies.php');
+        $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
             'Array ( [client_cookie1] => some_val [client_cookie2] => 123 [_SESS] =>',
-            static::$session->getPage()->getText()
+            $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            ' [srvr_cookie] => srv_var_is_set )', static::$session->getPage()->getText()
+            ' [srvr_cookie] => srv_var_is_set )', $this->getSession()->getPage()->getText()
         );
 
-        static::$session->reset();
-        static::$session->visit(static::$host . '/print_cookies.php');
+        $this->getSession()->reset();
+        $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            'Array ( )', static::$session->getPage()->getText()
+            'Array ( )', $this->getSession()->getPage()->getText()
         );
     }
 
     public function testHttpOnlyCookieIsDeleted()
     {
-        static::$session->restart();
-        static::$session->visit(static::$host . '/cookie_page3.php');
-        $this->assertEquals('Has Cookie: false', static::$session->getPage()->findById('cookie-status')->getText());
+        $this->getSession()->restart();
+        $this->getSession()->visit($this->pathTo('/cookie_page3.php'));
+        $this->assertEquals('Has Cookie: false', $this->getSession()->getPage()->findById('cookie-status')->getText());
 
-        static::$session->reload();
-        $this->assertEquals('Has Cookie: true', static::$session->getPage()->findById('cookie-status')->getText());
+        $this->getSession()->reload();
+        $this->assertEquals('Has Cookie: true', $this->getSession()->getPage()->findById('cookie-status')->getText());
 
-        static::$session->restart();
-        static::$session->visit(static::$host . '/cookie_page3.php');
-        $this->assertEquals('Has Cookie: false', static::$session->getPage()->findById('cookie-status')->getText());
+        $this->getSession()->restart();
+        $this->getSession()->visit($this->pathTo('/cookie_page3.php'));
+        $this->assertEquals('Has Cookie: false', $this->getSession()->getPage()->findById('cookie-status')->getText());
     }
 
     public function testSessionPersistsBetweenRequests()
     {
-        static::$session->visit(static::$host . '/session_test.php');
-        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->getSession()->visit($this->pathTo('/session_test.php'));
+        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
         $sessionId = $node->getText();
 
-        static::$session->visit(static::$host . '/session_test.php');
-        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->getSession()->visit($this->pathTo('/session_test.php'));
+        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
         $this->assertEquals($sessionId, $node->getText());
 
-        static::$session->visit(static::$host . '/session_test.php?login');
-        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->getSession()->visit($this->pathTo('/session_test.php?login'));
+        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
         $this->assertNotEquals($sessionId, $newSessionId = $node->getText());
 
-        static::$session->visit(static::$host . '/session_test.php');
-        $this->assertNotNull($node = static::$session->getPage()->find('css', '#session-id'));
+        $this->getSession()->visit($this->pathTo('/session_test.php'));
+        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
         $this->assertEquals($newSessionId, $node->getText());
     }
 
     public function testPageControlls()
     {
-        static::$session->visit(static::$host . '/randomizer.php');
-        $number1 = static::$session->getPage()->find('css', '#number')->getText();
+        $this->getSession()->visit($this->pathTo('/randomizer.php'));
+        $number1 = $this->getSession()->getPage()->find('css', '#number')->getText();
 
-        static::$session->reload();
-        $number2 = static::$session->getPage()->find('css', '#number')->getText();
+        $this->getSession()->reload();
+        $number2 = $this->getSession()->getPage()->find('css', '#number')->getText();
 
         $this->assertNotEquals($number1, $number2);
 
-        static::$session->visit(static::$host . '/links.php');
-        static::$session->getPage()->clickLink('Random number page');
+        $this->getSession()->visit($this->pathTo('/links.php'));
+        $this->getSession()->getPage()->clickLink('Random number page');
 
-        $this->assertEquals(static::$host . '/randomizer.php', static::$session->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/randomizer.php'), $this->getSession()->getCurrentUrl());
 
-        static::$session->back();
-        $this->assertEquals(static::$host . '/links.php', static::$session->getCurrentUrl());
+        $this->getSession()->back();
+        $this->assertEquals($this->pathTo('/links.php'), $this->getSession()->getCurrentUrl());
 
-        static::$session->forward();
-        $this->assertEquals(static::$host . '/randomizer.php', static::$session->getCurrentUrl());
+        $this->getSession()->forward();
+        $this->assertEquals($this->pathTo('/randomizer.php'), $this->getSession()->getCurrentUrl());
     }
 
     public function testElementsTraversing()
     {
-        static::$session->visit(static::$host . '/index.php');
+        $this->getSession()->visit($this->pathTo('/index.php'));
 
-        $page = static::$session->getPage();
+        $page = $this->getSession()->getPage();
 
         $this->assertNotNull($page->find('css', 'h1'));
         $this->assertEquals('Extremely useless page', $page->find('css', 'h1')->getText());
@@ -174,9 +174,9 @@ abstract class GeneralDriverTest extends DriverTest
 
     public function testDeepTraversing()
     {
-        static::$session->visit(static::$host . '/index.php');
+        $this->getSession()->visit($this->pathTo('/index.php'));
 
-        $traversDiv = static::$session->getPage()->findAll('css', 'div.travers');
+        $traversDiv = $this->getSession()->getPage()->findAll('css', 'div.travers');
 
         $this->assertEquals(1, count($traversDiv));
         $traversDiv = $traversDiv[0];
@@ -200,30 +200,30 @@ abstract class GeneralDriverTest extends DriverTest
 
     public function testLinks()
     {
-        static::$session->visit(static::$host . '/links.php');
-        $page = static::$session->getPage();
+        $this->getSession()->visit($this->pathTo('/links.php'));
+        $page = $this->getSession()->getPage();
         $link = $page->findLink('Redirect me to');
 
         $this->assertEquals('redirector.php', $link->getAttribute('href'));
         $link->click();
 
-        $this->assertEquals(static::$host . '/redirect_destination.php', static::$session->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
 
-        static::$session->visit(static::$host . '/links.php');
-        $page = static::$session->getPage();
+        $this->getSession()->visit($this->pathTo('/links.php'));
+        $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
         $this->assertEquals('/basic_form.php', $link->getAttribute('href'));
         $link->click();
 
-        $this->assertEquals(static::$host . '/basic_form.php', static::$session->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
     }
 
     public function testBasicForm()
     {
-        static::$session->visit(static::$host . '/basic_form.php');
+        $this->getSession()->visit($this->pathTo('/basic_form.php'));
 
-        $page = static::$session->getPage();
+        $page = $this->getSession()->getPage();
         $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
 
         $firstname  = $page->findField('first_name');
@@ -250,9 +250,9 @@ abstract class GeneralDriverTest extends DriverTest
 
     public function testAdvancedForm()
     {
-        static::$session->visit(static::$host . '/advanced_form.php');
+        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
 
-        $page = static::$session->getPage();
+        $page = $this->getSession()->getPage();
         $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
 
         $firstname  = $page->findField('first_name');

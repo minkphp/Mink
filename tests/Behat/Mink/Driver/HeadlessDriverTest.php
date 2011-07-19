@@ -8,23 +8,23 @@ abstract class HeadlessDriverTest extends GeneralDriverTest
 {
     public function testStatuses()
     {
-        static::$session->visit(static::$host . '/index.php');
+        $this->getSession()->visit($this->pathTo('/index.php'));
 
-        $this->assertEquals(200, static::$session->getStatusCode());
-        $this->assertEquals(static::$host . '/index.php', static::$session->getCurrentUrl());
+        $this->assertEquals(200, $this->getSession()->getStatusCode());
+        $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
 
-        static::$session->visit(static::$host . '/404.php');
+        $this->getSession()->visit($this->pathTo('/404.php'));
 
-        $this->assertEquals(static::$host . '/404.php', static::$session->getCurrentUrl());
-        $this->assertEquals(404, static::$session->getStatusCode());
-        $this->assertEquals('Sorry, page not found', static::$session->getPage()->getContent());
+        $this->assertEquals($this->pathTo('/404.php'), $this->getSession()->getCurrentUrl());
+        $this->assertEquals(404, $this->getSession()->getStatusCode());
+        $this->assertEquals('Sorry, page not found', $this->getSession()->getPage()->getContent());
     }
 
     public function testHeaders()
     {
-        static::$session->setRequestHeader('Accept-Language', 'fr');
-        static::$session->visit(static::$host . '/headers.php');
+        $this->getSession()->setRequestHeader('Accept-Language', 'fr');
+        $this->getSession()->visit($this->pathTo('/headers.php'));
 
-        $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', static::$session->getPage()->getContent());
+        $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());
     }
 }

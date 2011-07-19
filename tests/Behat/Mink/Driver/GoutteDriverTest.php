@@ -2,14 +2,17 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Driver\GoutteDriver;
+use Behat\Mink\Mink;
 
 require_once 'HeadlessDriverTest.php';
 
 class GoutteDriverTest extends HeadlessDriverTest
 {
-    protected static function configureDriver()
+    protected function setUp()
     {
-        return new GoutteDriver();
+        if (!$this->getMink()->hasSession('goutte')) {
+            $this->getMink()->registerSession('goutte', static::initGoutteSession());
+            $this->getMink()->setDefaultSessionName('goutte');
+        }
     }
 }
