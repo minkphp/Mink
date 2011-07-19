@@ -224,6 +224,14 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
     }
 
+    public function testJson()
+    {
+        $this->getSession()->visit($this->pathTo('/json.php'));
+        $this->assertContains(
+            '{"key1":"val1","key2":234,"key3":[1,2,3]}', $this->getSession()->getPage()->getContent()
+        );
+    }
+
     public function testBasicForm()
     {
         $this->getSession()->visit($this->pathTo('/basic_form.php'));
