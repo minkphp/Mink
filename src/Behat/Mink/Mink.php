@@ -95,30 +95,6 @@ class Mink
     }
 
     /**
-     * Reset all started sessions.
-     */
-    public function resetSessions()
-    {
-        foreach ($this->sessions as $name => $session) {
-            if ($session->isStarted()) {
-                $session->reset();
-            }
-        }
-    }
-
-    /**
-     * Restart all started sessions.
-     */
-    public function restartSessions()
-    {
-        foreach ($this->sessions as $name => $session) {
-            if ($session->isStarted()) {
-                $session->restart();
-            }
-        }
-    }
-
-    /**
      * Returns registered session by it's name or active one.
      *
      * @param   string  $name   session name
@@ -148,7 +124,31 @@ class Mink
     }
 
     /**
-     * Stop all started sessions.
+     * Resets all started sessions.
+     */
+    public function resetSessions()
+    {
+        foreach ($this->sessions as $name => $session) {
+            if ($session->isStarted()) {
+                $session->reset();
+            }
+        }
+    }
+
+    /**
+     * Restarts all started sessions.
+     */
+    public function restartSessions()
+    {
+        foreach ($this->sessions as $name => $session) {
+            if ($session->isStarted()) {
+                $session->restart();
+            }
+        }
+    }
+
+    /**
+     * Stops all started sessions.
      */
     public function stopSessions()
     {
