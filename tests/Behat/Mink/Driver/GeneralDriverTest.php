@@ -2,10 +2,15 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-require_once 'DriverTest.php';
+use Behat\Mink\PHPUnit\TestCase;
 
-abstract class GeneralDriverTest extends DriverTest
+abstract class GeneralDriverTest extends TestCase
 {
+    protected function pathTo($path)
+    {
+        return $_SERVER['WEB_FIXTURES_HOST'].$path;
+    }
+
     public function testRedirect()
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));

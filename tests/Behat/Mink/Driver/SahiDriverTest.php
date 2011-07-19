@@ -2,8 +2,6 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Mink;
-
 require_once 'JavascriptDriverTest.php';
 
 class SahiDriverTest extends JavascriptDriverTest

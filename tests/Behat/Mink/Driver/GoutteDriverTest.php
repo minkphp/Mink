@@ -2,8 +2,6 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Mink;
-
 require_once 'HeadlessDriverTest.php';
 
 class GoutteDriverTest extends HeadlessDriverTest
