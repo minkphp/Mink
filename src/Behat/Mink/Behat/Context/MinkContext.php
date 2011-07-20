@@ -311,6 +311,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+
         try {
             assertRegExp($pattern, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
@@ -327,6 +328,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertResponseStatus($code)
     {
         $actual = $this->getSession()->getStatusCode();
+
         try {
             assertEquals($actual, $code);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
@@ -494,19 +496,19 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertFieldContains($field, $value)
     {
         $field = str_replace('\\"', '"', $field);
-        $field = $this->getSession()->getPage()->findField($field);
+        $node  = $this->getSession()->getPage()->findField($field);
         $value = str_replace('\\"', '"', $value);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
                 $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
         try {
-            assertEquals($value, $field->getValue());
+            assertEquals($value, $node->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but should have "%s"', $element, $field->getValue(), $value);
+            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but should have "%s"', $field, $node->getValue(), $value);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -519,19 +521,19 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertFieldNotContains($field, $value)
     {
         $field = str_replace('\\"', '"', $field);
-        $field = $this->getSession()->getPage()->findField($field);
+        $node  = $this->getSession()->getPage()->findField($field);
         $value = str_replace('\\"', '"', $value);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
                 $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
         try {
-            assertNotEquals($value, $field->getValue());
+            assertNotEquals($value, $node->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but it should not have that value', $element, $field->getValue());
+            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but it should not have that value', $field, $node->getValue());
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -544,18 +546,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertCheckboxChecked($checkbox)
     {
         $checkbox = str_replace('\\"', '"', $checkbox);
-        $field    = $this->getSession()->getPage()->findField($checkbox);
+        $node     = $this->getSession()->getPage()->findField($checkbox);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'form field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $checkbox
             );
         }
 
         try {
-            assertTrue($field->isChecked());
+            assertTrue($node->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Checkbox with id|name|label|value "%s" is not checked, but it should be', $element);
+            $message = sprintf('Checkbox with id|name|label|value "%s" is not checked, but it should be', $checkbox);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -568,18 +570,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertCheckboxNotChecked($checkbox)
     {
         $checkbox = str_replace('\\"', '"', $checkbox);
-        $field    = $this->getSession()->getPage()->findField($checkbox);
+        $node     = $this->getSession()->getPage()->findField($checkbox);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'form field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $checkbox
             );
         }
 
         try {
-            assertFalse($field->isChecked());
+            assertFalse($node->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Checkbox with id|name|label|value "%s" is checked, but it should not be', $element);
+            $message = sprintf('Checkbox with id|name|label|value "%s" is checked, but it should not be', $checkbox);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
