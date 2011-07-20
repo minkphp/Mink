@@ -17,4 +17,11 @@ namespace Behat\Mink\Exception;
  */
 class DriverException extends Exception
 {
+    /**
+     * Initializes exception.
+     */
+    public function __construct($message, $code = 0, \Exception $previous = null)
+    {
+        parent::__construct($message, null, $code, $previous);
+    }
 }

@@ -1,0 +1,131 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="global" source-language="en" target-language="ja" datatype="plaintext">
+    <header />
+    <body>
+        <trans-unit id="i-am-on-page">
+            <source><![CDATA[/^(?:|I )am on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーは )"(?P<page>[^\s]+)" を表示している$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-go-to-page">
+            <source><![CDATA[/^(?:|I )go to "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<page>[^\s]+)" へ移動する$/]]></target>
+        </trans-unit>
+        <trans-unit id="reload-the-page">
+            <source><![CDATA[/^(?:|I )reload the page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )ページをリロードする$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-backward-one-page">
+            <source><![CDATA[/^(?:|I )move backward one page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )履歴の前のページに戻る$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-forward-one-page">
+            <source><![CDATA[/^(?:|I )move forward one page$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )履歴の次のページヘ進む$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-press-button">
+            <source><![CDATA[/^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<button>(?:[^"]|\\")*)" ボタンをクリックする$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-follow-link">
+            <source><![CDATA[/^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<link>(?:[^"]|\\")*)" のリンク先へ移動する$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-field-with-value">
+            <source><![CDATA[/^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<field>(?:[^"]|\\")*)" フィールドに "(?P<value>(?:[^"]|\\")*)" と入力する$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-value-for-field">
+            <source><![CDATA[/^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<value>(?:[^"]|\\")*)" という値を "(?P<field>(?:[^"]|\\")*)" に入力する$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-the-following">
+            <source><![CDATA[/^(?:|I )fill in the following:$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが)次のように入力する:$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-select-option-from-select">
+            <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" という値を "(?P<select>(?:[^"]|\\")*)" から選択する$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-check-option">
+            <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" にチェックをつける$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-uncheck-option">
+            <source><![CDATA[/^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" のチェックをはずす$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-attach-the-file-to-field">
+            <source><![CDATA[/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが)パス "(?P<path>[^"]*)" にあるファイルを "(?P<field>(?:[^"]|\\")*)" に添付する$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-text">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<text>(?:[^"]|\\")*)" と表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-contain">
+            <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^レスポンスに "(?P<text>(?:[^"]|\\")*)" が含まれていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-not-see-text">
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<text>(?:[^"]|\\")*)" と表示されていないこと$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-not-contain">
+            <source><![CDATA[/^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^レスポンスに "(?P<text>(?:[^"]|\\")*)" が含まれていないこと$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-field-should-contain-value">
+            <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^"(?P<field>(?:[^"]|\\")*)" フィールドに "(?P<value>(?:[^"]|\\")*)" が含まれていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-field-should-not-contain-value">
+            <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^"(?P<field>(?:[^"]|\\")*)" フィールドに "(?P<value>(?:[^"]|\\")*)" が含まれていないこと$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-checkbox-should-be-checked">
+            <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/]]></source>
+            <target><![CDATA[/^チェックボックス "(?P<checkbox>(?:[^"]|\\")*)" のチェックがついていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-checkbox-should-not-be-checked">
+            <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/]]></source>
+            <target><![CDATA[/^チェックボックス "(?P<checkbox>(?:[^"]|\\")*)" のチェックがはずれていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-be-on-page">
+            <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )(?P<page>[^\s]+) を表示していること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-url-should-match">
+            <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^URLが "(?P<pattern>(?:[^"]|\\")*)" にマッチすること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-contain">
+            <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<value>(?:[^"]|\\")*)" という値が含まれていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-text-in-element">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<text>(?:[^"]|\\")*)" と表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-element">
+            <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-not-see-element">
+            <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていないこと$/]]></target>
+        </trans-unit>
+        <trans-unit id="response-status-code-should-be">
+            <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/レスポンスコードが (?P<code>\d+) であること/]]></target>
+        </trans-unit>
+        <trans-unit id="print-last-response">
+            <source><![CDATA[/^print last response$/]]></source>
+            <target><![CDATA[/^最後のレスポンスを表示$/]]></target>
+        </trans-unit>
+        <trans-unit id="show-last-response">
+            <source><![CDATA[/^show last response$/]]></source>
+            <target><![CDATA[/^最後のレスポンスをブラウザで表示$/]]></target>
+        </trans-unit>
+    </body>
+  </file>
+</xliff>

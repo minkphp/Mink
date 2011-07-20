@@ -27,10 +27,10 @@ class DocumentElementTest extends ElementTest
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
-            ->with($xpath = 'h3[a]')
+            ->with('//html/h3[a]')
             ->will($this->onConsecutiveCalls(array(2, 3, 4), array(1, 2), array()));
 
-        $this->assertEquals(3, count($this->document->findAll('xpath', $xpath)));
+        $this->assertEquals(3, count($this->document->findAll('xpath', $xpath = 'h3[a]')));
 
         $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $selector
@@ -48,10 +48,10 @@ class DocumentElementTest extends ElementTest
         $this->session->getDriver()
             ->expects($this->exactly(3))
             ->method('find')
-            ->with($xpath = 'h3[a]')
+            ->with('//html/h3[a]')
             ->will($this->onConsecutiveCalls(array(2, 3, 4), array(1, 2), array()));
 
-        $this->assertEquals(2, $this->document->find('xpath', $xpath));
+        $this->assertEquals(2, $this->document->find('xpath', $xpath = 'h3[a]'));
 
         $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $selector
@@ -69,7 +69,7 @@ class DocumentElementTest extends ElementTest
     public function testFindField()
     {
         $xpath = <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some field' or ./@name = 'some field') or ./@id = //label[contains(normalize-space(string(.)), 'some field')]/@for) or ./@placeholder = 'some field')] | .//label[contains(normalize-space(string(.)), 'some field')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
+//html/.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some field' or ./@name = 'some field') or ./@id = //label[contains(normalize-space(string(.)), 'some field')]/@for) or ./@placeholder = 'some field')] | .//label[contains(normalize-space(string(.)), 'some field')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
 XPATH;
 
         $this->session->getDriver()
@@ -85,7 +85,7 @@ XPATH;
     public function testFindLink()
     {
         $xpath = <<<XPATH
-.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])]
+//html/.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])] | .//*[./@role = 'link'][((./@id = 'some link' or contains(./@value, 'some link')) or contains(./@title, 'some link') or contains(normalize-space(string(.)), 'some link'))]
 XPATH;
 
         $this->session->getDriver()
@@ -101,7 +101,7 @@ XPATH;
     public function testFindButton()
     {
         $xpath = <<<XPATH
-.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')]
+//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
 XPATH;
 
         $this->session->getDriver()
@@ -117,7 +117,7 @@ XPATH;
     public function testFindById()
     {
         $xpath = <<<XPATH
-//*[@id='some-item-2']
+//html//*[@id='some-item-2']
 XPATH;
 
         $this->session->getDriver()
@@ -135,17 +135,17 @@ XPATH;
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
-            ->with($xpath = 'some xpath selector')
+            ->with('//html/some xpath')
             ->will($this->onConsecutiveCalls(array('id2', 'id3'), array()));
 
-        $this->assertTrue($this->document->hasSelector('xpath', $xpath));
-        $this->assertFalse($this->document->hasSelector('xpath', $xpath));
+        $this->assertTrue($this->document->has('xpath', 'some xpath'));
+        $this->assertFalse($this->document->has('xpath', 'some xpath'));
     }
 
     public function testHasContent()
     {
         $xpath = <<<XPATH
-./descendant-or-self::*[contains(normalize-space(.), 'some content')]
+//html/./descendant-or-self::*[contains(normalize-space(.), 'some content')]
 XPATH;
 
         $this->session->getDriver()
@@ -161,7 +161,7 @@ XPATH;
     public function testHasLink()
     {
         $xpath = <<<XPATH
-.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])]
+//html/.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])] | .//*[./@role = 'link'][((./@id = 'some link' or contains(./@value, 'some link')) or contains(./@title, 'some link') or contains(normalize-space(string(.)), 'some link'))]
 XPATH;
 
         $this->session->getDriver()
@@ -177,7 +177,7 @@ XPATH;
     public function testHasButton()
     {
         $xpath = <<<XPATH
-.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')]
+//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
 XPATH;
 
         $this->session->getDriver()
@@ -193,7 +193,7 @@ XPATH;
     public function testHasField()
     {
         $xpath = <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some field' or ./@name = 'some field') or ./@id = //label[contains(normalize-space(string(.)), 'some field')]/@for) or ./@placeholder = 'some field')] | .//label[contains(normalize-space(string(.)), 'some field')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
+//html/.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some field' or ./@name = 'some field') or ./@id = //label[contains(normalize-space(string(.)), 'some field')]/@for) or ./@placeholder = 'some field')] | .//label[contains(normalize-space(string(.)), 'some field')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
 XPATH;
 
         $this->session->getDriver()
@@ -209,7 +209,7 @@ XPATH;
     public function testHasCheckedField()
     {
         $xpath = <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some checkbox' or ./@name = 'some checkbox') or ./@id = //label[contains(normalize-space(string(.)), 'some checkbox')]/@for) or ./@placeholder = 'some checkbox')] | .//label[contains(normalize-space(string(.)), 'some checkbox')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
+//html/.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some checkbox' or ./@name = 'some checkbox') or ./@id = //label[contains(normalize-space(string(.)), 'some checkbox')]/@for) or ./@placeholder = 'some checkbox')] | .//label[contains(normalize-space(string(.)), 'some checkbox')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
 XPATH;
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
@@ -233,7 +233,7 @@ XPATH;
     public function testHasUncheckedField()
     {
         $xpath = <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some checkbox' or ./@name = 'some checkbox') or ./@id = //label[contains(normalize-space(string(.)), 'some checkbox')]/@for) or ./@placeholder = 'some checkbox')] | .//label[contains(normalize-space(string(.)), 'some checkbox')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
+//html/.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = 'some checkbox' or ./@name = 'some checkbox') or ./@id = //label[contains(normalize-space(string(.)), 'some checkbox')]/@for) or ./@placeholder = 'some checkbox')] | .//label[contains(normalize-space(string(.)), 'some checkbox')]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
 XPATH;
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
@@ -257,7 +257,7 @@ XPATH;
     public function testHasSelect()
     {
         $xpath = <<<XPATH
-.//select[(((./@id = 'some select field' or ./@name = 'some select field') or ./@id = //label[contains(normalize-space(string(.)), 'some select field')]/@for) or ./@placeholder = 'some select field')] | .//label[contains(normalize-space(string(.)), 'some select field')]//.//select
+//html/.//select[(((./@id = 'some select field' or ./@name = 'some select field') or ./@id = //label[contains(normalize-space(string(.)), 'some select field')]/@for) or ./@placeholder = 'some select field')] | .//label[contains(normalize-space(string(.)), 'some select field')]//.//select
 XPATH;
 
         $this->session->getDriver()
@@ -273,7 +273,7 @@ XPATH;
     public function testHasTable()
     {
         $xpath = <<<XPATH
-.//table[(./@id = 'some table' or contains(.//caption, 'some table'))]
+//html/.//table[(./@id = 'some table' or contains(.//caption, 'some table'))]
 XPATH;
 
         $this->session->getDriver()
@@ -289,25 +289,19 @@ XPATH;
     public function testClickLink()
     {
         $xpath = <<<XPATH
-.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])]
+//html/.//a[./@href][(((./@id = 'some link' or contains(normalize-space(string(.)), 'some link')) or contains(./@title, 'some link')) or .//img[contains(./@alt, 'some link')])]
 XPATH;
-        
+
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('click');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('click')
-            ->with($xpath);
 
         $this->document->clickLink('some link');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -317,7 +311,7 @@ XPATH;
     public function testClickButton()
     {
         $xpath = <<<XPATH
-.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')]
+//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][((./@id = 'some button' or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[(((./@id = 'some button' or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')]
 XPATH;
 
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
@@ -325,21 +319,15 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('press');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
 
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('click')
-            ->with($xpath);
-
-        $this->document->clickButton('some button');
+        $this->document->pressButton('some button');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        $this->document->clickButton('some button');
+        $this->document->pressButton('some button');
     }
 
     public function testFillField()
@@ -353,17 +341,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('setValue')
+            ->with('some val');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('setValue')
-            ->with($xpath, 'some val');
 
         $this->document->fillField('some field', 'some val');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -381,17 +364,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('check');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('check')
-            ->with($xpath);
 
         $this->document->checkField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -409,17 +386,11 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('uncheck');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('uncheck')
-            ->with($xpath);
 
         $this->document->uncheckField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -437,17 +408,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('selectOption')
+            ->with('option2');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('selectOption')
-            ->with($xpath, 'option2');
 
         $this->document->selectFieldOption('some field', 'option2');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -465,17 +431,12 @@ XPATH;
             ->getMock();
         $node
             ->expects($this->once())
-            ->method('getXpath')
-            ->will($this->returnValue($xpath));
+            ->method('attachFile')
+            ->with('/path/to/file');
         $this->session->getDriver()
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->onConsecutiveCalls(array($node), array()));
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('attachFile')
-            ->with($xpath, '/path/to/file');
 
         $this->document->attachFileToField('some field', '/path/to/file');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -494,21 +455,12 @@ XPATH;
 
     public function testGetText()
     {
-        $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $node
+        $this->session->getDriver()
             ->expects($this->once())
             ->method('getText')
-            ->will($this->returnValue($ret = 'page text'));
+            ->with('//html')
+            ->will($this->returnValue('val1'));
 
-        $this->session->getDriver()
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->with('/html')
-            ->will($this->onConsecutiveCalls(array(), array($node)));
-
-        $this->assertNull($this->document->getText());
-        $this->assertEquals($ret, $this->document->getText());
+        $this->assertEquals('val1', $this->document->getText());
     }
 }

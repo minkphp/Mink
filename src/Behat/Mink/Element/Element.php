@@ -42,6 +42,14 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     */
+    public function has($selector, $locator)
+    {
+        return null !== $this->find($selector, $locator);
+    }
+
+    /**
      * @see     Behat\Mink\Element\ElementInterface::find()
      */
     public function find($selector, $locator)
@@ -56,42 +64,31 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        return $this->getSession()->getDriver()->find(
-            $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator)
-        );
-    }
+        $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
 
-    /**
-     * @see     Behat\Mink\Element\ElementInterface::findAll()
-     */
-    public function hasSelector($selector, $locator)
-    {
-        return null !== $this->find($selector, $locator);
-    }
-
-    /**
-     * Returns element text.
-     *
-     * @return  string|null
-     */
-    abstract public function getText();
-
-    /**
-     * Returns element text with trimmed tags and non-printable chars.
-     *
-     * @return  string|null
-     */
-    public function getPlainText()
-    {
-        $text = $this->getText();
-
-        if (null !== $text) {
-            $text = str_replace("\n", ' ', $text);
-            $text = preg_replace('/\<br *\/?\>/i', "\n", $text);
-            $text = strip_tags($text);
-            $text = preg_replace('/ {2,}/', ' ', $text);
-
-            return $text;
+        // add parent xpath before element selector
+        if (0 === strpos($xpath, '/')) {
+            $xpath = $this->getXpath().$xpath;
+        } else {
+            $xpath = $this->getXpath().'/'.$xpath;
         }
+
+        return $this->getSession()->getDriver()->find($xpath);
+    }
+
+    /**
+     * @see     Behat\Mink\Element\ElementInterface::getText()
+     */
+    public function getText()
+    {
+        return $this->getSession()->getDriver()->getText($this->getXpath());
+    }
+
+    /**
+     * @see     Behat\Mink\Element\ElementInterface::getHtml()
+     */
+    public function getHtml()
+    {
+        return $this->getSession()->getDriver()->getHtml($this->getXpath());
     }
 }

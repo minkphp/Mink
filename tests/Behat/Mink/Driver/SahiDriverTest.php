@@ -2,16 +2,17 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Selector\SelectorsHandler,
-    Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Session;
+require_once 'JavascriptDriverTest.php';
 
-require_once 'DriverTest.php';
-
-class SahiDriverTest extends DriverTest
+class SahiDriverTest extends JavascriptDriverTest
 {
-    protected static function configureDriver()
+    protected function setUp()
     {
-        return new SahiDriver($_SERVER['WEB_FIXTURES_BROWSER']);
+        $browser = $_SERVER['WEB_FIXTURES_BROWSER'];
+
+        if (!$this->getMink()->hasSession('sahi')) {
+            $this->getMink()->registerSession('sahi', static::initSahiSession($browser));
+            $this->getMink()->setDefaultSessionName('sahi');
+        }
     }
 }

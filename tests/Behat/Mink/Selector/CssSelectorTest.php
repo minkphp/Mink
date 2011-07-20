@@ -8,7 +8,7 @@ class CssSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testSelector()
     {
-        if (!class_exists('Symfony\Component\CssSelector\Parser')) {
+        if (!class_exists('Symfony\Component\CssSelector\CssSelector')) {
             $this->markTestSkipped('Symfony2 CssSelector component not installed');
         }
 

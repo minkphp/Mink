@@ -15,11 +15,11 @@ use Behat\Mink\Session,
  */
 
 /**
- * Page node element.
+ * Page element node.
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class NodeElement extends Element
+class NodeElement extends TraversableElement
 {
     private $xpath;
 
@@ -45,13 +45,13 @@ class NodeElement extends Element
     }
 
     /**
-     * Returns element text (inside tag).
+     * Returns current node tag name.
      *
-     * @return  string|null
+     * @return  string
      */
-    public function getText()
+    public function getTagName()
     {
-        return $this->getSession()->getDriver()->getText($this->getXpath());
+        return $this->getSession()->getDriver()->getTagName($this->getXpath());
     }
 
     /**
@@ -62,6 +62,16 @@ class NodeElement extends Element
     public function getValue()
     {
         return $this->getSession()->getDriver()->getValue($this->getXpath());
+    }
+
+    /**
+     * Sets node value.
+     *
+     * @param   string  $value
+     */
+    public function setValue($value)
+    {
+        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
     }
 
     /**
@@ -87,21 +97,27 @@ class NodeElement extends Element
     }
 
     /**
-     * Sets node value.
-     *
-     * @param   string  $value
-     */
-    public function setValue($value)
-    {
-        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
-    }
-
-    /**
      * Clicks current node.
      */
     public function click()
     {
         $this->getSession()->getDriver()->click($this->getXpath());
+    }
+
+    /**
+     * Presses current button.
+     */
+    public function press()
+    {
+        $this->click();
+    }
+
+    /**
+     * Double-clicks current node.
+     */
+    public function doubleClick()
+    {
+        $this->getSession()->getDriver()->doubleClick($this->getXpath());
     }
 
     /**
@@ -129,6 +145,16 @@ class NodeElement extends Element
     }
 
     /**
+     * Checks whether current node is checked if it's a checkbox field.
+     *
+     * @return  Boolean
+     */
+    public function isChecked()
+    {
+        return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+    }
+
+    /**
      * Selects current node specified option if it's a select field.
      *
      * @param   string  $option
@@ -149,16 +175,6 @@ class NodeElement extends Element
     }
 
     /**
-     * Returns current node tag name.
-     *
-     * @return  string
-     */
-    public function getTagName()
-    {
-        return $this->getSession()->getDriver()->getTagName($this->getXpath());
-    }
-
-    /**
      * Checks whether current node is visible on page.
      *
      * @return  Boolean
@@ -169,13 +185,21 @@ class NodeElement extends Element
     }
 
     /**
-     * Checks whether current node is checked if it's a checkbox field.
-     *
-     * @return  Boolean
+     * Simulates a mouse over on the element.
      */
-    public function isChecked()
+    public function mouseOver()
     {
-        return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+        $this->getSession()->getDriver()->mouseOver($this->getXpath());
+    }
+
+    /**
+     * Drags current node onto other node.
+     *
+     * @param   ElementInterface    $destination    other node
+     */
+    public function dragTo(ElementInterface $destination)
+    {
+        $this->getSession()->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
     }
 
     /**
@@ -195,30 +219,35 @@ class NodeElement extends Element
     }
 
     /**
-     * Simulates a mouse over on the element.
+     * Presses specific keyboard key.
+     *
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    public function mouseOver()
+    public function keyPress($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->mouseOver($this->getXpath());
+        $this->getSession()->getDriver()->keyPress($this->getXpath(), $char, $modifier);
     }
 
     /**
-     * Triggers specific event on current node.
+     * Pressed down specific keyboard key.
      *
-     * @param   string  $event  event name
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    public function triggerEvent($event)
+    public function keyDown($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->triggerEvent($this->getXpath(), $event);
+        $this->getSession()->getDriver()->keyDown($this->getXpath(), $char, $modifier);
     }
 
     /**
-     * Drags current node onto other node.
+     * Pressed up specific keyboard key.
      *
-     * @param   ElementInterface    $destination    other node
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    public function dragTo(ElementInterface $destination)
+    public function keyUp($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
+        $this->getSession()->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
 }

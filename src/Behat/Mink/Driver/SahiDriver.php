@@ -2,12 +2,13 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\SahiClient\Client;
+use Behat\SahiClient\Client,
+    Behat\SahiClient\Exception\ConnectionException;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\DriverException,
-    Behat\Mink\Exception\UnsupportedByDriverException;
+    Behat\Mink\Exception\UnsupportedDriverActionException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -30,7 +31,7 @@ class SahiDriver implements DriverInterface
     private $session;
 
     /**
-     * Initialie Sahi driver.
+     * Initializes Sahi driver.
      *
      * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
      * @param   Behat\SahiClient\Client     $client         Sahi client instance
@@ -92,14 +93,21 @@ class SahiDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::reset()
      */
-    public function reset() {}
+    public function reset()
+    {
+        try {
+            $this->executeScript(
+                '(function(){var c=document.cookie.split(";");for(var i=0;i<c.length;i++){var e=c[i].indexOf("=");var n=e>-1?c[i].substr(0,e):c[i];document.cookie=n+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";}})()'
+            );
+        } catch(\Exception $e) {}
+    }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::visit()
      */
     public function visit($url)
     {
-        $this->client->navigateTo($url);
+        $this->client->navigateTo($url, true);
     }
 
     /**
@@ -111,23 +119,92 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
+     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     */
+    public function reload()
+    {
+        $this->visit($this->getCurrentUrl());
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     */
+    public function forward()
+    {
+        $this->executeScript('history.forward()');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::back()
+     */
+    public function back()
+    {
+        $this->executeScript('history.back()');
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
      *
      * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
      */
+    public function setBasicAuth($user, $password)
+    {
+        throw new UnsupportedByDriverException('HTTP Basic authentication is not supported', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function setRequestHeader($name, $value)
+    {
+        throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
     public function getResponseHeaders()
     {
-        throw new UnsupportedByDriverException('Response headers are not supported', $this);
+        throw new UnsupportedDriverActionException('Response headers manipulation is not supported by %s', $this);
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::setCookie()
+     */
+    public function setCookie($name, $value = null)
+    {
+        if (null === $value) {
+            try {
+                $this->executeScript(sprintf('_sahi._deleteCookie("%s")', $name));
+            } catch (ConnectionException $e) {}
+        } else {
+            $value = str_replace('"', '\\"', $value);
+            $this->executeScript(sprintf('_sahi._createCookie("%s", "%s")', $name, $value));
+        }
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getCookie()
+     */
+    public function getCookie($name)
+    {
+        try {
+            return $this->evaluateScript(sprintf('_sahi._cookie("%s")', $name));
+        } catch (ConnectionException $e) {}
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::getStatusCode()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function getStatusCode()
     {
-        throw new UnsupportedByDriverException('Status code is not supported', $this);
+        throw new UnsupportedDriverActionException('Status code reading is not supported by %s', $this);
     }
 
     /**
@@ -137,14 +214,11 @@ class SahiDriver implements DriverInterface
     {
         $html = $this->evaluateScript('document.getElementsByTagName("html")[0].innerHTML');
 
-        $html   = html_entity_decode($html);
-        $start  = strpos($html, '<!--SAHI_INJECT_START-->');
-        $finish = strpos($html, '<!--SAHI_INJECT_END-->') ;
-
-        if (false !== $start && false !== $finish) {
-            $finish += strlen('<!--SAHI_INJECT_END-->') - $start;
-            $html    = substr_replace($html, '', $start, $finish);
-        }
+        $html = preg_replace(array(
+            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/s',
+            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/s'
+        ), '', $html);
+        $html = html_entity_decode($html);
 
         return "<html>\n$html\n</html>";
     }
@@ -154,12 +228,16 @@ class SahiDriver implements DriverInterface
      */
     public function find($xpath)
     {
-        $count = intval($this->evaluateScript(
-            'document.evaluate("' . $this->prepareXPath($xpath) . '", document, null, 7, null).snapshotLength'
-        ));
+        $previous = libxml_use_internal_errors(true);
+        $document = new \DOMDocument('1.0');
+        @$document->loadHTML($this->getContent());
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
 
+        $domxpath = new \DOMXPath($document);
+        $domcount = $domxpath->query($xpath)->length;
         $elements = array();
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $domcount; $i++) {
             $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i + 1), $this->session);
         }
 
@@ -180,6 +258,14 @@ class SahiDriver implements DriverInterface
     public function getText($xpath)
     {
         return $this->client->findByXPath($this->prepareXPath($xpath))->getText();
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::getHtml()
+     */
+    public function getHtml($xpath)
+    {
+        return $this->client->findByXPath($this->prepareXPath($xpath))->getHTML();
     }
 
     /**
@@ -206,11 +292,12 @@ class SahiDriver implements DriverInterface
                 $function = <<<JS
 function(){
     for (var i = 0; i < document.forms.length; i++) {
-        if (document.forms[i].{$name}) {
+        if (document.forms[i].elements['{$name}']) {
             var form  = document.forms[i];
-            var value = form.{$name}[0].value;
-            for (var f = 0; f < form.{$name}.length; f++) {
-                var item = form.{$name}[f];
+            var elements = form.elements['{$name}'];
+            var value = elements[0].value;
+            for (var f = 0; f < elements.length; f++) {
+                var item = elements[f];
                 if (item.checked) {
                     return item.value;
                 }
@@ -298,6 +385,14 @@ JS;
     }
 
     /**
+     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     */
+    public function doubleClick($xpath)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->doubleClick();
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::rightClick()
      */
     public function rightClick($xpath)
@@ -346,11 +441,33 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::triggerEvent()
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
      */
-    public function triggerEvent($xpath, $event)
+    public function keyPress($xpath, $char, $modifier = null)
     {
-        $this->client->findByXPath($this->prepareXPath($xpath))->simulateEvent($event);
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyPress(
+            $char, strtoupper($modifier)
+        );
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     */
+    public function keyDown($xpath, $char, $modifier = null)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyDown(
+            $char, strtoupper($modifier)
+        );
+    }
+
+    /**
+     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     */
+    public function keyUp($xpath, $char, $modifier = null)
+    {
+        $this->client->findByXPath($this->prepareXPath($xpath))->keyUp(
+            $char, strtoupper($modifier)
+        );
     }
 
     /**
@@ -377,7 +494,7 @@ JS;
      */
     public function evaluateScript($script)
     {
-        return $this->client->getConnection()->executeJavascript($script);
+        return $this->client->getConnection()->evaluateJavascript($script);
     }
 
     /**
@@ -402,11 +519,12 @@ JS;
             $function = <<<JS
 function(){
 for (var i = 0; i < document.forms.length; i++) {
-    if (document.forms[i].{$name}) {
+    if (document.forms[i].elements['{$name}']) {
         var form  = document.forms[i];
-        var value = form.{$name}[0].value;
-        for (var f = 0; f < form.{$name}.length; f++) {
-            var item = form.{$name}[f];
+        var elements = form.elements['{$name}'];
+        var value = elements[0].value;
+        for (var f = 0; f < elements.length; f++) {
+            var item = elements[f];
             if ("{$value}" == item.value) {
                 item.checked = true;
             }

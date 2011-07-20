@@ -8,6 +8,23 @@
     <h1>Extremely useless page</h1>
     <p>
         <strong>Lorem</strong> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim <strong>veniam</strong>, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla <strong class="super-duper">pariatur</strong>. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+        <div id="some-element" data-href="http://mink.behat.org">
+            some <div>very
+            </div>
+<em>interesting</em>      text
+        </div>
+
+        <div class="travers">
+            <div class="sub">el1</div>
+            <div class="sub">el2</div>
+            <div class="sub">
+                <a href="some_url">some <strong>deep</strong> url</a>
+            </div>
+        </div>
+
+        <div class="sub">el4</div>
+
     </p>
 </body>
 </html>

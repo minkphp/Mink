@@ -71,6 +71,15 @@ class Session
     }
 
     /**
+     * Restart session driver.
+     */
+    public function restart()
+    {
+        $this->driver->stop();
+        $this->driver->start();
+    }
+
+    /**
      * Reset session driver.
      */
     public function reset()
@@ -119,6 +128,28 @@ class Session
     }
 
     /**
+     * Sets HTTP Basic authentication parameters
+     *
+     * @param   string|false    $user       user name or false to disable authentication
+     * @param   string          $password   password
+     */
+    public function setBasicAuth($user, $password = '')
+    {
+        $this->driver->setBasicAuth($user, $password);
+    }
+
+    /**
+     * Sets specific request header.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    public function setRequestHeader($name, $value)
+    {
+        $this->driver->setRequestHeader($name, $value);
+    }
+
+    /**
      * Returns all response headers.
      *
      * @return  array
@@ -126,6 +157,29 @@ class Session
     public function getResponseHeaders()
     {
         return $this->driver->getResponseHeaders();
+    }
+
+    /**
+     * Sets cookie.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    public function setCookie($name, $value = null)
+    {
+        $this->driver->setCookie($name, $value);
+    }
+
+    /**
+     * Returns cookie by name.
+     *
+     * @param   string  $name
+     *
+     * @return  string|null
+     */
+    public function getCookie($name)
+    {
+        return $this->driver->getCookie($name);
     }
 
     /**
@@ -146,6 +200,30 @@ class Session
     public function getCurrentUrl()
     {
         return $this->driver->getCurrentUrl();
+    }
+
+    /**
+     * Reloads current session page.
+     */
+    public function reload()
+    {
+        $this->driver->reload();
+    }
+
+    /**
+     * Moves backward 1 page in history.
+     */
+    public function back()
+    {
+        $this->driver->back();
+    }
+
+    /**
+     * Moves forward 1 page in history.
+     */
+    public function forward()
+    {
+        $this->driver->forward();
     }
 
     /**

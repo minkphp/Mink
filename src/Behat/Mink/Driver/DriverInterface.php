@@ -32,7 +32,7 @@ interface DriverInterface
     function start();
 
     /**
-     * Cheks whether driver is started.
+     * Checks whether driver is started.
      *
      * @return  Boolean
      */
@@ -63,11 +63,59 @@ interface DriverInterface
     function getCurrentUrl();
 
     /**
+     * Reloads current page.
+     */
+    function reload();
+
+    /**
+     * Moves browser forward 1 page.
+     */
+    function forward();
+
+    /**
+     * Moves browser backward 1 page.
+     */
+    function back();
+
+    /**
+     * Sets HTTP Basic authentication parameters
+     *
+     * @param   string|false    $user       user name or false to disable authentication
+     * @param   string          $password   password
+     */
+    function setBasicAuth($user, $password);
+
+    /**
+     * Sets specific request header on client.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setRequestHeader($name, $value);
+
+    /**
      * Returns last response headers.
      *
      * @return  array
      */
     function getResponseHeaders();
+
+    /**
+     * Sets cookie.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setCookie($name, $value = null);
+
+    /**
+     * Returns cookie by name.
+     *
+     * @param   string  $name
+     *
+     * @return  string|null
+     */
+    function getCookie($name);
 
     /**
      * Returns last response status code.
@@ -109,6 +157,15 @@ interface DriverInterface
      * @return  string
      */
     function getText($xpath);
+
+    /**
+     * Returns element's html by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
+    function getHtml($xpath);
 
     /**
      * Returns element's attribute by it's XPath query.
@@ -175,6 +232,13 @@ interface DriverInterface
     function click($xpath);
 
     /**
+     * Double-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function doubleClick($xpath);
+
+    /**
      * Right-clicks button or link located by it's XPath query.
      *
      * @param   string  $xpath
@@ -220,12 +284,31 @@ interface DriverInterface
     function blur($xpath);
 
     /**
-     * Trigger specific event on element located by XPath query.
+     * Presses specific keyboard key.
      *
      * @param   string  $xpath
-     * @param   string  $event  event name
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function triggerEvent($xpath, $event);
+    function keyPress($xpath, $char, $modifier = null);
+
+    /**
+     * Pressed down specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyDown($xpath, $char, $modifier = null);
+
+    /**
+     * Pressed up specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyUp($xpath, $char, $modifier = null);
 
     /**
      * Drag one element onto another.

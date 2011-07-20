@@ -112,6 +112,18 @@ class NodeElementTest extends ElementTest
         $node->rightClick();
     }
 
+    public function testDoubleClick()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('doubleClick')
+            ->with('elem');
+
+        $node->doubleClick();
+    }
+
     public function testCheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
@@ -223,18 +235,6 @@ class NodeElementTest extends ElementTest
             ->with('some-element');
 
         $node->mouseOver();
-    }
-
-    public function testTriggerEvent()
-    {
-        $node = new NodeElement('some_tag', $this->session);
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('triggerEvent')
-            ->with('some_tag', 'onClick');
-
-        $node->triggerEvent('onClick');
     }
 
     public function dragTo()
