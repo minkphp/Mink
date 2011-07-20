@@ -1,3 +1,20 @@
+1.0.0 / 2011-07-20
+==================
+
+  * Added missing tests for almost everything
+  * Hude speedup for SahiDriver
+  * Support for Behat 2.0 contexts
+  * Bundled PHPUnit TestCase
+  * Deep element traversing
+  * Correct behavior of getText() method
+  * New getHtml() method
+  * Basic HTTP auth support
+  * Soft and hard session resetting
+  * Cookies management
+  * Browser history interactions (reload(), back(), forward())
+  * Weaverryan'd exception messages
+  * Huge amount of bugfixes and small additions
+
 0.3.2 / 2011-06-20
 ==================
 
