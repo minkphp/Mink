@@ -3,7 +3,7 @@
 namespace Behat\Mink\Driver;
 
 use Behat\Mink\Session,
-    Behat\Mink\DriverException,
+    Behat\Mink\Exception\DriverException,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Driver\Zombie\Connection;
 
@@ -94,8 +94,10 @@ class ZombieDriver implements DriverInterface
      */
     public function visit($url)
     {
+        //$url = json_encode($url);
+
         $js = <<<JS
-browser.visit("{$url}", {}, function(err) {
+browser.visit("{$url}", function(err) {
   if (err) {
     stream.end(JSON.stringify(err.stack));
   } else {
@@ -206,7 +208,7 @@ JS;
         $xpathEncoded = json_encode($xpath);
         $js =<<<JS
 var refs = [];
-browser.xpath({$xpathEncoded}).value.forEach(function(node) {
+browser.xpath("{$xpath}").value.forEach(function(node) {
   pointers.push(node);
   refs.push(pointers.length - 1);
 });
@@ -216,9 +218,9 @@ JS;
 
         $elements = array();
         foreach ($refs as $i => $ref) {
-            $xpath = sprintf('(%s)[%d]', $xpath, $i + 1);
-            $this->nativeRefs[md5($xpath)] = $ref;
-            $elements[] = new NodeElement($xpath, $this->session);
+            $subXpath = sprintf('(%s)[%d]', $xpath, $i + 1);
+            $this->nativeRefs[md5($subXpath)] = $ref;
+            $elements[] = new NodeElement($subXpath, $this->session);
         }
 
         return $elements;
@@ -253,7 +255,11 @@ JS;
      */
     public function getHtml($xpath)
     {
-        // TODO: Implement me!
+        if (!$ref = $this->getNativeRefForXPath($xpath)) {
+            return null;
+        }
+
+        return $this->conn->socketJSON("{$ref}.innerHTML");
     }
 
     /**
@@ -425,7 +431,7 @@ if (tagName == "BUTTON" || (tagName == "INPUT" && (type == "button" || type == "
 } else {
   browser.fire("click", node, function(err) {
     if (err) {
-      stream.end(JSON.stringify(err.stack));
+      assstream.end(JSON.stringify(err.stack));
     } else {
       stream.end();
     }
@@ -440,7 +446,7 @@ JS;
      */
     public function doubleClick($xpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("dblclick", $xpath);
     }
 
     /**
@@ -448,7 +454,7 @@ JS;
      */
     public function rightClick($xpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("contextmenu", $xpath);
     }
 
     /**
@@ -469,7 +475,14 @@ JS;
      */
     public function isVisible($xpath)
     {
-        // TODO: Implement me!
+        if (!$ref = $this->getNativeRefForXPath($xpath)) {
+            return;
+        }
+
+        // This is kind of a workaround, because the current version of
+        // Zombie.js does not fully support the DOMElement's style attribute
+        $hiddenXpath = json_encode("./ancestor-or-self::*[contains(@style, 'display:none') or contains(@style, 'display: none')]");
+        return (0 == (int)$this->conn->socketJSON("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
     }
 
     /**
@@ -477,7 +490,7 @@ JS;
      */
     public function mouseOver($xpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("mouseover", $xpath);
     }
 
     /**
@@ -485,7 +498,7 @@ JS;
      */
     public function focus($xpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("focus", $xpath);
     }
 
     /**
@@ -493,7 +506,7 @@ JS;
      */
     public function blur($xpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("blur", $xpath);
     }
 
     /**
@@ -501,7 +514,7 @@ JS;
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
-        // TODO: Implement me!
+        $this->triggerKeyEvent("keypress", $xpath, $char, $modifier);
     }
 
     /**
@@ -509,7 +522,7 @@ JS;
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
-        // TODO: Implement me!
+        $this->triggerKeyEvent("keydown", $xpath, $char, $modifier);
     }
 
     /**
@@ -517,16 +530,26 @@ JS;
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
-        // TODO: Implement me!
+        $this->triggerKeyEvent("keyup", $xpath, $char, $modifier);
     }
-
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::dragTo()
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        // TODO: Implement me!
+        $this->triggerBrowserEvent("mousedown", $sourceXpath, array(), array(
+          "button" => 0, "which" => 1, "pageX" => 0, "pageY" => 0
+        ));
+        $this->triggerBrowserEvent("mousemove", $sourceXpath, array(), array(
+          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
+        ));
+        $this->triggerBrowserEvent("mousemove", $destinationXpath, array(), array(
+          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
+        ));
+        $this->triggerBrowserEvent("mouseup", $destinationXpath, array(), array(
+          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
+        ));
     }
 
     /**
@@ -534,7 +557,8 @@ JS;
      */
     public function executeScript($script)
     {
-        // TODO: Implement me!
+        $script = json_encode($script);
+        $this->conn->socketSend("browser.evaluate({$script})");
     }
 
     /**
@@ -542,7 +566,8 @@ JS;
      */
     public function evaluateScript($script)
     {
-        // TODO: Implement me!
+        $script = json_encode($script);
+        return $this->conn->socketJSON("browser.evaluate({$script})");
     }
 
     /**
@@ -550,11 +575,97 @@ JS;
      */
     public function wait($time, $condition)
     {
-        // TODO: Implement me!
+      // Because of its nature, the Zombie.js browser only waits a long as there
+      // there are events in the event loop. As soon as it's empty, it calls
+      // the callback. So there's no need to wait for a specific time or
+      // condition
+      $this->conn->socketSend("browser.wait(function() { stream.end(); });");
     }
 
     /**
-     * Tries to fetch a native reference to a node that might have been cached
+     * Triggers (fires) a Zombie.js
+     *  browser event
+     *
+     *
+     * @param   string  $event  The name of the event
+     * @param   string  $xpath  The xpath of the element to trigger this event
+     * @param   array   $opts   Additional event options (key-value)
+     * @param   array   $attrs  Additional event attributes (key-value)
+     */
+    protected function triggerBrowserEvent($event, $xpath, array $opts = array(), array $attrs = array())
+    {
+        if (!$ref = $this->getNativeRefForXPath($xpath)) {
+            return;
+        }
+
+        // Merge event attributes with event options
+        if (!empty($attrs)) {
+            $mergedAttrs = array_merge(
+              (isset($opt["attributes"]) ? $opt["attributes"] : array()), $attrs
+            );
+
+            if (!empty($mergedAttrs)) {
+              $opts["attributes"] = $mergedAttrs;
+            }
+        }
+
+        // Encode options array
+        $opts = !empty($opts) ? json_encode($opts) : "{}";
+
+        $js = <<<JS
+browser.fire("{$event}", {$ref}, {$opts}, function(err) {
+  if (err) {
+    stream.end(JSON.stringify(err.stack));
+  } else {
+    stream.end();
+  }
+});
+JS;
+        $out = $this->conn->socketSend($js);
+        if (!empty($out)) {
+            throw new DriverException(sprintf("Error while processing event '%s'", $event));
+        }
+    }
+
+    /**
+     * Triggers a keyboard event
+     *
+     * @param   string  $type      The event name
+     * @param   string  $xpath     The xpath of the element to trigger this event on
+     * @param   mixed   $char      could be either char ('b') or char-code (98)
+     * @param   string  $modifier  keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    protected function triggerKeyEvent($name, $xpath, $char, $modifier)
+    {
+        if (!$ref = $this->getNativeRefForXPath($xpath)) {
+            return;
+        }
+
+        $char = is_numeric($char) ? $char : ord($char);
+
+        $isCtrlKeyArg  = ($modifier == 'ctrl')  ? "true" : "false";
+        $isAltKeyArg   = ($modifier == 'alt')   ? "true" : "false";
+        $isShiftKeyArg = ($modifier == 'shift') ? "true" : "false";
+        $isMetaKeyArg  = ($modifier == 'meta')  ? "true" : "false";
+
+        $js = <<<JS
+var node = {$ref},
+    window = browser.window,
+    e = window.document.createEvent("UIEvents");
+e.initUIEvent("{$name}", true, true, window, 1);
+e.ctrlKey = {$isCtrlKeyArg};
+e.altKey = {$isAltKeyArg};
+e.shiftKey = {$isShiftKeyArg};
+e.metaKey = {$isMetaKeyArg};
+e.keyCode = {$char};
+node.dispatchEvent(e);
+stream.end();
+JS;
+        $this->conn->socketSend($js);
+    }
+
+    /**
+    * Tries to fetch a native reference to a node that might have been cached
      * by the server. If it can't be found, the method performs a search.
      *
      * Searching the native reference by the MD5 hash of its xpath feels kinda
