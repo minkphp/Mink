@@ -55,6 +55,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             'default_session' => 'goutte',
             'base_url'        => 'http://localhost',
             'show_cmd'        => null,
+            'show_tmp_dir'    => sys_get_temp_dir(),
             'browser'         => 'firefox',
             'goutte' => array(
                 'zend_config'       => array(),
@@ -610,7 +611,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             throw new \RuntimeException('Set "show_cmd" parameter in behat.yml to be able to open page in browser (ex.: "show_cmd: firefox %s")');
         }
 
-        $filename = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid().'.html';
+        $filename = $this->getParameter('show_tmp_dir').DIRECTORY_SEPARATOR.uniqid().'.html';
         file_put_contents($filename, $this->getSession()->getPage()->getContent());
         system(sprintf($this->getParameter('show_cmd'), $filename));
     }
