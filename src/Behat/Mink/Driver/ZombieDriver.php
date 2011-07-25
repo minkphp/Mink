@@ -2,10 +2,12 @@
 
 namespace Behat\Mink\Driver;
 
+use Behat\Mink\Driver\Zombie\Connection;
+
 use Behat\Mink\Session,
-    Behat\Mink\Exception\DriverException,
     Behat\Mink\Element\NodeElement,
-    Behat\Mink\Driver\Zombie\Connection;
+    Behat\Mink\Exception\DriverException,
+    Behat\Mink\Exception\UnsupportedDriverActionException;
 
 /*
  * This file is part of the Behat\Mink.
