@@ -65,6 +65,9 @@ class ZombieDriver implements DriverInterface
      */
     public function start()
     {
+        // TODO: Remove this workaround and (re-)start Zombie.js server
+        $this->reset();
+
         $this->started = true;
     }
 
@@ -81,22 +84,38 @@ class ZombieDriver implements DriverInterface
      */
     public function stop()
     {
+        // TODO: Stop Zombie.js server
         $this->started = false;
     }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::reset()
      */
-    public function reset() {}
+    public function reset()
+    {
+        // Cleanup cached references
+        $this->nativeRefs = array();
+
+        $js = <<<JS
+browser.cookies(browser.window.location.hostname, '/').clear();
+browser = null;
+pointers = [];
+stream.end();
+JS;
+
+        $this->conn->socketSend($js);
+    }
 
     /**
      * @see     Behat\Mink\Driver\DriverInterface::visit()
      */
     public function visit($url)
     {
-        //$url = json_encode($url);
+        // Cleanup cached references
+        $this->nativeRefs = array();
 
         $js = <<<JS
+pointers = [];
 browser.visit("{$url}", function(err) {
   if (err) {
     stream.end(JSON.stringify(err.stack));
@@ -125,7 +144,7 @@ JS;
      */
     public function reload()
     {
-        // TODO: Implement me!
+        $this->visit($this->getCurrentUrl());
     }
 
     /**
@@ -133,7 +152,7 @@ JS;
      */
     public function forward()
     {
-        // TODO: Implement me!
+        $this->conn->socketSend("browser.window.history.forward(); stream.end();");
     }
 
     /**
@@ -141,7 +160,7 @@ JS;
      */
     public function back()
     {
-        // TODO: Implement me!
+        $this->conn->socketSend("browser.window.history.back(); stream.end();");
     }
 
     /**
@@ -149,7 +168,7 @@ JS;
      */
     public function setBasicAuth($user, $password)
     {
-        // TODO: Implement me!
+        throw new UnsupportedByDriverException('HTTP Basic authentication is not supported', $this);
     }
 
     /**
@@ -157,7 +176,7 @@ JS;
      */
     public function setRequestHeader($name, $value)
     {
-        // TODO: Implement me!
+        throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
     }
 
     /**
@@ -173,7 +192,9 @@ JS;
      */
     public function setCookie($name, $value = null)
     {
-        // TODO: Implement me!
+        $js = "browser.cookies(browser.window.location.hostname, '/')";
+        $js .= (null === $value) ? ".remove('{$name}')" : ".set('{$name}', '{$value}')";
+        $this->conn->socketJSON($js);
     }
 
     /**
@@ -181,7 +202,7 @@ JS;
      */
     public function getCookie($name)
     {
-        // TODO: Implement me!
+        return $this->conn->socketJSON("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
     }
 
     /**
@@ -206,11 +227,13 @@ JS;
     public function find($xpath)
     {
         $xpathEncoded = json_encode($xpath);
-        $js =<<<JS
+        $js = <<<JS
 var refs = [];
 browser.xpath("{$xpath}").value.forEach(function(node) {
-  pointers.push(node);
-  refs.push(pointers.length - 1);
+  if (node.nodeType !== 10) {
+    pointers.push(node);
+    refs.push(pointers.length - 1);
+  }
 });
 stream.end(JSON.stringify(refs));
 JS;
@@ -221,6 +244,11 @@ JS;
             $subXpath = sprintf('(%s)[%d]', $xpath, $i + 1);
             $this->nativeRefs[md5($subXpath)] = $ref;
             $elements[] = new NodeElement($subXpath, $this->session);
+
+            // first node ref also matches the original xpath
+            if (0 === $i) {
+                $this->nativeRefs[md5($xpath)] = $ref;
+            }
         }
 
         return $elements;
@@ -247,7 +275,7 @@ JS;
             return null;
         }
 
-        return $this->conn->socketJSON("{$ref}.textContent");
+        return trim($this->conn->socketJSON("{$ref}.textContent.replace(/\s+/g, ' ')"));
     }
 
     /**
