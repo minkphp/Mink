@@ -633,7 +633,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         if ($scenario->hasTag('insulated')) {
-            $this->getMink()->restartSessions();
+            $this->getMink()->stopSessions();
         } else {
             $this->getMink()->resetSessions();
         }
