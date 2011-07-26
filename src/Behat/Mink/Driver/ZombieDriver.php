@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Driver\Zombie\Connection;
+use Behat\Mink\Driver\Zombie\Server;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -35,23 +35,24 @@ class ZombieDriver implements DriverInterface
     private $nativeRefs = array();
 
     /**
-     * @var ZombieConnection
+     * @var Behat\Mink\Driver\Zombie\Server
      */
-    private $conn = null;
+    private $server = null;
 
 
     /**
      * Constructor
      *
-     * @param    Connection  $conn  A connection object or NULL
+     * @param    Behat\Mink\Driver\Zombie\Server  $server  A Zombie.js server
      */
-    public function __construct(Connection $conn = null)
+    public function __construct(Server $server = null)
     {
-        if (null === $conn) {
-            $conn = new Connection('127.0.0.1', 8124);
+        if (null === $server) {
+          $server = new Server();
+          //$server->setConnection(new Zombie\Connection('127.0.0.1', '8124'));
         }
 
-        $this->conn = $conn;
+        $this->server = $server;
     }
 
     /**
@@ -67,9 +68,7 @@ class ZombieDriver implements DriverInterface
      */
     public function start()
     {
-        // TODO: Remove this workaround and (re-)start Zombie.js server
-        $this->reset();
-
+        $this->server->start();
         $this->started = true;
     }
 
@@ -86,7 +85,7 @@ class ZombieDriver implements DriverInterface
      */
     public function stop()
     {
-        // TODO: Stop Zombie.js server
+        $this->server->stop();
         $this->started = false;
     }
 
@@ -105,7 +104,7 @@ pointers = [];
 stream.end();
 JS;
 
-        $this->conn->socketSend($js);
+        $this->server->executeJavascript($js);
     }
 
     /**
@@ -126,7 +125,7 @@ browser.visit("{$url}", function(err) {
   }
 });
 JS;
-        $out = $this->conn->socketSend($js);
+        $out = $this->server->executeJavascript($js);
 
         if (!empty($out)) {
           throw new DriverException(sprintf("Could not load resource for URL '%s'", $url));
@@ -138,7 +137,7 @@ JS;
      */
     public function getCurrentUrl()
     {
-        return $this->conn->socketJSON('browser.location.toString()');
+        return $this->server->evaluateJavascript('browser.location.toString()');
     }
 
     /**
@@ -154,7 +153,7 @@ JS;
      */
     public function forward()
     {
-        $this->conn->socketSend("browser.window.history.forward(); stream.end();");
+        $this->server->executeJavascript("browser.window.history.forward(); stream.end();");
     }
 
     /**
@@ -162,7 +161,7 @@ JS;
      */
     public function back()
     {
-        $this->conn->socketSend("browser.window.history.back(); stream.end();");
+        $this->server->executeJavascript("browser.window.history.back(); stream.end();");
     }
 
     /**
@@ -186,7 +185,7 @@ JS;
      */
     public function getResponseHeaders()
     {
-        return (array)$this->conn->socketJSON('browser.lastResponse.headers');
+        return (array)$this->server->evaluateJavascript('browser.lastResponse.headers');
     }
 
     /**
@@ -196,7 +195,7 @@ JS;
     {
         $js = "browser.cookies(browser.window.location.hostname, '/')";
         $js .= (null === $value) ? ".remove('{$name}')" : ".set('{$name}', '{$value}')";
-        $this->conn->socketJSON($js);
+        $this->server->evaluateJavascript($js);
     }
 
     /**
@@ -204,7 +203,7 @@ JS;
      */
     public function getCookie($name)
     {
-        return $this->conn->socketJSON("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
+        return $this->server->evaluateJavascript("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
     }
 
     /**
@@ -212,7 +211,7 @@ JS;
      */
     public function getStatusCode()
     {
-        return (int)$this->conn->socketJSON('browser.statusCode');
+        return (int)$this->server->evaluateJavascript('browser.statusCode');
     }
 
     /**
@@ -220,7 +219,7 @@ JS;
      */
     public function getContent()
     {
-      return html_entity_decode($this->conn->socketJSON('browser.html()'));
+      return html_entity_decode($this->server->evaluateJavascript('browser.html()'));
     }
 
     /**
@@ -239,7 +238,7 @@ browser.xpath("{$xpath}").value.forEach(function(node) {
 });
 stream.end(JSON.stringify(refs));
 JS;
-        $refs = (array)json_decode($this->conn->socketSend($js));
+        $refs = (array)json_decode($this->server->executeJavascript($js));
 
         $elements = array();
         foreach ($refs as $i => $ref) {
@@ -265,7 +264,7 @@ JS;
             return null;
         }
 
-        return strtolower($this->conn->socketJSON("{$ref}.tagName"));
+        return strtolower($this->server->evaluateJavascript("{$ref}.tagName"));
     }
 
     /**
@@ -277,7 +276,7 @@ JS;
             return null;
         }
 
-        return trim($this->conn->socketJSON("{$ref}.textContent.replace(/\s+/g, ' ')"));
+        return trim($this->server->evaluateJavascript("{$ref}.textContent.replace(/\s+/g, ' ')"));
     }
 
     /**
@@ -289,7 +288,7 @@ JS;
             return null;
         }
 
-        return $this->conn->socketJSON("{$ref}.innerHTML");
+        return $this->server->evaluateJavascript("{$ref}.innerHTML");
     }
 
     /**
@@ -301,7 +300,7 @@ JS;
             return null;
         }
 
-        $out = $this->conn->socketJSON("{$ref}.getAttribute('{$name}')");
+        $out = $this->server->evaluateJavascript("{$ref}.getAttribute('{$name}')");
         return empty($out) ? null : $out;
     }
 
@@ -341,7 +340,7 @@ if (tagName == "INPUT") {
 }
 stream.end(JSON.stringify(value));
 JS;
-        return json_decode($this->conn->socketSend($js));
+        return json_decode($this->server->executeJavascript($js));
     }
 
     /**
@@ -372,7 +371,7 @@ if (tagName == "TEXTAREA") {
 }
 stream.end();
 JS;
-        $this->conn->socketSend($js);
+        $this->server->executeJavascript($js);
     }
 
     /**
@@ -384,7 +383,7 @@ JS;
             return;
         }
 
-        $this->conn->socketSend("browser.check({$ref});stream.end();");
+        $this->server->executeJavascript("browser.check({$ref});stream.end();");
     }
 
     /**
@@ -396,7 +395,7 @@ JS;
             return;
         }
 
-        $this->conn->socketSend("browser.uncheck({$ref});stream.end();");
+        $this->server->executeJavascript("browser.uncheck({$ref});stream.end();");
     }
 
     /**
@@ -408,7 +407,7 @@ JS;
             return false;
         }
 
-        return (boolean)$this->conn->socketJSON("{$ref}.checked");
+        return (boolean)$this->server->evaluateJavascript("{$ref}.checked");
     }
 
     /**
@@ -434,7 +433,7 @@ if (tagName == "SELECT") {
 }
 stream.end();
 JS;
-        $this->conn->socketSend($js);
+        $this->server->executeJavascript($js);
     }
 
     /**
@@ -468,7 +467,7 @@ if (tagName == "BUTTON" || (tagName == "INPUT" && (type == "button" || type == "
   });
 }
 JS;
-        $this->conn->socketSend($js);
+        $this->server->executeJavascript($js);
     }
 
     /**
@@ -497,7 +496,7 @@ JS;
         }
 
         $path = json_encode($path);
-        $this->conn->socketSend("browser.attach({$ref}, {$path});stream.end();");
+        $this->server->executeJavascript("browser.attach({$ref}, {$path});stream.end();");
     }
 
     /**
@@ -512,7 +511,7 @@ JS;
         // This is kind of a workaround, because the current version of
         // Zombie.js does not fully support the DOMElement's style attribute
         $hiddenXpath = json_encode("./ancestor-or-self::*[contains(@style, 'display:none') or contains(@style, 'display: none')]");
-        return (0 == (int)$this->conn->socketJSON("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
+        return (0 == (int)$this->server->evaluateJavascript("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
     }
 
     /**
@@ -588,7 +587,7 @@ JS;
     public function executeScript($script)
     {
         $script = json_encode($script);
-        $this->conn->socketSend("browser.evaluate({$script})");
+        $this->server->executeJavascript("browser.evaluate({$script})");
     }
 
     /**
@@ -597,7 +596,7 @@ JS;
     public function evaluateScript($script)
     {
         $script = json_encode($script);
-        return $this->conn->socketJSON("browser.evaluate({$script})");
+        return $this->server->evaluateScript("browser.evaluate({$script})");
     }
 
     /**
@@ -609,7 +608,7 @@ JS;
       // there are events in the event loop. As soon as it's empty, it calls
       // the callback. So there's no need to wait for a specific time or
       // condition
-      $this->conn->socketSend("browser.wait(function() { stream.end(); });");
+      $this->server->executeJavascript("browser.wait(function() { stream.end(); });");
     }
 
     /**
@@ -651,7 +650,7 @@ browser.fire("{$event}", {$ref}, {$opts}, function(err) {
   }
 });
 JS;
-        $out = $this->conn->socketSend($js);
+        $out = $this->server->executeJavascript($js);
         if (!empty($out)) {
             throw new DriverException(sprintf("Error while processing event '%s'", $event));
         }
@@ -691,7 +690,7 @@ e.keyCode = {$char};
 node.dispatchEvent(e);
 stream.end();
 JS;
-        $this->conn->socketSend($js);
+        $this->server->executeJavascript($js);
     }
 
     /**
