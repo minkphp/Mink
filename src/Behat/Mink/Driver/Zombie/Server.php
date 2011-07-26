@@ -29,14 +29,14 @@ class Server
     private $conn = null;
 
     /**
-     * @var     resource
-     */
-    private $process = null;
-
-    /**
      * @var     integer
      */
     private $threshold;
+
+    /**
+     * @var     resource
+     */
+    private $process = null;
 
     /**
      * Constructor
@@ -185,6 +185,28 @@ class Server
     public function getConnection()
     {
         return $this->conn;
+    }
+
+    /**
+     * Setter threshold
+     *
+     * @param   integer  $threshold  amount of microseconds to wait
+     */
+    public function setThreshold($threshold)
+    {
+        if ((int)$threshold > 0) {
+            $this->threshold = (int)$threshold;
+        }
+    }
+
+    /**
+     * Getter threshold
+     *
+     * @return  integer  Actual amount of microseconds to wait
+     */
+    public function getThreshold()
+    {
+        return $this->threshold;
     }
 
     /**

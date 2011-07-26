@@ -22,6 +22,21 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('src/Behat/Mink/Driver/Zombie/server.js', $server->getJsPath());
     }
 
+    public function testDefaultThreshold()
+    {
+        $server = new Server();
+        $this->assertEquals(200000, $server->getThreshold());
+    }
+
+    public function testInvalidValueForThreshold()
+    {
+        $server = new Server('/path/to/server.js', 'INVALID');
+        $this->assertEquals(200000, $server->getThreshold());
+
+        $server->setThreshold('ALSO_INVALID!!!');
+        $this->assertEquals(200000, $server->getThreshold());
+    }
+
     public function testStartServer()
     {
         $this->server->start();
