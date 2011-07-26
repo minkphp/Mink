@@ -16,7 +16,7 @@ net.createServer(function (stream) {
   stream.on('end', function () {
     if (browser == null) {
       browser = new zombie.Browser();
-      // browser.onconfirm(function() {return true;}, true);
+
       // Clean up old pointers
       pointers = [];
     }
@@ -24,7 +24,7 @@ net.createServer(function (stream) {
     eval(buffer);
     buffer = "";
   });
-}).listen(8124, 'localhost');
+}).listen(8124, '127.0.0.1');
 
-console.log('Server running at http://127.0.0.1:8124/');
+console.log('Server running at 127.0.0.1:8124');
 
