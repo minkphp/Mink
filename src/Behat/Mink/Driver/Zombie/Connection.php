@@ -68,19 +68,6 @@ class Connection
     }
 
     /**
-     * Wrapper around Connection::socketSend().
-     * Automatically en- and decodes JSON for in- and output.
-     *
-     * @param   string  $js   String of Javascript code
-     *
-     * @return  mixed
-     */
-    public function socketJSON($js)
-    {
-        return json_decode($this->socketSend("stream.end(JSON.stringify({$js}))"));
-    }
-
-    /**
      * Setter Host
      *
      * @param   string  $host  A host
