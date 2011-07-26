@@ -460,7 +460,7 @@ if (tagName == "BUTTON" || (tagName == "INPUT" && (type == "button" || type == "
 } else {
   browser.fire("click", node, function(err) {
     if (err) {
-      assstream.end(JSON.stringify(err.stack));
+      stream.end(JSON.stringify(err.stack));
     } else {
       stream.end();
     }
