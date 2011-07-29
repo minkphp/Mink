@@ -197,22 +197,18 @@ class PearCompiler
             <package>
                 <name>BrowserKit</name>
                 <channel>pear.symfony.com</channel>
-                <recommended>2.0.0RC1</recommended>
             </package>
             <package>
                 <name>CssSelector</name>
                 <channel>pear.symfony.com</channel>
-                <recommended>2.0.0RC1</recommended>
             </package>
             <package>
                 <name>DomCrawler</name>
                 <channel>pear.symfony.com</channel>
-                <recommended>2.0.0RC1</recommended>
             </package>
             <package>
                 <name>Process</name>
                 <channel>pear.symfony.com</channel>
-                <recommended>2.0.0RC1</recommended>
             </package>
             <extension>
                 <name>pcre</name>
