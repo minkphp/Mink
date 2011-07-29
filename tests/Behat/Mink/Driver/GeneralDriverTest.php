@@ -271,21 +271,7 @@ abstract class GeneralDriverTest extends TestCase
 
         $page->pressButton('Register');
 
-        $this->assertContains(<<<OUT
-Array
-(
-    [first_name] => ever
-    [last_name] => zet
-    [email] => your@email.com
-    [select_number] => 20
-    [sex] => w
-    [mail_list] => 1
-    [agreement] => off
-)
-0 files
-OUT
-            , $page->getContent()
-        );
+        $this->assertContains('no file', $page->getContent());
 
         $this->getSession()->visit($this->pathTo('/advanced_form.php'));
 
