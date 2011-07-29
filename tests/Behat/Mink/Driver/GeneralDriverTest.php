@@ -264,6 +264,30 @@ abstract class GeneralDriverTest extends TestCase
     public function testAdvancedForm()
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $page = $this->getSession()->getPage();
+
+        $page->fillField('first_name', 'ever');
+        $page->fillField('last_name', 'zet');
+
+        $page->pressButton('Register');
+
+        $this->assertContains(<<<OUT
+Array
+(
+    [first_name] => ever
+    [last_name] => zet
+    [email] => your@email.com
+    [select_number] => 20
+    [sex] => w
+    [mail_list] => 1
+    [agreement] => off
+)
+0 files
+OUT
+            , $page->getContent()
+        );
+
+        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
