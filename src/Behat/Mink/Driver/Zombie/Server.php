@@ -278,7 +278,7 @@ class Server
     {
         if ($this->process) {
             $status = proc_get_status($this->process);
-            posix_kill($status['pid'], SIGKILL);
+            posix_kill($status['pid'], 15);
             proc_close($this->process);
             $this->process = null;
         }
