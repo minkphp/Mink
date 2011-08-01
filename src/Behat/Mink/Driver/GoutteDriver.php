@@ -328,10 +328,11 @@ class GoutteDriver implements DriverInterface
             );
         }
         $node = $nodes->eq(0);
+        $type = $this->getCrawlerNode($node)->nodeName;
 
-        if ('a' === $this->getCrawlerNode($node)->nodeName) {
+        if ('a' === $type) {
             $this->client->click($node->link());
-        } else {
+        } elseif('input' === $type) {
             $buttonForm = $node->form();
             foreach ($this->forms as $form) {
                 if ($buttonForm->getFormNode()->getLineNo() === $form->getFormNode()->getLineNo()) {
@@ -341,6 +342,10 @@ class GoutteDriver implements DriverInterface
                 }
             }
             $this->client->submit($buttonForm);
+        } else {
+            throw new DriverException(sprintf(
+                'Goutte driver supports clicking on inputs and links only. But "%s" provided', $type
+            ));
         }
 
         $this->forms = array();
