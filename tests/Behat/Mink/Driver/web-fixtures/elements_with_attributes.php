@@ -9,7 +9,7 @@
 </head> 
  
 <body> 
-
+<form>
 <input type="checkbox" id="someid1" value="1" />
 
 <input type="checkbox" id="someid1disabled" disabled="disabled" value="1" />
@@ -17,6 +17,6 @@
 <input type="checkbox" id="someid2" value="1" />
 
 <input type="checkbox" id="someid2checked" value="1" checked="checked"/>
-
+</form>
 </body> 
 </html>
