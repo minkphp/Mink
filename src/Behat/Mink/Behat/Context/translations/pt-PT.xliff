@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="i-attach-the-file-to-field">
             <source><![CDATA[/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )anexei o ficheio "(?P<path>[^"]*)" a "(?P<field>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )anexei o ficheiro "(?P<path>[^"]*)" a "(?P<field>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
