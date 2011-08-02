@@ -22,7 +22,7 @@
 			});
 
 			$('#link-element').attr('role', 'link').text('Go to Index').click(function() {
-        window.location.href = 'http://<?php echo $_SERVER["HTTP_HOST"] ?>/index.php';
+        window.location.href = '/index.php';
 			});
 		});
 	</script>
