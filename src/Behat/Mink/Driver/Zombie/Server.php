@@ -125,36 +125,43 @@ class Server
         return (1 == $status['running']);
     }
 
-
     /**
-     * Executes a string of Javascript code
-     * Actually a wrapper around Behat\Mink\Driver\Zombie\Connection::socketSend()
+     * Executes a string of Javascript code (and does not care for
+     * the response)
      *
      * @param   string  $js  String of Javascript code
-     * @return  mixed   Response of the node server
+     *
+     * @return  void
      */
-    public function executeJavascript($js)
+    public function execJS($js)
     {
-      if (!$this->isRunning() || !$this->conn) {
-            throw new \RuntimeException(
-                'No active connection available (is the server running..?)'
-            );
-        }
-
-        return $this->conn->socketSend($js);
+        $this->evaluate($js);
+        return;
     }
 
     /**
-     * Wrapper around Behat\Mink\Driver\Zombie\Server::executeJavascript()
-     * Evaluates a string of Javascript code and returns the
-     * (JSON-)decoded response.
+     * Evaluates a string of Javascript code and returns the response
      *
-     * @see     Behat\Mink\Driver\Zombie\Server::executeJavascript()
+     * @param   string  $js  String of Javascript code
+     *
+     * @return  mixed   Server response
      */
-    public function evaluateJavascript($js)
+    public function evalJS($js)
     {
-        $js = "stream.end(JSON.stringify({$js}));";
-        return json_decode($this->executeJavascript($js));
+        return $this->evaluate($js);
+    }
+
+    /**
+     * Evaluates a string of Javascript code which is converted
+     * from / to JSON
+     *
+     * @param   string  $js  String of Javascript code
+     *
+     * @return  mixed   Server response
+     */
+    public function evalJSON($js)
+    {
+        return $this->evaluate($js, true);
     }
 
     /**
@@ -207,6 +214,32 @@ class Server
     public function getThreshold()
     {
         return $this->threshold;
+    }
+
+    /**
+     * The 'core' Javascript evaluate method. It is basically a wrapper around
+     * Behat\Mink\Driver\Zombie\Connection::socketSend()
+     *
+     * @param   string    $js    String of Javascript code
+     * @param   boolean   $json  Flag for conversion from/to JSON
+     *
+     * @return  mixed     Server response
+     *
+     * @throws  \RuntimeException
+     */
+    protected function evaluate($js, $json = false)
+    {
+        if (!$this->isRunning() || !$this->conn) {
+            throw new \RuntimeException(
+                'No active connection available (is the server running..?)'
+            );
+        }
+
+        if ($json) {
+            return json_decode($this->conn->socketSend("stream.end(JSON.stringify({$js}));"));
+        }
+
+        return $this->conn->socketSend($js);
     }
 
     /**
