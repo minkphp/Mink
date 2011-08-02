@@ -203,6 +203,31 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
     }
 
+    public function testFindElementWithDisabledAttribute()
+    {
+        $this->getSession()->visit($this->pathTo('/elements_with_attributes.php'));
+
+        $page = $this->getSession()->getPage();
+
+        $checkbox1 = $page->findField('someid1');
+        $checkbox1disabled = $page->findField('someid1disabled');
+        $checkbox2 = $page->findField('someid2');
+        $checkbox2checked = $page->findField('someid2checked');
+
+        $this->assertEquals(1, count($checkbox1), 'finding element with id someid1');
+        $this->assertEquals(1, count($checkbox1disabled), 'finding element with id someid1disabled');
+        $this->assertEquals(1, count($checkbox2), 'finding element with id someid2');
+        $this->assertEquals(1, count($checkbox2checked), 'finding element with id someid2checked');
+
+        $this->assertFalse($checkbox1->isChecked(), 'checking someid1');
+        $this->assertFalse($checkbox1disabled->isChecked(), 'checking someid1disabled');
+        $this->assertFalse($checkbox2->isChecked(), 'checking someid2');
+        $this->assertTrue($checkbox2checked->isChecked(), 'checking someid2checked');
+
+        // TODO: I propose a method or helper for isEnabled() method on mink
+
+    }
+
     public function testLinks()
     {
         $this->getSession()->visit($this->pathTo('/links.php'));
