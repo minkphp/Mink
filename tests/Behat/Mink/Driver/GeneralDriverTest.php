@@ -221,7 +221,7 @@ abstract class GeneralDriverTest extends TestCase
 
         $this->assertFalse($checkbox1->isChecked()); // can it be checked ?
         $this->assertFalse($checkbox1disabled->isChecked()); // can it be checked ?
-        $this->assertTrue($checkbox2->isChecked()); // can it be checked ?
+        $this->assertFalse($checkbox2->isChecked()); // can it be checked ?
         $this->assertTrue($checkbox2checked->isChecked()); // can it be checked ?
 
         // TODO: I propose a method or helper for isEnabled() method on mink
