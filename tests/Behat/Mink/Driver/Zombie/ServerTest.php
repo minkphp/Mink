@@ -86,7 +86,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->server->isRunning());
     }
 
-    public function testExecuteJavascript()
+    public function testExecJS()
     {
         $this->server->start();
 
@@ -98,10 +98,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
                  ->with($this->equalTo("alert('Hello World');"));
 
         $this->server->setConnection($connMock);
-        $this->server->executeJavascript("alert('Hello World');");
+        $this->server->execJS("alert('Hello World');");
     }
 
-    public function testEvaluateJavascript()
+    public function testEvalJSON()
     {
         $this->server->start();
 
@@ -114,16 +114,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
                  ->will($this->returnValue(json_encode('http://example.org/foo.html')));
 
         $this->server->setConnection($connMock);
-        $ret = $this->server->evaluateJavascript("browser.location.toString()");
+        $ret = $this->server->evalJSON("browser.location.toString()");
         $this->assertEquals('http://example.org/foo.html', $ret);
     }
 
     /**
      * @expectedException RuntimeException
      */
-    public function testExecuteJavascriptNonRunningServer()
+    public function testExecJSForNonRunningServer()
     {
-        $this->server->executeJavascript("alert('Hello World');");
+        $this->server->execJS("alert('Hello World');");
     }
 }
 

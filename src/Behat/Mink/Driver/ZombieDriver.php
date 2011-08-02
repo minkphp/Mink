@@ -48,8 +48,7 @@ class ZombieDriver implements DriverInterface
     public function __construct(Server $server = null)
     {
         if (null === $server) {
-          $server = new Server();
-          //$server->setConnection(new Zombie\Connection('127.0.0.1', '8124'));
+            $server = new Server();
         }
 
         $this->server = $server;
@@ -104,7 +103,7 @@ pointers = [];
 stream.end();
 JS;
 
-        $this->server->executeJavascript($js);
+        $this->server->execJS($js);
     }
 
     /**
@@ -125,7 +124,7 @@ browser.visit("{$url}", function(err) {
   }
 });
 JS;
-        $out = $this->server->executeJavascript($js);
+        $out = $this->server->execJS($js);
 
         if (!empty($out)) {
           throw new DriverException(sprintf("Could not load resource for URL '%s'", $url));
@@ -137,7 +136,7 @@ JS;
      */
     public function getCurrentUrl()
     {
-        return $this->server->evaluateJavascript('browser.location.toString()');
+        return $this->server->evalJSON('browser.location.toString()');
     }
 
     /**
@@ -153,7 +152,7 @@ JS;
      */
     public function forward()
     {
-        $this->server->executeJavascript("browser.window.history.forward(); stream.end();");
+      $this->server->evalJS("browser.window.history.forward(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -161,7 +160,7 @@ JS;
      */
     public function back()
     {
-        $this->server->executeJavascript("browser.window.history.back(); stream.end();");
+      $this->server->evalJS("browser.window.history.back(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -185,7 +184,7 @@ JS;
      */
     public function getResponseHeaders()
     {
-        return (array)$this->server->evaluateJavascript('browser.lastResponse.headers');
+        return (array)$this->server->evalJSON('browser.lastResponse.headers');
     }
 
     /**
@@ -195,7 +194,7 @@ JS;
     {
         $js = "browser.cookies(browser.window.location.hostname, '/')";
         $js .= (null === $value) ? ".remove('{$name}')" : ".set('{$name}', '{$value}')";
-        $this->server->evaluateJavascript($js);
+        $this->server->evalJSON($js);
     }
 
     /**
@@ -203,7 +202,7 @@ JS;
      */
     public function getCookie($name)
     {
-        return $this->server->evaluateJavascript("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
+        return $this->server->evalJSON("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
     }
 
     /**
@@ -211,7 +210,7 @@ JS;
      */
     public function getStatusCode()
     {
-        return (int)$this->server->evaluateJavascript('browser.statusCode');
+        return (int)$this->server->evalJSON('browser.statusCode');
     }
 
     /**
@@ -219,7 +218,7 @@ JS;
      */
     public function getContent()
     {
-      return html_entity_decode($this->server->evaluateJavascript('browser.html()'));
+      return html_entity_decode($this->server->evalJSON('browser.html()'));
     }
 
     /**
@@ -238,7 +237,7 @@ browser.xpath("{$xpath}").value.forEach(function(node) {
 });
 stream.end(JSON.stringify(refs));
 JS;
-        $refs = (array)json_decode($this->server->executeJavascript($js));
+        $refs = (array)json_decode($this->server->evalJS($js));
 
         $elements = array();
         foreach ($refs as $i => $ref) {
@@ -264,7 +263,7 @@ JS;
             return null;
         }
 
-        return strtolower($this->server->evaluateJavascript("{$ref}.tagName"));
+        return strtolower($this->server->evalJSON("{$ref}.tagName"));
     }
 
     /**
@@ -276,7 +275,7 @@ JS;
             return null;
         }
 
-        return trim($this->server->evaluateJavascript("{$ref}.textContent.replace(/\s+/g, ' ')"));
+        return trim($this->server->evalJSON("{$ref}.textContent.replace(/\s+/g, ' ')"));
     }
 
     /**
@@ -288,7 +287,7 @@ JS;
             return null;
         }
 
-        return $this->server->evaluateJavascript("{$ref}.innerHTML");
+        return $this->server->evalJSON("{$ref}.innerHTML");
     }
 
     /**
@@ -300,7 +299,7 @@ JS;
             return null;
         }
 
-        $out = $this->server->evaluateJavascript("{$ref}.getAttribute('{$name}')");
+        $out = $this->server->evalJSON("{$ref}.getAttribute('{$name}')");
         return empty($out) ? null : $out;
     }
 
@@ -340,7 +339,7 @@ if (tagName == "INPUT") {
 }
 stream.end(JSON.stringify(value));
 JS;
-        return json_decode($this->server->executeJavascript($js));
+        return json_decode($this->server->evalJS($js));
     }
 
     /**
@@ -371,7 +370,7 @@ if (tagName == "TEXTAREA") {
 }
 stream.end();
 JS;
-        $this->server->executeJavascript($js);
+        $this->server->execJS($js);
     }
 
     /**
@@ -383,7 +382,7 @@ JS;
             return;
         }
 
-        $this->server->executeJavascript("browser.check({$ref});stream.end();");
+        $this->server->execJS("browser.check({$ref});stream.end();");
     }
 
     /**
@@ -395,7 +394,7 @@ JS;
             return;
         }
 
-        $this->server->executeJavascript("browser.uncheck({$ref});stream.end();");
+        $this->server->execJS("browser.uncheck({$ref});stream.end();");
     }
 
     /**
@@ -407,7 +406,7 @@ JS;
             return false;
         }
 
-        return (boolean)$this->server->evaluateJavascript("{$ref}.checked");
+        return (boolean)$this->server->evalJSON("{$ref}.checked");
     }
 
     /**
@@ -433,7 +432,7 @@ if (tagName == "SELECT") {
 }
 stream.end();
 JS;
-        $this->server->executeJavascript($js);
+        $this->server->execJS($js);
     }
 
     /**
@@ -467,7 +466,7 @@ if (tagName == "BUTTON" || (tagName == "INPUT" && (type == "button" || type == "
   });
 }
 JS;
-        $this->server->executeJavascript($js);
+        $this->server->execJS($js);
     }
 
     /**
@@ -496,7 +495,7 @@ JS;
         }
 
         $path = json_encode($path);
-        $this->server->executeJavascript("browser.attach({$ref}, {$path});stream.end();");
+        $this->server->execJS("browser.attach({$ref}, {$path});stream.end();");
     }
 
     /**
@@ -511,7 +510,7 @@ JS;
         // This is kind of a workaround, because the current version of
         // Zombie.js does not fully support the DOMElement's style attribute
         $hiddenXpath = json_encode("./ancestor-or-self::*[contains(@style, 'display:none') or contains(@style, 'display: none')]");
-        return (0 == (int)$this->server->evaluateJavascript("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
+        return (0 == (int)$this->server->evalJSON("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
     }
 
     /**
@@ -587,7 +586,7 @@ JS;
     public function executeScript($script)
     {
         $script = json_encode($script);
-        $this->server->executeJavascript("browser.evaluate({$script})");
+        $this->server->execJS("browser.evaluate({$script})");
     }
 
     /**
@@ -596,7 +595,7 @@ JS;
     public function evaluateScript($script)
     {
         $script = json_encode($script);
-        return $this->server->evaluateScript("browser.evaluate({$script})");
+        return $this->server->evalJSON("browser.evaluate({$script})");
     }
 
     /**
@@ -608,7 +607,7 @@ JS;
       // there are events in the event loop. As soon as it's empty, it calls
       // the callback. So there's no need to wait for a specific time or
       // condition
-      $this->server->executeJavascript("browser.wait(function() { stream.end(); });");
+      $this->server->execJS("browser.wait(function() { stream.end(); });");
     }
 
     /**
@@ -650,7 +649,7 @@ browser.fire("{$event}", {$ref}, {$opts}, function(err) {
   }
 });
 JS;
-        $out = $this->server->executeJavascript($js);
+        $out = $this->server->execJS($js);
         if (!empty($out)) {
             throw new DriverException(sprintf("Error while processing event '%s'", $event));
         }
@@ -690,7 +689,7 @@ e.keyCode = {$char};
 node.dispatchEvent(e);
 stream.end();
 JS;
-        $this->server->executeJavascript($js);
+        $this->server->execJS($js);
     }
 
     /**
