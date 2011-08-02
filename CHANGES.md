@@ -1,3 +1,13 @@
+1.0.3 / 2011-08-02
+==================
+
+  * File uploads for empty fields fixed (GoutteDriver)
+  * Lazy sessions restart
+  * `show_tmp_dir` option in MinkContext
+  * Updated to stable Symfony2 components
+  * SahiClient connection limit bumped to 60 seconds
+  * Dutch language support
+
 1.0.2 / 2011-07-22
 ==================
 

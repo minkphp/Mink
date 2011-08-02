@@ -6,10 +6,15 @@
 </head>
 <body>
 <?php
+    error_reporting(0);
 
     $_POST['agreement'] = ('1' === $_POST['agreement'] || 'on' === $_POST['agreement']) ? 'on' : 'off';
     print_r($_POST);
-    echo count($_FILES) . ' ' . file_get_contents($_FILES['about']['tmp_name']);
+    if (file_exists($_FILES['about']['tmp_name'])) {
+        echo file_get_contents($_FILES['about']['tmp_name']);
+    } else {
+        echo "no file";
+    }
 
 ?>
 </body>
