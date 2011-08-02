@@ -332,7 +332,7 @@ class GoutteDriver implements DriverInterface
 
         if ('a' === $type) {
             $this->client->click($node->link());
-        } elseif('input' === $type) {
+        } elseif('input' === $type || 'button' === $type) {
             $buttonForm = $node->form();
             foreach ($this->forms as $form) {
                 if ($buttonForm->getFormNode()->getLineNo() === $form->getFormNode()->getLineNo()) {
