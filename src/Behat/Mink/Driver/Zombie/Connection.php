@@ -66,10 +66,12 @@ class Connection
      * @param   string  $js  String of Javascript code
      *
      * @return  mixed   Server response
+     *
+     * @throws  \RuntimeException
      */
     public function evalJS($js)
     {
-        return $this->evaluate($js);
+        return $this->socketSend($js);
     }
 
     /**
@@ -79,10 +81,12 @@ class Connection
      * @param   string  $js  String of Javascript code
      *
      * @return  mixed   Server response
+     *
+     * @throws  \RuntimeException
      */
     public function evalJSON($js)
     {
-        return $this->evaluate($js, true);
+        return json_decode($this->socketSend("stream.end(JSON.stringify({$js}));"));
     }
 
     /**
@@ -92,7 +96,7 @@ class Connection
      *
      * @return  string
      */
-    protected function socketSend($js)
+    private function socketSend($js)
     {
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if (false === @socket_connect($socket, $this->host, $this->port)) {
@@ -115,25 +119,5 @@ class Connection
         socket_close($socket);
 
         return $out;
-    }
-
-    /**
-     * The 'core' Javascript evaluate method. It is basically a wrapper around
-     * Behat\Mink\Driver\Zombie\Connection::socketSend()
-     *
-     * @param   string    $js    String of Javascript code
-     * @param   boolean   $json  Flag for conversion from/to JSON
-     *
-     * @return  mixed     Server response
-     *
-     * @throws  \RuntimeException
-     */
-    private function evaluate($js, $json = false)
-    {
-        if ($json) {
-            return json_decode($this->socketSend("stream.end(JSON.stringify({$js}));"));
-        }
-
-        return $this->socketSend($js);
     }
 }
