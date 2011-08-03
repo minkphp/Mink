@@ -44,14 +44,14 @@ class Server
      * @param   string   $jsPath     Path to server script
      * @param   integer  $threshold  Amount of microseconds for the process to wait
      */
-    public function __construct($jsPath = null, $threshold = 200000)
+    public function __construct($jsPath = null, $threshold = 1000000)
     {
         if (null === $jsPath) {
             $jsPath = __DIR__.'/server.js';
         }
 
         $this->jsPath = $jsPath;
-        $this->threshold = ((int)$threshold > 0) ? (int)$threshold : 200000;
+        $this->threshold = ((int)$threshold > 0) ? (int)$threshold : 1000000;
     }
 
     /**
