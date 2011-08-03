@@ -49,7 +49,7 @@ class Connection
             $errno = socket_last_error();
             throw new \RuntimeException(
               sprintf("Could not establish connection: %s (%s)",
-              socket_strerror($errno), 
+              socket_strerror($errno),
               $errno)
             );
         }
@@ -107,4 +107,3 @@ class Connection
         return $this->port;
     }
 }
-

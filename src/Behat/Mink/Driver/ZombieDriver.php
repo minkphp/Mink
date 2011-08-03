@@ -39,7 +39,6 @@ class ZombieDriver implements DriverInterface
      */
     private $server = null;
 
-
     /**
      * Constructor
      *
