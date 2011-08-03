@@ -55,6 +55,7 @@ Contributors
 ------------
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
+* Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
 
 Sponsors
 --------
