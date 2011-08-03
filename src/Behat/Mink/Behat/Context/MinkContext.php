@@ -12,6 +12,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Exception\ElementNotFoundException,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
@@ -65,6 +67,10 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'sid'  => null,
                 'host' => 'localhost',
                 'port' => 9999
+            ),
+            'zombie' => array(
+                'host' => '127.0.0.1',
+                'port' => 8124
             )
         ), $parameters);
 
@@ -678,6 +684,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 $this->getParameter('browser'), $params['sid'], $params['host'], $params['port']
             ));
         }
+
+        if (!$mink->hasSession('zombie')) {
+            $params = $this->getParameter('zombie');
+            $mink->registerSession('zombie', static::initZombieSession(
+                $params['host'], $params['port']
+            ));
+        }
     }
 
     /**
@@ -706,5 +719,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
     {
         return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
+    }
+
+    /**
+     * Initizalizes and returns new ZombieDriver session.
+     *
+     * @param   string  $host       zombie.js server host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
+    {
+        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
     }
 }

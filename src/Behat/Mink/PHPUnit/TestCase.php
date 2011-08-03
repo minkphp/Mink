@@ -6,7 +6,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Driver\ZombieDriver;
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection;
 
 use Goutte\Client as GoutteClient;
 
@@ -104,6 +105,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         if (!$mink->hasSession('sahi')) {
             $mink->registerSession('sahi', static::initSahiSession());
         }
+
+        if (!$mink->hasSession('zombie')) {
+            $mink->registerSession('zombie', static::initZombieSession());
+        }
     }
 
     /**
@@ -137,10 +142,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Initizalizes and returns new ZombieDriver session.
      *
+     * @param   string  $host       zombie.js server host
+     * @param   integer $port       port number
+     *
      * @return  Behat\Mink\Session
      */
-    protected static function initZombieSession()
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
     {
-        return new Session(new ZombieDriver());
+        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
     }
 }
