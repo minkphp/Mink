@@ -5,7 +5,8 @@ namespace Behat\Mink\PHPUnit;
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\SahiDriver;
+    Behat\Mink\Driver\SahiDriver,
+    Behat\Mink\Driver\ZombieDriver;
 
 use Goutte\Client as GoutteClient;
 
@@ -131,5 +132,15 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
     {
         return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
+    }
+
+    /**
+     * Initizalizes and returns new ZombieDriver session.
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initZombieSession()
+    {
+        return new Session(new ZombieDriver());
     }
 }
