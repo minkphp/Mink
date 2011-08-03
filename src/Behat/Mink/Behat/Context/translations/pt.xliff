@@ -1,78 +1,130 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file original="global" source-language="en" target-language="es" datatype="plaintext">
+  <file original="global" source-language="en" target-language="pt" datatype="plaintext">
     <header />
     <body>
         <trans-unit id="i-am-on-page">
-            <source><![CDATA[/^(?:|I )am on (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|Eu )estar em (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )am on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )estou em "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-go-to-page">
-            <source><![CDATA[/^(?:|I )go to (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|Eu )vou para (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )go to "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )Quero ir para "(?P<page>[^"]+)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="reload-the-page">
+            <source><![CDATA[/^(?:|I )reload the page$/]]></source>
+            <target><![CDATA[/^(?:|Eu )fiz actualizei a página$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-backward-one-page">
+            <source><![CDATA[/^(?:|I )move backward one page$/]]></source>
+            <target><![CDATA[/^(?:|Eu )retrocedi uma página$/]]></target>
+        </trans-unit>
+        <trans-unit id="move-forward-one-page">
+            <source><![CDATA[/^(?:|I )move forward one page$/]]></source>
+            <target><![CDATA[/^(?:|Eu )avancei uma página$/]]></target>
         </trans-unit>
         <trans-unit id="i-press-button">
             <source><![CDATA[/^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )carrego no "(?P<button>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )carreguei "(?P<button>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-follow-link">
             <source><![CDATA[/^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )sigo "(?P<link>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )segui "(?P<link>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-fill-in-field-with-value">
             <source><![CDATA[/^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )preencho "(?P<field>(?:[^"]|\\")*)" com "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )preenchi o "(?P<field>(?:[^"]|\\")*)" com "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-fill-in-value-for-field">
             <source><![CDATA[/^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )preencho "(?P<value>(?:[^"]|\\")*)" para "(?P<field>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )preenchi o "(?P<value>(?:[^"]|\\")*)" para "(?P<field>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-fill-in-the-following">
             <source><![CDATA[/^(?:|I )fill in the following:$/]]></source>
-            <target><![CDATA[/^(?:|Eu )preencho o seguinte:$/]]></target>
+            <target><![CDATA[/^(?:|Eu )preenchi o seguinte:$/]]></target>
         </trans-unit>
         <trans-unit id="i-select-option-from-select">
             <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )seleciono a "(?P<option>(?:[^"]|\\")*)" a partir deste "(?P<select>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )selecionei a "(?P<option>(?:[^"]|\\")*)" destas "(?P<select>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-check-option">
             <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )seleciono a "(?P<option>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )marquei "(?P<option>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-uncheck-option">
             <source><![CDATA[/^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )não selecionei a "(?P<option>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )não marquei "(?P<option>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-attach-the-file-to-field">
             <source><![CDATA[/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )anexei o ficheio "(?P<path>[^"]*)" a "(?P<field>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )anexei o ficheiro "(?P<path>[^"]*)" para "(?P<field>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text">
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )deveria ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-contain">
+            <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^A resposta devia de conter "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-text">
             <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )não devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )não deveria de ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-not-contain">
+            <source><![CDATA[/^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^A resposta não deveria de conter "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" deve conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" deveria conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-not-contain-value">
             <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" não deve conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" não deveria de conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-checkbox-should-be-checked">
             <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/]]></source>
-            <target><![CDATA[/^A checkbox "(?P<checkbox>[^"]*) deve estar seleccionada" $/]]></target>
+            <target><![CDATA[/^A checkbox "(?P<checkbox>(?:[^"]|\\")*)" tem de estar marcada$/]]></target>
         </trans-unit>
         <trans-unit id="the-checkbox-should-not-be-checked">
             <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/]]></source>
-            <target><![CDATA[/^A checkbox "(?P<checkbox>(?:[^"]|\\")*)" não deve estar seleccionada$/]]></target>
+            <target><![CDATA[/^A checkbox "(?P<checkbox>(?:[^"]|\\")*)" não deveria estar marcada$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-be-on-page">
-            <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
-            <target><![CDATA[/^(?:|Eu )devo estar em (?P<page>.+)$/]]></target>
+            <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )deveria estar em "(?P<page>[^"]+)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-url-should-match">
+            <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^O endereço deveria coincidir com "(?P<pattern>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-element-should-contain">
+            <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^O elemento "(?P<element>[^"]*)" deveria conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-text-in-element">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|Eu )deveria ver "(?P<text>(?:[^"]|\\")*)" no elemento "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-element">
+            <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|Eu )deveria ver um? "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-not-see-element">
+            <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^(?:|Eu )não deveria ver um? "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-be">
+            <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^O estado da resposta deveria ser (?P<code>\d+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="print-last-response">
+            <source><![CDATA[/^print last response$/]]></source>
+            <target><![CDATA[/^Imprimir a última resposta$/]]></target>
+        </trans-unit>
+        <trans-unit id="show-last-response">
+            <source><![CDATA[/^show last response$/]]></source>
+            <target><![CDATA[/^Mostrar a última resposta$/]]></target>
         </trans-unit>
     </body>
   </file>
