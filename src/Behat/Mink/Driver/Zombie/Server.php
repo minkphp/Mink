@@ -63,7 +63,7 @@ class Server
      * @param   integer $threshold      amount of microseconds for the process to wait
      */
     public function __construct($host = '127.0.0.1', $port = 8124,
-                                $nodeBin = null, $serverScript = null, $threshold = 1000000)
+                                $nodeBin = null, $serverScript = null, $threshold = 30000000)
     {
         if (null === $nodeBin) {
             $nodeBin = 'node';
@@ -186,11 +186,11 @@ class Server
         }
 
         $output = null;
-        $time   = 0;
-        while (false === strpos($output, 'Mink::ZombieDriver started') && $time < $this->threshold) {
+        $time   = $this->threshold;
+        while (false === strpos($output, 'Mink::ZombieDriver started') && $time > 0) {
             usleep(1000);
             $output = fread($pipes[1], 8192);
-            $time  += 1000;
+            $time  -= 1000;
         }
 
         // If the process is not running, check STDERR for error messages
