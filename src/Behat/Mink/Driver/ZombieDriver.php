@@ -184,7 +184,7 @@ JS;
      */
     public function setBasicAuth($user, $password)
     {
-        throw new UnsupportedByDriverException('HTTP Basic authentication is not supported', $this);
+        throw new UnsupportedDriverActionException('HTTP Basic authentication is not supported by %s', $this);
     }
 
     /**
