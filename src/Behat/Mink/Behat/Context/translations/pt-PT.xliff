@@ -1,0 +1,79 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="global" source-language="en" target-language="pt-PT" datatype="plaintext">
+    <header />
+    <body>
+        <trans-unit id="i-am-on-page">
+            <source><![CDATA[/^(?:|I )am on (?P<page>.+)$/]]></source>
+            <target><![CDATA[/^(?:|Eu )estar em (?P<page>.+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-go-to-page">
+            <source><![CDATA[/^(?:|I )go to (?P<page>.+)$/]]></source>
+            <target><![CDATA[/^(?:|Eu )vou para (?P<page>.+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-press-button">
+            <source><![CDATA[/^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )carrego no "(?P<button>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-follow-link">
+            <source><![CDATA[/^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )sigo "(?P<link>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-field-with-value">
+            <source><![CDATA[/^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )preencho "(?P<field>(?:[^"]|\\")*)" com "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-value-for-field">
+            <source><![CDATA[/^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )preencho "(?P<value>(?:[^"]|\\")*)" para "(?P<field>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-fill-in-the-following">
+            <source><![CDATA[/^(?:|I )fill in the following:$/]]></source>
+            <target><![CDATA[/^(?:|Eu )preencho o seguinte:$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-select-option-from-select">
+            <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )seleciono a "(?P<option>(?:[^"]|\\")*)" a partir deste "(?P<select>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-check-option">
+            <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )seleciono a "(?P<option>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-uncheck-option">
+            <source><![CDATA[/^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )não selecionei a "(?P<option>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-attach-the-file-to-field">
+            <source><![CDATA[/^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )anexei o ficheiro "(?P<path>[^"]*)" a "(?P<field>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-see-text">
+            <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-not-see-text">
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Eu )não devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-field-should-contain-value">
+            <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" deve conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-field-should-not-contain-value">
+            <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^O campo "(?P<field>(?:[^"]|\\")*)" não deve conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-checkbox-should-be-checked">
+            <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/]]></source>
+            <target><![CDATA[/^A checkbox "(?P<checkbox>[^"]*) deve estar selecionada" $/]]></target>
+        </trans-unit>
+        <trans-unit id="the-checkbox-should-not-be-checked">
+            <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/]]></source>
+            <target><![CDATA[/^A checkbox "(?P<checkbox>(?:[^"]|\\")*)" não deve estar selecionada$/]]></target>
+        </trans-unit>
+        <trans-unit id="i-should-be-on-page">
+            <source><![CDATA[/^(?:|I )should be on (?P<page>.+)$/]]></source>
+            <target><![CDATA[/^(?:|Eu )devo estar em (?P<page>.+)$/]]></target>
+        </trans-unit>
+    </body>
+  </file>
+</xliff>

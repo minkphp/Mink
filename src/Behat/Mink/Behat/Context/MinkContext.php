@@ -655,6 +655,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             __DIR__ . '/translations/es.xliff',
             __DIR__ . '/translations/nl.xliff',
             __DIR__ . '/translations/pt.xliff',
+            __DIR__ . '/translations/pt-PT.xliff',
         );
     }
 
