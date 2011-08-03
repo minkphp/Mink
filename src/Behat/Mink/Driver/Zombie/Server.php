@@ -56,26 +56,24 @@ class Server
     /**
      * Constructor
      *
+     * @param   string  $host           zombie.js server host
+     * @param   integer $port           zombie.js server port
      * @param   string  $nodeBin        node.js binary path
      * @param   string  $serverScript   zombie.js server script
      * @param   integer $threshold      amount of microseconds for the process to wait
      */
-    public function __construct($nodeBin = null, $serverScript = null, $threshold = 1000000)
+    public function __construct($host = '127.0.0.1', $port = 8124,
+                                $nodeBin = null, $serverScript = null, $threshold = 1000000)
     {
-        $conn = null;
-        if (null === $conn) {
-            $conn = new Connection('127.0.0.1', '8124');
-        }
-
         if (null === $nodeBin) {
             $nodeBin = 'node';
         }
-
         if (null === $serverScript) {
             $serverScript = $this->getServerScript();
         }
 
-        $this->conn         = $conn;
+        $this->host         = $host;
+        $this->port         = intval($port);
         $this->nodeBin      = $nodeBin;
         $this->serverScript = $serverScript;
         $this->threshold    = intval($threshold);
@@ -83,7 +81,7 @@ class Server
 
     /**
      * Starts the server.
-     * Spawns a process for a node server at 127.0.0.1 (localhost), port 8124
+     * Spawns a process for a node server at specified port & host
      *
      * @throws  \RuntimeException
      */
@@ -93,7 +91,7 @@ class Server
             throw new \RuntimeException('The server appears to be already running.');
         }
 
-        $this->spawnProcess();
+        $this->spawnZombieServer();
     }
 
     /**
@@ -107,7 +105,7 @@ class Server
             throw new \RuntimeException('The server appears to be not running');
         }
 
-        $this->killProcess();
+        $this->killZombieServer();
     }
 
     /**
@@ -137,92 +135,7 @@ class Server
     }
 
     /**
-     * Executes a string of Javascript code (and does not care for
-     * the response)
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  void
-     */
-    public function execJS($js)
-    {
-        $this->evaluate($js);
-        return;
-    }
-
-    /**
-     * Evaluates a string of Javascript code and returns the response
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  mixed   Server response
-     */
-    public function evalJS($js)
-    {
-        return $this->evaluate($js);
-    }
-
-    /**
-     * Evaluates a string of Javascript code which is converted
-     * from / to JSON
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  mixed   Server response
-     */
-    public function evalJSON($js)
-    {
-        return $this->evaluate($js, true);
-    }
-
-    /**
-     * Setter connection
-     *
-     * @param   Behat\Mink\Driver\Zombie\Connection  A connection object
-     */
-    public function setConnection(Connection $conn)
-    {
-        $this->conn = $conn;
-    }
-
-    /**
-     * Getter connection
-     *
-     * @return  Behat\Mink\Driver\Zombie\Connection  A connection object
-     */
-    public function getConnection()
-    {
-        return $this->conn;
-    }
-
-    /**
-     * The 'core' Javascript evaluate method. It is basically a wrapper around
-     * Behat\Mink\Driver\Zombie\Connection::socketSend()
-     *
-     * @param   string    $js    String of Javascript code
-     * @param   boolean   $json  Flag for conversion from/to JSON
-     *
-     * @return  mixed     Server response
-     *
-     * @throws  \RuntimeException
-     */
-    protected function evaluate($js, $json = false)
-    {
-        if (!$this->isRunning() || !$this->conn) {
-            throw new \RuntimeException(
-                'No active connection available (is the server running..?)'
-            );
-        }
-
-        if ($json) {
-            return json_decode($this->conn->socketSend("stream.end(JSON.stringify({$js}));"));
-        }
-
-        return $this->conn->socketSend($js);
-    }
-
-    /**
-     * Spawns a new server process.
+     * Spawns a new Zombie.js server process.
      *
      * This method borrows a lot of its code from Symfony's Process component
      * I first tried to use the component itself, but it does not have real
@@ -232,7 +145,7 @@ class Server
      *
      * @throws  \RuntimeException
      */
-    protected function spawnProcess()
+    private function spawnZombieServer()
     {
         if (!function_exists('proc_open')) {
             throw new \RuntimeException(
@@ -304,7 +217,7 @@ class Server
      *
      * Only supports *NIX systems for now.
      */
-    protected function killProcess()
+    private function killZombieServer()
     {
         if ($this->process) {
             $status = proc_get_status($this->process);
