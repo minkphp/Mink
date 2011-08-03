@@ -55,14 +55,6 @@ class Server
     }
 
     /**
-     * Descructor (Safely clean up)
-     */
-    public function __destruct()
-    {
-        $this->killProcess();
-    }
-
-    /**
      * Starts the server.
      * Spawns a process for a node server at 127.0.0.1 (localhost), port 8124
      *
