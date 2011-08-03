@@ -65,6 +65,26 @@ class ZombieDriver implements DriverInterface
     }
 
     /**
+     * Returns Zombie.js connection.
+     *
+     * @return  Behat\Mink\Driver\Zombie\Connection
+     */
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
+    /**
+     * Returns Zombie.js server.
+     *
+     * @return  Behat\Mink\Driver\Zombie\Server
+     */
+    public function getServer()
+    {
+        return $this->server;
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setSession()
      */
     public function setSession(Session $session)
@@ -168,7 +188,7 @@ JS;
      */
     public function forward()
     {
-      $this->conn->evalJS("browser.window.history.forward(); browser.wait(function() { stream.end(); })");
+        $this->conn->evalJS("browser.window.history.forward(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -176,7 +196,7 @@ JS;
      */
     public function back()
     {
-      $this->conn->evalJS("browser.window.history.back(); browser.wait(function() { stream.end(); })");
+        $this->conn->evalJS("browser.window.history.back(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -234,7 +254,7 @@ JS;
      */
     public function getContent()
     {
-      return html_entity_decode($this->conn->evalJSON('browser.html()'));
+        return html_entity_decode($this->conn->evalJSON('browser.html()'));
     }
 
     /**
@@ -316,6 +336,7 @@ JS;
         }
 
         $out = $this->conn->evalJSON("{$ref}.getAttribute('{$name}')");
+
         return empty($out) ? null : $out;
     }
 
@@ -619,11 +640,11 @@ JS;
      */
     public function wait($time, $condition)
     {
-      // Because of its nature, the Zombie.js browser only waits a long as there
-      // there are events in the event loop. As soon as it's empty, it calls
-      // the callback. So there's no need to wait for a specific time or
-      // condition
-      $this->conn->evalJS("browser.wait(function() { stream.end(); });");
+        // Because of its nature, the Zombie.js browser only waits a long as there
+        // there are events in the event loop. As soon as it's empty, it calls
+        // the callback. So there's no need to wait for a specific time or
+        // condition
+        $this->conn->evalJS("browser.wait(function() { stream.end(); });");
     }
 
     /**
