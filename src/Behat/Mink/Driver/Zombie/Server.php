@@ -21,27 +21,22 @@ class Server
     /**
      * @var     string
      */
+    private $host;
+
+    /**
+     * @var     integer
+     */
+    private $port;
+
+    /**
+     * @var     string
+     */
     private $nodeBin = null;
 
     /**
      * @var     string
      */
     private $serverScript = null;
-
-    /**
-     * @var string
-     */
-    private $host;
-
-    /**
-     * @var integer
-     */
-    private $port;
-
-    /**
-     * @Behat\Mink\Driver\Zombie\Connection
-     */
-    private $conn = null;
 
     /**
      * @var     integer
@@ -204,19 +199,6 @@ class Server
                     "Can not instantiate server (%s %s):\n%s", $this->nodeBin, $serverPath, $error
                 ));
             }
-        }
-
-        // If the process is not running, check STDERR for error messages
-        // and throw exception
-        $status = proc_get_status($this->process);
-        if (0 == $status['running']) {
-            $err = stream_get_contents($pipes[2]);
-            $msg = 'Process is not running.';
-            if (!empty($err)) {
-                $msg .= sprintf(" (failed with error: %s", $err);
-            }
-
-            throw new \RuntimeException($msg);
         }
 
         // Close pipes to avoid deadlocks on proc_close
