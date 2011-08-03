@@ -31,12 +31,12 @@ class Server
     /**
      * @var string
      */
-    private $host = '127.0.0.1';
+    private $host;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $port = '8124';
+    private $port;
 
     /**
      * @Behat\Mink\Driver\Zombie\Connection
