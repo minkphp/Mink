@@ -1,3 +1,40 @@
+1.0.3 / 2011-08-02
+==================
+
+  * File uploads for empty fields fixed (GoutteDriver)
+  * Lazy sessions restart
+  * `show_tmp_dir` option in MinkContext
+  * Updated to stable Symfony2 components
+  * SahiClient connection limit bumped to 60 seconds
+  * Dutch language support
+
+1.0.2 / 2011-07-22
+==================
+
+  * ElementHtmlException fixed (thanks @Stof)
+
+1.0.1 / 2011-07-21
+==================
+
+  * Fixed buggy assertions in MinkContext
+
+1.0.0 / 2011-07-20
+==================
+
+  * Added missing tests for almost everything
+  * Hude speedup for SahiDriver
+  * Support for Behat 2.0 contexts
+  * Bundled PHPUnit TestCase
+  * Deep element traversing
+  * Correct behavior of getText() method
+  * New getHtml() method
+  * Basic HTTP auth support
+  * Soft and hard session resetting
+  * Cookies management
+  * Browser history interactions (reload(), back(), forward())
+  * Weaverryan'd exception messages
+  * Huge amount of bugfixes and small additions
+
 0.3.2 / 2011-06-20
 ==================
 

@@ -12,6 +12,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Exception\ElementNotFoundException,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
@@ -55,6 +57,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             'default_session' => 'goutte',
             'base_url'        => 'http://localhost',
             'show_cmd'        => null,
+            'show_tmp_dir'    => sys_get_temp_dir(),
             'browser'         => 'firefox',
             'goutte' => array(
                 'zend_config'       => array(),
@@ -64,13 +67,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'sid'  => null,
                 'host' => 'localhost',
                 'port' => 9999
+            ),
+            'zombie' => array(
+                'host' => '127.0.0.1',
+                'port' => 8124
             )
         ), $parameters);
 
         if (null === self::$minkInstance) {
             self::$minkInstance = new Mink();
-            $this->registerSessions(self::$minkInstance);
         }
+
+        $this->registerSessions(self::$minkInstance);
     }
 
     /**
@@ -310,6 +318,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
+
         try {
             assertRegExp($pattern, $actual);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
@@ -326,6 +335,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertResponseStatus($code)
     {
         $actual = $this->getSession()->getStatusCode();
+
         try {
             assertEquals($actual, $code);
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
@@ -493,19 +503,19 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertFieldContains($field, $value)
     {
         $field = str_replace('\\"', '"', $field);
-        $field = $this->getSession()->getPage()->findField($field);
+        $node  = $this->getSession()->getPage()->findField($field);
         $value = str_replace('\\"', '"', $value);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
                 $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
         try {
-            assertEquals($value, $field->getValue());
+            assertEquals($value, $node->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but should have "%s"', $element, $field->getValue(), $value);
+            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but should have "%s"', $field, $node->getValue(), $value);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -518,19 +528,19 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertFieldNotContains($field, $value)
     {
         $field = str_replace('\\"', '"', $field);
-        $field = $this->getSession()->getPage()->findField($field);
+        $node  = $this->getSession()->getPage()->findField($field);
         $value = str_replace('\\"', '"', $value);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
                 $this->getSession(), 'form field', 'id|name|label|value', $field
             );
         }
 
         try {
-            assertNotEquals($value, $field->getValue());
+            assertNotEquals($value, $node->getValue());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but it should not have that value', $element, $field->getValue());
+            $message = sprintf('Form field with id|name|label|value "%s" has "%s" value, but it should not have that value', $field, $node->getValue());
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -543,18 +553,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertCheckboxChecked($checkbox)
     {
         $checkbox = str_replace('\\"', '"', $checkbox);
-        $field    = $this->getSession()->getPage()->findField($checkbox);
+        $node     = $this->getSession()->getPage()->findField($checkbox);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'form field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $checkbox
             );
         }
 
         try {
-            assertTrue($field->isChecked());
+            assertTrue($node->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Checkbox with id|name|label|value "%s" is not checked, but it should be', $element);
+            $message = sprintf('Checkbox with id|name|label|value "%s" is not checked, but it should be', $checkbox);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -567,18 +577,18 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     public function assertCheckboxNotChecked($checkbox)
     {
         $checkbox = str_replace('\\"', '"', $checkbox);
-        $field    = $this->getSession()->getPage()->findField($checkbox);
+        $node     = $this->getSession()->getPage()->findField($checkbox);
 
-        if (null === $field) {
+        if (null === $node) {
             throw new ElementNotFoundException(
-                $this->getSession(), 'form field', 'id|name|label|value', $field
+                $this->getSession(), 'form field', 'id|name|label|value', $checkbox
             );
         }
 
         try {
-            assertFalse($field->isChecked());
+            assertFalse($node->isChecked());
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-            $message = sprintf('Checkbox with id|name|label|value "%s" is checked, but it should not be', $element);
+            $message = sprintf('Checkbox with id|name|label|value "%s" is checked, but it should not be', $checkbox);
             throw new ExpectationException($message, $this->getSession(), $e);
         }
     }
@@ -607,7 +617,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             throw new \RuntimeException('Set "show_cmd" parameter in behat.yml to be able to open page in browser (ex.: "show_cmd: firefox %s")');
         }
 
-        $filename = sys_get_temp_dir().DIRECTORY_SEPARATOR.uniqid().'.html';
+        $filename = rtrim($this->getParameter('show_tmp_dir'), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.uniqid().'.html';
         file_put_contents($filename, $this->getSession()->getPage()->getContent());
         system(sprintf($this->getParameter('show_cmd'), $filename));
     }
@@ -629,7 +639,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         }
 
         if ($scenario->hasTag('insulated')) {
-            $this->getMink()->restartSessions();
+            $this->getMink()->stopSessions();
         } else {
             $this->getMink()->resetSessions();
         }
@@ -649,6 +659,8 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             __DIR__ . '/translations/fr.xliff',
             __DIR__ . '/translations/ja.xliff',
             __DIR__ . '/translations/es.xliff',
+            __DIR__ . '/translations/nl.xliff',
+            __DIR__ . '/translations/pt.xliff',
         );
     }
 
@@ -659,43 +671,66 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     protected function registerSessions(Mink $mink)
     {
-        $mink->registerSession('goutte', new Session(
-            $this->initGoutteDriver($this->getParameter('goutte'))
-        ));
-        $mink->registerSession('sahi',   new Session(
-            $this->initSahiDriver($this->getParameter('browser'), $this->getParameter('sahi'))
-        ));
+        if (!$mink->hasSession('goutte')) {
+            $params = $this->getParameter('goutte');
+            $mink->registerSession('goutte', static::initGoutteSession(
+                $params['zend_config'], $params['server_parameters']
+            ));
+        }
+
+        if (!$mink->hasSession('sahi')) {
+            $params = $this->getParameter('sahi');
+            $mink->registerSession('sahi', static::initSahiSession(
+                $this->getParameter('browser'), $params['sid'], $params['host'], $params['port']
+            ));
+        }
+
+        if (!$mink->hasSession('zombie')) {
+            $params = $this->getParameter('zombie');
+            $mink->registerSession('zombie', static::initZombieSession(
+                $params['host'], $params['port']
+            ));
+        }
     }
 
     /**
-     * Initizalizes and returns new GoutteDriver instance.
+     * Initizalizes and returns new GoutteDriver session.
      *
-     * @param   array   $connection     connection settings
+     * @param   array   $zendConfig         zend config parameters
+     * @param   array   $serverParameters   server parameters
      *
-     * @return  Behat\Mink\Driver\GoutteDriver
+     * @return  Behat\Mink\Session
      */
-    protected function initGoutteDriver(array $connection)
+    protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
     {
-        return new GoutteDriver(
-            new GoutteClient($connection['zend_config'], $connection['server_parameters'])
-        );
+        return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
     }
 
     /**
-     * Initizalizes and returns new SahiDriver instance.
+     * Initizalizes and returns new SahiDriver session.
      *
-     * @param   string  $browser        browser name to use (default = firefox)
-     * @param   array   $connection     connection settings
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   array   $sid        sahi SID
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
      *
-     * @return  Behat\Mink\Driver\SahiDriver
+     * @return  Behat\Mink\Session
      */
-    protected function initSahiDriver($browser, array $connection)
+    protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
     {
-        return new SahiDriver(
-            $browser,
-            new SahiClient(new SahiConnection(
-                $connection['sid'], $connection['host'], $connection['port']
-            ))
-        );
+        return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
+    }
+
+    /**
+     * Initizalizes and returns new ZombieDriver session.
+     *
+     * @param   string  $host       zombie.js server host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
+    {
+        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
     }
 }

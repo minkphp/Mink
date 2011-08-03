@@ -28,11 +28,61 @@ class Connection
      */
     private $port = null;
 
-
-    public function __construct($host, $port)
+    /**
+     * Initializes connection instance.
+     *
+     * @param   string  $host   zombie.js server host
+     * @param   integer $port   zombie.js server port
+     */
+    public function __construct($host = '127.0.0.1', $port = 8124)
     {
         $this->host = $host;
-        $this->port = (int)$port;
+        $this->port = intval($port);
+    }
+
+    /**
+     * Returns connection host.
+     *
+     * @return  string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
+     * Returns connection port.
+     *
+     * @return  string
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * Evaluates a string of Javascript code and returns the response
+     *
+     * @param   string  $js  String of Javascript code
+     *
+     * @return  mixed   Server response
+     */
+    public function evalJS($js)
+    {
+        return $this->evaluate($js);
+    }
+
+    /**
+     * Evaluates a string of Javascript code which is converted
+     * from / to JSON
+     *
+     * @param   string  $js  String of Javascript code
+     *
+     * @return  mixed   Server response
+     */
+    public function evalJSON($js)
+    {
+        return $this->evaluate($js, true);
     }
 
     /**
@@ -42,14 +92,14 @@ class Connection
      *
      * @return  string
      */
-    public function socketSend($js)
+    protected function socketSend($js)
     {
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if (false === @socket_connect($socket, $this->host, $this->port)) {
             $errno = socket_last_error();
             throw new \RuntimeException(
               sprintf("Could not establish connection: %s (%s)",
-              socket_strerror($errno), 
+              socket_strerror($errno),
               $errno)
             );
         }
@@ -68,43 +118,22 @@ class Connection
     }
 
     /**
-     * Setter Host
+     * The 'core' Javascript evaluate method. It is basically a wrapper around
+     * Behat\Mink\Driver\Zombie\Connection::socketSend()
      *
-     * @param   string  $host  A host
+     * @param   string    $js    String of Javascript code
+     * @param   boolean   $json  Flag for conversion from/to JSON
+     *
+     * @return  mixed     Server response
+     *
+     * @throws  \RuntimeException
      */
-    public function setHost($host)
+    private function evaluate($js, $json = false)
     {
-        $this->host = $host;
-    }
+        if ($json) {
+            return json_decode($this->socketSend("stream.end(JSON.stringify({$js}));"));
+        }
 
-    /**
-     * Getter Host
-     *
-     * @return  string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    /**
-     * Setter Port
-     *
-     * @param   integer  $port  A port
-     */
-    public function setPort($port)
-    {
-        $this->port = (int)$port;
-    }
-
-    /**
-     * Getter Port
-     *
-     * @return  integer
-     */
-    public function getPort()
-    {
-        return $this->port;
+        return $this->socketSend($js);
     }
 }
-

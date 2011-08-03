@@ -18,7 +18,7 @@ use Behat\Mink\Session,
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ElementHtmlException extends ExpectationFailedException
+class ElementHtmlException extends ExpectationException
 {
     /**
      * Element instance.

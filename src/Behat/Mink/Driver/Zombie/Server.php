@@ -21,7 +21,22 @@ class Server
     /**
      * @var     string
      */
-    private $jsPath = null;
+    private $nodeBin = null;
+
+    /**
+     * @var     string
+     */
+    private $serverScript = null;
+
+    /**
+     * @var string
+     */
+    private $host = '127.0.0.1';
+
+    /**
+     * @var string
+     */
+    private $port = '8124';
 
     /**
      * @Behat\Mink\Driver\Zombie\Connection
@@ -41,47 +56,42 @@ class Server
     /**
      * Constructor
      *
-     * @param   string   $jsPath     Path to server script
-     * @param   integer  $threshold  Amount of microseconds for the process to wait
+     * @param   string  $host           zombie.js server host
+     * @param   integer $port           zombie.js server port
+     * @param   string  $nodeBin        node.js binary path
+     * @param   string  $serverScript   zombie.js server script
+     * @param   integer $threshold      amount of microseconds for the process to wait
      */
-    public function __construct($jsPath = null, $threshold = 200000)
+    public function __construct($host = '127.0.0.1', $port = 8124,
+                                $nodeBin = null, $serverScript = null, $threshold = 1000000)
     {
-        if (null === $jsPath) {
-            $jsPath = __DIR__.'/server.js';
+        if (null === $nodeBin) {
+            $nodeBin = 'node';
+        }
+        if (null === $serverScript) {
+            $serverScript = $this->getServerScript();
         }
 
-        $this->jsPath = $jsPath;
-        $this->threshold = ((int)$threshold > 0) ? (int)$threshold : 200000;
-    }
-
-    /**
-     * Descructor (Safely clean up)
-     */
-    public function __destruct()
-    {
-        $this->killProcess();
+        $this->host         = $host;
+        $this->port         = intval($port);
+        $this->nodeBin      = $nodeBin;
+        $this->serverScript = $serverScript;
+        $this->threshold    = intval($threshold);
     }
 
     /**
      * Starts the server.
-     * Spawns a process for a node server at 127.0.0.1 (localhost), port 8124
+     * Spawns a process for a node server at specified port & host
      *
      * @throws  \RuntimeException
      */
     public function start()
     {
-        if (!file_exists($this->jsPath)) {
-            throw new \RuntimeException(
-                sprintf("The file at path '%s' could not be found", $this->jsPath)
-            );
-        }
-
         if ($this->isRunning()) {
             throw new \RuntimeException('The server appears to be already running.');
         }
 
-        $this->spawnProcess();
-        $this->conn = new Connection('127.0.0.1', '8124');
+        $this->spawnZombieServer();
     }
 
     /**
@@ -95,8 +105,7 @@ class Server
             throw new \RuntimeException('The server appears to be not running');
         }
 
-        $this->killProcess();
-        $this->conn = null;
+        $this->killZombieServer();
     }
 
     /**
@@ -126,124 +135,7 @@ class Server
     }
 
     /**
-     * Executes a string of Javascript code (and does not care for
-     * the response)
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  void
-     */
-    public function execJS($js)
-    {
-        $this->evaluate($js);
-        return;
-    }
-
-    /**
-     * Evaluates a string of Javascript code and returns the response
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  mixed   Server response
-     */
-    public function evalJS($js)
-    {
-        return $this->evaluate($js);
-    }
-
-    /**
-     * Evaluates a string of Javascript code which is converted
-     * from / to JSON
-     *
-     * @param   string  $js  String of Javascript code
-     *
-     * @return  mixed   Server response
-     */
-    public function evalJSON($js)
-    {
-        return $this->evaluate($js, true);
-    }
-
-    /**
-     * Getter server script path
-     *
-     * @return  Path to server script
-     */
-    public function getJsPath()
-    {
-        return $this->jsPath;
-    }
-
-    /**
-     * Setter connection
-     *
-     * @param   Behat\Mink\Driver\Zombie\Connection  A connection object
-     */
-    public function setConnection(Connection $conn)
-    {
-        $this->conn = $conn;
-    }
-
-    /**
-     * Getter connection
-     *
-     * @return  Behat\Mink\Driver\Zombie\Connection  A connection object
-     */
-    public function getConnection()
-    {
-        return $this->conn;
-    }
-
-    /**
-     * Setter threshold
-     *
-     * @param   integer  $threshold  amount of microseconds to wait
-     */
-    public function setThreshold($threshold)
-    {
-        if ((int)$threshold > 0) {
-            $this->threshold = (int)$threshold;
-        }
-    }
-
-    /**
-     * Getter threshold
-     *
-     * @return  integer  Actual amount of microseconds to wait
-     */
-    public function getThreshold()
-    {
-        return $this->threshold;
-    }
-
-    /**
-     * The 'core' Javascript evaluate method. It is basically a wrapper around
-     * Behat\Mink\Driver\Zombie\Connection::socketSend()
-     *
-     * @param   string    $js    String of Javascript code
-     * @param   boolean   $json  Flag for conversion from/to JSON
-     *
-     * @return  mixed     Server response
-     *
-     * @throws  \RuntimeException
-     */
-    protected function evaluate($js, $json = false)
-    {
-        if (!$this->isRunning() || !$this->conn) {
-            throw new \RuntimeException(
-                'No active connection available (is the server running..?)'
-            );
-        }
-
-        if ($json) {
-            return json_decode($this->conn->socketSend("stream.end(JSON.stringify({$js}));"));
-        }
-
-        return $this->conn->socketSend($js);
-    }
-
-    /**
-     * Spawns a new server process.
+     * Spawns a new Zombie.js server process.
      *
      * This method borrows a lot of its code from Symfony's Process component
      * I first tried to use the component itself, but it does not have real
@@ -253,7 +145,7 @@ class Server
      *
      * @throws  \RuntimeException
      */
-    protected function spawnProcess()
+    private function spawnZombieServer()
     {
         if (!function_exists('proc_open')) {
             throw new \RuntimeException(
@@ -261,10 +153,29 @@ class Server
             );
         }
 
-        $descriptors = array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w'));
-        $options = array('suppress_errors' => true, 'binary_pipes' => true, 'bypass_shell' => true);
+        $descriptors = array(
+            array('pipe', 'r'),
+            array('pipe', 'w'),
+            array('pipe', 'w')
+        );
+        $pipes = array();
+        $options = array(
+            'suppress_errors' => true,
+            'binary_pipes'    => true,
+            'bypass_shell'    => true
+        );
 
-        $this->process = proc_open(sprintf("env node %s", $this->jsPath), $descriptors, $pipes, NULL, NULL, $options);
+        $serverPath   = tempnam(sys_get_temp_dir(), 'mink_zombie_server');
+        $serverScript = strtr($this->serverScript, array(
+            '%host%' => $this->host,
+            '%port%' => $this->port
+        )) . "\nconsole.log('Mink::ZombieDriver started');";
+        file_put_contents($serverPath, $serverScript);
+
+        // run server
+        $this->process = proc_open(
+            sprintf('%s %s', $this->nodeBin, $serverPath), $descriptors, $pipes, null, null, $options
+        );
 
         if (!is_resource($this->process)) {
             throw new \RuntimeException('Unable to spawn a new process.');
@@ -274,18 +185,17 @@ class Server
             stream_set_blocking($pipe, false);
         }
 
-        // Constantly check the 'running' state of the process until it
-        // changes or drop out after a given amount of microseconds.
-        $status = proc_get_status($this->process);
-        $time = 0;
-        while (1 == $status['running'] && $time < $this->threshold) {
-            $time += 1000;
+        $output = null;
+        $time   = 0;
+        while (false === strpos($output, 'Mink::ZombieDriver started') && $time < $this->threshold) {
             usleep(1000);
-            $status = proc_get_status($this->process);
+            $output = fread($pipes[1], 8192);
+            $time  += 1000;
         }
 
         // If the process is not running, check STDERR for error messages
         // and throw exception
+        $status = proc_get_status($this->process);
         if (0 == $status['running']) {
             $err = stream_get_contents($pipes[2]);
             $msg = 'Process is not running.';
@@ -297,9 +207,9 @@ class Server
         }
 
         // Close pipes to avoid deadlocks on proc_close
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
+        foreach ($pipes as $pipe) {
+            fclose($pipe);
+        }
     }
 
     /**
@@ -307,7 +217,7 @@ class Server
      *
      * Only supports *NIX systems for now.
      */
-    protected function killProcess()
+    private function killZombieServer()
     {
         if ($this->process) {
             $status = proc_get_status($this->process);
@@ -316,5 +226,44 @@ class Server
             $this->process = null;
         }
     }
-}
 
+    /**
+     * Returns default zombie.js server script.
+     *
+     * @return  string
+     */
+    private function getServerScript()
+    {
+        return <<<'JS'
+var net = require('net');
+var sys = require('sys');
+var zombie = require('zombie');
+var browser = null;
+var pointers = [];
+var buffer = "";
+
+net.createServer(function (stream) {
+  stream.setEncoding('utf8');
+  stream.allowHalfOpen = true;
+
+  stream.on('data', function (data) {
+    buffer += data;
+  });
+
+  stream.on('end', function () {
+    if (browser == null) {
+      browser = new zombie.Browser();
+
+      // Clean up old pointers
+      pointers = [];
+    }
+
+    eval(buffer);
+    buffer = "";
+  });
+}).listen(%port%, '%host%');
+
+console.log('Zombie.js server running at %host%:%port%');
+JS;
+    }
+}
