@@ -274,18 +274,17 @@ class Server
             stream_set_blocking($pipe, false);
         }
 
-        // Constantly check the 'running' state of the process until it
-        // changes or drop out after a given amount of microseconds.
-        $status = proc_get_status($this->process);
-        $time = 0;
-        while (1 == $status['running'] && $time < $this->threshold) {
-            $time += 1000;
+        $output = null;
+        $time   = 0;
+        while (false === strpos($output, 'Zombie.js server running') && $time < $this->threshold) {
             usleep(1000);
-            $status = proc_get_status($this->process);
+            $output = fread($pipes[1], 8192);
+            $time  += 1000;
         }
 
         // If the process is not running, check STDERR for error messages
         // and throw exception
+        $status = proc_get_status($this->process);
         if (0 == $status['running']) {
             $err = stream_get_contents($pipes[2]);
             $msg = 'Process is not running.';
@@ -297,9 +296,9 @@ class Server
         }
 
         // Close pipes to avoid deadlocks on proc_close
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
+        foreach ($pipes as $pipe) {
+            fclose($pipe);
+        }
     }
 
     /**
