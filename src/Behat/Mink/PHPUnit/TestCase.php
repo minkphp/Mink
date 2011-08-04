@@ -34,30 +34,32 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @var     Behat\Mink\Mink
      */
-    private static $minkInstance;
+    private static $minkTestCaseMinkInstance;
 
     /**
-     * Initializes mink instance if not instantiated yet.
+     * Initializes mink instance.
      */
     public static function setUpBeforeClass()
     {
-        if (null === self::$minkInstance) {
-            self::$minkInstance = new Mink();
-        }
+        self::$minkTestCaseMinkInstance = new Mink();
+        static::registerMinkSessions(self::$minkTestCaseMinkInstance);
     }
 
     /**
-     * Registers missing sessions.
+     * Destroys mink instance.
      */
-    protected function setUp()
+    public static function tearDownAfterClass()
     {
-        $this->registerSessions($this->getMink());
+        if (null !== self::$minkTestCaseMinkInstance) {
+            self::$minkTestCaseMinkInstance->stopSessions();
+            self::$minkTestCaseMinkInstance = null;
+        }
     }
 
     /**
      * Reset started sessions.
      */
-    protected function teardown()
+    protected function tearDown()
     {
         $this->getMink()->resetSessions();
     }
@@ -69,13 +71,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function getMink()
     {
-        if (null === self::$minkInstance) {
+        if (null === self::$minkTestCaseMinkInstance) {
             throw new \RuntimeException(
                 'Mink is not initialized. Forgot to call parent context setUpBeforeClass()?'
             );
         }
 
-        return self::$minkInstance;
+        return self::$minkTestCaseMinkInstance;
     }
 
     /**
@@ -95,7 +97,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @param   Behat\Mink\Mink     $mink   Mink manager instance
      */
-    protected function registerSessions(Mink $mink)
+    protected static function registerMinkSessions(Mink $mink)
     {
         if (!$mink->hasSession('goutte')) {
             $mink->registerSession('goutte', static::initGoutteSession());

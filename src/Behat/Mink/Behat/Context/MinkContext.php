@@ -43,22 +43,23 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
  */
 class MinkContext extends BehatContext implements TranslatedContextInterface
 {
-    private static $minkInstance;
-    private $parameters;
+    private static $minkContextMinkInstance;
+    private $minkContextParameters;
 
     /**
-     * Initializes Mink environment.
+     * Returns list of default parameters.
      *
-     * @param   array   $parameters     list of context parameters
+     * @return  array
      */
-    public function __construct(array $parameters = array())
+    protected static function getDefaultParameters()
     {
-        $this->parameters = array_merge(array(
-            'default_session' => 'goutte',
-            'base_url'        => 'http://localhost',
-            'show_cmd'        => null,
-            'show_tmp_dir'    => sys_get_temp_dir(),
-            'browser'         => 'firefox',
+        return array(
+            'default_session'    => 'goutte',
+            'javascript_session' => 'sahi',
+            'base_url'           => 'http://localhost',
+            'show_cmd'           => null,
+            'show_tmp_dir'       => sys_get_temp_dir(),
+            'browser'            => 'firefox',
             'goutte' => array(
                 'zend_config'       => array(),
                 'server_parameters' => array()
@@ -72,13 +73,135 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'host' => '127.0.0.1',
                 'port' => 8124
             )
-        ), $parameters);
+        );
+    }
 
-        if (null === self::$minkInstance) {
-            self::$minkInstance = new Mink();
+    /**
+     * Initializes Mink environment.
+     *
+     * @param   array   $parameters     list of context parameters
+     */
+    public function __construct(array $parameters = array())
+    {
+        $this->minkContextParameters = array_merge(static::getDefaultParameters(), $parameters);
+    }
+
+    /**
+     * @BeforeSuite
+     */
+    public static function initMink($event)
+    {
+        $parameters = array_merge(static::getDefaultParameters(), $event->getContextParameters());
+
+        if (null === self::$minkContextMinkInstance) {
+            self::$minkContextMinkInstance = new Mink();
         }
 
-        $this->registerSessions(self::$minkInstance);
+        static::registerMinkSessions(self::$minkContextMinkInstance, $parameters);
+    }
+
+    /**
+     * @AfterSuite
+     */
+    public static function stopMink()
+    {
+        self::$minkContextMinkInstance->stopSessions();
+        self::$minkContextMinkInstance = null;
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function prepareMinkSessions($event)
+    {
+        $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
+        $session  = $this->getParameter('default_session');
+
+        foreach ($scenario->getTags() as $tag) {
+            if ('javascript' === $tag) {
+                $session = $this->getParameter('javascript_session');
+            } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
+                $session = $matches[1];
+            }
+        }
+
+        if ($scenario->hasTag('insulated')) {
+            $this->getMink()->stopSessions();
+        } else {
+            $this->getMink()->resetSessions();
+        }
+
+        $this->getMink()->setDefaultSessionName($session);
+    }
+
+    /**
+     * Registers Mink sessions on it's initialization.
+     *
+     * @param   Behat\Mink\Mink     $mink   Mink manager instance
+     */
+    protected static function registerMinkSessions(Mink $mink, array $parameters)
+    {
+        if (!$mink->hasSession('goutte')) {
+            $params = $parameters['goutte'];
+            $mink->registerSession('goutte', static::initGoutteSession(
+                $params['zend_config'], $params['server_parameters']
+            ));
+        }
+
+        if (!$mink->hasSession('sahi')) {
+            $params = $parameters['sahi'];
+            $mink->registerSession('sahi', static::initSahiSession(
+                $parameters['browser'], $params['sid'], $params['host'], $params['port']
+            ));
+        }
+
+        if (!$mink->hasSession('zombie')) {
+            $params = $parameters['zombie'];
+            $mink->registerSession('zombie', static::initZombieSession(
+                $params['host'], $params['port']
+            ));
+        }
+    }
+
+    /**
+     * Initizalizes and returns new GoutteDriver session.
+     *
+     * @param   array   $zendConfig         zend config parameters
+     * @param   array   $serverParameters   server parameters
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
+    {
+        return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
+    }
+
+    /**
+     * Initizalizes and returns new SahiDriver session.
+     *
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   array   $sid        sahi SID
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
+    {
+        return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
+    }
+
+    /**
+     * Initizalizes and returns new ZombieDriver session.
+     *
+     * @param   string  $host       zombie.js server host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
+    {
+        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
     }
 
     /**
@@ -102,13 +225,13 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getMink()
     {
-        if (null === self::$minkInstance) {
+        if (null === self::$minkContextMinkInstance) {
             throw new \RuntimeException(
                 'Mink is not initialized. Forgot to call parent context constructor?'
             );
         }
 
-        return self::$minkInstance;
+        return self::$minkContextMinkInstance;
     }
 
     /**
@@ -130,7 +253,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->minkContextParameters;
     }
 
     /**
@@ -142,11 +265,11 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function getParameter($name)
     {
-        if (!isset($this->parameters[$name])) {
+        if (!isset($this->minkContextParameters[$name])) {
             return;
         }
 
-        return $this->parameters[$name];
+        return $this->minkContextParameters[$name];
     }
 
     /**
@@ -623,31 +746,6 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * @BeforeScenario
-     */
-    public function prepareMinkSession($event)
-    {
-        $scenario = $event instanceof ScenarioEvent ? $event->getScenario() : $event->getOutline();
-        $session  = $this->getParameter('default_session');
-
-        foreach ($scenario->getTags() as $tag) {
-            if ('javascript' === $tag) {
-                $session = 'sahi';
-            } elseif (preg_match('/^mink\:(.+)/', $tag, $matches)) {
-                $session = $matches[1];
-            }
-        }
-
-        if ($scenario->hasTag('insulated')) {
-            $this->getMink()->stopSessions();
-        } else {
-            $this->getMink()->resetSessions();
-        }
-
-        $this->getMink()->setDefaultSessionName($session);
-    }
-
-    /**
      * Returns list of definition translation resources paths.
      *
      * @return  array
@@ -662,75 +760,5 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             __DIR__ . '/translations/nl.xliff',
             __DIR__ . '/translations/pt.xliff',
         );
-    }
-
-    /**
-     * Registers Mink sessions on it's initialization.
-     *
-     * @param   Behat\Mink\Mink     $mink   Mink manager instance
-     */
-    protected function registerSessions(Mink $mink)
-    {
-        if (!$mink->hasSession('goutte')) {
-            $params = $this->getParameter('goutte');
-            $mink->registerSession('goutte', static::initGoutteSession(
-                $params['zend_config'], $params['server_parameters']
-            ));
-        }
-
-        if (!$mink->hasSession('sahi')) {
-            $params = $this->getParameter('sahi');
-            $mink->registerSession('sahi', static::initSahiSession(
-                $this->getParameter('browser'), $params['sid'], $params['host'], $params['port']
-            ));
-        }
-
-        if (!$mink->hasSession('zombie')) {
-            $params = $this->getParameter('zombie');
-            $mink->registerSession('zombie', static::initZombieSession(
-                $params['host'], $params['port']
-            ));
-        }
-    }
-
-    /**
-     * Initizalizes and returns new GoutteDriver session.
-     *
-     * @param   array   $zendConfig         zend config parameters
-     * @param   array   $serverParameters   server parameters
-     *
-     * @return  Behat\Mink\Session
-     */
-    protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
-    {
-        return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
-    }
-
-    /**
-     * Initizalizes and returns new SahiDriver session.
-     *
-     * @param   string  $browser    browser name to use (default = firefox)
-     * @param   array   $sid        sahi SID
-     * @param   string  $host       sahi proxy host
-     * @param   integer $port       port number
-     *
-     * @return  Behat\Mink\Session
-     */
-    protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
-    {
-        return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
-    }
-
-    /**
-     * Initizalizes and returns new ZombieDriver session.
-     *
-     * @param   string  $host       zombie.js server host
-     * @param   integer $port       port number
-     *
-     * @return  Behat\Mink\Session
-     */
-    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
-    {
-        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
     }
 }
