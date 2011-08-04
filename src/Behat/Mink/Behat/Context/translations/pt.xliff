@@ -28,7 +28,7 @@
         </trans-unit>
         <trans-unit id="i-follow-link">
             <source><![CDATA[/^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )segui "(?P<link>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )carrego no link "(?P<link>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-fill-in-field-with-value">
             <source><![CDATA[/^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/]]></source>
@@ -60,7 +60,7 @@
         </trans-unit>
         <trans-unit id="i-should-see-text">
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )deveria ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-response-should-contain">
             <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
@@ -68,19 +68,19 @@
         </trans-unit>
         <trans-unit id="i-should-not-see-text">
             <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )não deveria de ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )não devo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-response-should-not-contain">
             <source><![CDATA[/^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^A resposta não deveria de conter "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^a resposta não deve de conter "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-contain-value">
             <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^o campo "(?P<field>(?:[^"]|\\")*)" deveria conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^o campo "(?P<field>(?:[^"]|\\")*)" deveria de conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-field-should-not-contain-value">
             <source><![CDATA[/^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^o campo "(?P<field>(?:[^"]|\\")*)" não deveria de conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^o campo "(?P<field>(?:[^"]|\\")*)" não deve de conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-checkbox-should-be-checked">
             <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/]]></source>
@@ -88,23 +88,23 @@
         </trans-unit>
         <trans-unit id="the-checkbox-should-not-be-checked">
             <source><![CDATA[/^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should not be checked$/]]></source>
-            <target><![CDATA[/^a checkbox "(?P<checkbox>(?:[^"]|\\")*)" não deveria estar marcada$/]]></target>
+            <target><![CDATA[/^a checkbox "(?P<checkbox>(?:[^"]|\\")*)" não deve estar marcada$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-be-on-page">
             <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )deveria de estar em "(?P<page>[^"]+)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )devo de estar em "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-url-should-match">
             <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^o endereço deveria coincidir com "(?P<pattern>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^o endereço deve coincidir com "(?P<pattern>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-contain">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^o elemento "(?P<element>[^"]*)" deveria conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^o elemento "(?P<element>[^"]*)" deve conter "(?P<value>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-text-in-element">
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Eu )deveria ver "(?P<text>(?:[^"]|\\")*)" no elemento "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )deveria ver o "(?P<text>(?:[^"]|\\")*)" no elemento "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
@@ -116,7 +116,7 @@
         </trans-unit>
         <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
-            <target><![CDATA[/^o estado da resposta deveria ser (?P<code>\d+)$/]]></target>
+            <target><![CDATA[/^o estado da resposta deve ser (?P<code>\d+)$/]]></target>
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
