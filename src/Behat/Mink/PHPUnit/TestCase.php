@@ -7,7 +7,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
-    Behat\Mink\Driver\Zombie\Connection as ZombieConnection;
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
+    Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
 use Goutte\Client as GoutteClient;
 
@@ -144,13 +145,24 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Initizalizes and returns new ZombieDriver session.
      *
-     * @param   string  $host       zombie.js server host
-     * @param   integer $port       port number
+     * @param   string  $host           zombie.js server host
+     * @param   integer $port           port number
+     * @param   Boolean $manualServer   use bundled with driver server or manually started one
+     * @param   string  $nodeBin        path to node binary
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
+                                                $manualServer = false, $nodeBin = 'node')
     {
-        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
+        $connection = new ZombieConnection($host, $port);
+
+        if ($manualServer) {
+            $server = false;
+        } else {
+            $server = new ZombieServer($host, $port, $nodeBin);
+        }
+
+        return new Session(new ZombieDriver($connection, $server));
     }
 }

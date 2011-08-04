@@ -14,6 +14,7 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
+    Behat\Mink\Driver\Zombie\Server as ZombieServer,
     Behat\Mink\Exception\ElementNotFoundException,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
@@ -70,10 +71,35 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'port' => 9999
             ),
             'zombie' => array(
-                'host' => '127.0.0.1',
-                'port' => 8124
+                'host'          => '127.0.0.1',
+                'port'          => 8124,
+                'node_bin'      => 'node',
+                'manual_server' => false
             )
         );
+    }
+
+    /**
+     * Merge two arrays into first one with overwrites.
+     *
+     * @param   array   $defaults
+     * @param   array   $configs
+     *
+     * @return  array
+     */
+    protected static function mergeConfigWithDefaults($defaults, $configs)
+    {
+        foreach($configs as $key => $val) {
+            if(array_key_exists($key, $defaults) && is_array($val)) {
+                $defaults[$key] = static::mergeConfigWithDefaults($defaults[$key], $configs[$key]);
+            } elseif (is_numeric($key)) {
+                $defaults[] = $val;
+            } else {
+                $defaults[$key] = $val;
+            }
+        }
+
+        return $defaults;
     }
 
     /**
@@ -83,7 +109,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public function __construct(array $parameters = array())
     {
-        $this->minkContextParameters = array_merge(static::getDefaultParameters(), $parameters);
+        $this->minkContextParameters = static::mergeConfigWithDefaults(
+            static::getDefaultParameters(), $parameters
+        );
     }
 
     /**
@@ -91,7 +119,9 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      */
     public static function initMink($event)
     {
-        $parameters = array_merge(static::getDefaultParameters(), $event->getContextParameters());
+        $parameters = static::mergeConfigWithDefaults(
+            static::getDefaultParameters(), $event->getContextParameters()
+        );
 
         if (null === self::$minkContextMinkInstance) {
             self::$minkContextMinkInstance = new Mink();
@@ -158,7 +188,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         if (!$mink->hasSession('zombie')) {
             $params = $parameters['zombie'];
             $mink->registerSession('zombie', static::initZombieSession(
-                $params['host'], $params['port']
+                $params['host'], $params['port'], $params['manual_server'], $params['node_bin']
             ));
         }
     }
@@ -194,14 +224,25 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     /**
      * Initizalizes and returns new ZombieDriver session.
      *
-     * @param   string  $host       zombie.js server host
-     * @param   integer $port       port number
+     * @param   string  $host           zombie.js server host
+     * @param   integer $port           port number
+     * @param   Boolean $manualServer   use bundled with driver server or manually started one
+     * @param   string  $nodeBin        path to node binary
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initZombieSession($host = '127.0.0.1', $port = 8124)
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
+                                                $manualServer = false, $nodeBin = 'node')
     {
-        return new Session(new ZombieDriver(new ZombieConnection($host, $port)));
+        $connection = new ZombieConnection($host, $port);
+
+        if ($manualServer) {
+            $server = false;
+        } else {
+            $server = new ZombieServer($host, $port, $nodeBin);
+        }
+
+        return new Session(new ZombieDriver($connection, $server));
     }
 
     /**
