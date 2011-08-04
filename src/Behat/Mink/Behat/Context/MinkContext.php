@@ -80,29 +80,6 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
     }
 
     /**
-     * Merge two arrays into first one with overwrites.
-     *
-     * @param   array   $defaults
-     * @param   array   $configs
-     *
-     * @return  array
-     */
-    protected static function mergeConfigWithDefaults($defaults, $configs)
-    {
-        foreach($configs as $key => $val) {
-            if(array_key_exists($key, $defaults) && is_array($val)) {
-                $defaults[$key] = static::mergeConfigWithDefaults($defaults[$key], $configs[$key]);
-            } elseif (is_numeric($key)) {
-                $defaults[] = $val;
-            } else {
-                $defaults[$key] = $val;
-            }
-        }
-
-        return $defaults;
-    }
-
-    /**
      * Initializes Mink environment.
      *
      * @param   array   $parameters     list of context parameters
@@ -801,5 +778,28 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             __DIR__ . '/translations/nl.xliff',
             __DIR__ . '/translations/pt.xliff',
         );
+    }
+
+    /**
+     * Merge two arrays into first one with overwrites.
+     *
+     * @param   array   $defaults
+     * @param   array   $configs
+     *
+     * @return  array
+     */
+    protected static function mergeConfigWithDefaults($defaults, $configs)
+    {
+        foreach($configs as $key => $val) {
+            if(array_key_exists($key, $defaults) && is_array($val)) {
+                $defaults[$key] = static::mergeConfigWithDefaults($defaults[$key], $configs[$key]);
+            } elseif (is_numeric($key)) {
+                $defaults[] = $val;
+            } else {
+                $defaults[$key] = $val;
+            }
+        }
+
+        return $defaults;
     }
 }
