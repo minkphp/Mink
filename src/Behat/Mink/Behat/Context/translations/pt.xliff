@@ -8,7 +8,7 @@
         </trans-unit>
         <trans-unit id="i-go-to-page">
             <source><![CDATA[/^(?:|I )go to "(?P<page>[^"]+)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )querer ir para "(?P<page>[^"]+)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )quero ir para "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="reload-the-page">
             <source><![CDATA[/^(?:|I )reload the page$/]]></source>
@@ -24,7 +24,7 @@
         </trans-unit>
         <trans-unit id="i-press-button">
             <source><![CDATA[/^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|Eu )carreguei "(?P<button>(?:[^"]|\\")*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )carrego no botão "(?P<button>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-follow-link">
             <source><![CDATA[/^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/]]></source>
@@ -108,11 +108,11 @@
         </trans-unit>
         <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Eu )deveria ver um? "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )devo ver um? "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="i-should-not-see-element">
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
-            <target><![CDATA[/^(?:|Eu )não deveria ver um? "(?P<element>[^"]*)"$/]]></target>
+            <target><![CDATA[/^(?:|Eu )não devo ver um? "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
@@ -120,7 +120,7 @@
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
-            <target><![CDATA[/^imprimi a última resposta$/]]></target>
+            <target><![CDATA[/^imprime a última resposta$/]]></target>
         </trans-unit>
         <trans-unit id="show-last-response">
             <source><![CDATA[/^show last response$/]]></source>
