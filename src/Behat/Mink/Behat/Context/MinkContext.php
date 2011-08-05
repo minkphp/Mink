@@ -58,7 +58,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
             'default_session'    => 'goutte',
             'javascript_session' => 'sahi',
             'base_url'           => 'http://localhost',
-            'show_cmd'           => null,
+            'show_cmd'           => static::getDefaultShowCmd(),
             'show_tmp_dir'       => sys_get_temp_dir(),
             'browser'            => 'firefox',
             'goutte' => array(
@@ -77,6 +77,28 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'manual_server' => false
             )
         );
+    }
+
+    /**
+     * Returns default show command.
+     *
+     * @return  string
+     */
+    protected static function getDefaultShowCmd()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return 'explorer.exe $s';
+        }
+
+        switch(PHP_OS) {
+            case 'Darwin':
+                return 'open %s';
+            case 'Linux':
+            case 'FreeBSD':
+                return 'xdg-open %s';
+        }
+
+        return null;
     }
 
     /**
