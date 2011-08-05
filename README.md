@@ -60,7 +60,7 @@ If you want to translate another language, you can use as reference the `ru` lan
  
 Then add it in [MinkContext](https://github.com/Behat/Mink/blob/develop/src/Behat/Mink/Behat/Context/MinkContext.php) after line #657.
 
-The filename must match with the same translated language file in Behat and Gherkin in order to work correctly. If the language does not exist in Gherkin and Behat you must  add it there too.
+**Important:** The filename must match with the same translated language file in [Behat](https://github.com/Behat/Behat/tree/master/i18n) and [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) in order to work correctly. If the language does not exist in [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) and [Behat](https://github.com/Behat/Behat/tree/master/i18n) you must  add it there too.
 
 Copyright
 ---------
