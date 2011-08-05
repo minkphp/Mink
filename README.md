@@ -46,6 +46,22 @@ $mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
 $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
 
+Translated languages
+--------------------
+
+For now exists 6 translated language: `es`,`fr`,`ja`,`nl`,`pt`,`ru`.
+
+**Note:** The `es` and `fr` are outdated.
+
+#### How to add a new translated language?
+
+If you want to translate another language, you can use as reference the `ru` language file under
+[translations folder](https://github.com/Behat/Mink/tree/develop/src/Behat/Mink/Behat/Context/translations).
+ 
+Then add it in [MinkContext](https://github.com/Behat/Mink/blob/develop/src/Behat/Mink/Behat/Context/MinkContext.php) after line #657.
+
+**Important:** The filename must match with the same translated language file in [Behat](https://github.com/Behat/Behat/tree/master/i18n) and [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) in order to work correctly. If the language does not exist in [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) and [Behat](https://github.com/Behat/Behat/tree/master/i18n) you must  add it there too.
+
 Copyright
 ---------
 
