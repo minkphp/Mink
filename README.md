@@ -55,7 +55,7 @@ For now exists 6 translated language: `es`,`fr`,`ja`,`nl`,`pt`,`ru`.
 
 #### How to add a new translated language?
 
-If you want to translate another language, you can use as reference the `pt` or `ru` language files under
+If you want to translate another language, you can use as reference the `ru` language files under
 [translations folder](https://github.com/Behat/Mink/tree/develop/src/Behat/Mink/Behat/Context/translations).
  
 Then add it in [MinkContext](https://github.com/Behat/Mink/blob/develop/src/Behat/Mink/Behat/Context/MinkContext.php) after line #657.
