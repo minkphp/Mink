@@ -77,7 +77,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
                 'host'          => '127.0.0.1',
                 'port'          => 8124,
                 'node_bin'      => 'node',
-                'manual_server' => false
+                'auto_server' => false
             )
         );
     }
@@ -190,7 +190,7 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
         if (!$mink->hasSession('zombie')) {
             $params = $parameters['zombie'];
             $mink->registerSession('zombie', static::initZombieSession(
-                $params['host'], $params['port'], $params['manual_server'], $params['node_bin']
+                $params['host'], $params['port'], $params['auto_server'], $params['node_bin']
             ));
         }
     }
@@ -228,17 +228,17 @@ class MinkContext extends BehatContext implements TranslatedContextInterface
      *
      * @param   string  $host           zombie.js server host
      * @param   integer $port           port number
-     * @param   Boolean $manualServer   use bundled with driver server or manually started one
+     * @param   Boolean $autoServer     use bundled with driver server or manually started one
      * @param   string  $nodeBin        path to node binary
      *
      * @return  Behat\Mink\Session
      */
     protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
-                                                $manualServer = false, $nodeBin = 'node')
+                                                $autoServer = false, $nodeBin = 'node')
     {
         $connection = new ZombieConnection($host, $port);
 
-        if ($manualServer) {
+        if ($autoServer) {
             $server = false;
         } else {
             $server = new ZombieServer($host, $port, $nodeBin);
