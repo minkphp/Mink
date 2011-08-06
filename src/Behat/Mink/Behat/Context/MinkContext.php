@@ -55,7 +55,7 @@ class MinkContext extends BaseMinkContext
     {
         if (null === self::$mink) {
             throw new \RuntimeException(
-                'Mink is not initialized. Forgot to call parent context constructor?'
+                'Mink is not initialized. Doing something weird in SuiteHook? You should not!'
             );
         }
 
