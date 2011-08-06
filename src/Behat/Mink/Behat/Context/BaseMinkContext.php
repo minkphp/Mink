@@ -32,7 +32,7 @@ use PHPUnit_Framework_ExpectationFailedException as AssertException;
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-abstract class AbstractMinkContext extends BehatContext implements TranslatedContextInterface
+abstract class BaseMinkContext extends BehatContext implements TranslatedContextInterface
 {
     /**
      * Returns Mink instance.

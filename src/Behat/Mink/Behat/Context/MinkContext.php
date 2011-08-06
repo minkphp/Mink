@@ -31,7 +31,7 @@ use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
  *
  * @author      Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class MinkContext extends AbstractMinkContext
+class MinkContext extends BaseMinkContext
 {
     private static $mink;
     private $parameters;
