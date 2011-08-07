@@ -57,8 +57,11 @@ class ZombieDriver implements DriverInterface
         if (null === $conn) {
             $conn = new Connection();
         }
+
         if ($autoServer && null === $server) {
             $server = new Server($conn->getHost(), $conn->getPort());
+        } elseif (!$autoServer) {
+            $server = null;
         }
 
         $this->conn   = $conn;
