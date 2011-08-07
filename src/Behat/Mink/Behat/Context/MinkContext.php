@@ -184,13 +184,9 @@ class MinkContext extends BaseMinkContext
                                                 $autoServer = true, $nodeBin = 'node')
     {
         $connection = new ZombieConnection($host, $port);
-        $server     = false;
+        $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
 
-        if ($autoServer) {
-            $server = new ZombieServer($host, $port, $nodeBin);
-        }
-
-        return new Session(new ZombieDriver($connection, $server));
+        return new Session(new ZombieDriver($connection, $server, $autoServer));
     }
 
     /**

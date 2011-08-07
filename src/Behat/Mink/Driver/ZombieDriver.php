@@ -48,15 +48,16 @@ class ZombieDriver implements DriverInterface
     /**
      * Constructor
      *
-     * @param    Behat\Mink\Driver\Zombie\Connection    $conn   a Zombie.js connection
-     * @param    Behat\Mink\Driver\Zombie\Server        $server a Zombie.js server
+     * @param   Behat\Mink\Driver\Zombie\Connection $conn       a Zombie.js connection
+     * @param   Behat\Mink\Driver\Zombie\Server     $server     a Zombie.js server
+     * @param   Boolean                             $autoServer automatically create Zombie.js server
      */
-    public function __construct(Connection $conn = null, $server = null)
+    public function __construct(Connection $conn = null, Server $server = null, $autoServer = true)
     {
         if (null === $conn) {
             $conn = new Connection();
         }
-        if (null === $server) {
+        if ($autoServer && null === $server) {
             $server = new Server($conn->getHost(), $conn->getPort());
         }
 

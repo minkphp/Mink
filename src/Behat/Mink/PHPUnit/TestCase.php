@@ -147,22 +147,17 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @param   string  $host           zombie.js server host
      * @param   integer $port           port number
-     * @param   Boolean $manualServer   use bundled with driver server or manually started one
+     * @param   Boolean $autoServer     use bundled with driver server or manually started one
      * @param   string  $nodeBin        path to node binary
      *
      * @return  Behat\Mink\Session
      */
     protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
-                                                $manualServer = false, $nodeBin = 'node')
+                                                $autoServer = true, $nodeBin = 'node')
     {
         $connection = new ZombieConnection($host, $port);
+        $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
 
-        if ($manualServer) {
-            $server = false;
-        } else {
-            $server = new ZombieServer($host, $port, $nodeBin);
-        }
-
-        return new Session(new ZombieDriver($connection, $server));
+        return new Session(new ZombieDriver($connection, $server, $autoServer));
     }
 }
