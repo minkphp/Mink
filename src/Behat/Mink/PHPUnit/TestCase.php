@@ -5,7 +5,10 @@ namespace Behat\Mink\PHPUnit;
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\SahiDriver;
+    Behat\Mink\Driver\SahiDriver,
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
+    Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
 use Goutte\Client as GoutteClient;
 
@@ -32,30 +35,32 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @var     Behat\Mink\Mink
      */
-    private static $minkInstance;
+    private static $minkTestCaseMinkInstance;
 
     /**
-     * Initializes mink instance if not instantiated yet.
+     * Initializes mink instance.
      */
     public static function setUpBeforeClass()
     {
-        if (null === self::$minkInstance) {
-            self::$minkInstance = new Mink();
-        }
+        self::$minkTestCaseMinkInstance = new Mink();
+        static::registerMinkSessions(self::$minkTestCaseMinkInstance);
     }
 
     /**
-     * Registers missing sessions.
+     * Destroys mink instance.
      */
-    protected function setUp()
+    public static function tearDownAfterClass()
     {
-        $this->registerSessions($this->getMink());
+        if (null !== self::$minkTestCaseMinkInstance) {
+            self::$minkTestCaseMinkInstance->stopSessions();
+            self::$minkTestCaseMinkInstance = null;
+        }
     }
 
     /**
      * Reset started sessions.
      */
-    protected function teardown()
+    protected function tearDown()
     {
         $this->getMink()->resetSessions();
     }
@@ -67,13 +72,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function getMink()
     {
-        if (null === self::$minkInstance) {
+        if (null === self::$minkTestCaseMinkInstance) {
             throw new \RuntimeException(
                 'Mink is not initialized. Forgot to call parent context setUpBeforeClass()?'
             );
         }
 
-        return self::$minkInstance;
+        return self::$minkTestCaseMinkInstance;
     }
 
     /**
@@ -93,7 +98,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @param   Behat\Mink\Mink     $mink   Mink manager instance
      */
-    protected function registerSessions(Mink $mink)
+    protected static function registerMinkSessions(Mink $mink)
     {
         if (!$mink->hasSession('goutte')) {
             $mink->registerSession('goutte', static::initGoutteSession());
@@ -102,6 +107,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         if (!$mink->hasSession('sahi')) {
             $mink->registerSession('sahi', static::initSahiSession());
+        }
+
+        if (!$mink->hasSession('zombie')) {
+            $mink->registerSession('zombie', static::initZombieSession());
         }
     }
 
@@ -131,5 +140,24 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected static function initSahiSession($browser = 'firefox', $sid = null, $host = 'localhost', $port = 9999)
     {
         return new Session(new SahiDriver($browser, new SahiClient(new SahiConnection($sid, $host, $port))));
+    }
+
+    /**
+     * Initizalizes and returns new ZombieDriver session.
+     *
+     * @param   string  $host           zombie.js server host
+     * @param   integer $port           port number
+     * @param   Boolean $autoServer     use bundled with driver server or manually started one
+     * @param   string  $nodeBin        path to node binary
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
+                                                $autoServer = true, $nodeBin = 'node')
+    {
+        $connection = new ZombieConnection($host, $port);
+        $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
+
+        return new Session(new ZombieDriver($connection, $server, $autoServer));
     }
 }

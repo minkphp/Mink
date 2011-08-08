@@ -1,3 +1,10 @@
+1.1.0 / 2011-08-08
+==================
+
+  * Added Zombie.js driver (thanks @b00giZm)
+  * Added pt translation (thanks Daniel Gomes)
+  * Refactored MinkContext and MinkTestCase
+
 1.0.3 / 2011-08-02
 ==================
 

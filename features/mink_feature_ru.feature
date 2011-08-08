@@ -4,7 +4,7 @@
   Как веб-девелопер
   Мне нужна возможность говорить с Mink через Behat
 
-  @javascript
+  @mink:zombie
   Сценарий: Стандартная форма (через Sahi)
     Допустим я на странице "basic_form.php"
     Когда я ввожу "Konstantin" в поле "first_name"
