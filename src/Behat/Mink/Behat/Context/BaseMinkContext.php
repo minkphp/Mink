@@ -105,7 +105,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     {
         $startUrl = rtrim($this->getParameter('base_url'), '/') . '/';
 
-        return 0 !== strpos('http', $path) ? $startUrl . ltrim($path, '/') : $path;
+        return 0 !== strpos($path, 'http') ? $startUrl . ltrim($path, '/') : $path;
     }
 
     /**
