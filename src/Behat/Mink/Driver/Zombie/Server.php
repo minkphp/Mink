@@ -169,7 +169,7 @@ class Server
 
         // run server
         $this->process = proc_open(
-            sprintf('%s %s', $this->nodeBin, $serverPath), $descriptors, $pipes, null, null, $options
+            sprintf('exec %s %s', $this->nodeBin, $serverPath), $descriptors, $pipes, null, null, $options
         );
 
         if (!is_resource($this->process)) {
