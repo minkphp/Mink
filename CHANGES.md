@@ -1,3 +1,9 @@
+1.1.1 / 2011-08-12
+==================
+
+  * Fixed Zombie.js server termination on Linux
+  * Fixed base_url usage for external URLs
+
 1.1.0 / 2011-08-08
 ==================
 
