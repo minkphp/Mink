@@ -183,6 +183,20 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
         $value = str_replace('\\"', '"', $value);
         $this->getSession()->getPage()->fillField($field, $value);
     }
+    
+    /**
+     * Fills in form field with specified id|name|label|value using predefined param.
+     * param value comes from behat.yml context parameters.
+     *
+     * @When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with param "(?P<name>(?:[^"]|\\")*)"$/
+     * @When /^(?:|I )fill in param "(?P<name>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
+     */
+    public function fillField($field, $name)
+    {
+        $field = str_replace('\\"', '"', $field);
+        $value = str_replace('\\"', '"', $this->getParameter($name));
+        $this->getSession()->getPage()->fillField($field, $value);
+    }
 
     /**
      * Fills in form fields with provided table.
