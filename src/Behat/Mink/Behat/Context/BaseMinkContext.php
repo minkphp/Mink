@@ -553,6 +553,22 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks, that (?P<num>\d+) CSS elements exist on the page
+     *
+     * @Then /^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/
+     */
+    public function assertNumElements($num, $element)
+    {
+        $nodes = $world->getSession()->getPage()->findAll('css', $element);
+
+        if (null === $nodes) {
+            throw new ElementNotFoundException($world->getSession(), 'element: '.$element.' ');
+        }
+
+        assertSame((int) $num, count($nodes));
+    }
+
+    /**
      * Prints last response to console.
      *
      * @Then /^print last response$/
