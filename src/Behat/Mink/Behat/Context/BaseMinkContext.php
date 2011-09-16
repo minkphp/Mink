@@ -304,7 +304,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that current page response status is equal to specified.
+     * Checks, that current page response status is not equal to specified.
      *
      * @Then /^the response status code should not be (?P<code>\d+)$/
      */
