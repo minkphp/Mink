@@ -304,6 +304,23 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks, that current page response status is not equal to specified.
+     *
+     * @Then /^the response status code should not be (?P<code>\d+)$/
+     */
+    public function assertResponseStatusIsNot($code)
+    {
+        $actual = $this->getSession()->getStatusCode();
+
+        try {
+            assertNotEquals($actual, $code);
+        } catch (AssertException $e) {
+            $message = sprintf('Current response status code is %d, but should not be', $actual);
+            throw new ExpectationException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
      * Checks, that page contains specified text.
      *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
