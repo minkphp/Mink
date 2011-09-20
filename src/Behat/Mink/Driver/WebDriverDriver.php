@@ -78,7 +78,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function reset()
     {
-        $this->webDriverSession->close();
+        $this->webDriverSession->deleteAllCookies();
     }
 
     /**
@@ -212,7 +212,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getText($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        return $this->webDriverSession->element('xpath', $xpath)->text();
     }
 
     /**
@@ -293,7 +293,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function doubleClick($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->mouseOver($xpath);
+        $this->webDriverSession->doubleclick();
     }
 
     /**
@@ -301,7 +302,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function rightClick($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->mouseOver($xpath);
+        $this->webDriverSession->click(array("button" => 2));
     }
 
     /**
@@ -325,7 +327,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function mouseOver($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $element = $this->webDriverSession->element('xpath', $xpath);
+        $this->webDriverSession->moveto(array("element" => $element));
     }
 
     /**
@@ -333,7 +336,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function focus($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Focus actions are not supported by %s', $this);
     }
 
     /**
@@ -341,7 +344,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function blur($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Focus actions are not supported by %s', $this);
     }
 
     /**
@@ -413,15 +416,4 @@ class WebDriverDriver implements DriverInterface
         throw new UnsupportedDriverActionException('', $this);
     }
 
-    /**
-     * Prepare XPath to be sent via Sahi proxy.
-     *
-     * @param   string  $xpath
-     *
-     * @return  string
-     */
-    private function prepareXPath($xpath)
-    {
-        throw new UnsupportedDriverActionException('', $this);
-    }
 }
