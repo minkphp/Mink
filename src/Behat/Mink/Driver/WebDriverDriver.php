@@ -156,7 +156,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function setCookie($name, $value = null)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->webDriverSession->setCookie(array("name" => $name,
+                                                 "value" => $value));
     }
 
     /**
@@ -164,7 +165,15 @@ class WebDriverDriver implements DriverInterface
      */
     public function getCookie($name)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $allCookies = $this->webDriverSession->getAllCookies();
+        $myCookie = null;
+        foreach ( $allCookies['value'] as $cookie ) {
+            if ($cookie['name'] === $name) {
+                $myCookie = $cookie;
+                break;
+            }
+        }
+        return $myCookie;
     }
 
     /**
