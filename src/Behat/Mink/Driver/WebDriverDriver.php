@@ -319,7 +319,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function isVisible($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        return $this->webDriverSession->element('xpath', $xpath)->displayed();
     }
 
     /**
