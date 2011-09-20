@@ -213,7 +213,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getTagName($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        return $this->webDriverSession->element('xpath', $xpath)->name();
     }
 
     /**
@@ -221,7 +221,10 @@ class WebDriverDriver implements DriverInterface
      */
     public function getText($xpath)
     {
-        return $this->webDriverSession->element('xpath', $xpath)->text();
+        $text = $this->webDriverSession->element('xpath', $xpath)->text();
+        $text = str_replace("\n", ' ', $text);
+        $text = preg_replace('/ {2,}/', ' ', $text);
+        return $text;
     }
 
     /**
@@ -237,7 +240,12 @@ class WebDriverDriver implements DriverInterface
      */
     public function getAttribute($xpath, $name)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $attr = $this->webDriverSession->element('xpath', $xpath)
+            ->attribute($name);
+        if ($attr == '') {
+            $attr = null;    
+        };
+        return $attr;
     }
 
     /**
