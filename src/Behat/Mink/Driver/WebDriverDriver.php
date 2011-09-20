@@ -328,7 +328,7 @@ class WebDriverDriver implements DriverInterface
     public function mouseOver($xpath)
     {
         $element = $this->webDriverSession->element('xpath', $xpath);
-        $this->webDriverSession->moveto(array("element" => $element));
+        $this->webDriverSession->moveto(array("element" => $element->getID()));
     }
 
     /**
@@ -376,7 +376,14 @@ class WebDriverDriver implements DriverInterface
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $sourceElement = $this->webDriverSession->element('xpath', 
+                                                          $sourceXpath);
+        $this->webDriverSession->moveto(array("element" => $sourceElement->getID()));
+        $this->webDriverSession->buttondown();
+        $destinationElement = $this->webDriverSession->element('xpath', 
+                                                            $destinationXpath);
+        $this->webDriverSession->moveto(array("element" => $destinationElement->getID()));
+        $this->webDriverSession->buttonup();
     }
 
     /**
