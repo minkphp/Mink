@@ -262,7 +262,15 @@ class WebDriverDriver implements DriverInterface
      */
     public function setValue($xpath, $value)
     {
-        $this->webDriverSession->element('xpath', $xpath)->value($value);
+        $element = $this->webDriverSession->element('xpath', $xpath);
+        $element->clear();
+        // As outlined in the JsonWireProtocol:
+        // value - {Array.<string>} The sequence of keys to type. An array must 
+        // be provided.
+        // Use preg_split to create the array.
+        // Thanks to https://github.com/chibimagic/WebDriver-PHP
+        $element->value(array("value" => preg_split('//u', $value, -1, 
+                                                    PREG_SPLIT_NO_EMPTY)));
     }
 
     /**
