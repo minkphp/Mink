@@ -253,7 +253,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $element = $this->webDriverSession->element('xpath', $xpath);
+        return $element->attribute('value');
     }
 
     /**
@@ -261,7 +262,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function setValue($xpath, $value)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->webDriverSession->element('xpath', $xpath)->value($value);
     }
 
     /**
