@@ -477,15 +477,4 @@ class WebDriverDriver implements DriverInterface
         $conditionResult = $this->webDriverSession->execute($condition);
     }
 
-    /**
-     * Selects specific radio option.
-     *
-     * @param   string  $xpath  xpath to one of the radio buttons
-     * @param   string  $value  value to be set
-     */
-    private function selectRadioOption($xpath, $value)
-    {
-        throw new UnsupportedDriverActionException('', $this);
-    }
-
 }
