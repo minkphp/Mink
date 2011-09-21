@@ -406,7 +406,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function blur($xpath)
     {
-        throw new UnsupportedDriverActionException('Focus actions are not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Blur actions are not supported by %s', $this);
     }
 
     /**
@@ -414,7 +414,10 @@ class WebDriverDriver implements DriverInterface
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        if (!is_null($modifier)) {
+            throw new UnsupportedDriverActionException('modifier keys are not supported by %s', $this);
+        }
+        $this->setValue($xpath, $char);
     }
 
     /**
@@ -422,7 +425,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Keyboard actions are not supported by %s', $this);
     }
 
     /**
@@ -430,7 +433,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Keyboard actions are not supported by %s', $this);
     }
 
     /**
