@@ -254,7 +254,22 @@ class WebDriverDriver implements DriverInterface
     public function getValue($xpath)
     {
         $element = $this->webDriverSession->element('xpath', $xpath);
-        return $element->attribute('value');
+        switch($element->attribute('type')) {
+            case 'radio':
+                $radioButtonName = $element->attribute('name');
+                $allRadioButtons = $this->webDriverSession
+                                        ->elements('name', $radioButtonName);
+                foreach ($allRadioButtons as $button) {
+                    if ($button->selected()) {
+                        return $button->attribute('value');
+                    }
+                }
+                break;
+            case 'checkbox':
+                return $element->selected();
+            default:
+                return $element->attribute('value');
+        }
     }
 
     /**
@@ -278,7 +293,9 @@ class WebDriverDriver implements DriverInterface
      */
     public function check($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        if (!$this->isChecked($xpath)) {
+            $this->webDriverSession->element('xpath', $xpath)->click();
+        }
     }
 
     /**
@@ -286,7 +303,9 @@ class WebDriverDriver implements DriverInterface
      */
     public function uncheck($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        if ($this->isChecked($xpath)) {
+            $this->webDriverSession->element('xpath', $xpath)->click();
+        }
     }
 
     /**
@@ -294,7 +313,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function isChecked($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        return $this->webDriverSession->element('xpath', $xpath)->selected();
     }
 
     /**
@@ -302,7 +321,24 @@ class WebDriverDriver implements DriverInterface
      */
     public function selectOption($xpath, $value)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $selectElement = $this->webDriverSession->element('xpath', $xpath);
+        if ($selectElement->attribute('type') === 'radio') {
+            foreach($this->webDriverSession
+                         ->elements('name', $selectElement->attribute('name')) 
+                    as $element) {
+                if ($element->attribute('value') === $value) {
+                    $element->click();
+                    return;
+                }
+            }
+        } else {     
+            foreach($selectElement->elements('tag name', 'option') as $element) {
+                if ($element->attribute('value') === $value) {
+                    $element->click();
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -337,7 +373,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function attachFile($xpath, $path)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->setValue($xpath, $path);
     }
 
     /**
