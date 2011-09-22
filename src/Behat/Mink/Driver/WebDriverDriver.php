@@ -54,6 +54,7 @@ class WebDriverDriver implements DriverInterface
     {
         $this->webDriverSession = $this->webDriverClient
                                        ->session($this->browserName);
+        $this->webDriverSession->timeouts()->implicit_wait(array('ms' => 5000));
     }
 
     /**
@@ -477,4 +478,8 @@ class WebDriverDriver implements DriverInterface
         $conditionResult = $this->webDriverSession->execute($condition);
     }
 
+    public function getWebDriverSession()
+    {
+        return $this->webDriverSession;
+    }
 }
