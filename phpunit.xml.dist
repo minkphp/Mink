@@ -18,8 +18,8 @@
     </testsuites>
 
     <php>
-        <server name="WEB_FIXTURES_HOST" value="http://192.168.122.198" />
-        <server name="WEB_FIXTURES_BROWSER" value="firefox" />
+        <!-- <server name="WEB_FIXTURES_HOST" value="http://test.mink.loc" /> -->
+        <!-- <server name="WEB_FIXTURES_BROWSER" value="firefox" /> -->
     </php>
 
     <filter>
