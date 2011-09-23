@@ -192,7 +192,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getContent()
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Getting content is not supported by %s', $this);
     }
 
     /**
@@ -233,7 +233,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getHtml($xpath)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Getting HTML is not supported by %s', $this);
     }
 
     /**
@@ -457,7 +457,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function executeScript($script)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        $this->webDriverSession->execute(array('script' => $script,
+                                               'args' => array()));
     }
 
     /**
@@ -465,7 +466,8 @@ class WebDriverDriver implements DriverInterface
      */
     public function evaluateScript($script)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        return($this->webDriverSession->execute(array('script' => $script,
+            'args' => array())));
     }
 
     /**
