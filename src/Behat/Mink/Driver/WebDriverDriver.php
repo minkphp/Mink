@@ -129,7 +129,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function setBasicAuth($user, $password)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedByDriverException('HTTP Basic authentication is not supported', $this);
     }
 
     /**
@@ -139,7 +139,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function setRequestHeader($name, $value)
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
     }
 
     /**
@@ -149,7 +149,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getResponseHeaders()
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Response headers manipulation is not supported by %s', $this);
     }
 
     /**
@@ -184,7 +184,7 @@ class WebDriverDriver implements DriverInterface
      */
     public function getStatusCode()
     {
-        throw new UnsupportedDriverActionException('', $this);
+        throw new UnsupportedDriverActionException('Status code reading is not supported by %s', $this);
     }
 
     /**
