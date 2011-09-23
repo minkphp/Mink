@@ -24,4 +24,4 @@
 	url = git://github.com/symfony/DomCrawler.git
 [submodule "vendor/WebDriver"]
 	path = vendor/WebDriver
-	url = git@github.com:zimride/php-webdriver.git
+	url = git://github.com/zimride/php-webdriver.git
