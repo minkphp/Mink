@@ -164,7 +164,7 @@ class Server
         $serverScript = strtr($this->serverScript, array(
             '%host%' => $this->host,
             '%port%' => $this->port
-        )) . "\nconsole.log('Mink::ZombieDriver started');";
+        ));
         file_put_contents($serverPath, $serverScript);
 
         // run server
@@ -256,7 +256,7 @@ net.createServer(function (stream) {
     eval(buffer);
     buffer = "";
   });
-}).listen(%port%, '%host%');
+}).listen(%port%, '%host%', function() { console.log('Mink::ZombieDriver started'); });
 
 console.log('Zombie.js server running at %host%:%port%');
 JS;
