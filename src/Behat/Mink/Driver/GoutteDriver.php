@@ -275,7 +275,12 @@ class GoutteDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
-        $field = $this->getField($xpath);
+        try {
+            $field = $this->getField($xpath);
+        } catch (\InvalidArgumentException $e) {
+            return $this->getAttribute($xpath, 'value');
+        }
+
         $value = $field->getValue();
 
         if ($field instanceof ChoiceFormField && 'checkbox' === $field->getType()) {

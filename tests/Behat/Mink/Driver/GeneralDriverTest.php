@@ -313,7 +313,7 @@ abstract class GeneralDriverTest extends TestCase
         $maillist->uncheck();
         $this->assertFalse($maillist->isChecked());
 
-        $select->selectOption('10');
+        $select->selectOption('ten');
         $this->assertEquals('10', $select->getValue());
 
         $sex->selectOption('m');
