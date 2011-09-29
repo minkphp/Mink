@@ -595,6 +595,8 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
             __DIR__ . '/translations/es.xliff',
             __DIR__ . '/translations/nl.xliff',
             __DIR__ . '/translations/pt.xliff',
+            __DIR__ . '/translations/sv.xliff',
+            __DIR__ . '/translations/de.xliff',
         );
     }
 }
