@@ -96,11 +96,9 @@ class Server
      */
     public function stop()
     {
-        if (!$this->isRunning()) {
-            throw new \RuntimeException('The server appears to be not running');
+        if ($this->isRunning()) {
+            $this->killZombieServer();
         }
-
-        $this->killZombieServer();
     }
 
     /**
