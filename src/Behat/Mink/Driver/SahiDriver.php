@@ -215,8 +215,8 @@ class SahiDriver implements DriverInterface
         $html = $this->evaluateScript('document.getElementsByTagName("html")[0].innerHTML');
 
         $html = preg_replace(array(
-            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/s',
-            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/s'
+            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/sU',
+            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/sU'
         ), '', $html);
         $html = html_entity_decode($html);
 
