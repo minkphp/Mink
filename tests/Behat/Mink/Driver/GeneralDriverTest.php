@@ -66,17 +66,18 @@ abstract class GeneralDriverTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            'Array ( [client_cookie1] => some_val [client_cookie2] => 123 [_SESS] =>',
+            "array ( 'client_cookie1' = 'some_val', 'client_cookie2' = '123', '_SESS' = ",
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            ' [srvr_cookie] => srv_var_is_set )', $this->getSession()->getPage()->getText()
+            " 'srvr_cookie' = 'srv_var_is_set', )",
+            $this->getSession()->getPage()->getText()
         );
 
         $this->getSession()->reset();
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            'Array ( )', $this->getSession()->getPage()->getText()
+            'array ( )', $this->getSession()->getPage()->getText()
         );
     }
 
@@ -145,18 +146,18 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('Extremely useless page', $page->find('css', 'h1')->getText());
         $this->assertEquals('h1', $page->find('css', 'h1')->getTagName());
 
-        $this->assertNotNull($page->find('xpath', '//p/strong[3]'));
-        $this->assertEquals('pariatur', $page->find('xpath', '//p/strong[3]')->getText());
-        $this->assertEquals('super-duper', $page->find('xpath', '//p/strong[3]')->getAttribute('class'));
-        $this->assertTrue($page->find('xpath', '//p/strong[3]')->hasAttribute('class'));
+        $this->assertNotNull($page->find('xpath', '//div/strong[3]'));
+        $this->assertEquals('pariatur', $page->find('xpath', '//div/strong[3]')->getText());
+        $this->assertEquals('super-duper', $page->find('xpath', '//div/strong[3]')->getAttribute('class'));
+        $this->assertTrue($page->find('xpath', '//div/strong[3]')->hasAttribute('class'));
 
-        $this->assertNotNull($page->find('xpath', '//p/strong[2]'));
-        $this->assertEquals('veniam', $page->find('xpath', '//p/strong[2]')->getText());
-        $this->assertEquals('strong', $page->find('xpath', '//p/strong[2]')->getTagName());
-        $this->assertNull($page->find('xpath', '//p/strong[2]')->getAttribute('class'));
-        $this->assertFalse($page->find('xpath', '//p/strong[2]')->hasAttribute('class'));
+        $this->assertNotNull($page->find('xpath', '//div/strong[2]'));
+        $this->assertEquals('veniam', $page->find('xpath', '//div/strong[2]')->getText());
+        $this->assertEquals('strong', $page->find('xpath', '//div/strong[2]')->getTagName());
+        $this->assertNull($page->find('xpath', '//div/strong[2]')->getAttribute('class'));
+        $this->assertFalse($page->find('xpath', '//div/strong[2]')->hasAttribute('class'));
 
-        $strongs = $page->findAll('css', 'p strong');
+        $strongs = $page->findAll('css', 'div#core > strong');
         $this->assertEquals(3, count($strongs));
         $this->assertEquals('Lorem', $strongs[0]->getText());
         $this->assertEquals('pariatur', $strongs[2]->getText());
@@ -332,14 +333,13 @@ abstract class GeneralDriverTest extends TestCase
         $button->press();
 
         $this->assertContains(<<<OUT
-Array
-(
-    [first_name] => Foo "item"
-    [last_name] => Bar
-    [email] => ever.zet@gmail.com
-    [select_number] => 10
-    [sex] => m
-    [agreement] => on
+array (
+  'first_name' = 'Foo "item"',
+  'last_name' = 'Bar',
+  'email' = 'ever.zet@gmail.com',
+  'select_number' = '10',
+  'sex' = 'm',
+  'agreement' = 'on',
 )
 1 uploaded file
 OUT
