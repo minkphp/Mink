@@ -178,6 +178,41 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('div', $element->getTagName());
     }
 
+    public function testVeryDeepElementsTraversing()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $page = $this->getSession()->getPage();
+
+        $footer = $page->find('css', 'footer');
+        $this->assertNotNull($footer);
+
+        $searchForm = $footer->find('css', 'form#search-form');
+        $this->assertNotNull($searchForm);
+        $this->assertEquals('search-form', $searchForm->getAttribute('id'));
+
+        $searchInput = $searchForm->findField('Search site...');
+        $this->assertNotNull($searchInput);
+        $this->assertEquals('text', $searchInput->getAttribute('type'));
+
+        $searchInput = $searchForm->findField('Search site...');
+        $this->assertNotNull($searchInput);
+        $this->assertEquals('text', $searchInput->getAttribute('type'));
+
+        $profileForm = $footer->find('css', '#profile');
+        $this->assertNotNull($profileForm);
+
+        $profileFormDiv = $profileForm->find('css', 'div');
+        $this->assertNotNull($profileFormDiv);
+
+        $profileFormDivLabel = $profileFormDiv->find('css', 'label');
+        $this->assertNotNull($profileFormDivLabel);
+
+        $profileFormInput = $profileFormDivLabel->findField('user-name');
+        $this->assertNotNull($profileFormInput);
+        $this->assertEquals('username', $profileFormInput->getAttribute('name'));
+    }
+
     public function testDeepTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));

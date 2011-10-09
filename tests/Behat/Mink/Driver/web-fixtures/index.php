@@ -26,5 +26,18 @@
         <div class="sub">el4</div>
 
     </div>
+
+    <footer>
+        <form id="search-form">
+            <input type="text" placeholder="Search site..." />
+        </form>
+        <form id="profile">
+            <div>
+                <label>
+                    <input type="text" id="user-name" name="username" />
+                </label>
+            </div>
+        </form>
+    </footer>
 </body>
 </html>
