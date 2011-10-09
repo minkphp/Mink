@@ -609,18 +609,7 @@ JS;
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        $this->triggerBrowserEvent("mousedown", $sourceXpath, array(), array(
-          "button" => 0, "which" => 1, "pageX" => 0, "pageY" => 0
-        ));
-        $this->triggerBrowserEvent("mousemove", $sourceXpath, array(), array(
-          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
-        ));
-        $this->triggerBrowserEvent("mousemove", $destinationXpath, array(), array(
-          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
-        ));
-        $this->triggerBrowserEvent("mouseup", $destinationXpath, array(), array(
-          "button" => 0, "which" => 1, "pageX" => 1, "pageY" => 1
-        ));
+        throw new UnsupportedDriverActionException('Dragging is not supported by %s', $this);
     }
 
     /**
