@@ -505,7 +505,7 @@ class SeleniumDriver implements DriverInterface
      */
     public function wait($time, $condition)
     {
-        $this->browser->waitForCondition($condition, $time);
+        $this->browser->waitForCondition('with (selenium.browserbot.getCurrentWindow()) { '."\n".$condition."\n }", $time);
     }
 
     /**
