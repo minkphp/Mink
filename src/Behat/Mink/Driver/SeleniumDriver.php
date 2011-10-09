@@ -8,7 +8,8 @@ use Behat\Mink\Session,
     Behat\Mink\Exception\UnsupportedDriverActionException;
 
 use Selenium\Client as SeleniumClient,
-    Selenium\Locator as SeleniumLocator;
+    Selenium\Locator as SeleniumLocator,
+    Selenium\Exception as SeleniumException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -149,12 +150,13 @@ class SeleniumDriver implements DriverInterface
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::forward()
-     *
-     * @throws Behat\Mink\Exception\UnsupportedDriverActionException action is not supported by this driver
      */
     public function forward()
     {
-        throw new UnsupportedDriverActionException('Forward is not supported by %s', $this);
+        $this->browser
+            ->runScript('history.forward()')
+            ->waitForPageToLoad($this->timeout)
+        ;
     }
 
     /**
@@ -162,7 +164,7 @@ class SeleniumDriver implements DriverInterface
      */
     public function back()
     {
-        $this->browser->back();
+        $this->browser->goBack();
     }
 
     /**
@@ -327,10 +329,10 @@ class SeleniumDriver implements DriverInterface
      */
     public function click($xpath)
     {
-        $this->browser
-            ->click(SeleniumLocator::xpath($xpath))
-            ->waitForPageToLoad($this->timeout)
-        ;
+        $this->browser->click(SeleniumLocator::xpath($xpath));
+        try {
+            $this->browser->waitForPageToLoad($this->timeout);
+        } catch (SeleniumException $e){} // If click loads a new page, then wait for it
     }
 
     /**
@@ -500,12 +502,10 @@ class SeleniumDriver implements DriverInterface
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::wait()
-     *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function wait($time, $condition)
     {
-        throw new UnsupportedDriverActionException('wait is not supported by %s', $this);
+        $this->browser->waitForCondition($condition, $time);
     }
 
     /**
