@@ -8,7 +8,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Driver\ZombieDriver;
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\SeleniumDriver;
 
 use Goutte\Client as GoutteClient;
 
@@ -17,6 +18,8 @@ use Behat\SahiClient\Connection as SahiConnection,
 
 use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
+
+use Selenium\Client as SeleniumClient;
 
 /*
  * This file is part of the Behat\Mink.
@@ -140,6 +143,13 @@ class MinkContext extends BaseMinkContext
                 $params['host'], $params['port'], $params['auto_server'], $params['node_bin']
             ));
         }
+
+        if (!$mink->hasSession('selenium')) {
+            $params = $parameters['selenium'];
+            $mink->registerSession('selenium', static::initSeleniumSession(
+                $parameters['browser'], $parameters['base_url'], $params['host'], $params['port']
+            ));
+        }
     }
 
     /**
@@ -190,6 +200,20 @@ class MinkContext extends BaseMinkContext
     }
 
     /**
+     * Initizalizes and returns new SeleniumDriver session.
+     *
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSeleniumSession($browser, $baseUrl, $host, $port)
+    {
+        return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
      * Returns list of default parameters.
      *
      * @return  array
@@ -217,7 +241,11 @@ class MinkContext extends BaseMinkContext
                 'port'          => 8124,
                 'node_bin'      => 'node',
                 'auto_server'   => true
-            )
+            ),
+            'selenium' => array(
+                'host' => 'localhost',
+                'port' => 4444
+            ),
         );
     }
 
