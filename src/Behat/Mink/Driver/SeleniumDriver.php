@@ -380,11 +380,12 @@ class SeleniumDriver implements DriverInterface
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::rightClick()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function rightClick($xpath)
     {
-        $this->browser->mouseDownRight(SeleniumLocator::xpath($xpath));
-        $this->browser->mouseUpRight(SeleniumLocator::xpath($xpath));
+        throw new UnsupportedDriverActionException('Right click is not supported by %s', $this);
     }
 
     /**
@@ -397,10 +398,12 @@ class SeleniumDriver implements DriverInterface
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::focus()
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function focus($xpath)
     {
-        $this->browser->focus(SeleniumLocator::xpath($xpath));
+        throw new UnsupportedDriverActionException('Focus is not supported by %s', $this);
     }
 
     /**
