@@ -145,7 +145,10 @@ class SeleniumDriver implements DriverInterface
      */
     public function reload()
     {
-        $this->browser->refresh();
+        $this->browser
+            ->refresh()
+            ->waitForPageToLoad($this->timeout)
+        ;
     }
 
     /**
@@ -196,7 +199,11 @@ class SeleniumDriver implements DriverInterface
      */
     public function setCookie($name, $value = null)
     {
-        $this->browser->createCookie($name.'='.$value, '');
+        if (null === $value) {
+            $this->browser->deleteCookie($name, '');
+        } else {
+            $this->browser->createCookie($name.'='.$value, '');
+        }
     }
 
     /**
@@ -204,7 +211,11 @@ class SeleniumDriver implements DriverInterface
      */
     public function getCookie($name)
     {
-        return $this->browser->getCookieByName($name);
+        if ($this->browser->isCookiePresent($name)) {
+            return $this->browser->getCookieByName($name);
+        }
+
+        return null;
     }
 
     /**
