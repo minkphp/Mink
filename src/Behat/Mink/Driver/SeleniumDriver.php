@@ -306,7 +306,6 @@ class SeleniumDriver implements DriverInterface
     public function getValue($xpath)
     {
         return $this->browser->getValue(SeleniumLocator::xpath($xpath));
-
     }
 
     /**

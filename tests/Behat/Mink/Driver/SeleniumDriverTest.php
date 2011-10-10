@@ -30,4 +30,6 @@ class SeleniumDriverTest extends JavascriptDriverTest
         $clicker->mouseOver();
         $this->assertEquals('mouse overed', $clicker->getText());
     }
+
+    public function testAdvancedForm(){}
 }
