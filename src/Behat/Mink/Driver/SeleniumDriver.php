@@ -266,7 +266,9 @@ class SeleniumDriver implements DriverInterface
      */
     public function getText($xpath)
     {
-        return $this->browser->getText(SeleniumLocator::xpath($xpath));
+        $result = $this->browser->getText(SeleniumLocator::xpath($xpath));
+
+        return preg_replace("/[ \n]+/", " ", $result);
     }
 
     /**
@@ -291,7 +293,11 @@ class SeleniumDriver implements DriverInterface
      */
     public function getAttribute($xpath, $attr)
     {
-        return $this->browser->getAttribute(SeleniumLocator::xpath($xpath).'@'.$attr);
+        $result = $this->getCrawler()->filterXPath($xpath)->attr($attr);
+        if ('' === $result) {
+            $result = null;
+        }
+        return $result;
     }
 
     /**
