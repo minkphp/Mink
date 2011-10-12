@@ -611,7 +611,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
 
         $filename = rtrim($this->getParameter('show_tmp_dir'), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.uniqid().'.html';
         file_put_contents($filename, $this->getSession()->getPage()->getContent());
-        system(sprintf($this->getParameter('show_cmd'), $filename));
+        system(sprintf($this->getParameter('show_cmd'), escapeshellarg($filename)));
     }
 
     /**
