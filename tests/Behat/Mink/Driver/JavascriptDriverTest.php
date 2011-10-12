@@ -94,4 +94,14 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $draggable->dragTo($droppable);
         $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());
     }
+
+    public function testEvaluateAndExecuteScript()
+    {
+        $this->getSession()->visit($this->pathTo('/'));
+        $this->assertEquals('Index page', 
+            $this->getSession()->evaluateScript("return document.title"));
+        $this->getSession()->executeScript("testVar = 'myTestVar'");
+        $this->assertEquals('myTestVar', 
+            $this->getSession()->evaluateScript("return testVar"));
+    }
 }

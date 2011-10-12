@@ -8,7 +8,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Driver\ZombieDriver;
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\WebDriverDriver;
 
 use Goutte\Client as GoutteClient;
 
@@ -140,6 +141,11 @@ class MinkContext extends BaseMinkContext
                 $params['host'], $params['port'], $params['auto_server'], $params['node_bin']
             ));
         }
+        if (!$mink->hasSession('webdriver')) {
+            $mink->registerSession('webdriver', static::initWebDriverSession(
+                $parameters['browser']
+            ));
+        }
     }
 
     /**
@@ -187,6 +193,18 @@ class MinkContext extends BaseMinkContext
         $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
 
         return new Session(new ZombieDriver($connection, $server, $autoServer));
+    }
+
+    /**
+     * Initizalizes and returns new WebDriverDriver session.
+     *
+     * @param   string  $browser    browser name to use (default = firefox)
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initWebDriverSession($browser = 'firefox')
+    {
+        return new Session(new WebDriverDriver($browser));
     }
 
     /**

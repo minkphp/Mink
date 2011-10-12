@@ -66,6 +66,15 @@ class MapFileCompiler
         }
         $mappings .= "}\n";
 
+        // autoload WebDriver
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_WEBDRIVER') || true === BEHAT_AUTOLOAD_WEBDRIVER) {\n";
+        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/WebDriver') as $file) {
+            $path  = str_replace($this->libPath . '/vendor/WebDriver/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['WebDriver\\$class'] = __DIR__ . '/vendor/WebDriver/$path';\n";
+        }
+        $mappings .= "}\n";
+
         // autoload Buzz
         $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_BUZZ') || true === BEHAT_AUTOLOAD_BUZZ) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Buzz/lib') as $file) {

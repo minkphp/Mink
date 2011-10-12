@@ -62,7 +62,8 @@ class PearCompiler
             ->in($this->libPath . '/tests')
             ->in($this->libPath . '/vendor/Buzz/lib')
             ->in($this->libPath . '/vendor/Goutte/src')
-            ->in($this->libPath . '/vendor/SahiClient/src');
+            ->in($this->libPath . '/vendor/SahiClient/src')
+            ->in($this->libPath . '/vendor/WebDriver');
 
         $xmlSourceFiles = '';
         foreach ($finder as $file) {
