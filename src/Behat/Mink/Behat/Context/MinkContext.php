@@ -137,7 +137,7 @@ class MinkContext extends BaseMinkContext
         if (!$mink->hasSession('zombie')) {
             $params = $parameters['zombie'];
             $mink->registerSession('zombie', static::initZombieSession(
-                $params['host'], $params['port'], $params['auto_server'], $params['node_bin']
+                $params['host'], $params['port'], $params['auto_server'], $params['node_bin'], $parameters['base_url']
             ));
         }
     }
@@ -177,16 +177,17 @@ class MinkContext extends BaseMinkContext
      * @param   integer $port           port number
      * @param   Boolean $autoServer     use bundled with driver automatically startable server
      * @param   string  $nodeBin        path to node binary
+     * @param   string  $baseUrl        base url
      *
      * @return  Behat\Mink\Session
      */
     protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
-                                                $autoServer = true, $nodeBin = 'node')
+                                                $autoServer = true, $nodeBin = 'node', $baseUrl = 'http://localhost/')
     {
         $connection = new ZombieConnection($host, $port);
         $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
 
-        return new Session(new ZombieDriver($connection, $server, $autoServer));
+        return new Session(new ZombieDriver($connection, $server, $autoServer, $baseUrl));
     }
 
     /**

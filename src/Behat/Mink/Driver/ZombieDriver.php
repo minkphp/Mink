@@ -36,6 +36,11 @@ class ZombieDriver implements DriverInterface
     private $nativeRefs = array();
 
     /**
+     * @var string
+     */
+    private $baseUrl = '';
+
+    /**
      * @var Behat\Mink\Driver\Zombie\Connection
      */
     private $conn = null;
@@ -52,7 +57,7 @@ class ZombieDriver implements DriverInterface
      * @param   Behat\Mink\Driver\Zombie\Server     $server     a Zombie.js server
      * @param   Boolean                             $autoServer automatically create Zombie.js server
      */
-    public function __construct(Connection $conn = null, Server $server = null, $autoServer = true)
+    public function __construct(Connection $conn = null, Server $server = null, $autoServer = true, $baseUrl = 'http://localhost/')
     {
         if (null === $conn) {
             $conn = new Connection();
@@ -64,8 +69,9 @@ class ZombieDriver implements DriverInterface
             $server = null;
         }
 
-        $this->conn   = $conn;
-        $this->server = $server;
+        $this->conn    = $conn;
+        $this->server  = $server;
+        $this->baseUrl = $baseUrl;
     }
 
     /**
@@ -153,6 +159,9 @@ JS;
     {
         // Cleanup cached references
         $this->nativeRefs = array();
+
+        //prefix given url with urlBase, may need some tests to make sure that given parameter is relative url
+        $url = $this->baseUrl.$url;
 
         $js = <<<JS
 pointers = [];
