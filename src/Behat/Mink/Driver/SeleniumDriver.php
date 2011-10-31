@@ -433,12 +433,10 @@ JS;
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::attachFile()
-     *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function attachFile($xpath, $path)
     {
-        throw new UnsupportedDriverActionException('Uploading file is not supported by %s', $this);
+        $this->browser->attachFile(SeleniumLocator::xpath($xpath), 'file://'.$path);
     }
 
     /**
