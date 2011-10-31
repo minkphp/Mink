@@ -10,4 +10,9 @@ class ZombieDriverTest extends JavascriptDriverTest
     {
         $this->getMink()->setDefaultSessionName('zombie');
     }
+
+    /**
+     * As of 0.10.1, zombie.js doesn't support any response type except html
+     */
+    public function testJson() {}
 }

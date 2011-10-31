@@ -304,6 +304,23 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks, that current page response status is not equal to specified.
+     *
+     * @Then /^the response status code should not be (?P<code>\d+)$/
+     */
+    public function assertResponseStatusIsNot($code)
+    {
+        $actual = $this->getSession()->getStatusCode();
+
+        try {
+            assertNotEquals($actual, $code);
+        } catch (AssertException $e) {
+            $message = sprintf('Current response status code is %d, but should not be', $actual);
+            throw new ExpectationException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
      * Checks, that page contains specified text.
      *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
@@ -553,6 +570,22 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks, that (?P<num>\d+) CSS elements exist on the page
+     *
+     * @Then /^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/
+     */
+    public function assertNumElements($num, $element)
+    {
+        $nodes = $world->getSession()->getPage()->findAll('css', $element);
+
+        if (null === $nodes) {
+            throw new ElementNotFoundException($world->getSession(), 'element: '.$element.' ');
+        }
+
+        assertSame((int) $num, count($nodes));
+    }
+
+    /**
      * Prints last response to console.
      *
      * @Then /^print last response$/
@@ -595,6 +628,8 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
             __DIR__ . '/translations/es.xliff',
             __DIR__ . '/translations/nl.xliff',
             __DIR__ . '/translations/pt.xliff',
+            __DIR__ . '/translations/sv.xliff',
+            __DIR__ . '/translations/de.xliff',
         );
     }
 }

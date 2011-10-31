@@ -377,6 +377,8 @@ if (tagName == "INPUT") {
 } else if (tagName == "SELECT") {
   var idx = node.selectedIndex;
   value = node.options.item(idx).value;
+} else {
+  value = node.getAttribute('value');
 }
 stream.end(JSON.stringify(value));
 JS;
