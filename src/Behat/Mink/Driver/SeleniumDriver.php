@@ -418,9 +418,11 @@ JS;
     public function click($xpath)
     {
         $this->browser->click(SeleniumLocator::xpath($xpath));
-        try {
+        $readyState = $this->browser->getEval('window.document.readyState');
+
+        if ($readyState == 'loading' || $readyState == 'interactive') {
             $this->browser->waitForPageToLoad($this->timeout);
-        } catch (SeleniumException $e){} // If click loads a new page, then wait for it
+        }
     }
 
     /**
