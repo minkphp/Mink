@@ -310,7 +310,51 @@ class SeleniumDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
-        return $this->browser->getValue(SeleniumLocator::xpath($xpath));
+        $xpathEscaped = str_replace('"', '\"', $xpath);
+        $script = <<<JS
+var node = this.browserbot.locateElementByXPath("$xpathEscaped", window.document);
+    tagName = node.tagName,
+    value = "null";
+if (tagName == "INPUT") {
+    var type = node.getAttribute('type');
+    if (type == "checkbox") {
+        value = "boolean:" + node.checked;
+    } else if (type == "radio") {
+        var name = node.getAttribute('name');
+        if (name) {
+            var fields = window.document.getElementsByName(name);
+            var i, l = fields.length;
+            for (i = 0; i < l; i++) {
+                var field = fields.item(i);
+                if (field.checked) {
+                    value = "string:" + field.value;
+                }
+            }
+        }
+    } else {
+        value = "string:" + node.value;
+    }
+} else if (tagName == "TEXTAREA") {
+  value = "string:" + node.text;
+} else if (tagName == "SELECT") {
+  var idx = node.selectedIndex;
+  value = "string:" + node.options.item(idx).value;
+} else {
+  value = "string:" + node.getAttribute('value');
+}
+value
+
+JS;
+
+        $value = $this->browser->getEval($script);
+
+        if (null === $value) {
+            return null;
+        } elseif (preg_match('/^string:(.*)$/', $value, $vars)) {
+            return $vars[1];
+        } elseif (preg_match('/^boolean:(.*)$/', $value, $vars)) {
+            return 'true' === strtolower($vars[1]);
+        }
     }
 
     /**
@@ -342,7 +386,30 @@ class SeleniumDriver implements DriverInterface
      */
     public function selectOption($xpath, $value)
     {
-        $this->browser->select(SeleniumLocator::xpath($xpath), 'value='.$value);
+        $xpathEscaped = str_replace('"', '\"', $xpath);
+        $valueEscaped = str_replace('"', '\"', $value);
+        $script = <<<JS
+var node = this.browserbot.locateElementByXPath("$xpathEscaped", window.document);
+if (node.tagName == 'SELECT') {
+    var i, l = node.length;
+    for (i = 0; i < l; i++) {
+        if (node[i].value == "$valueEscaped") {
+            node.selectedIndex = i;
+        }
+    }
+} else {
+    var nodes = window.document.getElementsByName(node.getAttribute('name'));
+    var i, l = nodes.length;
+    for (i = 0; i < l; i++) {
+        if (nodes[i].getAttribute('value') == "$valueEscaped") {
+            node.checked = true;
+        }
+    }
+}
+JS;
+
+        $this->browser->getEval($script);
+
     }
 
     /**
