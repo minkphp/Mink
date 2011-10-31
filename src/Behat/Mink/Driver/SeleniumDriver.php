@@ -26,6 +26,11 @@ use Selenium\Client as SeleniumClient,
  */
 class SeleniumDriver implements DriverInterface
 {
+    const MODIFIER_CTRL  = 'ctrl';
+    const MODIFIER_ALT   = 'alt';
+    const MODIFIER_SHIFT = 'shift';
+    const MODIFIER_META  = 'meta';
+
     /**
      * Default timeout for Selenium (in milliseconds)
      *
@@ -422,35 +427,9 @@ class SeleniumDriver implements DriverInterface
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
-        switch ($modifier) {
-            case 'ctrl':
-                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
-            case 'alt':
-                $this->browser->altKeyDown();
-                break;
-            case 'shift':
-                $this->browser->shiftKeyDown();
-                break;
-            case 'meta':
-                $this->browser->metaKeyDown();
-                break;
-        }
-
+        $this->keyDownModifier($modifier);
         $this->browser->keyPress(SeleniumLocator::xpath($xpath), $char);
-
-        switch ($modifier) {
-            case 'ctrl':
-                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
-            case 'alt':
-                $this->browser->altKeyUp();
-                break;
-            case 'shift':
-                $this->browser->shiftKeyUp();
-                break;
-            case 'meta':
-                $this->browser->metaKeyUp();
-                break;
-        }
+        $this->keyUpModifier($modifier);
     }
 
     /**
@@ -460,21 +439,9 @@ class SeleniumDriver implements DriverInterface
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
-        switch ($modifier) {
-            case 'ctrl':
-                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
-            case 'alt':
-                $this->browser->altKeyDown();
-                break;
-            case 'shift':
-                $this->browser->shiftKeyDown();
-                break;
-            case 'meta':
-                $this->browser->metaKeyDown();
-                break;
-        }
-
+        $this->keyDownModifier($modifier);
         $this->browser->keyDown(SeleniumLocator::xpath($xpath), $char);
+        $this->keyUpModifier($modifier);
     }
 
     /**
@@ -484,21 +451,10 @@ class SeleniumDriver implements DriverInterface
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
-        switch ($modifier) {
-            case 'ctrl':
-                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
-            case 'alt':
-                $this->browser->altKeyUp();
-                break;
-            case 'shift':
-                $this->browser->shiftKeyUp();
-                break;
-            case 'meta':
-                $this->browser->metaKeyUp();
-                break;
-        }
 
+        $this->keyDownModifier($modifier);
         $this->browser->keyUp(SeleniumLocator::xpath($xpath), $char);
+        $this->keyUpModifier($modifier);
     }
 
     /**
@@ -563,5 +519,49 @@ class SeleniumDriver implements DriverInterface
         }
 
         return $crawler;
+    }
+
+    /**
+     * Handles the key down of a keyboard modifier
+     *
+     * @param string $modifier The modifier to handle (see self::MODIFIER_*)
+     */
+    protected function keyDownModifier($modifier)
+    {
+        switch ($modifier) {
+            case self::MODIFIER_CTRL:
+                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
+            case self::MODIFIER_ALT:
+                $this->browser->altKeyDown();
+                break;
+            case self::MODIFIER_SHIFT:
+                $this->browser->shiftKeyDown();
+                break;
+            case self::MODIFIER_META:
+                $this->browser->metaKeyDown();
+                break;
+        }
+    }
+
+    /**
+     * Handles the key up of a keyboard modifier
+     *
+     * @param string $modifier The modifier to handle (see self::MODIFIER_*)
+     */
+    protected function keyUpModifier($modifier)
+    {
+        switch ($modifier) {
+            case self::MODIFIER_CTRL:
+                throw new UnsupportedDriverActionException('Ctrl key is not supported by %s', $this);
+            case self::MODIFIER_ALT:
+                $this->browser->altKeyUp();
+                break;
+            case self::MODIFIER_SHIFT:
+                $this->browser->shiftKeyUp();
+                break;
+            case self::MODIFIER_META:
+                $this->browser->metaKeyUp();
+                break;
+        }
     }
 }
