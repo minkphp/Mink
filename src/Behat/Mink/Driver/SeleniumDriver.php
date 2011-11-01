@@ -546,7 +546,9 @@ JS;
      */
     public function wait($time, $condition)
     {
-        $this->browser->waitForCondition('with (selenium.browserbot.getCurrentWindow()) { '."\n".$condition."\n }", $time);
+        try {
+            $this->browser->waitForCondition('with (selenium.browserbot.getCurrentWindow()) { '."\n".$condition."\n }", $time);
+        } catch (SeleniumException $e) {}
     }
 
     /**
