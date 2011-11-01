@@ -7,10 +7,13 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\SeleniumDriver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
 use Goutte\Client as GoutteClient;
+
+use Selenium\Client as SeleniumClient;
 
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
@@ -112,6 +115,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         if (!$mink->hasSession('zombie')) {
             $mink->registerSession('zombie', static::initZombieSession());
         }
+
+        if (!$mink->hasSession('selenium')) {
+            $mink->registerSession('selenium', static::initSeleniumSession());
+        }
     }
 
     /**
@@ -159,5 +166,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
 
         return new Session(new ZombieDriver($connection, $server, $autoServer));
+    }
+
+    /**
+     * Initizalizes and returns new Selenium session.
+     *
+     * @param   string  $host           selenium server server host
+     * @param   integer $port           port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSeleniumSession($host = '127.0.0.1', $port = 4444)
+    {
+        $client     = new SeleniumClient($host, $port);
+        $driver     = new SeleniumDriver('firefox', $_SERVER['WEB_FIXTURES_HOST'], $client);
+
+        return new Session($driver);
     }
 }

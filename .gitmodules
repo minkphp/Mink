@@ -22,3 +22,6 @@
 [submodule "vendor/Symfony/Component/DomCrawler"]
 	path = vendor/Symfony/Component/DomCrawler
 	url = git://github.com/symfony/DomCrawler.git
+[submodule "vendor/php-selenium"]
+	path = vendor/php-selenium
+	url = https://github.com/alexandresalome/PHP-Selenium
