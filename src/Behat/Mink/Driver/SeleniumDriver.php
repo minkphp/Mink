@@ -518,7 +518,6 @@ JS;
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
-
         $this->keyDownModifier($modifier);
         $this->browser->keyUp(SeleniumLocator::xpath($xpath), $char);
         $this->keyUpModifier($modifier);
@@ -579,13 +578,7 @@ JS;
      */
     private function getCrawler()
     {
-        $crawler = new \Symfony\Component\DomCrawler\Crawler('<html>'.$this->browser->getHtmlSource().'</html>');
-
-        if (null === $crawler) {
-            throw new DriverException('Crawler can\'t be initialized. Did you started driver?');
-        }
-
-        return $crawler;
+        return new \Symfony\Component\DomCrawler\Crawler('<html>'.$this->browser->getHtmlSource().'</html>');
     }
 
     /**
