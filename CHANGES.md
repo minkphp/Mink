@@ -1,3 +1,14 @@
+1.2.0 / 2011-11-04
+==================
+
+  * Brand new SeleniumDriver (thanks @alexandresalome)
+  * Multiselect support (multiple options selection), including new Behat steps
+  * Ability to select option by it's text (in addition to value)
+  * ZombieDriver updates
+  * Use SuiteHooks to populate parameters (no need to call parent __construct anymore)
+  * Updated Goutte and all vendors
+  * Lot of bugfixes and new tests
+
 1.1.1 / 2011-08-12
 ==================
 
