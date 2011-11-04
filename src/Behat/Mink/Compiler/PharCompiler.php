@@ -68,6 +68,7 @@ class PharCompiler
             ->in($this->libPath . '/vendor/Buzz/lib')
             ->in($this->libPath . '/vendor/Goutte/src')
             ->in($this->libPath . '/vendor/SahiClient/src');
+            ->in($this->libPath . '/vendor/php-selenium/src');
 
         foreach ($finder as $file) {
             // don't compile test suites
