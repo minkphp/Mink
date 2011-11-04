@@ -131,6 +131,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
     {
+        $zendConfig = array_merge(array('encodecookies' => false), $zendConfig);
+
         return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
     }
 
