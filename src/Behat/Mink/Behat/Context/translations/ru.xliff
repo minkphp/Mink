@@ -46,6 +46,10 @@
             <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|я )выбираю "(?P<option>(?:[^"]|\\")*)" в поле "(?P<select>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-additionally-select-option-from-select">
+            <source><![CDATA[/^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|я )дополнительно выбираю "(?P<option>(?:[^"]|\\")*)" в поле "(?P<select>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="i-check-option">
             <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|я )ставлю галочку "(?P<option>(?:[^"]|\\")*)"$/]]></target>
@@ -114,9 +118,17 @@
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|я )не должен видеть элемент "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-see-num-elements">
+            <source><![CDATA[/^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/]]></source>
+            <target><![CDATA[/^(?:|я )должен видеть (?P<num>\d+) элемент(ов|а)? "(?P<element>[^"]*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
             <target><![CDATA[/^код ответа сервера должен быть (?P<code>\d+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-not-be">
+            <source><![CDATA[/^the response status code should not be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^код ответа сервера не должен быть (?P<code>\d+)$/]]></target>
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
