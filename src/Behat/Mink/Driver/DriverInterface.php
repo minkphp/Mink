@@ -221,8 +221,9 @@ interface DriverInterface
      *
      * @param   string  $xpath
      * @param   string  $value
+     * @param   Boolean $multiple
      */
-    function selectOption($xpath, $value);
+    function selectOption($xpath, $value, $multiple = false);
 
     /**
      * Clicks button or link located by it's XPath query.

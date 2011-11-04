@@ -4,7 +4,8 @@ namespace Behat\Mink\Element;
 
 use Behat\Mink\Session,
     Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Element\ElementInterface;
+    Behat\Mink\Element\ElementInterface,
+    Behat\Mink\Exception\ElementNotFoundException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -158,10 +159,29 @@ class NodeElement extends TraversableElement
      * Selects current node specified option if it's a select field.
      *
      * @param   string  $option
+     * @param   Boolean $multiple
      */
-    public function selectOption($option)
+    public function selectOption($option, $multiple = false)
     {
-        $this->getSession()->getDriver()->selectOption($this->getXpath(), $option);
+        if ('select' !== $this->getTagName()) {
+            $this->getSession()->getDriver()->selectOption($this->getXpath(), $option, $multiple);
+
+            return;
+        }
+
+        $opt = $this->find('named', array(
+            'option', $this->getSession()->getSelectorsHandler()->xpathLiteral($option)
+        ));
+
+        if (null === $opt) {
+            throw new ElementNotFoundException(
+                $this->getSession(), 'select option', 'value|text', $option
+            );
+        }
+
+        $this->getSession()->getDriver()->selectOption(
+            $this->getXpath(), $opt->getValue(), $multiple
+        );
     }
 
     /**

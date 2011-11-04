@@ -8,7 +8,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
-    Behat\Mink\Driver\ZombieDriver;
+    Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\SeleniumDriver;
 
 use Goutte\Client as GoutteClient;
 
@@ -17,6 +18,8 @@ use Behat\SahiClient\Connection as SahiConnection,
 
 use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
+
+use Selenium\Client as SeleniumClient;
 
 /*
  * This file is part of the Behat\Mink.
@@ -34,19 +37,7 @@ use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
 class MinkContext extends BaseMinkContext
 {
     private static $mink;
-    private $parameters;
-
-    /**
-     * Initializes Mink environment.
-     *
-     * @param   array   $parameters     list of context parameters
-     */
-    public function __construct(array $parameters = array())
-    {
-        $this->parameters = static::mergeConfigWithDefaults(
-            static::getDefaultParameters(), $parameters
-        );
-    }
+    private static $parameters;
 
     /**
      * {@inheritdoc}
@@ -67,7 +58,7 @@ class MinkContext extends BaseMinkContext
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return self::$parameters;
     }
 
     /**
@@ -75,11 +66,11 @@ class MinkContext extends BaseMinkContext
      */
     public function getParameter($name)
     {
-        if (!isset($this->parameters[$name])) {
+        if (!isset(self::$parameters[$name])) {
             return;
         }
 
-        return $this->parameters[$name];
+        return self::$parameters[$name];
     }
 
     /**
@@ -91,7 +82,7 @@ class MinkContext extends BaseMinkContext
      */
     public static function initMinkSessions(SuiteEvent $event)
     {
-        $parameters = static::mergeConfigWithDefaults(
+        self::$parameters = static::mergeConfigWithDefaults(
             static::getDefaultParameters(), $event->getContextParameters()
         );
 
@@ -99,7 +90,7 @@ class MinkContext extends BaseMinkContext
             self::$mink = new Mink();
         }
 
-        static::registerMinkSessions(self::$mink, $parameters);
+        static::registerMinkSessions(self::$mink, self::$parameters);
     }
 
     /**
@@ -140,6 +131,13 @@ class MinkContext extends BaseMinkContext
                 $params['host'], $params['port'], $params['auto_server'], $params['node_bin']
             ));
         }
+
+        if (!$mink->hasSession('selenium')) {
+            $params = $parameters['selenium'];
+            $mink->registerSession('selenium', static::initSeleniumSession(
+                $parameters['browser'], $parameters['base_url'], $params['host'], $params['port']
+            ));
+        }
     }
 
     /**
@@ -152,6 +150,8 @@ class MinkContext extends BaseMinkContext
      */
     protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
     {
+        $zendConfig = array_merge(array('encodecookies' => false), $zendConfig);
+
         return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
     }
 
@@ -190,6 +190,20 @@ class MinkContext extends BaseMinkContext
     }
 
     /**
+     * Initizalizes and returns new SeleniumDriver session.
+     *
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSeleniumSession($browser, $baseUrl, $host, $port)
+    {
+        return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
      * Returns list of default parameters.
      *
      * @return  array
@@ -217,7 +231,11 @@ class MinkContext extends BaseMinkContext
                 'port'          => 8124,
                 'node_bin'      => 'node',
                 'auto_server'   => true
-            )
+            ),
+            'selenium' => array(
+                'host' => 'localhost',
+                'port' => 4444
+            ),
         );
     }
 

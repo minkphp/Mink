@@ -67,7 +67,8 @@ class PharCompiler
             ->in($this->libPath . '/vendor/Symfony/Component/Process')
             ->in($this->libPath . '/vendor/Buzz/lib')
             ->in($this->libPath . '/vendor/Goutte/src')
-            ->in($this->libPath . '/vendor/SahiClient/src');
+            ->in($this->libPath . '/vendor/SahiClient/src')
+            ->in($this->libPath . '/vendor/php-selenium/src');
 
         foreach ($finder as $file) {
             // don't compile test suites
@@ -95,6 +96,12 @@ class PharCompiler
             $this->addFileToPhar($file, $phar);
         }
         foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
+            $this->addFileToPhar($file, $phar);
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $this->addFileToPhar($file, $phar);
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
             $this->addFileToPhar($file, $phar);
         }
 

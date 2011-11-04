@@ -66,6 +66,15 @@ class MapFileCompiler
         }
         $mappings .= "}\n";
 
+        // autoload php-selenium
+        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SELENIUM') || true === BEHAT_AUTOLOAD_SELENIUM) {\n";
+        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/php-selenium/src') as $file) {
+            $path  = str_replace($this->libPath . '/vendor/php-selenium/src/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['$class'] = __DIR__ . '/vendor/php-selenium/src/$path';\n";
+        }
+        $mappings .= "}\n";
+
         // autoload Buzz
         $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_BUZZ') || true === BEHAT_AUTOLOAD_BUZZ) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Buzz/lib') as $file) {
@@ -107,6 +116,16 @@ class MapFileCompiler
             $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
         }
         foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
+            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
             $path  = str_replace($zendDir . '/', '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
             $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";

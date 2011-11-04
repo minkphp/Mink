@@ -145,11 +145,11 @@ class SahiDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
      *
-     * @throws  Behat\Mink\Exception\UnsupportedByDriverException   action is not supported by this driver
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
      */
     public function setBasicAuth($user, $password)
     {
-        throw new UnsupportedByDriverException('HTTP Basic authentication is not supported', $this);
+        throw new UnsupportedDriverActionException('HTTP Basic authentication is not supported by %s', $this);
     }
 
     /**
@@ -215,8 +215,8 @@ class SahiDriver implements DriverInterface
         $html = $this->evaluateScript('document.getElementsByTagName("html")[0].innerHTML');
 
         $html = preg_replace(array(
-            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/s',
-            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/s'
+            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/sU',
+            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/sU'
         ), '', $html);
         $html = html_entity_decode($html);
 
@@ -365,14 +365,14 @@ JS;
     /**
      * @see     Behat\Mink\Driver\DriverInterface::selectOption()
      */
-    public function selectOption($xpath, $value)
+    public function selectOption($xpath, $value, $multiple = false)
     {
         $type = $this->getAttribute($xpath, 'type');
 
         if ('radio' === $type) {
             $this->selectRadioOption($xpath, $value);
         } else {
-            $this->client->findByXPath($this->prepareXPath($xpath))->choose($value);
+            $this->client->findByXPath($this->prepareXPath($xpath))->choose($value, $multiple);
         }
     }
 

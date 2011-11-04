@@ -52,7 +52,7 @@ XPATH
 .//optgroup[contains(./@label, %locator%)]
 XPATH
         ,'option' => <<<XPATH
-.//option[contains(normalize-space(string(.)), %locator%)]
+.//option[(./@value = %locator% or contains(normalize-space(string(.)), %locator%))]
 XPATH
         ,'table' => <<<XPATH
 .//table[(./@id = %locator% or contains(.//caption, %locator%))]

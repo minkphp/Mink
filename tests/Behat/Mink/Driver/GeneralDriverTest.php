@@ -66,17 +66,18 @@ abstract class GeneralDriverTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            'Array ( [client_cookie1] => some_val [client_cookie2] => 123 [_SESS] =>',
+            "array ( 'client_cookie1' = 'some_val', 'client_cookie2' = '123', '_SESS' = ",
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            ' [srvr_cookie] => srv_var_is_set )', $this->getSession()->getPage()->getText()
+            " 'srvr_cookie' = 'srv_var_is_set', )",
+            $this->getSession()->getPage()->getText()
         );
 
         $this->getSession()->reset();
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            'Array ( )', $this->getSession()->getPage()->getText()
+            'array ( )', $this->getSession()->getPage()->getText()
         );
     }
 
@@ -145,18 +146,18 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('Extremely useless page', $page->find('css', 'h1')->getText());
         $this->assertEquals('h1', $page->find('css', 'h1')->getTagName());
 
-        $this->assertNotNull($page->find('xpath', '//p/strong[3]'));
-        $this->assertEquals('pariatur', $page->find('xpath', '//p/strong[3]')->getText());
-        $this->assertEquals('super-duper', $page->find('xpath', '//p/strong[3]')->getAttribute('class'));
-        $this->assertTrue($page->find('xpath', '//p/strong[3]')->hasAttribute('class'));
+        $this->assertNotNull($page->find('xpath', '//div/strong[3]'));
+        $this->assertEquals('pariatur', $page->find('xpath', '//div/strong[3]')->getText());
+        $this->assertEquals('super-duper', $page->find('xpath', '//div/strong[3]')->getAttribute('class'));
+        $this->assertTrue($page->find('xpath', '//div/strong[3]')->hasAttribute('class'));
 
-        $this->assertNotNull($page->find('xpath', '//p/strong[2]'));
-        $this->assertEquals('veniam', $page->find('xpath', '//p/strong[2]')->getText());
-        $this->assertEquals('strong', $page->find('xpath', '//p/strong[2]')->getTagName());
-        $this->assertNull($page->find('xpath', '//p/strong[2]')->getAttribute('class'));
-        $this->assertFalse($page->find('xpath', '//p/strong[2]')->hasAttribute('class'));
+        $this->assertNotNull($page->find('xpath', '//div/strong[2]'));
+        $this->assertEquals('veniam', $page->find('xpath', '//div/strong[2]')->getText());
+        $this->assertEquals('strong', $page->find('xpath', '//div/strong[2]')->getTagName());
+        $this->assertNull($page->find('xpath', '//div/strong[2]')->getAttribute('class'));
+        $this->assertFalse($page->find('xpath', '//div/strong[2]')->hasAttribute('class'));
 
-        $strongs = $page->findAll('css', 'p strong');
+        $strongs = $page->findAll('css', 'div#core > strong');
         $this->assertEquals(3, count($strongs));
         $this->assertEquals('Lorem', $strongs[0]->getText());
         $this->assertEquals('pariatur', $strongs[2]->getText());
@@ -175,6 +176,41 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('http://mink.behat.org', $element->getAttribute('data-href'));
         $this->assertNull($element->getAttribute('data-url'));
         $this->assertEquals('div', $element->getTagName());
+    }
+
+    public function testVeryDeepElementsTraversing()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $page = $this->getSession()->getPage();
+
+        $footer = $page->find('css', 'footer');
+        $this->assertNotNull($footer);
+
+        $searchForm = $footer->find('css', 'form#search-form');
+        $this->assertNotNull($searchForm);
+        $this->assertEquals('search-form', $searchForm->getAttribute('id'));
+
+        $searchInput = $searchForm->findField('Search site...');
+        $this->assertNotNull($searchInput);
+        $this->assertEquals('text', $searchInput->getAttribute('type'));
+
+        $searchInput = $searchForm->findField('Search site...');
+        $this->assertNotNull($searchInput);
+        $this->assertEquals('text', $searchInput->getAttribute('type'));
+
+        $profileForm = $footer->find('css', '#profile');
+        $this->assertNotNull($profileForm);
+
+        $profileFormDiv = $profileForm->find('css', 'div');
+        $this->assertNotNull($profileFormDiv);
+
+        $profileFormDivLabel = $profileFormDiv->find('css', 'label');
+        $this->assertNotNull($profileFormDivLabel);
+
+        $profileFormInput = $profileFormDivLabel->findField('user-name');
+        $this->assertNotNull($profileFormInput);
+        $this->assertEquals('username', $profileFormInput->getAttribute('name'));
     }
 
     public function testDeepTraversing()
@@ -278,19 +314,21 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
         $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
 
-        $firstname  = $page->findField('first_name');
-        $lastname   = $page->findField('lastn');
-        $email      = $page->findField('Your email:');
-        $select     = $page->findField('select_number');
-        $sex        = $page->findField('sex');
-        $maillist   = $page->findField('mail_list');
-        $agreement  = $page->findField('agreement');
-        $about      = $page->findField('about');
+        $firstname   = $page->findField('first_name');
+        $lastname    = $page->findField('lastn');
+        $email       = $page->findField('Your email:');
+        $select      = $page->findField('select_number');
+        $multiSelect = $page->findField('select_multiple_numbers[]');
+        $sex         = $page->findField('sex');
+        $maillist    = $page->findField('mail_list');
+        $agreement   = $page->findField('agreement');
+        $about       = $page->findField('about');
 
         $this->assertNotNull($firstname);
         $this->assertNotNull($lastname);
         $this->assertNotNull($email);
         $this->assertNotNull($select);
+        $this->assertNotNull($multiSelect);
         $this->assertNotNull($sex);
         $this->assertNotNull($maillist);
         $this->assertNotNull($agreement);
@@ -313,12 +351,15 @@ abstract class GeneralDriverTest extends TestCase
         $maillist->uncheck();
         $this->assertFalse($maillist->isChecked());
 
-        $select->selectOption('10');
-        $this->assertEquals('10', $select->getValue());
+        $select->selectOption('thirty');
+        $this->assertEquals('30', $select->getValue());
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
         $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
+
+        $multiSelect->selectOption('one', true);
+        $multiSelect->selectOption('three', true);
 
         $button = $page->findButton('Register');
 
@@ -331,15 +372,20 @@ abstract class GeneralDriverTest extends TestCase
 
         $button->press();
 
+        $space = ' ';
         $this->assertContains(<<<OUT
-Array
-(
-    [first_name] => Foo "item"
-    [last_name] => Bar
-    [email] => ever.zet@gmail.com
-    [select_number] => 10
-    [sex] => m
-    [agreement] => on
+array (
+  'first_name' = 'Foo "item"',
+  'last_name' = 'Bar',
+  'email' = 'ever.zet@gmail.com',
+  'select_number' = '30',
+  'sex' = 'm',
+  'select_multiple_numbers' =$space
+  array (
+    0 = '1',
+    1 = '3',
+  ),
+  'agreement' = 'on',
 )
 1 uploaded file
 OUT

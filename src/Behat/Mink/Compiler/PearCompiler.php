@@ -62,7 +62,8 @@ class PearCompiler
             ->in($this->libPath . '/tests')
             ->in($this->libPath . '/vendor/Buzz/lib')
             ->in($this->libPath . '/vendor/Goutte/src')
-            ->in($this->libPath . '/vendor/SahiClient/src');
+            ->in($this->libPath . '/vendor/SahiClient/src')
+            ->in($this->libPath . '/vendor/php-selenium/src');
 
         $xmlSourceFiles = '';
         foreach ($finder as $file) {
@@ -92,7 +93,17 @@ class PearCompiler
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
         }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
+            $xmlSourceFiles .=
+                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
+        }
         foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
+            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
+            $xmlSourceFiles .=
+                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
             $path = str_replace($this->libPath . '/', '', $file->getRealPath());
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
