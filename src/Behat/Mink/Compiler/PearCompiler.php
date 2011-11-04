@@ -93,7 +93,17 @@ class PearCompiler
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
         }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
+            $xmlSourceFiles .=
+                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
+        }
         foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
+            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
+            $xmlSourceFiles .=
+                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
             $path = str_replace($this->libPath . '/', '', $file->getRealPath());
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";

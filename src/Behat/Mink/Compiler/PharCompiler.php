@@ -98,6 +98,12 @@ class PharCompiler
         foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
             $this->addFileToPhar($file, $phar);
         }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $this->addFileToPhar($file, $phar);
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
+            $this->addFileToPhar($file, $phar);
+        }
 
         $this->addFileToPhar(new \SplFileInfo($this->libPath . '/LICENSE'), $phar);
         $this->addFileToPhar(new \SplFileInfo($this->libPath . '/autoload.php'), $phar);

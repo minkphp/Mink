@@ -120,6 +120,16 @@ class MapFileCompiler
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
             $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
         }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
+            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
+        }
+        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
+            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
+            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
+            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
+        }
         $mappings .= "}\n";
 
         $mapContent = <<<MAP_FILE
