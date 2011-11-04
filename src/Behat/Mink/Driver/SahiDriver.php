@@ -365,14 +365,14 @@ JS;
     /**
      * @see     Behat\Mink\Driver\DriverInterface::selectOption()
      */
-    public function selectOption($xpath, $value)
+    public function selectOption($xpath, $value, $multiple = false)
     {
         $type = $this->getAttribute($xpath, 'type');
 
         if ('radio' === $type) {
             $this->selectRadioOption($xpath, $value);
         } else {
-            $this->client->findByXPath($this->prepareXPath($xpath))->choose($value);
+            $this->client->findByXPath($this->prepareXPath($xpath))->choose($value, $multiple);
         }
     }
 

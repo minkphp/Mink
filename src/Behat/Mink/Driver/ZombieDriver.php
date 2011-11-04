@@ -455,7 +455,7 @@ JS;
     /**
      * @see     Behat\Mink\Driver\DriverInterface::selectOption()
      */
-    public function selectOption($xpath, $value)
+    public function selectOption($xpath, $value, $multiple = false)
     {
         if (!$ref = $this->getNativeRefForXPath($xpath)) {
             return;

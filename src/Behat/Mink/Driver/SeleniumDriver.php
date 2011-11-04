@@ -387,17 +387,21 @@ JS;
     /**
      * @see Behat\Mink\Driver\DriverInterface::selectOption()
      */
-    public function selectOption($xpath, $value)
+    public function selectOption($xpath, $value, $multiple = false)
     {
         $xpathEscaped = str_replace('"', '\"', $xpath);
         $valueEscaped = str_replace('"', '\"', $value);
+        $multipleJS   = $multiple ? 'true' : 'false';
+
         $script = <<<JS
 var node = this.browserbot.locateElementByXPath("$xpathEscaped", window.document);
 if (node.tagName == 'SELECT') {
     var i, l = node.length;
     for (i = 0; i < l; i++) {
         if (node[i].value == "$valueEscaped") {
-            node.selectedIndex = i;
+            node[i].selected = true;
+        } else if (!$multipleJS) {
+            node[i].selected = false;
         }
     }
 } else {

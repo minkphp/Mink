@@ -209,6 +209,18 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Selects additional option in select field with specified id|name|label|value.
+     *
+     * @When /^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/
+     */
+    public function additionallySelectOption($select, $option)
+    {
+        $select = str_replace('\\"', '"', $select);
+        $option = str_replace('\\"', '"', $option);
+        $this->getSession()->getPage()->selectFieldOption($select, $option, true);
+    }
+
+    /**
      * Checks checkbox with specified id|name|label|value.
      *
      * @When /^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/

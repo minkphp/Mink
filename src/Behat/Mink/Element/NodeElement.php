@@ -159,11 +159,12 @@ class NodeElement extends TraversableElement
      * Selects current node specified option if it's a select field.
      *
      * @param   string  $option
+     * @param   Boolean $multiple
      */
-    public function selectOption($option)
+    public function selectOption($option, $multiple = false)
     {
         if ('select' !== $this->getTagName()) {
-            $this->getSession()->getDriver()->selectOption($this->getXpath(), $option);
+            $this->getSession()->getDriver()->selectOption($this->getXpath(), $option, $multiple);
 
             return;
         }
@@ -178,7 +179,9 @@ class NodeElement extends TraversableElement
             );
         }
 
-        $this->getSession()->getDriver()->selectOption($this->getXpath(), $opt->getValue());
+        $this->getSession()->getDriver()->selectOption(
+            $this->getXpath(), $opt->getValue(), $multiple
+        );
     }
 
     /**

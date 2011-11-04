@@ -317,9 +317,17 @@ class GoutteDriver implements DriverInterface
     /**
      * @see     Behat\Mink\Driver\DriverInterface::selectOption()
      */
-    public function selectOption($xpath, $value)
+    public function selectOption($xpath, $value, $multiple = false)
     {
-        $this->getField($xpath)->select($value);
+        $field = $this->getField($xpath);
+
+        if ($multiple) {
+            $oldValue   = (array) $field->getValue();
+            $oldValue[] = $value;
+            $value      = $oldValue;
+        }
+
+        $field->select($value);
     }
 
     /**
@@ -551,7 +559,10 @@ class GoutteDriver implements DriverInterface
         // check if form already exists
         foreach ($this->forms as $form) {
             if ($formNode->getLineNo() === $form->getFormNode()->getLineNo()) {
-                return $form[$fieldNode->getAttribute('name')];
+                $fieldName = $fieldNode->getAttribute('name');
+                $fieldName = preg_replace('/\[\]$/', '', $fieldName);
+
+                return $form[$fieldName];
             }
         }
 

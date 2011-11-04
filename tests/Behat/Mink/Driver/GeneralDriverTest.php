@@ -314,19 +314,21 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
         $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
 
-        $firstname  = $page->findField('first_name');
-        $lastname   = $page->findField('lastn');
-        $email      = $page->findField('Your email:');
-        $select     = $page->findField('select_number');
-        $sex        = $page->findField('sex');
-        $maillist   = $page->findField('mail_list');
-        $agreement  = $page->findField('agreement');
-        $about      = $page->findField('about');
+        $firstname   = $page->findField('first_name');
+        $lastname    = $page->findField('lastn');
+        $email       = $page->findField('Your email:');
+        $select      = $page->findField('select_number');
+        $multiSelect = $page->findField('select_multiple_numbers[]');
+        $sex         = $page->findField('sex');
+        $maillist    = $page->findField('mail_list');
+        $agreement   = $page->findField('agreement');
+        $about       = $page->findField('about');
 
         $this->assertNotNull($firstname);
         $this->assertNotNull($lastname);
         $this->assertNotNull($email);
         $this->assertNotNull($select);
+        $this->assertNotNull($multiSelect);
         $this->assertNotNull($sex);
         $this->assertNotNull($maillist);
         $this->assertNotNull($agreement);
@@ -356,6 +358,9 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('m', $sex->getValue());
         $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
+        $multiSelect->selectOption('one', true);
+        $multiSelect->selectOption('three', true);
+
         $button = $page->findButton('Register');
 
         $page->fillField('first_name', 'Foo "item"');
@@ -367,6 +372,7 @@ abstract class GeneralDriverTest extends TestCase
 
         $button->press();
 
+        $space = ' ';
         $this->assertContains(<<<OUT
 array (
   'first_name' = 'Foo "item"',
@@ -374,6 +380,11 @@ array (
   'email' = 'ever.zet@gmail.com',
   'select_number' = '30',
   'sex' = 'm',
+  'select_multiple_numbers' =$space
+  array (
+    0 = '1',
+    1 = '3',
+  ),
   'agreement' = 'on',
 )
 1 uploaded file
