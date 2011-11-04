@@ -37,19 +37,7 @@ use Selenium\Client as SeleniumClient;
 class MinkContext extends BaseMinkContext
 {
     private static $mink;
-    private $parameters;
-
-    /**
-     * Initializes Mink environment.
-     *
-     * @param   array   $parameters     list of context parameters
-     */
-    public function __construct(array $parameters = array())
-    {
-        $this->parameters = static::mergeConfigWithDefaults(
-            static::getDefaultParameters(), $parameters
-        );
-    }
+    private static $parameters;
 
     /**
      * {@inheritdoc}
@@ -70,7 +58,7 @@ class MinkContext extends BaseMinkContext
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return self::$parameters;
     }
 
     /**
@@ -78,11 +66,11 @@ class MinkContext extends BaseMinkContext
      */
     public function getParameter($name)
     {
-        if (!isset($this->parameters[$name])) {
+        if (!isset(self::$parameters[$name])) {
             return;
         }
 
-        return $this->parameters[$name];
+        return self::$parameters[$name];
     }
 
     /**
@@ -94,7 +82,7 @@ class MinkContext extends BaseMinkContext
      */
     public static function initMinkSessions(SuiteEvent $event)
     {
-        $parameters = static::mergeConfigWithDefaults(
+        self::$parameters = static::mergeConfigWithDefaults(
             static::getDefaultParameters(), $event->getContextParameters()
         );
 
@@ -102,7 +90,7 @@ class MinkContext extends BaseMinkContext
             self::$mink = new Mink();
         }
 
-        static::registerMinkSessions(self::$mink, $parameters);
+        static::registerMinkSessions(self::$mink, self::$parameters);
     }
 
     /**
