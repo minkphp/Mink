@@ -68,7 +68,7 @@ class SeleniumDriver implements DriverInterface
      */
     public function __construct($browser, $baseUrl, SeleniumClient $client)
     {
-        $this->browser = $client->getBrowser($baseUrl, '*'.$browser);
+        $this->browser = $client->getBrowser($baseUrl, $browser);
     }
 
     /**
