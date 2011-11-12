@@ -571,7 +571,7 @@ class GoutteDriver implements DriverInterface
         }
 
         $fieldNode = $this->getCrawlerNode($crawler);
-        $fieldName = preg_replace('/\[\]$/', '', $fieldNode->getAttribute('name'));
+        $fieldName = str_replace('[]', '', $fieldNode->getAttribute('name'));
         $formNode  = $fieldNode;
 
         do {
