@@ -192,7 +192,7 @@ class Server
                 usleep(10000);
                 $error .= fread($pipes[2], 8192);
 
-                $this->process = null;
+                $this->killZombieServer();
                 throw new \RuntimeException(sprintf(
                     "Can not instantiate server (%s %s):\n%s", $this->nodeBin, $serverPath, $error
                 ));
@@ -216,8 +216,8 @@ class Server
             $status = proc_get_status($this->process);
             posix_kill($status['pid'], 15);
             proc_close($this->process);
-            $this->process = null;
         }
+        $this->process = null;
     }
 
     /**
@@ -228,12 +228,11 @@ class Server
     private function getServerScript()
     {
         return <<<'JS'
-var net = require('net');
-var sys = require('sys');
-var zombie = require('zombie');
-var browser = null;
+var net      = require('net');
+var zombie   = require('zombie');
+var browser  = null;
 var pointers = [];
-var buffer = "";
+var buffer   = "";
 
 net.createServer(function (stream) {
   stream.setEncoding('utf8');
