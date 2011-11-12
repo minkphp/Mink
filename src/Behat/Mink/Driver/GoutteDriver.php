@@ -548,7 +548,14 @@ class GoutteDriver implements DriverInterface
             return $this->forms[$formId][$fieldName];
         }
 
-        $this->forms[$formId] = new Form($formNode, $this->client->getRequest()->getUri());
+        // find form button
+        if (null === $buttonNode = $this->findFormButton($formNode)) {
+            throw new ElementNotFoundException(
+                $this->session, 'form submit button for field with xpath "'.$xpath.'"'
+            );
+        }
+
+        $this->forms[$formId] = new Form($buttonNode, $this->client->getRequest()->getUri());
 
         return $this->forms[$formId][$fieldName];
     }
@@ -556,13 +563,38 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns form node unique identifier.
      *
-     * @param   \DOMElement $formNode
+     * @param   \DOMElement $form
      *
      * @return  mixed
      */
-    private function getFormNodeId(\DOMElement $formNode)
+    private function getFormNodeId(\DOMElement $form)
     {
-        return md5($formNode->getLineNo() . $formNode->getNodePath() . $formNode->nodeValue);
+        return md5($form->getLineNo() . $form->getNodePath() . $form->nodeValue);
+    }
+
+    /**
+     * Finds form submit button inside form node.
+     *
+     * @param   \DOMElement $form
+     *
+     * @return  \DOMElement
+     */
+    private function findFormButton(\DOMElement $form)
+    {
+        $document = new \DOMDocument('1.0', 'UTF-8');
+        $node     = $document->importNode($form, true);
+        $root     = $document->appendChild($document->createElement('_root'));
+
+        $root->appendChild($node);
+        $xpath = new \DOMXPath($document);
+
+        foreach ($xpath->query('descendant::input | descendant::button', $root) as $node) {
+            if ('button' == $node->nodeName || in_array($node->getAttribute('type'), array('submit', 'button', 'image'))) {
+                return $node;
+            }
+        }
+
+        return null;
     }
 
     /**
