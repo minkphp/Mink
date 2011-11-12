@@ -352,34 +352,13 @@ class GoutteDriver implements DriverInterface
         if ('a' === $type) {
             $this->client->click($node->link());
         } elseif('input' === $type || 'button' === $type) {
-            // check if form already exists
-            $form = $node->form();
-            foreach ($this->forms as $savedForm) {
-                if ($form->getFormNode()->getLineNo() === $savedForm->getFormNode()->getLineNo()) {
-                    foreach ($savedForm->all() as $name => $field) {
-                        $fieldReflection = new \ReflectionObject($field);
-                        $nodeReflection  = $fieldReflection->getProperty('node');
-                        $valueReflection = $fieldReflection->getProperty('value');
+            $form   = $node->form();
+            $formId = $this->getFormNodeId($form->getFormNode());
 
-                        $nodeReflection->setAccessible(true);
-                        $valueReflection->setAccessible(true);
-
-                        if (!(
-                            $field instanceof Field\InputFormField &&
-                            in_array(
-                                $nodeReflection->getValue($field)->getAttribute('type'),
-                                array('submit', 'button', 'image')
-                            )
-                           )) {
-                            $valueReflection->setValue(
-                                $form[$field->getName()], $valueReflection->getValue($field)
-                            );
-                        }
-                    }
-
-                    break;
-                }
+            if (isset($this->forms[$formId])) {
+                $this->mergeForms($form, $this->forms[$formId]);
             }
+
             $this->client->submit($form);
         } else {
             throw new DriverException(sprintf(
@@ -581,16 +560,16 @@ class GoutteDriver implements DriverInterface
             }
         } while ('form' != $formNode->nodeName);
 
+        $formId = $this->getFormNodeId($formNode);
+
         // check if form already exists
-        foreach ($this->forms as $savedForm) {
-            if ($formNode->getLineNo() === $savedForm->getFormNode()->getLineNo()) {
-                return $savedForm[$fieldName];
-            }
+        if (isset($this->forms[$formId])) {
+            return $this->forms[$formId][$fieldName];
         }
 
-        $this->forms[] = $form = new Form($formNode, $this->client->getRequest()->getUri());
+        $this->forms[$formId] = new Form($formNode, $this->client->getRequest()->getUri());
 
-        return $form[$fieldName];
+        return $this->forms[$formId][$fieldName];
     }
 
     /**
@@ -609,5 +588,44 @@ class GoutteDriver implements DriverInterface
         }
 
         return $crawler;
+    }
+
+    /**
+     * Returns form node unique identifier.
+     *
+     * @param   \DOMElement $formNode
+     *
+     * @return  mixed
+     */
+    private function getFormNodeId(\DOMElement $formNode)
+    {
+        return md5($formNode->getLineNo() . $formNode->getNodePath() . $formNode->nodeValue);
+    }
+
+    /**
+     * Merges second form values into first one.
+     *
+     * @param   Form    $to     merging target
+     * @param   Form    $from   merging source
+     */
+    private function mergeForms(Form $to, Form $from)
+    {
+        foreach ($from->all() as $name => $field) {
+            $fieldReflection = new \ReflectionObject($field);
+            $nodeReflection  = $fieldReflection->getProperty('node');
+            $valueReflection = $fieldReflection->getProperty('value');
+
+            $nodeReflection->setAccessible(true);
+            $valueReflection->setAccessible(true);
+
+            if (!($field instanceof Field\InputtoField && in_array(
+                $nodeReflection->getValue($field)->getAttribute('type'),
+                array('submit', 'button', 'image')
+            ))) {
+                $valueReflection->setValue(
+                    $to[$field->getName()], $valueReflection->getValue($field)
+                );
+            }
+        }
     }
 }

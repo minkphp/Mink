@@ -392,9 +392,13 @@ array (
 OUT
             , $page->getContent()
         );
+    }
 
+    public function testAdvancedFormSecondSubmit()
+    {
         $this->getSession()->visit($this->pathTo('/advanced_form.php'));
         $page = $this->getSession()->getPage();
+
         $button = $page->findButton('Login');
         $button->press();
 
