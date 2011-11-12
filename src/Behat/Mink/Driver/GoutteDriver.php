@@ -7,7 +7,7 @@ use Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
     Symfony\Component\DomCrawler\Form,
-    Symfony\Component\DomCrawler\Field\ChoiceFormField;
+    Symfony\Component\DomCrawler\Field;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -289,7 +289,7 @@ class GoutteDriver implements DriverInterface
 
         $value = $field->getValue();
 
-        if ($field instanceof ChoiceFormField && 'checkbox' === $field->getType()) {
+        if ($field instanceof Field\ChoiceFormField && 'checkbox' === $field->getType()) {
             $value = '1' == $value;
         }
 
@@ -356,7 +356,27 @@ class GoutteDriver implements DriverInterface
             $form = $node->form();
             foreach ($this->forms as $savedForm) {
                 if ($form->getFormNode()->getLineNo() === $savedForm->getFormNode()->getLineNo()) {
-                    $form = $savedForm;
+                    foreach ($savedForm->all() as $name => $field) {
+                        $fieldReflection = new \ReflectionObject($field);
+                        $nodeReflection  = $fieldReflection->getProperty('node');
+                        $valueReflection = $fieldReflection->getProperty('value');
+
+                        $nodeReflection->setAccessible(true);
+                        $valueReflection->setAccessible(true);
+
+                        if (!(
+                            $field instanceof Field\InputFormField &&
+                            in_array(
+                                $nodeReflection->getValue($field)->getAttribute('type'),
+                                array('submit', 'button', 'image')
+                            )
+                           )) {
+                            $valueReflection->setValue(
+                                $form[$field->getName()], $valueReflection->getValue($field)
+                            );
+                        }
+                    }
+
                     break;
                 }
             }
@@ -562,9 +582,9 @@ class GoutteDriver implements DriverInterface
         } while ('form' != $formNode->nodeName);
 
         // check if form already exists
-        foreach ($this->forms as $form) {
-            if ($formNode->getLineNo() === $form->getFormNode()->getLineNo()) {
-                return $form[$fieldName];
+        foreach ($this->forms as $savedForm) {
+            if ($formNode->getLineNo() === $savedForm->getFormNode()->getLineNo()) {
+                return $savedForm[$fieldName];
             }
         }
 

@@ -386,8 +386,23 @@ array (
     1 = '3',
   ),
   'agreement' = 'on',
+  'submit' = 'Register',
 )
 1 uploaded file
+OUT
+            , $page->getContent()
+        );
+
+        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $page = $this->getSession()->getPage();
+        $button = $page->findButton('Login');
+        $button->press();
+
+        $this->assertContains(<<<OUT
+  'submit' = 'Login',
+  'agreement' = 'off',
+)
+no file
 OUT
             , $page->getContent()
         );
