@@ -282,7 +282,7 @@ class GoutteDriver implements DriverInterface
     public function getValue($xpath)
     {
         try {
-            $field = $this->getField($xpath);
+            $field = $this->getFormField($xpath);
         } catch (\InvalidArgumentException $e) {
             return $this->getAttribute($xpath, 'value');
         }
@@ -301,7 +301,7 @@ class GoutteDriver implements DriverInterface
      */
     public function setValue($xpath, $value)
     {
-        $this->getField($xpath)->setValue($value);
+        $this->getFormField($xpath)->setValue($value);
     }
 
     /**
@@ -309,7 +309,7 @@ class GoutteDriver implements DriverInterface
      */
     public function check($xpath)
     {
-        $this->getField($xpath)->tick();
+        $this->getFormField($xpath)->tick();
     }
 
     /**
@@ -317,7 +317,7 @@ class GoutteDriver implements DriverInterface
      */
     public function uncheck($xpath)
     {
-        $this->getField($xpath)->untick();
+        $this->getFormField($xpath)->untick();
     }
 
     /**
@@ -325,7 +325,7 @@ class GoutteDriver implements DriverInterface
      */
     public function selectOption($xpath, $value, $multiple = false)
     {
-        $field = $this->getField($xpath);
+        $field = $this->getFormField($xpath);
 
         if ($multiple) {
             $oldValue   = (array) $field->getValue();
@@ -382,7 +382,7 @@ class GoutteDriver implements DriverInterface
      */
     public function attachFile($xpath, $path)
     {
-        $this->getField($xpath)->upload($path);
+        $this->getFormField($xpath)->upload($path);
     }
 
     /**
@@ -516,32 +516,13 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * Returns DOMNode from crawler instance.
-     *
-     * @param   Symfony\Component\DomCrawler\Crawler    $crawler
-     * @param   integer                                 $num        number of node from crawler
-     *
-     * @return  DOMNode
-     */
-    private function getCrawlerNode(Crawler $crawler, $num = 0)
-    {
-        foreach ($crawler as $i => $node) {
-            if ($num == $i) {
-                return $node;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns form field from XPath query.
      *
      * @param   string  $xpath
      *
      * @return  Symfony\Component\DomCrawler\Field\FormField
      */
-    private function getField($xpath)
+    private function getFormField($xpath)
     {
         if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
             throw new ElementNotFoundException(
@@ -570,24 +551,6 @@ class GoutteDriver implements DriverInterface
         $this->forms[$formId] = new Form($formNode, $this->client->getRequest()->getUri());
 
         return $this->forms[$formId][$fieldName];
-    }
-
-    /**
-     * Returns crawler instance (got from client).
-     *
-     * @return  Symfony\Component\DomCrawler\Crawler
-     *
-     * @throws  Behat\Mink\Exception\DriverException    if can't init crawler (no page is opened)
-     */
-    private function getCrawler()
-    {
-        $crawler = $this->client->getCrawler();
-
-        if (null === $crawler) {
-            throw new DriverException('Crawler can\'t be initialized. Did you started driver?');
-        }
-
-        return $crawler;
     }
 
     /**
@@ -627,5 +590,42 @@ class GoutteDriver implements DriverInterface
                 );
             }
         }
+    }
+
+    /**
+     * Returns DOMNode from crawler instance.
+     *
+     * @param   Symfony\Component\DomCrawler\Crawler    $crawler
+     * @param   integer                                 $num        number of node from crawler
+     *
+     * @return  DOMNode
+     */
+    private function getCrawlerNode(Crawler $crawler, $num = 0)
+    {
+        foreach ($crawler as $i => $node) {
+            if ($num == $i) {
+                return $node;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns crawler instance (got from client).
+     *
+     * @return  Symfony\Component\DomCrawler\Crawler
+     *
+     * @throws  Behat\Mink\Exception\DriverException    if can't init crawler (no page is opened)
+     */
+    private function getCrawler()
+    {
+        $crawler = $this->client->getCrawler();
+
+        if (null === $crawler) {
+            throw new DriverException('Crawler can\'t be initialized. Did you started driver?');
+        }
+
+        return $crawler;
     }
 }
