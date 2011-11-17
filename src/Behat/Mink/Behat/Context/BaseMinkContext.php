@@ -588,13 +588,18 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
      */
     public function assertNumElements($num, $element)
     {
-        $nodes = $world->getSession()->getPage()->findAll('css', $element);
+        $nodes = $this->getSession()->getPage()->findAll('css', $element);
 
         if (null === $nodes) {
-            throw new ElementNotFoundException($world->getSession(), 'element: '.$element.' ');
+            throw new ElementNotFoundException($this->getSession(), 'element: '.$element.' ');
         }
 
-        assertSame((int) $num, count($nodes));
+        try {
+            assertEquals((int) $num, count($nodes));
+        } catch (AssertException $e) {
+            $message = sprintf('%s elements matching css "%s" appears on this page, but it should be %s.', count($nodes), $element, (int) $num);
+            throw new ExpectationException($message, $this->getSession(), $e);
+        }
     }
 
     /**
