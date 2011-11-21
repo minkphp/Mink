@@ -349,12 +349,20 @@ class GoutteDriver implements DriverInterface
             $buttonForm = $node->form();
             foreach ($this->forms as $form) {
                 if ($buttonForm->getFormNode()->getLineNo() === $form->getFormNode()->getLineNo()) {
-                    $buttonForm = $form;
-
+                    /* Getting FormField modified values */
+                    $alteredValues = $form->getValues();
                     break;
                 }
             }
-            $this->client->submit($buttonForm);
+            
+            /* Handle 'cannot take "" as a value' errors */
+            foreach ($alteredValues as $field => $value) {
+                if (is_null($value)) {
+                    unset($alteredValues[$field]);
+                }
+            }
+            
+            $this->client->submit($buttonForm, $alteredValues);
         } else {
             throw new DriverException(sprintf(
                 'Goutte driver supports clicking on inputs and links only. But "%s" provided', $type
