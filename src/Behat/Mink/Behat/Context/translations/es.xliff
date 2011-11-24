@@ -46,6 +46,10 @@
             <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|Yo )selecciono "(?P<option>(?:[^"]|\\")*)" desde "(?P<select>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-additionally-select-option-from-select">
+            <source><![CDATA[/^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|Yo )adicionalmente selecciono "(?P<option>(?:[^"]|\\")*)" desde "(?P<select>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="i-check-option">
             <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|Yo )chequeo "(?P<option>(?:[^"]|\\")*)"$/]]></target>
@@ -62,13 +66,13 @@
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|Yo )debo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
-        <trans-unit id="the-response-should-contain">
-            <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^la respuesta debe contener "(?P<text>(?:[^"]|\\")*)"$/]]></target>
-        </trans-unit>
         <trans-unit id="i-should-not-see-text">
             <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|Yo )no debo ver "(?P<text>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-should-contain">
+            <source><![CDATA[/^the response should contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^la respuesta debe contener "(?P<text>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-response-should-not-contain">
             <source><![CDATA[/^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/]]></source>
@@ -114,9 +118,17 @@
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|Yo )no debo ver un elemento "(?P<element>[^"]*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-see-num-elements">
+            <source><![CDATA[/^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/]]></source>
+            <target><![CDATA[/^(?:|Yo )debo ver (?P<num>\d+) "(?P<element>[^"]*)" elementos$/]]></target>
+        </trans-unit>
         <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
-            <target><![CDATA[/^el código de estado de la respuesta deve ser (?P<code>\d+)$/]]></target>
+            <target><![CDATA[/^el código de estado de la respuesta debe ser (?P<code>\d+)$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-not-be">
+            <source><![CDATA[/^the response status code should not be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^el código de estado de la respuesta no debe ser (?P<code>\d+)$/]]></target>
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
