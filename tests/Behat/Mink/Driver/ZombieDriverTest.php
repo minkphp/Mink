@@ -4,6 +4,9 @@ namespace Tests\Behat\Mink\Driver;
 
 require_once 'JavascriptDriverTest.php';
 
+/**
+ * @group zombiedriver
+ */
 class ZombieDriverTest extends JavascriptDriverTest
 {
     protected function setUp()
