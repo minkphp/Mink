@@ -22,4 +22,15 @@ class SahiDriverTest extends JavascriptDriverTest
     {
         $this->getMink()->setDefaultSessionName('sahi');
     }
+
+    /**
+     * @group issue131
+     */
+    public function testIssue131()
+    {
+        $this->getSession()->visit($this->pathTo('/issue131.php'));
+        $page = $this->getSession()->getPage();
+
+        $page->selectFieldOption('foobar', 'Gimme some accentués characters');
+    }
 }
