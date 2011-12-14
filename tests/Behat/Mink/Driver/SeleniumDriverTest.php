@@ -2,6 +2,8 @@
 
 namespace Tests\Behat\Mink\Driver;
 
+use Behat\Mink\Mink;
+
 require_once 'JavascriptDriverTest.php';
 
 /**
@@ -9,6 +11,15 @@ require_once 'JavascriptDriverTest.php';
  */
 class SeleniumDriverTest extends JavascriptDriverTest
 {
+    protected static function registerMinkSessions(Mink $mink)
+    {
+        $mink->registerSession('selenium', static::initSeleniumSession(
+            '*'.$_SERVER['WEB_FIXTURES_BROWSER'], $_SERVER['WEB_FIXTURES_HOST']
+        ));
+
+        parent::registerMinkSessions($mink);
+    }
+
     protected function setUp()
     {
         $this->getMink()->setDefaultSessionName('selenium');

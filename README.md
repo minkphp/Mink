@@ -46,6 +46,15 @@ $mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
 $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
 
+How to run Mink test suite
+--------------------------
+
+1. Copy the content of https://github.com/Behat/Mink/tree/master/tests/Behat/Mink/Driver/web-fixtures
+   to the document root or create a virtual host for it.
+2. Specify this host inside your local `phpunit.xml` (`cp phpunit.xml.dist phpunit.xml` first):
+   https://github.com/Behat/Mink/blob/master/phpunit.xml.dist#L21
+3. Run all tests with `phpunit .` or specific driver tests with `phpunit tests/Behat/Mink/Driver/...`
+
 Translated languages
 --------------------
 
@@ -72,6 +81,7 @@ Contributors
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
 * Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
+* Alexandre Salomé [alexandresalome](http://github.com/alexandresalome) [SeleniumDriver creator]
 
 Sponsors
 --------
