@@ -1,0 +1,126 @@
+{
+    "name":         "behat/mink",
+    "description":  "Web acceptance testing framework for PHP 5.3",
+    "keywords":     ["web", "testing", "browser"],
+    "homepage":     "http://mink.behat.org/",
+    "type":         "library",
+    "license":      "MIT",
+
+    "authors":      [
+        {
+            "name":      "Konstantin Kudryashov",
+            "email":     "ever.zet@gmail.com",
+            "homepage":  "http://everzet.com"
+        }
+    ],
+
+    "require": {
+        "php":                   ">=5.3.1",
+        "symfony/browser-kit":   ">=2.0",
+        "symfony/dom-crawler":   ">=2.0",
+        "symfony/css-selector":  ">=2.0",
+        "symfony/finder":        ">=2.0",
+        "symfony/process":       ">=2.0"
+    },
+
+    "recommend": {
+        "fabpot/goutte":                 "*",
+        "behat/sahi-client":             "*",
+        "alexandresalome/php-selenium":  "*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Behat\\Mink": "src/"
+        }
+    },
+
+    "repositories": {
+        "fabpot/goutte": {
+            "package": {
+                "name":    "fabpot/goutte",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/fabpot/Goutte/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/fabpot/Goutte.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "zendframework/zf2":     ">=2.0beta1",
+                    "symfony/browser-kit":   ">=2.0",
+                    "symfony/dom-crawler":   ">=2.0",
+                    "symfony/css-selector":  ">=2.0",
+                    "symfony/finder":        ">=2.0",
+                    "symfony/process":       ">=2.0"
+                },
+                "autoload": {
+                    "psr-0": { "Goutte": "src/" }
+                }
+            }
+        },
+        "zendframework/zf2": {
+            "package": {
+                "name":    "zendframework/zf2",
+                "version": "2.0.0beta1",
+                "dist": {
+                    "url":  "https://github.com/zendframework/zf2/zipball/release-2.0.0beta1",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/zendframework/zf2.git",
+                    "type":      "git",
+                    "reference": "release-2.0.0beta1"
+                },
+                "autoload": {
+                    "psr-0": { "Zend": "library/" }
+                }
+            }
+        },
+        "behat/sahi-client": {
+            "package": {
+                "name":    "behat/sahi-client",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/Behat/SahiClient/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/Behat/SahiClient.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "kriswallsmith/buzz": ">=0.5"
+                },
+                "autoload": {
+                    "psr-0": { "Behat\\SahiClient": "src/" }
+                }
+            }
+        },
+        "alexandresalome/php-selenium": {
+            "package": {
+                "name":    "alexandresalome/php-selenium",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/alexandresalome/PHP-Selenium/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/alexandresalome/PHP-Selenium.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "symfony/dom-crawler": ">=2.0"
+                },
+                "autoload": {
+                    "psr-0": { "Selenium": "src/" }
+                }
+            }
+        }
+    }
+}
