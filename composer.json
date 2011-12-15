@@ -40,6 +40,7 @@
             "package": {
                 "name":    "fabpot/goutte",
                 "version": "master-dev",
+                "type":    "library",
                 "dist": {
                     "url":  "https://github.com/fabpot/Goutte/zipball/master",
                     "type": "zip"
@@ -50,33 +51,15 @@
                     "reference": "master"
                 },
                 "require": {
-                    "zendframework/zf2":     ">=2.0beta1",
-                    "symfony/browser-kit":   ">=2.0",
-                    "symfony/dom-crawler":   ">=2.0",
-                    "symfony/css-selector":  ">=2.0",
-                    "symfony/finder":        ">=2.0",
-                    "symfony/process":       ">=2.0"
+                    "zendframework/zf2":    ">=2.0beta1",
+                    "symfony/browser-kit":  ">=2.0",
+                    "symfony/dom-crawler":  ">=2.0",
+                    "symfony/css-selector": ">=2.0",
+                    "symfony/finder":       ">=2.0",
+                    "symfony/process":      ">=2.0"
                 },
                 "autoload": {
                     "psr-0": { "Goutte": "src/" }
-                }
-            }
-        },
-        "zendframework/zf2": {
-            "package": {
-                "name":    "zendframework/zf2",
-                "version": "2.0.0beta1",
-                "dist": {
-                    "url":  "https://github.com/zendframework/zf2/zipball/release-2.0.0beta1",
-                    "type": "zip"
-                },
-                "source": {
-                    "url":       "git://github.com/zendframework/zf2.git",
-                    "type":      "git",
-                    "reference": "release-2.0.0beta1"
-                },
-                "autoload": {
-                    "psr-0": { "Zend": "library/" }
                 }
             }
         },
@@ -84,6 +67,7 @@
             "package": {
                 "name":    "behat/sahi-client",
                 "version": "master-dev",
+                "type":    "library",
                 "dist": {
                     "url":  "https://github.com/Behat/SahiClient/zipball/master",
                     "type": "zip"
@@ -105,6 +89,7 @@
             "package": {
                 "name":    "alexandresalome/php-selenium",
                 "version": "master-dev",
+                "type":    "library",
                 "dist": {
                     "url":  "https://github.com/alexandresalome/PHP-Selenium/zipball/master",
                     "type": "zip"
@@ -119,6 +104,20 @@
                 },
                 "autoload": {
                     "psr-0": { "Selenium": "src/" }
+                }
+            }
+        },
+        "zendframework/zf2": {
+            "package": {
+                "name":       "zendframework/zf2",
+                "version":    "2.0.0beta1",
+                "type":       "library",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/releases/ZendFramework-2.0.0beta1/ZendFramework-2.0.0beta1-minimal.zip",
+                    "type": "zip"
+                },
+                "autoload": {
+                    "psr-0": { "Zend": "library/" }
                 }
             }
         }
