@@ -80,6 +80,45 @@ class Selenium2Driver implements DriverInterface
         return array();
     }
 
+    protected function getElementId($xpath) {
+        $element = $this->wdSession->element('xpath', $xpath);
+        $id = $element->attribute('id');
+        if ( empty($id ) ) {
+            $newId = $element->getID();
+            $script = "document.evaluate($xpath).singleNodeValue.id=$newId";
+            $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
+            $id = $newId;
+        }
+        return $id;
+    }
+
+    protected function simulateEvent($xpath, $eventType, $eventName, $eventOptions = NULL) {
+        $id = $this->getElementId($xpath);
+        
+        if ( is_array($eventOptions) ) {
+            $argumentString = ',' . implode(',', $eventOptions);
+        } elseif ( is_string($eventOptions) ) {
+            $argumentString = ',' . $eventOptions;
+        } else {
+            $argumentString = '';
+        }
+        
+        $script = <<<"JS"
+            var evt = document.createEvent('$eventType'),
+                ele = {{ELEMENT}};
+            evt.initMouseEvent('$eventName' $argumentString);
+            ele.dispatchEvent(evt);
+JS;
+        $this->executeJsOnXpath($xpath, $script);
+    }
+
+    protected function executeJsOnXpath($xpath, $script) {
+        $id = $this->getElementId($xpath);
+        $subscript = "document.getElementById('$id')";
+        $script = str_replace('{{ELEMENT}}', $subscript, $script);
+        return $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
+    }
+
 
     /**
      * @see Behat\Mink\Driver\DriverInterface::setSession()
@@ -122,8 +161,7 @@ class Selenium2Driver implements DriverInterface
      */
     public function reset()
     {
-        $this->stop();
-        $this->start();
+        $this->wdSession->deleteAllCookies();
     }
 
     /**
@@ -143,7 +181,8 @@ class Selenium2Driver implements DriverInterface
      */
     public function getCurrentUrl()
     {
-        return $this->wdSession->url();
+        $url = $this->wdSession->url();
+        return $url;
     }
 
     /**
@@ -178,7 +217,7 @@ class Selenium2Driver implements DriverInterface
      */
     function setBasicAuth($user, $password)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Basic Auth is not supported by %s', $this);
     }
 
     /**
@@ -199,7 +238,7 @@ class Selenium2Driver implements DriverInterface
      */
     function getResponseHeaders()
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Response header is not supported by %s', $this);
     }
 
     /**
@@ -213,8 +252,9 @@ class Selenium2Driver implements DriverInterface
         $cookieArray = array(
             'name' => $name,
             'value' => $value,
+            'secure' => false, // thanks, chibimagic!
         );
-        $this->wdSession->setCookie(json_encode($cookieArray));
+        $this->wdSession->setCookie($cookieArray);
     }
 
     /**
@@ -226,8 +266,12 @@ class Selenium2Driver implements DriverInterface
      */
     function getCookie($name)
     {
-        $cookies = json_decode($this->wdSession->getAllCookies());
-        return $cookies[$name];
+        $cookies = $this->wdSession->getAllCookies();
+        if ( array_key_exists($name, $cookies) ) {
+            return $cookies[$name];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -237,7 +281,7 @@ class Selenium2Driver implements DriverInterface
      */
     function getStatusCode()
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Status code is not supported by %s', $this);
     }
 
     /**
@@ -264,7 +308,11 @@ class Selenium2Driver implements DriverInterface
         foreach ( $nodes as $i => $node ) {
             $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i+1), $this->session);
         }
-        return $elements;
+        if ( !empty($elements) ) {
+            return $elements;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -290,7 +338,9 @@ class Selenium2Driver implements DriverInterface
     function getText($xpath)
     {
         $node = $this->wdSession->element('xpath', $xpath);
-        return $node->text();
+        $text = $node->text();
+        $text = (string)str_replace(array("\r", "\r\n", "\n"), ' ', $text);
+        return $text;
     }
 
     /**
@@ -302,7 +352,7 @@ class Selenium2Driver implements DriverInterface
      */
     function getHtml($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML');
     }
 
     /**
@@ -314,7 +364,12 @@ class Selenium2Driver implements DriverInterface
      */
     public function getAttribute($xpath, $attr)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $attribute = $this->wdSession->element('xpath', $xpath)->attribute($attr);
+        if ( $attribute !== '' ) {
+            return $attribute;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -326,7 +381,7 @@ class Selenium2Driver implements DriverInterface
      */
     function getValue($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        return $this->wdSession->element('xpath', $xpath)->attribute('value');
     }
 
     /**
@@ -337,7 +392,7 @@ class Selenium2Driver implements DriverInterface
      */
     function setValue($xpath, $value)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->wdSession->element('xpath', $xpath)->value($value);
     }
 
     /**
@@ -347,7 +402,7 @@ class Selenium2Driver implements DriverInterface
      */
     function check($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Check is not supported by %s', $this);
     }
 
     /**
@@ -357,7 +412,7 @@ class Selenium2Driver implements DriverInterface
      */
     function uncheck($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Uncheck is not supported by %s', $this);
     }
 
     /**
@@ -369,7 +424,7 @@ class Selenium2Driver implements DriverInterface
      */
     function isChecked($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        return $this->wdSession->element('xpath', $xpath)->selected();
     }
 
     /**
@@ -381,7 +436,7 @@ class Selenium2Driver implements DriverInterface
      */
     function selectOption($xpath, $value, $multiple = false)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Select option is not supported by %s', $this);
     }
 
     /**
@@ -391,7 +446,7 @@ class Selenium2Driver implements DriverInterface
      */
     function click($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->wdSession->element('xpath', $xpath)->click("");
     }
 
     /**
@@ -401,7 +456,7 @@ class Selenium2Driver implements DriverInterface
      */
     function doubleClick($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->simulateEvent($xpath, 'MouseEvents', 'dblclick', 'true, true, window, 2, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -411,7 +466,7 @@ class Selenium2Driver implements DriverInterface
      */
     function rightClick($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->simulateEvent($xpath, 'MouseEvents', 'contextmenu', 'true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -422,7 +477,7 @@ class Selenium2Driver implements DriverInterface
      */
     function attachFile($xpath, $path)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Attach File is not supported by %s', $this);
     }
 
     /**
@@ -434,7 +489,7 @@ class Selenium2Driver implements DriverInterface
      */
     function isVisible($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        return $this->wdSession->element('xpath', $xpath)->displayed();
     }
 
     /**
@@ -444,7 +499,7 @@ class Selenium2Driver implements DriverInterface
      */
     function mouseOver($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->simulateEvent($xpath, 'MouseEvents', 'mouseover', 'true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -454,7 +509,7 @@ class Selenium2Driver implements DriverInterface
      */
     function focus($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.focus();');
     }
 
     /**
@@ -464,7 +519,7 @@ class Selenium2Driver implements DriverInterface
      */
     function blur($xpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.blur();');
     }
 
     /**
@@ -476,7 +531,9 @@ class Selenium2Driver implements DriverInterface
      */
     function keyPress($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $keys = str_split($char);
+        if ( $modifier ) array_unshift($key, $modifier);
+        $this->wdSession->element('xpath', $xpath)->value($keys);
     }
 
     /**
@@ -488,7 +545,7 @@ class Selenium2Driver implements DriverInterface
      */
     function keyDown($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Key down is not supported by %s', $this);
     }
 
     /**
@@ -500,7 +557,7 @@ class Selenium2Driver implements DriverInterface
      */
     function keyUp($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Key up is not supported by %s', $this);
     }
 
     /**
@@ -521,7 +578,7 @@ class Selenium2Driver implements DriverInterface
      */
     function executeScript($script)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
     }
 
     /**
@@ -533,7 +590,7 @@ class Selenium2Driver implements DriverInterface
      */
     function evaluateScript($script)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        return $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
     }
 
     /**
@@ -544,6 +601,17 @@ class Selenium2Driver implements DriverInterface
      */
     function wait($time, $condition)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        $script = "return $condition;";
+        $start = 1000 * microtime(true);
+        $end = $start + $time;
+        $count = 0;
+        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
+        {
+            //echo 1000 * microtime(true) ." < " . $end ."\n";
+            sleep(1);
+            if ( $count++ >= 30 ) {
+                return false;
+            }
+        }
     }
 }

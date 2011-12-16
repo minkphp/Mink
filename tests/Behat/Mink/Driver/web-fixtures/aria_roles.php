@@ -1,4 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<?php
+
+if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
+    $_SERVER['WEB_FIXTURES_HOST'] = '/web-fixtures';
+}
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 <head>
     <title>ARIA roles test</title>
@@ -14,7 +20,7 @@
 	<!-- This link is created programmatically -->
 	<div id="link-element"></div>
 
-    <script language="javascript" type="text/javascript" src="/js/jquery-1.6.2-min.js"></script>
+    <script language="javascript" type="text/javascript" src="<?php echo $_SERVER['WEB_FIXTURES_HOST'];?>/js/jquery-1.6.2-min.js"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('#hidden-element-toggle-button').click(function() {
