@@ -24,3 +24,6 @@ $loader->registerNamespaces(array(
     'Selenium'          => __DIR__ . '/vendor/php-selenium/src',
 ));
 $loader->register();
+
+
+require_once(__DIR__ . '/vendor/WebDriver/__init__.php');

@@ -138,6 +138,13 @@ class MinkContext extends BaseMinkContext
                 $parameters['browser'], $parameters['base_url'], $params['host'], $params['port']
             ));
         }
+
+        if (!$mink->hasSession('selenium2')) {
+            $params = $parameters['selenium2'];
+            $mink->registerSession('selenium2', static::initSelenium2Session(
+                
+            ));
+        }
     }
 
     /**
@@ -201,6 +208,20 @@ class MinkContext extends BaseMinkContext
     protected static function initSeleniumSession($browser, $baseUrl, $host, $port)
     {
         return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
+     * Initizalizes and returns new SeleniumDriver session.
+     *
+     * @param   string  $browser    browser name to use (default = firefox)
+     * @param   string  $host       sahi proxy host
+     * @param   integer $port       port number
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSelenium2Session()
+    {
+        return new Session(new Selenium2Driver());
     }
 
     /**
