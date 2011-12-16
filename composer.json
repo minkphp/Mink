@@ -1,0 +1,191 @@
+{
+    "name":         "behat/mink",
+    "description":  "Web acceptance testing framework for PHP 5.3",
+    "keywords":     ["web", "testing", "browser"],
+    "homepage":     "http://mink.behat.org/",
+    "type":         "library",
+    "license":      "MIT",
+
+    "authors":      [
+        {
+            "name":      "Konstantin Kudryashov",
+            "email":     "ever.zet@gmail.com",
+            "homepage":  "http://everzet.com"
+        }
+    ],
+
+    "require": {
+        "php":                   ">=5.3.1",
+        "symfony/browser-kit":   ">=2.0",
+        "symfony/dom-crawler":   ">=2.0",
+        "symfony/css-selector":  ">=2.0",
+        "symfony/finder":        ">=2.0",
+        "symfony/process":       ">=2.0"
+    },
+
+    "recommend": {
+        "fabpot/goutte":                 "*",
+        "behat/sahi-client":             "*",
+        "alexandresalome/php-selenium":  "*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Behat\\Mink": "src/"
+        }
+    },
+
+    "repositories": {
+        "fabpot/goutte": {
+            "package": {
+                "name":    "fabpot/goutte",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/fabpot/Goutte/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/fabpot/Goutte.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "symfony/browser-kit":           ">=2.0",
+                    "symfony/dom-crawler":           ">=2.0",
+                    "symfony/css-selector":          ">=2.0",
+                    "symfony/finder":                ">=2.0",
+                    "symfony/process":               ">=2.0",
+                    "zendframework/zend-registry":   ">=2.0beta1,<3.0",
+                    "zendframework/zend-loader":     ">=2.0beta1,<3.0",
+                    "zendframework/zend-stdlib":     ">=2.0beta1,<3.0",
+                    "zendframework/zend-validator":  ">=2.0beta1,<3.0",
+                    "zendframework/zend-http":       ">=2.0beta1,<3.0",
+                    "zendframework/zend-uri":        ">=2.0beta1,<3.0"
+                },
+                "autoload": {
+                    "psr-0": { "Goutte": "src/" }
+                }
+            }
+        },
+        "behat/sahi-client": {
+            "package": {
+                "name":    "behat/sahi-client",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/Behat/SahiClient/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/Behat/SahiClient.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "kriswallsmith/buzz": ">=0.5"
+                },
+                "autoload": {
+                    "psr-0": { "Behat\\SahiClient": "src/" }
+                }
+            }
+        },
+        "alexandresalome/php-selenium": {
+            "package": {
+                "name":    "alexandresalome/php-selenium",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/alexandresalome/PHP-Selenium/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/alexandresalome/PHP-Selenium.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "symfony/dom-crawler": ">=2.0"
+                },
+                "autoload": {
+                    "psr-0": { "Selenium": "src/" }
+                }
+            }
+        },
+        "zendframework/zend-registry": {
+            "package": {
+                "name":       "zendframework/zend-registry",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Registry-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Registry": "php/" }
+                }
+            }
+        },
+        "zendframework/zend-loader": {
+            "package": {
+                "name":       "zendframework/zend-loader",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Loader-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Loader": "php/" }
+                }
+            }
+        },
+        "zendframework/zend-stdlib": {
+            "package": {
+                "name":       "zendframework/zend-stdlib",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Stdlib-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Stdlib": "php/" }
+                }
+            }
+        },
+        "zendframework/zend-validator": {
+            "package": {
+                "name":       "zendframework/zend-validator",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Validator-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Validator": "php/" }
+                }
+            }
+        },
+        "zendframework/zend-http": {
+            "package": {
+                "name":       "zendframework/zend-http",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Http-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Http": "php/" }
+                }
+            }
+        },
+        "zendframework/zend-uri": {
+            "package": {
+                "name":       "zendframework/zend-uri",
+                "version":    "2.0.0beta1",
+                "dist": {
+                    "url":  "http://packages.zendframework.com/get/Zend_Uri-2.0.0beta1.tgz",
+                    "type": "pear"
+                },
+                "autoload": {
+                    "psr-0": { "Zend\\Uri": "php/" }
+                }
+            }
+        }
+    }
+}

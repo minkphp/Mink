@@ -192,10 +192,13 @@ class Server
                 usleep(10000);
                 $error .= fread($pipes[2], 8192);
 
-                $this->killZombieServer();
-                throw new \RuntimeException(sprintf(
-                    "Can not instantiate server (%s %s):\n%s", $this->nodeBin, $serverPath, $error
-                ));
+                // skip "sys" module warnings
+                if ('The "sys" module is now called "util". It should have a similar interface.' !== trim($error)) {
+                    $this->killZombieServer();
+                    throw new \RuntimeException(sprintf(
+                        "Can not instantiate server (%s %s):\n%s", $this->nodeBin, $serverPath, $error
+                    ));
+                }
             }
         }
 
