@@ -1,3 +1,3 @@
 <?php
 
-header('location: redirect_destination.php');
+header('location: /redirect_destination.php');

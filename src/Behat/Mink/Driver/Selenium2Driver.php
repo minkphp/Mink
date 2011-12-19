@@ -636,6 +636,9 @@ JS;
 
 
     protected function simulateKeyEvent($xpath, $type, $char, $modifier) {
+        if ( is_numeric($char) ) {
+            $char = chr($char);
+        }
         $script = <<<JS
         var element = {{ELEMENT}},
             char = '{$char}'
@@ -651,6 +654,10 @@ JS;
             metaKey  = (modifier === 'meta' ),
             keyCode = 0,
             charCode = char.charCodeAt(0);
+        
+        if ( type === 'keyup' ) {
+            keyCode = charCode;
+        }
         
         eventObject.initKeyEvent(type, bubbles, cancelable, view, ctrlKey, altKey, shiftKey, metaKey, keyCode, charCode);
         element.dispatchEvent(eventObject);

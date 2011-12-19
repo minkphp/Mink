@@ -1,7 +1,4 @@
-<?php
-
-
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 <head>
     <title>JS elements test</title>
@@ -35,8 +32,8 @@
         <p>Drop here</p>
     </div>
 
-    <script src="/js/jquery-1.6.2-min.js"></script>
-    <script src="/js/jquery-ui-1.8.14.custom.min.js"></script>
+    <script src="js/jquery-1.6.2-min.js"></script>
+    <script src="js/jquery-ui-1.8.14.custom.min.js"></script>
 	<script>
 		$(document).ready(function() {
             $('#clicker').click(function() {

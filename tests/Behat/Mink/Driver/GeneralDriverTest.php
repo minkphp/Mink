@@ -274,28 +274,28 @@ abstract class GeneralDriverTest extends TestCase
         $this->getSession()->visit($this->pathTo('/basic_form.php'));
 
         $page = $this->getSession()->getPage();
-        //$this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
 
         $firstname  = $page->findField('first_name');
-        //$lastname   = $page->findField('lastn');
+        $lastname   = $page->findField('lastn');
 
         $this->assertNotNull($firstname);
-        //$this->assertNotNull($lastname);
+        $this->assertNotNull($lastname);
 
         $this->assertEquals('Firstname', $firstname->getValue());
-        //$this->assertEquals('Lastname', $lastname->getValue());
+        $this->assertEquals('Lastname', $lastname->getValue());
 
         $firstname->setValue('Konstantin');
-        //$page->fillField('last_name', 'Kudryashov');
+        $page->fillField('last_name', 'Kudryashov');
 
         $this->assertEquals('Konstantin', $firstname->getValue());
-        //$this->assertEquals('Kudryashov', $lastname->getValue());
+        $this->assertEquals('Kudryashov', $lastname->getValue());
 
-        //$page->findButton('Save')->click();
+        $page->findButton('Save')->click();
 
-        //$this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
-        //$this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
-        //$this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
+        $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
     public function testAdvancedForm()
@@ -357,7 +357,6 @@ abstract class GeneralDriverTest extends TestCase
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
-        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
         $multiSelect->selectOption('one', true);
         $multiSelect->selectOption('three', true);
@@ -387,6 +386,31 @@ array (
     1 = '3',
   ),
   'agreement' = 'on',
+)
+no file
+OUT
+            , $page->getContent()
+        );
+    }
+
+    public function testFileAttachment()
+    {
+        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $page = $this->getSession()->getPage();
+        $about       = $page->findField('about');
+        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
+        $button = $page->findButton('Register');
+        $button->press();
+        $space = ' ';
+        $this->assertContains(<<<OUT
+array (
+  'first_name' = 'Firstname',
+  'last_name' = 'Lastname',
+  'email' = 'your@email.com',
+  'select_number' = '20',
+  'sex' = 'w',
+  'mail_list' = 'on',
+  'agreement' = 'off',
 )
 1 uploaded file
 OUT
