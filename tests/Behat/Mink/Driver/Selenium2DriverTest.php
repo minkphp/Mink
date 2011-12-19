@@ -32,7 +32,7 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $this->assertEquals('mouse overed', $clicker->getText());
     }
     
-    public function _testKeyboardEvents() {} // split up into seperate tests
+    public function testKeyboardEvents() {} // split up into seperate tests
     
     public function _testKeyPressEvents()
     {
@@ -46,35 +46,12 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $input2->keyPress('r');
         $this->assertEquals('key pressed:114 / 0', $event->getText());
 
-        sleep(100);
         $input2->keyPress('r', 'alt');
         $this->assertEquals('key pressed:114 / 1', $event->getText());
     }
 
-    public function _testDeepTraversing()
-    {
-        $this->getSession()->visit($this->pathTo('/index.php'));
-
-        $traversDiv = $this->getSession()->getPage()->findAll('css', 'div.travers');
-
-        $this->assertEquals(1, count($traversDiv));
-        $traversDiv = $traversDiv[0];
-
-        $subDivs = $traversDiv->findAll('css', 'div.sub');
-        $this->assertEquals(3, count($subDivs));
-
-        $this->assertTrue($subDivs[2]->hasLink('some deep url'));
-        $this->assertFalse($subDivs[2]->hasLink('come deep url'));
-        $subUrl = $subDivs[2]->findLink('some deep url');
-        $this->assertNotNull($subUrl);
-
-        $base = $_SERVER['WEB_FIXTURES_HOST'] . '/';
-        $this->assertEquals($base.'some_url', $subUrl->getAttribute('href'));
-        $this->assertEquals('some deep url', $subUrl->getText());
-        //$this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
-        $this->assertTrue($subUrl->has('css', 'strong'));
-        $this->assertFalse($subUrl->has('css', 'em'));
-        $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
+    public function testDragDrop() {
+        
     }
 
 }

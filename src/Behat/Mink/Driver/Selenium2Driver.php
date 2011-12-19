@@ -77,23 +77,10 @@ class Selenium2Driver implements DriverInterface
 
 
     protected static function getDefaultCapabilities() {
-        return array();
-    }
-
-    protected function getElementId($xpath) {
-        $element = $this->wdSession->element('xpath', $xpath);
-        $id = $element->attribute('id');
-        if ( empty($id ) ) {
-            $newId = $element->getID();
-            $script = "document.evaluate($xpath).singleNodeValue.id=$newId";
-            $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
-            $id = $newId;
-        }
-        return $id;
+        return array('browserName'=>'firefox', 'version'=>'8', 'platform'=>'ANY', 'browserVersion'=>'8', 'browser'=>'firefox');
     }
 
     protected function simulateEvent($xpath, $eventType, $eventName, $eventOptions = NULL) {
-        $id = $this->getElementId($xpath);
         
         if ( is_array($eventOptions) ) {
             $argumentString = ',' . implode(',', $eventOptions);
@@ -113,10 +100,20 @@ JS;
     }
 
     protected function executeJsOnXpath($xpath, $script) {
-        $id = $this->getElementId($xpath);
-        $subscript = "document.getElementById('$id')";
+        $element = $this->wdSession->element('xpath', $xpath);
+        $elementID = $element->getID();
+        $subscript = "arguments[0]";
         $script = str_replace('{{ELEMENT}}', $subscript, $script);
-        return $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
+        //echo "\n SCRIPT:\n$script\n";
+        return $this->wdSession->execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
+    }
+
+    /**
+     * Returns a crawler instance (got from the client)
+     * @return [type]
+     */
+    protected function getCrawler() {
+        return new \Symfony\Component\DomCrawler\Crawler($this->wdSession->source());
     }
 
 
@@ -251,7 +248,7 @@ JS;
     {
         $cookieArray = array(
             'name' => $name,
-            'value' => $value,
+            'value' => (string) $value,
             'secure' => false, // thanks, chibimagic!
         );
         $this->wdSession->setCookie($cookieArray);
@@ -352,7 +349,17 @@ JS;
      */
     function getHtml($xpath)
     {
-        return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML');
+        return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML;');
+        // $nodes = $this->getCrawler()->filterXPath($xpath)->eq(0);
+
+        // $nodes->rewind();
+        // $node = $nodes->current();
+        // $text = $node->C14N();
+
+        // // cut the tag itself (making innerHTML out of outerHTML)
+        // $text = preg_replace('/^\<[^\>]+\>|\<[^\>]+\>$/', '', $text);
+
+        // return $text;
     }
 
     /**
@@ -381,7 +388,48 @@ JS;
      */
     function getValue($xpath)
     {
-        return $this->wdSession->element('xpath', $xpath)->attribute('value');
+        $script = <<<JS
+
+    var node = {{ELEMENT}},
+        tagName = node.tagName;
+
+    if (tagName == "INPUT") {
+        var type = node.getAttribute('type');
+        if (type == "checkbox") {
+            value = "boolean:" + node.checked;
+        } else if (type == "radio") {
+            var name = node.getAttribute('name');
+            if (name) {
+                var fields = window.document.getElementsByName(name);
+                var i, l = fields.length;
+                for (i = 0; i < l; i++) {
+                    var field = fields.item(i);
+                    if (field.checked) {
+                        value = "string:" + field.value;
+                    }
+                }
+            }
+        } else {
+            value = "string:" + node.value;
+        }
+    } else if (tagName == "TEXTAREA") {
+      value = "string:" + node.text;
+    } else if (tagName == "SELECT") {
+      var idx = node.selectedIndex;
+      value = "string:" + node.options.item(idx).value;
+    } else {
+      value = "string:" + node.getAttribute('value');
+    }
+    return value;
+JS;
+        $value = $this->executeJsOnXpath($xpath, $script);
+        if (null === $value) {
+            return null;
+        } elseif (preg_match('/^string:(.*)$/', $value, $vars)) {
+            return $vars[1];
+        } elseif (preg_match('/^boolean:(.*)$/', $value, $vars)) {
+            return 'true' === strtolower($vars[1]);
+        }
     }
 
     /**
@@ -392,7 +440,11 @@ JS;
      */
     function setValue($xpath, $value)
     {
-        $this->wdSession->element('xpath', $xpath)->value($value);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$value.'";');
+        // $element = $this->wdSession->element('xpath', $xpath);
+        // $script = 'arguments[0].value = arguments[1];';
+        // $args = array( array('ELEMENT'=>$element->getID()), $value );
+        // $this->wdSession->execute(array('script' => $script, 'args' => $args));
     }
 
     /**
@@ -402,7 +454,7 @@ JS;
      */
     function check($xpath)
     {
-        throw new UnsupportedDriverActionException('Check is not supported by %s', $this);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = true');
     }
 
     /**
@@ -412,7 +464,7 @@ JS;
      */
     function uncheck($xpath)
     {
-        throw new UnsupportedDriverActionException('Uncheck is not supported by %s', $this);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = false');
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
 
-if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
-    $_SERVER['WEB_FIXTURES_HOST'] = '/Mink/tests/Behat/Mink/Driver/web-fixtures';
-}
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 <head>
@@ -19,7 +17,7 @@ if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
 	<!-- This link is created programmatically -->
 	<div id="link-element"></div>
 
-    <script language="javascript" type="text/javascript" src="<?php echo $_SERVER['WEB_FIXTURES_HOST'];?>/js/jquery-1.6.2-min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/jquery-1.6.2-min.js"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('#hidden-element-toggle-button').click(function() {
@@ -27,7 +25,7 @@ if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
 			});
 
 			$('#link-element').attr('role', 'link').text('Go to Index').click(function() {
-        window.location.href = '<?php echo $_SERVER['WEB_FIXTURES_HOST']; ?>/index.php';
+        window.location.href = '/index.php';
 			});
 		});
 	</script>

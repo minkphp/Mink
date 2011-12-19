@@ -44,7 +44,7 @@ return;
         $this->assertEquals('mouse overed', $clicker->getText());
     }
 
-    public function _testKeyboardEvents()
+    public function testKeyboardEvents()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
@@ -72,7 +72,7 @@ return;
         $this->assertEquals('key upped:78 / 1', $event->getText());
     }
 
-    public function _testVisibility()
+    public function testVisibility()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
@@ -83,7 +83,7 @@ return;
         $this->assertTrue($clicker->isVisible());
     }
 
-    public function _testDragDrop()
+    public function testDragDrop()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
