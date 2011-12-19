@@ -32,7 +32,7 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $this->assertEquals('mouse overed', $clicker->getText());
     }
     
-    public function testKeyboardEvents() {} // split up into seperate tests
+    public function _testKeyboardEvents() {} // split up into seperate tests
     
     public function _testKeyPressEvents()
     {
@@ -51,7 +51,7 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $this->assertEquals('key pressed:114 / 1', $event->getText());
     }
 
-    public function testDeepTraversing()
+    public function _testDeepTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 

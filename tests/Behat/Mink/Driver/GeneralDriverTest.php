@@ -12,13 +12,13 @@ abstract class GeneralDriverTest extends TestCase
         return $path;
     }
 
-    public function testRedirect()
+    public function _testRedirect()
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
         $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testCookie()
+    public function _testCookie()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
@@ -96,7 +96,7 @@ return;
         $this->assertEquals('Has Cookie: false', $this->getSession()->getPage()->findById('cookie-status')->getText());
     }
 
-    public function testSessionPersistsBetweenRequests()
+    public function _testSessionPersistsBetweenRequests()
     {
         $this->getSession()->visit($this->pathTo('/session_test.php'));
         $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
@@ -115,7 +115,7 @@ return;
         $this->assertEquals($newSessionId, $node->getText());
     }
 
-    public function testPageControlls()
+    public function _testPageControlls()
     {
         $this->getSession()->visit($this->pathTo('/randomizer.php'));
         $number1 = $this->getSession()->getPage()->find('css', '#number')->getText();
@@ -137,7 +137,7 @@ return;
         $this->assertEquals($this->pathTo('/randomizer.php'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testElementsTraversing()
+    public function _testElementsTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
@@ -179,7 +179,7 @@ return;
         $this->assertEquals('div', $element->getTagName());
     }
 
-    public function testVeryDeepElementsTraversing()
+    public function _testVeryDeepElementsTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
@@ -214,7 +214,7 @@ return;
         $this->assertEquals('username', $profileFormInput->getAttribute('name'));
     }
 
-    public function testDeepTraversing()
+    public function _testDeepTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
@@ -240,7 +240,7 @@ return;
         $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
     }
 
-    public function testLinks()
+    public function _testLinks()
     {
         $base = $_SERVER['WEB_FIXTURES_HOST'] . '/';
         $this->getSession()->visit($this->pathTo('/links.php'));
@@ -262,7 +262,7 @@ return;
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testJson()
+    public function _testJson()
     {
         $this->getSession()->visit($this->pathTo('/json.php'));
         $this->assertContains(

@@ -1,9 +1,8 @@
 <?php
 
 if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
-    $_SERVER['WEB_FIXTURES_HOST'] = '/web-fixtures';
+    $_SERVER['WEB_FIXTURES_HOST'] = '/Mink/tests/Behat/Mink/Driver/web-fixtures';
 }
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 <head>
@@ -28,7 +27,7 @@ if ( !isset($_SERVER['WEB_FIXTUIRES_HOST']) ) {
 			});
 
 			$('#link-element').attr('role', 'link').text('Go to Index').click(function() {
-        window.location.href = '/index.php';
+        window.location.href = '<?php echo $_SERVER['WEB_FIXTURES_HOST']; ?>/index.php';
 			});
 		});
 	</script>
