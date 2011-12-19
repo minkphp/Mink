@@ -620,10 +620,11 @@ JS;
      */
     function keyPress($xpath, $char, $modifier = null)
     {
-        if ( is_numeric($char) ) $char = chr($char);
-        $keys = str_split($char);
-        if ( $modifier ) array_unshift($keys, $modifier);
-        $this->wdSession->element('xpath', $xpath)->value($keys);
+        $this->simulateKeyEvent($xpath, 'keypress', $char, $modifier);
+        // if ( is_numeric($char) ) $char = chr($char);
+        // $keys = str_split($char);
+        // if ( $modifier ) array_unshift($keys, $modifier);
+        // $this->wdSession->element('xpath', $xpath)->value($keys);
     }
 
     /**
@@ -635,8 +636,7 @@ JS;
      */
     function keyDown($xpath, $char, $modifier = null)
     {
-        if ( is_numeric($char) ) $char = chr($char);
-        $ord = ord($char);
+        $this->simulateKeyEvent($xpath, 'keydown', $char, $modifier);
     }
 
     /**
@@ -648,9 +648,84 @@ JS;
      */
     function keyUp($xpath, $char, $modifier = null)
     {
-        if ( is_numeric($char) ) $char = chr($char);
-        $ord = ord($char);
+        $this->simulateKeyEvent($xpath, 'keyup', $char, $modifier);
     }
+
+
+
+    /*
+
+
+    function simulateKeyEvent(element, type, character) {
+  var evt = document.createEvent("KeyboardEvent");
+  evt.initKeyEvent (type, true, false, window,
+                    0, 1, 0, 0,
+                    0, character.charCodeAt(0)) 
+  var canceled = !element.dispatchEvent(evt);
+  if(canceled) {
+    // A handler called preventDefault
+    console.log("canceled");
+  } else {
+    // None of the handlers called preventDefault
+    console.log("not canceled");
+  }
+}
+inputs = document.getElementsByTagName('input');
+downer = inputs[0];
+presser = inputs[1];
+upper = inputs[2];
+//simulateKeyEvent(downer, 'keydown', 'r');
+simulateKeyEvent(presser, 'keypress', 'r');
+//simulateKeyEvent(upper, 'keyup', 78);
+
+
+*/
+    protected function simulateKeyEvent($xpath, $type, $char, $modifier) {
+        $script = <<<JS
+        var element = {{ELEMENT}},
+            char = '{$char}'
+            modifier = '{$modifier}',
+            type = '$type',
+            eventObject = document.createEvent('KeyboardEvent'),
+            bubbles = true,
+            cancelable = true,
+            view = window,
+            ctrlKey  = (modifier === 'ctrl' ),
+            altKey   = (modifier === 'alt'  ),
+            shiftKey = (modifier === 'shift'),
+            metaKey  = (modifier === 'meta' ),
+            keyCode = 0,
+            charCode = char.charCodeAt(0);
+        
+        eventObject.initKeyEvent(type, bubbles, cancelable, view, ctrlKey, altKey, shiftKey, metaKey, keyCode, charCode);
+        element.dispatchEvent(eventObject);
+JS;
+        $this->executeJsOnXpath($xpath, $script);
+    }
+
+
+
+//     protected function simulateEvent($xpath, $eventType, $initType, $eventName, $eventOptions = NULL) {
+        
+//         if ( is_array($eventOptions) ) {
+//             $argumentString = ',' . implode(',', $eventOptions);
+//         } elseif ( is_string($eventOptions) ) {
+//             $argumentString = ',' . $eventOptions;
+//         } else {
+//             $argumentString = '';
+//         }
+        
+//         $script = <<<"JS"
+//             var evt = document.createEvent('$eventType'),
+//                 ele = {{ELEMENT}};
+//             evt.init{$initType}Event('$eventName' $argumentString);
+//             ele.dispatchEvent(evt);
+// JS;
+//         $this->executeJsOnXpath($xpath, $script);
+//     }
+
+
+
 
     /**
      * Drag one element onto another.
