@@ -25,7 +25,7 @@
 
     "recommend": {
         "fabpot/goutte":                 "*",
-        "behat/sahi-client":             "*",
+        "behat/sahi-client":             ">=1.0",
         "alexandresalome/php-selenium":  "*"
     },
 
@@ -64,27 +64,6 @@
                 },
                 "autoload": {
                     "psr-0": { "Goutte": "src/" }
-                }
-            }
-        },
-        "behat/sahi-client": {
-            "package": {
-                "name":    "behat/sahi-client",
-                "version": "master-dev",
-                "dist": {
-                    "url":  "https://github.com/Behat/SahiClient/zipball/master",
-                    "type": "zip"
-                },
-                "source": {
-                    "url":       "git://github.com/Behat/SahiClient.git",
-                    "type":      "git",
-                    "reference": "master"
-                },
-                "require": {
-                    "kriswallsmith/buzz": ">=0.5"
-                },
-                "autoload": {
-                    "psr-0": { "Behat\\SahiClient": "src/" }
                 }
             }
         },
