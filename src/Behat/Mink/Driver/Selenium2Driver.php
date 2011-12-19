@@ -361,16 +361,6 @@ JS;
     function getHtml($xpath)
     {
         return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML;');
-        // $nodes = $this->getCrawler()->filterXPath($xpath)->eq(0);
-
-        // $nodes->rewind();
-        // $node = $nodes->current();
-        // $text = $node->C14N();
-
-        // // cut the tag itself (making innerHTML out of outerHTML)
-        // $text = preg_replace('/^\<[^\>]+\>|\<[^\>]+\>$/', '', $text);
-
-        // return $text;
     }
 
     /**
@@ -453,10 +443,6 @@ JS;
     {
         $valueEscaped = str_replace('"', '\"', $value);
         $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
-        // $element = $this->wdSession->element('xpath', $xpath);
-        // $script = 'arguments[0].value = arguments[1];';
-        // $args = array( array('ELEMENT'=>$element->getID()), $value );
-        // $this->wdSession->execute(array('script' => $script, 'args' => $args));
     }
 
     /**
@@ -621,10 +607,6 @@ JS;
     function keyPress($xpath, $char, $modifier = null)
     {
         $this->simulateKeyEvent($xpath, 'keypress', $char, $modifier);
-        // if ( is_numeric($char) ) $char = chr($char);
-        // $keys = str_split($char);
-        // if ( $modifier ) array_unshift($keys, $modifier);
-        // $this->wdSession->element('xpath', $xpath)->value($keys);
     }
 
     /**
@@ -653,33 +635,6 @@ JS;
 
 
 
-    /*
-
-
-    function simulateKeyEvent(element, type, character) {
-  var evt = document.createEvent("KeyboardEvent");
-  evt.initKeyEvent (type, true, false, window,
-                    0, 1, 0, 0,
-                    0, character.charCodeAt(0)) 
-  var canceled = !element.dispatchEvent(evt);
-  if(canceled) {
-    // A handler called preventDefault
-    console.log("canceled");
-  } else {
-    // None of the handlers called preventDefault
-    console.log("not canceled");
-  }
-}
-inputs = document.getElementsByTagName('input');
-downer = inputs[0];
-presser = inputs[1];
-upper = inputs[2];
-//simulateKeyEvent(downer, 'keydown', 'r');
-simulateKeyEvent(presser, 'keypress', 'r');
-//simulateKeyEvent(upper, 'keyup', 78);
-
-
-*/
     protected function simulateKeyEvent($xpath, $type, $char, $modifier) {
         $script = <<<JS
         var element = {{ELEMENT}},
@@ -702,29 +657,6 @@ simulateKeyEvent(presser, 'keypress', 'r');
 JS;
         $this->executeJsOnXpath($xpath, $script);
     }
-
-
-
-//     protected function simulateEvent($xpath, $eventType, $initType, $eventName, $eventOptions = NULL) {
-        
-//         if ( is_array($eventOptions) ) {
-//             $argumentString = ',' . implode(',', $eventOptions);
-//         } elseif ( is_string($eventOptions) ) {
-//             $argumentString = ',' . $eventOptions;
-//         } else {
-//             $argumentString = '';
-//         }
-        
-//         $script = <<<"JS"
-//             var evt = document.createEvent('$eventType'),
-//                 ele = {{ELEMENT}};
-//             evt.init{$initType}Event('$eventName' $argumentString);
-//             ele.dispatchEvent(evt);
-// JS;
-//         $this->executeJsOnXpath($xpath, $script);
-//     }
-
-
 
 
     /**
@@ -774,8 +706,7 @@ JS;
         $count = 0;
         while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
         {
-            //echo 1000 * microtime(true) ." < " . $end ."\n";
-            sleep(1);
+            sleep(0.1);
             if ( $count++ >= 30 ) {
                 return false;
             }
