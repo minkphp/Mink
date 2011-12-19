@@ -24,7 +24,6 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
 
         $this->assertEquals('not clicked', $clicker->getText());
-return;
         $clicker->click();
         $this->assertEquals('single clicked', $clicker->getText());
 

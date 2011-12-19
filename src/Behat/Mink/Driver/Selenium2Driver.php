@@ -80,7 +80,7 @@ class Selenium2Driver implements DriverInterface
         return array('browserName'=>'firefox', 'version'=>'8', 'platform'=>'ANY', 'browserVersion'=>'8', 'browser'=>'firefox');
     }
 
-    protected function simulateEvent($xpath, $eventType, $eventName, $eventOptions = NULL) {
+    protected function simulateEvent($xpath, $eventType, $initType, $eventName, $eventOptions = NULL) {
         
         if ( is_array($eventOptions) ) {
             $argumentString = ',' . implode(',', $eventOptions);
@@ -93,7 +93,7 @@ class Selenium2Driver implements DriverInterface
         $script = <<<"JS"
             var evt = document.createEvent('$eventType'),
                 ele = {{ELEMENT}};
-            evt.initMouseEvent('$eventName' $argumentString);
+            evt.init{$initType}Event('$eventName' $argumentString);
             ele.dispatchEvent(evt);
 JS;
         $this->executeJsOnXpath($xpath, $script);
@@ -130,8 +130,11 @@ JS;
      */
     public function start()
     {
-        $this->started = true;
         $this->wdSession = $this->webDriver->session($this->browserName, $this->desiredCapabilities);
+        if ( !$this->wdSession ) {
+            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+        }
+        $this->started = true;
     }
 
     /**
@@ -149,6 +152,9 @@ JS;
      */
     public function stop()
     {
+        if ( !$this->wdSession ) {
+            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+        }
         $this->started = false;
         $this->wdSession->close();
     }
@@ -246,12 +252,16 @@ JS;
      */
     function setCookie($name, $value = null)
     {
-        $cookieArray = array(
-            'name' => $name,
-            'value' => (string) $value,
-            'secure' => false, // thanks, chibimagic!
-        );
-        $this->wdSession->setCookie($cookieArray);
+        if ( $value !== null ) {
+            $cookieArray = array(
+                'name' => $name,
+                'value' => (string) $value,
+                'secure' => false, // thanks, chibimagic!
+            );
+            $this->wdSession->setCookie($cookieArray);
+        } else {
+            $this->wdSession->deleteCookie($name);
+        }
     }
 
     /**
@@ -264,11 +274,12 @@ JS;
     function getCookie($name)
     {
         $cookies = $this->wdSession->getAllCookies();
-        if ( array_key_exists($name, $cookies) ) {
-            return $cookies[$name];
-        } else {
-            return null;
+        foreach ( $cookies as $cookie ) {
+            if ( $cookie['name'] === $name ) {
+                return $cookie['value'];
+            }
         }
+        return null;
     }
 
     /**
@@ -440,7 +451,8 @@ JS;
      */
     function setValue($xpath, $value)
     {
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$value.'";');
+        $valueEscaped = str_replace('"', '\"', $value);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
         // $element = $this->wdSession->element('xpath', $xpath);
         // $script = 'arguments[0].value = arguments[1];';
         // $args = array( array('ELEMENT'=>$element->getID()), $value );
@@ -488,7 +500,32 @@ JS;
      */
     function selectOption($xpath, $value, $multiple = false)
     {
-        throw new UnsupportedDriverActionException('Select option is not supported by %s', $this);
+        $valueEscaped = str_replace('"', '\"', $value);
+        $multipleJS   = $multiple ? 'true' : 'false';
+
+        $script = <<<JS
+var node = {{ELEMENT}}
+if (node.tagName == 'SELECT') {
+    var i, l = node.length;
+    for (i = 0; i < l; i++) {
+        if (node[i].value == "$valueEscaped") {
+            node[i].selected = true;
+        } else if (!$multipleJS) {
+            node[i].selected = false;
+        }
+    }
+} else {
+    var nodes = window.document.getElementsByName(node.getAttribute('name'));
+    var i, l = nodes.length;
+    for (i = 0; i < l; i++) {
+        if (nodes[i].getAttribute('value') == "$valueEscaped") {
+            node.checked = true;
+        }
+    }
+}
+JS;
+
+        $this->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -508,7 +545,7 @@ JS;
      */
     function doubleClick($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'dblclick', 'true, true, window, 2, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'dblclick', 'true, true, window, 2, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -518,7 +555,7 @@ JS;
      */
     function rightClick($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'contextmenu', 'true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'contextmenu', 'true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -551,7 +588,7 @@ JS;
      */
     function mouseOver($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'mouseover', 'true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'mouseover', 'true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null');
     }
 
     /**
@@ -583,8 +620,9 @@ JS;
      */
     function keyPress($xpath, $char, $modifier = null)
     {
+        if ( is_numeric($char) ) $char = chr($char);
         $keys = str_split($char);
-        if ( $modifier ) array_unshift($key, $modifier);
+        if ( $modifier ) array_unshift($keys, $modifier);
         $this->wdSession->element('xpath', $xpath)->value($keys);
     }
 
@@ -597,7 +635,8 @@ JS;
      */
     function keyDown($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('Key down is not supported by %s', $this);
+        if ( is_numeric($char) ) $char = chr($char);
+        $ord = ord($char);
     }
 
     /**
@@ -609,7 +648,8 @@ JS;
      */
     function keyUp($xpath, $char, $modifier = null)
     {
-        throw new UnsupportedDriverActionException('Key up is not supported by %s', $this);
+        if ( is_numeric($char) ) $char = chr($char);
+        $ord = ord($char);
     }
 
     /**
@@ -620,7 +660,7 @@ JS;
      */
     function dragTo($sourceXpath, $destinationXpath)
     {
-        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Drag and Drop is not supported by %s', $this);
     }
 
     /**
