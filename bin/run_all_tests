@@ -1,0 +1,9 @@
+#!/bin/sh
+
+bin/run_sahi
+bin/run_selenium
+
+phpunit
+
+bin/kill_selenium
+bin/kill_sahi

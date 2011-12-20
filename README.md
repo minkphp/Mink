@@ -57,8 +57,24 @@ Install Dependencies
 How to run Mink test suite
 --------------------------
 
-1. Install dependencies
-2. Run all tests with `phpunit .` or specific driver tests with `phpunit --group (sahi|zombie|selenium)driver`
+1. Install dependencies (including Sahi and Selenium)
+
+    ``` bash
+    bin/install_deps
+    bin/install_sahi
+    bin/install_selenium
+    ```
+
+2. To run all tests - call `bin/run_all_tests`
+
+If you want to run specific driver tests, use appropriate PHPUnit group
+and make sure that Sahi/Selenium/Zombie is runned if you want to test
+one of them:
+
+``` bash
+bin/run_sahi
+phpunit --group sahidriver
+```
 
 Translated languages
 --------------------
