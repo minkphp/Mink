@@ -60,10 +60,18 @@ class Selenium2Driver implements DriverInterface
         $this->setWebDriver( new WebDriver($wdHost) );
     }
 
-    public function setBrowserName($browserName = 'firefox') {
+    /**
+     * Sets the browser name
+     * @param string $browserName the name of the browser to start, default is 'firefox'
+     */
+    protected function setBrowserName($browserName = 'firefox') {
         $this->browserName = $browserName;
     }
 
+    /**
+     * Sets the desired capabilities - called on construction.  If null is provided, will set the defaults as dsesired.
+     * @param array $desiredCapabilities an array of capabilities to pass on to the WebDriver server
+     */
     public function setDesiredCapabilities($desiredCapabilities = NULL) {
         if ( $desiredCapabilities === NULL ) {
             $desiredCapabilities = self::getDefaultCapabilities();
@@ -71,49 +79,77 @@ class Selenium2Driver implements DriverInterface
         $this->desiredCapabilities = $desiredCapabilities;
     }
 
+    /**
+     * Set the WebDriver instance
+     * @param \WebDriver $webDriver An instance of the WebDriver class
+     */
     public function setWebDriver($webDriver) {
         $this->webDriver = $webDriver;
     }
 
-
+    /**
+     * Get the default capabilities
+     * @return array
+     */
     protected static function getDefaultCapabilities() {
         return array('browserName'=>'firefox', 'version'=>'8', 'platform'=>'ANY', 'browserVersion'=>'8', 'browser'=>'firefox');
     }
 
-    protected function simulateEvent($xpath, $eventType, $initType, $eventName, $eventOptions = NULL) {
-        
-        if ( is_array($eventOptions) ) {
-            $argumentString = ',' . implode(',', $eventOptions);
-        } elseif ( is_string($eventOptions) ) {
-            $argumentString = ',' . $eventOptions;
-        } else {
-            $argumentString = '';
+    /**
+     * Make sure that the Syn event library has been injected into the current page, and return $this for a fluid interface,
+     * $this->withSyn()->executeJsOnXpath($xpath, $script);
+     * @return Mixed
+     */
+    protected function withSyn() {
+        $hasSyn = $this->wdSession->execute(array('script'=>'return typeof window["Syn"]!=="undefined"', 'args'=>array()));
+        if ( !$hasSyn ) {
+            $synJs = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Selenium2' . DIRECTORY_SEPARATOR . 'syn.js');
+            $this->wdSession->execute(array('script'=>$synJs, 'args'=>array()));
         }
-        
-        $script = <<<"JS"
-            var evt = document.createEvent('$eventType'),
-                ele = {{ELEMENT}};
-            evt.init{$initType}Event('$eventName' $argumentString);
-            ele.dispatchEvent(evt);
-JS;
-        $this->executeJsOnXpath($xpath, $script);
+        return $this;
     }
 
-    protected function executeJsOnXpath($xpath, $script) {
+    /**
+     * Create some options for key events
+     * @param  String $event         The type of event ('keypress', 'keydown', 'keyup');
+     * @param  String $char          The character or code
+     * @param  String $modifier=null One of 'shift', 'alt', 'ctrl' or 'meta'
+     * @return String a json encoded options array for Syn
+     */
+    protected static function charToOptions($event, $char, $modifier=null) {
+        if ( is_numeric($char) ) {
+            $ord = $char;
+            $char = chr($char);
+        } else {
+            $ord = ord($char);
+        }
+        $options = array(
+            'keyCode' => $ord,
+            'charCode' => $ord
+        );
+        if ( $modifier ) {
+            $options[$modifier.'Key'] = 1;
+        }
+        $json = json_encode($options);
+        return $json;
+    }
+
+    /**
+     * Execute JS on a given element - pass in a js script string and {{ELEMENT}} will be replaced with a reference to the result of the
+     * $xpath query
+     * @example $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.childNodes.length');
+     * @param  String $xpath  The xpath to search with
+     * @param  String $script The script to execute
+     * @param  bool   $sync   Whether to run the script synchronously (default is TRUE)
+     * @return Mixed
+     */
+    protected function executeJsOnXpath($xpath, $script, $sync = true) {
         $element = $this->wdSession->element('xpath', $xpath);
         $elementID = $element->getID();
         $subscript = "arguments[0]";
         $script = str_replace('{{ELEMENT}}', $subscript, $script);
-        //echo "\n SCRIPT:\n$script\n";
-        return $this->wdSession->execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
-    }
-
-    /**
-     * Returns a crawler instance (got from the client)
-     * @return [type]
-     */
-    protected function getCrawler() {
-        return new \Symfony\Component\DomCrawler\Crawler($this->wdSession->source());
+        $execute = ($sync) ? 'execute' : 'execute_async';
+        return $this->wdSession->$execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
     }
 
 
@@ -531,7 +567,8 @@ JS;
      */
     function doubleClick($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'dblclick', 'true, true, window, 2, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $script = 'Syn.dblclick({{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -541,7 +578,8 @@ JS;
      */
     function rightClick($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'contextmenu', 'true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $script = 'Syn.rightClick({{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -574,7 +612,8 @@ JS;
      */
     function mouseOver($xpath)
     {
-        $this->simulateEvent($xpath, 'MouseEvents', 'Mouse', 'mouseover', 'true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null');
+        $script = 'Syn.trigger("mouseover", {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -584,7 +623,8 @@ JS;
      */
     function focus($xpath)
     {
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.focus();');
+        $script = 'Syn.trigger("focus", {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -594,7 +634,8 @@ JS;
      */
     function blur($xpath)
     {
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.blur();');
+        $script = 'Syn.trigger("blur", {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -606,7 +647,9 @@ JS;
      */
     function keyPress($xpath, $char, $modifier = null)
     {
-        $this->simulateKeyEvent($xpath, 'keypress', $char, $modifier);
+        $options = Selenium2Driver::charToOptions('keypress', $char, $modifier);
+        $script = "Syn.trigger('keypress', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -618,7 +661,9 @@ JS;
      */
     function keyDown($xpath, $char, $modifier = null)
     {
-        $this->simulateKeyEvent($xpath, 'keydown', $char, $modifier);
+        $options = Selenium2Driver::charToOptions('keydown', $char, $modifier);
+        $script = "Syn.trigger('keydown', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
     /**
@@ -630,39 +675,9 @@ JS;
      */
     function keyUp($xpath, $char, $modifier = null)
     {
-        $this->simulateKeyEvent($xpath, 'keyup', $char, $modifier);
-    }
-
-
-
-    protected function simulateKeyEvent($xpath, $type, $char, $modifier) {
-        if ( is_numeric($char) ) {
-            $char = chr($char);
-        }
-        $script = <<<JS
-        var element = {{ELEMENT}},
-            char = '{$char}'
-            modifier = '{$modifier}',
-            type = '$type',
-            eventObject = document.createEvent('KeyboardEvent'),
-            bubbles = true,
-            cancelable = true,
-            view = window,
-            ctrlKey  = (modifier === 'ctrl' ),
-            altKey   = (modifier === 'alt'  ),
-            shiftKey = (modifier === 'shift'),
-            metaKey  = (modifier === 'meta' ),
-            keyCode = 0,
-            charCode = char.charCodeAt(0);
-        
-        if ( type === 'keyup' ) {
-            keyCode = charCode;
-        }
-        
-        eventObject.initKeyEvent(type, bubbles, cancelable, view, ctrlKey, altKey, shiftKey, metaKey, keyCode, charCode);
-        element.dispatchEvent(eventObject);
-JS;
-        $this->executeJsOnXpath($xpath, $script);
+        $options = Selenium2Driver::charToOptions('keyup', $char, $modifier);
+        $script = "Syn.trigger('keyup', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
 
