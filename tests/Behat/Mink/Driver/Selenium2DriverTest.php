@@ -13,6 +13,5 @@ class Selenium2DriverTest extends SeleniumDriverTest
     {
         $this->getMink()->setDefaultSessionName('selenium2');
     }
-    public function testDragDrop() {} // no support for drag and drop ... yet :)
 
 }

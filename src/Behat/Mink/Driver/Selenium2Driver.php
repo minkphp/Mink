@@ -674,7 +674,20 @@ JS;
      */
     function dragTo($sourceXpath, $destinationXpath)
     {
-        throw new UnsupportedDriverActionException('Drag and Drop is not supported by %s', $this);
+        $source = $this->wdSession->element('xpath', $sourceXpath);
+        $destination = $this->wdSession->element('xpath', $destinationXpath);
+        $sourceSize = $source->size();
+        $destinationSize = $destination->size();
+        $sourceX = $sourceSize['width']/2;
+        $sourceY = $sourceSize['height']/2;
+        $destinationX = $destinationSize['width']/2;
+        $destinationY = $destinationSize['height']/2;
+        $this->wdSession->moveto(array('element'=>$source->getID(), 'xoffset'=>$sourceX, 'yoffset'=>$sourceY));
+        $this->wdSession->buttondown();
+        $this->wdSession->moveto(array('element'=>$source->getID(), 'xoffset'=>$sourceX+1, 'yoffset'=>$sourceY+1));
+        $this->wdSession->moveto(array('element'=>$destination->getID(), 'xoffset'=>$destinationX, 'yoffset'=>$destinationY));
+        $this->wdSession->moveto(array('element'=>$destination->getID(), 'xoffset'=>$destinationX+1, 'yoffset'=>$destinationY+1));
+        $this->wdSession->buttonup();
     }
 
     /**
