@@ -72,13 +72,15 @@ and make sure that `Sahi`/`Selenium` is runned if you want to test
 one of them:
 
 ``` bash
-bin/run_sahi
+bin/start_sahi
 phpunit --group sahidriver
+bin/kill_sahi
 ```
 
 ``` bash
-bin/run_selenium
+bin/start_selenium
 phpunit --group seleniumdriver
+bin/kill_selenium
 ```
 
 `Zombie` and `Goutte` driver tests doesn't require some specific proxy

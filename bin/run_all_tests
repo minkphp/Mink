@@ -1,7 +1,7 @@
 #!/bin/sh
 
-bin/run_sahi
-bin/run_selenium
+bin/start_sahi
+bin/start_selenium
 
 phpunit
 
