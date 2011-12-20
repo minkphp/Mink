@@ -231,7 +231,7 @@ class SahiDriver implements DriverInterface
         $document = new \DOMDocument('1.0');
 
         $previous = libxml_use_internal_errors(true);
-        @$document->loadHTML($this->getContent());
+        @$document->loadHTML($content);
         libxml_use_internal_errors($previous);
 
         $domxpath = new \DOMXPath($document);
