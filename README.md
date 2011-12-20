@@ -58,7 +58,7 @@ How to run Mink test suite
 --------------------------
 
 1. Install dependencies
-2. Run all tests with `phpunit .` or specific driver tests with `phpunit tests/Behat/Mink/Driver/...`
+2. Run all tests with `phpunit .` or specific driver tests with `phpunit --group (sahi|zombie|selenium)driver`
 
 Translated languages
 --------------------
