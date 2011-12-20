@@ -5,6 +5,9 @@ namespace Test\Behat\Mink\Element;
 use Behat\Mink\Session,
     Behat\Mink\Selector\SelectorsHandler;
 
+/**
+ * @group unittest
+ */
 abstract class ElementTest extends \PHPUnit_Framework_TestCase
 {
     protected function getSessionWithMockedDriver()

@@ -4,6 +4,9 @@ namespace Tests\Behat\Mink;
 
 use Behat\Mink\Session;
 
+/**
+ * @group unittest
+ */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     private $driver;
