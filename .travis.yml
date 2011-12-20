@@ -14,7 +14,8 @@ before_script:
   - bin/install_sahi
 
   - sh -e /etc/init.d/xvfb start
-  - export DISPLAY=:99.0
+  - sh export DISPLAY=:99.0
+
   - bin/run_sahi
 
 after_script:
