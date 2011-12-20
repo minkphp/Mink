@@ -1,0 +1,24 @@
+language: php
+
+php: 
+  - 5.3
+  - 5.4
+
+branches:
+  only:
+    - master
+    - develop
+
+before_script:
+  - bin/install_deps
+  - bin/install_sahi
+
+  - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99.0
+
+  - bin/run_sahi
+
+after_script:
+  - bin/kill_sahi
+
+script: phpunit --group sahidriver
