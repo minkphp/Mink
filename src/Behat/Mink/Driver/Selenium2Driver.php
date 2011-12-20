@@ -552,7 +552,7 @@ JS;
      */
     function attachFile($xpath, $path)
     {
-        throw new UnsupportedDriverActionException('Attach File is not supported by %s', $this);
+        $this->wdSession->element('xpath', $xpath)->value(array('value'=>str_split($path)));
     }
 
     /**

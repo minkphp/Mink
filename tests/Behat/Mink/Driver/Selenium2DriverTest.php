@@ -14,6 +14,5 @@ class Selenium2DriverTest extends SeleniumDriverTest
         $this->getMink()->setDefaultSessionName('selenium2');
     }
     public function testDragDrop() {} // no support for drag and drop ... yet :)
-    public function testFileAttachment() {} // no support for file attachments in WebDriver JSON Wire Protocol
 
 }

@@ -397,7 +397,7 @@ OUT
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.php'));
         $page = $this->getSession()->getPage();
-        $about       = $page->findField('about');
+        $about = $page->findField('about');
         $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
         $button = $page->findButton('Register');
         $button->press();
