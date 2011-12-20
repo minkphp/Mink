@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BASEDIR=$(dirname $0)
+cd $BASEDIR/../vendor
+
+wget http://selenium.googlecode.com/files/selenium-server-standalone-2.15.0.jar -O selenium.jar
+
+jar xf selenium.jar core/scripts/atoms.js
+ed -- "core/scripts/atoms.js" <<-PATCH
+    9423s|a.|XPCNativeWrapper(a).|
+    w
+    q
+PATCH
+jar -uf selenium.jar core
+
+rm -r core
