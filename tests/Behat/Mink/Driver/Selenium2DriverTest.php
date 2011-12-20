@@ -5,7 +5,7 @@ namespace Tests\Behat\Mink\Driver;
 require_once 'SeleniumDriverTest.php';
 
 /**
- * @group seleniumdriver
+ * @group selenium2driver
  */
 class Selenium2DriverTest extends SeleniumDriverTest
 {
