@@ -26,12 +26,6 @@
             <span><input type="radio" name="sex" value="w" checked="checked" /> w</span>
         </label>
 
-        <select name="select_multiple_numbers[]" multiple="multiple">
-            <option value="1">one</option>
-            <option value="2">two</option>
-            <option value="3">three</option>
-        </select>
-
         <input type="checkbox" name="mail_list" checked="checked" />
         <input type="checkbox" name="agreement" />
 
