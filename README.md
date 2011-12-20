@@ -68,12 +68,28 @@ How to run Mink test suite
 2. To run all tests - call `bin/run_all_tests`
 
 If you want to run specific driver tests, use appropriate PHPUnit group
-and make sure that Sahi/Selenium/Zombie is runned if you want to test
+and make sure that `Sahi`/`Selenium` is runned if you want to test
 one of them:
 
 ``` bash
 bin/run_sahi
 phpunit --group sahidriver
+```
+
+``` bash
+bin/run_selenium
+phpunit --group seleniumdriver
+```
+
+`Zombie` and `Goutte` driver tests doesn't require some specific proxy
+to be runned and could be tested as is:
+
+``` bash
+phpunit --group zombiedriver
+```
+
+``` bash
+phpunit --group gouttedriver
 ```
 
 Translated languages
