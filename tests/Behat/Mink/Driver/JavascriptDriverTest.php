@@ -9,7 +9,8 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     public function testAriaRoles()
     {
         $this->getSession()->visit($this->pathTo('/aria_roles.php'));
-        $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === false');;
+
+        $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === false');
         $this->getSession()->getPage()->pressButton('Toggle');
         $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === true');
 
@@ -24,6 +25,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
 
         $this->assertEquals('not clicked', $clicker->getText());
+
         $clicker->click();
         $this->assertEquals('single clicked', $clicker->getText());
 

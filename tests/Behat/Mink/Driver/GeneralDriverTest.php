@@ -8,8 +8,7 @@ abstract class GeneralDriverTest extends TestCase
 {
     protected function pathTo($path)
     {
-        $path = $_SERVER['WEB_FIXTURES_HOST'].$path;
-        return $path;
+        return $_SERVER['WEB_FIXTURES_HOST'].$path;
     }
 
     public function testRedirect()
@@ -32,6 +31,7 @@ abstract class GeneralDriverTest extends TestCase
         $this->getSession()->setCookie('srvr_cookie', null);
         $this->getSession()->reload();
         $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
+
         $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
 
@@ -230,10 +230,10 @@ abstract class GeneralDriverTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $base = $_SERVER['WEB_FIXTURES_HOST'] . '/';
-        $this->assertEquals($base.'some_url', $subUrl->getAttribute('href'));
+        $this->assertEquals('some_url', $subUrl->getAttribute('href'));
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
+
         $this->assertTrue($subUrl->has('css', 'strong'));
         $this->assertFalse($subUrl->has('css', 'em'));
         $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
@@ -241,12 +241,11 @@ abstract class GeneralDriverTest extends TestCase
 
     public function testLinks()
     {
-        $base = $_SERVER['WEB_FIXTURES_HOST'] . '/';
         $this->getSession()->visit($this->pathTo('/links.php'));
         $page = $this->getSession()->getPage();
         $link = $page->findLink('Redirect me to');
 
-        $this->assertEquals($base.'redirector.php', $link->getAttribute('href'));
+        $this->assertEquals('redirector.php', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
@@ -255,7 +254,7 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
-        $this->assertEquals($base.'basic_form.php', $link->getAttribute('href'));
+        $this->assertEquals('/basic_form.php', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
@@ -357,6 +356,7 @@ abstract class GeneralDriverTest extends TestCase
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
+        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
         $multiSelect->selectOption('one', true);
         $multiSelect->selectOption('three', true);
@@ -386,31 +386,6 @@ array (
     1 = '3',
   ),
   'agreement' = 'on',
-)
-no file
-OUT
-            , $page->getContent()
-        );
-    }
-
-    public function testFileAttachment()
-    {
-        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
-        $page = $this->getSession()->getPage();
-        $about = $page->findField('about');
-        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
-        $button = $page->findButton('Register');
-        $button->press();
-        $space = ' ';
-        $this->assertContains(<<<OUT
-array (
-  'first_name' = 'Firstname',
-  'last_name' = 'Lastname',
-  'email' = 'your@email.com',
-  'select_number' = '20',
-  'sex' = 'w',
-  'mail_list' = 'on',
-  'agreement' = 'off',
 )
 1 uploaded file
 OUT
