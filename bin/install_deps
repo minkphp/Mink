@@ -3,5 +3,5 @@
 BASEDIR=$(dirname $0)
 cd $BASEDIR/..
 
-wget http://getcomposer.org/composer.phar
+wget -nc http://getcomposer.org/composer.phar
 php composer.phar install
