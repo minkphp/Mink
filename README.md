@@ -1,6 +1,8 @@
 Mink
 ====
 
+[![Build Status](https://secure.travis-ci.org/Behat/Mink.png)](http://travis-ci.org/Behat/Mink)
+
 * The main website with documentation is at
 [http://mink.behat.org](http://mink.behat.org)
 * Official user group is at [Google Groups](http://groups.google.com/group/behat)
