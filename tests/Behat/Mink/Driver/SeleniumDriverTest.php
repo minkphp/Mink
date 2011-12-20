@@ -6,6 +6,9 @@ use Behat\Mink\Mink;
 
 require_once 'JavascriptDriverTest.php';
 
+/**
+ * @group seleniumdriver
+ */
 class SeleniumDriverTest extends JavascriptDriverTest
 {
     protected static function registerMinkSessions(Mink $mink)
