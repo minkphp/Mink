@@ -6,7 +6,8 @@ use Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Client,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
-    Symfony\Component\DomCrawler\Field\ChoiceFormField;
+    Symfony\Component\DomCrawler\Form,
+    Symfony\Component\DomCrawler\Field;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -90,6 +91,7 @@ class GoutteDriver implements DriverInterface
     {
         $this->client->restart();
         $this->started = false;
+        $this->forms = array();
     }
 
     /**
@@ -98,6 +100,7 @@ class GoutteDriver implements DriverInterface
     public function reset()
     {
         $this->client->restart();
+        $this->forms = array();
     }
 
     /**
@@ -123,6 +126,7 @@ class GoutteDriver implements DriverInterface
     public function reload()
     {
         $this->client->reload();
+        $this->forms = array();
     }
 
     /**
@@ -131,6 +135,7 @@ class GoutteDriver implements DriverInterface
     public function forward()
     {
         $this->client->forward();
+        $this->forms = array();
     }
 
     /**
@@ -139,6 +144,7 @@ class GoutteDriver implements DriverInterface
     public function back()
     {
         $this->client->back();
+        $this->forms = array();
     }
 
     /**
@@ -276,14 +282,14 @@ class GoutteDriver implements DriverInterface
     public function getValue($xpath)
     {
         try {
-            $field = $this->getField($xpath);
+            $field = $this->getFormField($xpath);
         } catch (\InvalidArgumentException $e) {
             return $this->getAttribute($xpath, 'value');
         }
 
         $value = $field->getValue();
 
-        if ($field instanceof ChoiceFormField && 'checkbox' === $field->getType()) {
+        if ($field instanceof Field\ChoiceFormField && 'checkbox' === $field->getType()) {
             $value = '1' == $value;
         }
 
@@ -295,7 +301,7 @@ class GoutteDriver implements DriverInterface
      */
     public function setValue($xpath, $value)
     {
-        $this->getField($xpath)->setValue($value);
+        $this->getFormField($xpath)->setValue($value);
     }
 
     /**
@@ -303,7 +309,7 @@ class GoutteDriver implements DriverInterface
      */
     public function check($xpath)
     {
-        $this->getField($xpath)->tick();
+        $this->getFormField($xpath)->tick();
     }
 
     /**
@@ -311,7 +317,7 @@ class GoutteDriver implements DriverInterface
      */
     public function uncheck($xpath)
     {
-        $this->getField($xpath)->untick();
+        $this->getFormField($xpath)->untick();
     }
 
     /**
@@ -319,7 +325,7 @@ class GoutteDriver implements DriverInterface
      */
     public function selectOption($xpath, $value, $multiple = false)
     {
-        $field = $this->getField($xpath);
+        $field = $this->getFormField($xpath);
 
         if ($multiple) {
             $oldValue   = (array) $field->getValue();
@@ -346,15 +352,14 @@ class GoutteDriver implements DriverInterface
         if ('a' === $type) {
             $this->client->click($node->link());
         } elseif('input' === $type || 'button' === $type) {
-            $buttonForm = $node->form();
-            foreach ($this->forms as $form) {
-                if ($buttonForm->getFormNode()->getLineNo() === $form->getFormNode()->getLineNo()) {
-                    $buttonForm = $form;
+            $form   = $node->form();
+            $formId = $this->getFormNodeId($form->getFormNode());
 
-                    break;
-                }
+            if (isset($this->forms[$formId])) {
+                $this->mergeForms($form, $this->forms[$formId]);
             }
-            $this->client->submit($buttonForm);
+
+            $this->client->submit($form);
         } else {
             throw new DriverException(sprintf(
                 'Goutte driver supports clicking on inputs and links only. But "%s" provided', $type
@@ -377,7 +382,7 @@ class GoutteDriver implements DriverInterface
      */
     public function attachFile($xpath, $path)
     {
-        $this->getField($xpath)->upload($path);
+        $this->getFormField($xpath)->upload($path);
     }
 
     /**
@@ -511,6 +516,115 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
+     * Returns form field from XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  Symfony\Component\DomCrawler\Field\FormField
+     */
+    private function getFormField($xpath)
+    {
+        if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
+            throw new ElementNotFoundException(
+                $this->session, 'form field', 'xpath', $xpath
+            );
+        }
+
+        $fieldNode = $this->getCrawlerNode($crawler);
+        $fieldName = str_replace('[]', '', $fieldNode->getAttribute('name'));
+        $formNode  = $fieldNode;
+
+        do {
+            // use the ancestor form element
+            if (null === $formNode = $formNode->parentNode) {
+                throw new \LogicException('The selected node does not have a form ancestor.');
+            }
+        } while ('form' != $formNode->nodeName);
+
+        $formId = $this->getFormNodeId($formNode);
+
+        // check if form already exists
+        if (isset($this->forms[$formId])) {
+            return $this->forms[$formId][$fieldName];
+        }
+
+        // find form button
+        if (null === $buttonNode = $this->findFormButton($formNode)) {
+            throw new ElementNotFoundException(
+                $this->session, 'form submit button for field with xpath "'.$xpath.'"'
+            );
+        }
+
+        $this->forms[$formId] = new Form($buttonNode, $this->client->getRequest()->getUri());
+
+        return $this->forms[$formId][$fieldName];
+    }
+
+    /**
+     * Returns form node unique identifier.
+     *
+     * @param   \DOMElement $form
+     *
+     * @return  mixed
+     */
+    private function getFormNodeId(\DOMElement $form)
+    {
+        return md5($form->getLineNo() . $form->getNodePath() . $form->nodeValue);
+    }
+
+    /**
+     * Finds form submit button inside form node.
+     *
+     * @param   \DOMElement $form
+     *
+     * @return  \DOMElement
+     */
+    private function findFormButton(\DOMElement $form)
+    {
+        $document = new \DOMDocument('1.0', 'UTF-8');
+        $node     = $document->importNode($form, true);
+        $root     = $document->appendChild($document->createElement('_root'));
+
+        $root->appendChild($node);
+        $xpath = new \DOMXPath($document);
+
+        foreach ($xpath->query('descendant::input | descendant::button', $root) as $node) {
+            if ('button' == $node->nodeName || in_array($node->getAttribute('type'), array('submit', 'button', 'image'))) {
+                return $node;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Merges second form values into first one.
+     *
+     * @param   Form    $to     merging target
+     * @param   Form    $from   merging source
+     */
+    private function mergeForms(Form $to, Form $from)
+    {
+        foreach ($from->all() as $name => $field) {
+            $fieldReflection = new \ReflectionObject($field);
+            $nodeReflection  = $fieldReflection->getProperty('node');
+            $valueReflection = $fieldReflection->getProperty('value');
+
+            $nodeReflection->setAccessible(true);
+            $valueReflection->setAccessible(true);
+
+            if (!($field instanceof Field\InputtoField && in_array(
+                $nodeReflection->getValue($field)->getAttribute('type'),
+                array('submit', 'button', 'image')
+            ))) {
+                $valueReflection->setValue(
+                    $to[$field->getName()], $valueReflection->getValue($field)
+                );
+            }
+        }
+    }
+
+    /**
      * Returns DOMNode from crawler instance.
      *
      * @param   Symfony\Component\DomCrawler\Crawler    $crawler
@@ -522,95 +636,6 @@ class GoutteDriver implements DriverInterface
     {
         foreach ($crawler as $i => $node) {
             if ($num == $i) {
-                return $node;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns form field from XPath query.
-     *
-     * @param   string  $xpath
-     *
-     * @return  Symfony\Component\DomCrawler\Field\FormField
-     */
-    private function getField($xpath)
-    {
-        if (!count($crawler = $this->getCrawler()->filterXPath($xpath))) {
-            throw new ElementNotFoundException(
-                $this->session, 'form field', 'xpath', $xpath
-            );
-        }
-
-        $fieldNode  = $this->getCrawlerNode($crawler);
-        $formNode   = $fieldNode;
-
-        do {
-            // use the ancestor form element
-            if (null === $formNode = $formNode->parentNode) {
-                throw new ElementNotFoundException(
-                    $this->session, 'the form field with xpath "'.$xpath.'" was found, but no form element surrounding that field could be found'
-                );
-            }
-        } while ('form' != $formNode->nodeName);
-
-        // check if form already exists
-        foreach ($this->forms as $form) {
-            if ($formNode->getLineNo() === $form->getFormNode()->getLineNo()) {
-                $fieldName = $fieldNode->getAttribute('name');
-                $fieldName = preg_replace('/\[\]$/', '', $fieldName);
-
-                return $form[$fieldName];
-            }
-        }
-
-        // find form button
-        $buttonNode = $this->findFormButton($formNode);
-        if (null === $buttonNode) {
-            throw new ElementNotFoundException(
-                $this->session, 'form submit button for field with xpath "'.$xpath.'"'
-            );
-        }
-
-        $base = $this->client->getCrawler()->filter('base')->extract(array('href'));
-        if (count($base)) {
-            $base = current($base);
-        } else {
-            $base = NULL;
-        }
-
-        // init form
-        $button = new Crawler(
-            $buttonNode,
-            $this->client->getRequest()->getUri(),
-            $base
-        );
-
-        $this->forms[] = $form = $button->form();
-
-        return $form[$fieldNode->getAttribute('name')];
-    }
-
-    /**
-     * Finds form submit button inside form node.
-     *
-     * @param   DOMNode $form
-     *
-     * @return  DOMNode         button node
-     */
-    private function findFormButton(\DOMNode $form)
-    {
-        $document   = new \DOMDocument('1.0', 'UTF-8');
-        $node       = $document->importNode($form, true);
-        $root       = $document->appendChild($document->createElement('_root'));
-
-        $root->appendChild($node);
-        $xpath = new \DOMXPath($document);
-
-        foreach ($xpath->query('descendant::input | descendant::button', $root) as $node) {
-            if ('button' == $node->nodeName || ('input' == $node->nodeName && in_array($node->getAttribute('type'), array('submit', 'button', 'image')))) {
                 return $node;
             }
         }

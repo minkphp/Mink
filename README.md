@@ -1,6 +1,8 @@
 Mink
 ====
 
+[![Build Status](https://secure.travis-ci.org/Behat/Mink.png)](http://travis-ci.org/Behat/Mink)
+
 * The main website with documentation is at
 [http://mink.behat.org](http://mink.behat.org)
 * Official user group is at [Google Groups](http://groups.google.com/group/behat)
@@ -46,6 +48,52 @@ $mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
 $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
 
+Install Dependencies
+--------------------
+
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
+
+How to run Mink test suite
+--------------------------
+
+1. Install dependencies (including Sahi and Selenium)
+
+    ``` bash
+    bin/install_deps
+    bin/install_sahi
+    bin/install_selenium
+    ```
+
+2. To run all tests - call `bin/run_all_tests`
+
+If you want to run specific driver tests, use appropriate PHPUnit group
+and make sure that `Sahi`/`Selenium` is runned if you want to test
+one of them:
+
+``` bash
+bin/start_sahi
+phpunit --group sahidriver
+bin/kill_sahi
+```
+
+``` bash
+bin/start_selenium
+phpunit --group seleniumdriver
+bin/kill_selenium
+```
+
+`Zombie` and `Goutte` driver tests doesn't require some specific proxy
+to be runned and could be tested as is:
+
+``` bash
+phpunit --group zombiedriver
+```
+
+``` bash
+phpunit --group gouttedriver
+```
+
 Translated languages
 --------------------
 
@@ -72,6 +120,8 @@ Contributors
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
 * Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
+* Alexandre Salomé [alexandresalome](http://github.com/alexandresalome) [SeleniumDriver creator]
+* Pete Otaqui [pete-otaqui](http://github.com/pete-otaqui) [Selenium2Driver creator]
 
 Sponsors
 --------

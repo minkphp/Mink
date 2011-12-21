@@ -2,27 +2,16 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Mink;
-
 require_once 'JavascriptDriverTest.php';
 
 /**
- * @group seleniumdriver
+ * @group selenium2driver
  */
-class SeleniumDriverTest extends JavascriptDriverTest
+class Selenium2DriverTest extends JavascriptDriverTest
 {
-    protected static function registerMinkSessions(Mink $mink)
-    {
-        $mink->registerSession('selenium', static::initSeleniumSession(
-            '*'.$_SERVER['WEB_FIXTURES_BROWSER'], $_SERVER['WEB_FIXTURES_HOST']
-        ));
-
-        parent::registerMinkSessions($mink);
-    }
-
     protected function setUp()
     {
-        $this->getMink()->setDefaultSessionName('selenium');
+        $this->getMink()->setDefaultSessionName('webdriver');
     }
 
     public function testMouseEvents() {} // Right click and blur are not supported

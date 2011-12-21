@@ -68,7 +68,7 @@ class SeleniumDriver implements DriverInterface
      */
     public function __construct($browser, $baseUrl, SeleniumClient $client)
     {
-        $this->browser = $client->getBrowser($baseUrl, '*'.$browser);
+        $this->browser = $client->getBrowser($baseUrl, $browser);
     }
 
     /**
@@ -122,11 +122,7 @@ class SeleniumDriver implements DriverInterface
      */
     public function reset()
     {
-        try {
-            $this->executeScript(
-                '(function(){var c=document.cookie.split(";");for(var i=0;i<c.length;i++){var e=c[i].indexOf("=");var n=e>-1?c[i].substr(0,e):c[i];document.cookie=n+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";}})()'
-            );
-        } catch(\Exception $e) {}
+        $this->browser->deleteAllVisibleCookies();
     }
 
     /**
@@ -316,10 +312,10 @@ class SeleniumDriver implements DriverInterface
         $xpathEscaped = str_replace('"', '\"', $xpath);
         $script = <<<JS
 var node = this.browserbot.locateElementByXPath("$xpathEscaped", window.document);
-    tagName = node.tagName,
+    tagName = node.tagName.toUpperCase(),
     value = "null";
 if (tagName == "INPUT") {
-    var type = node.getAttribute('type');
+    var type = node.getAttribute('type').toLowerCase();
     if (type == "checkbox") {
         value = "boolean:" + node.checked;
     } else if (type == "radio") {
@@ -340,8 +336,22 @@ if (tagName == "INPUT") {
 } else if (tagName == "TEXTAREA") {
   value = "string:" + node.text;
 } else if (tagName == "SELECT") {
-  var idx = node.selectedIndex;
-  value = "string:" + node.options.item(idx).value;
+    if (node.getAttribute('multiple')) {
+        options = [];
+        for (var i = 0; i < node.options.length; i++) {
+            if (node.options[ i ].selected) {
+                options.push(node.options[ i ].value);
+            }
+        }
+        value = "array:" + options.join(',');
+    } else {
+        var idx = node.selectedIndex;
+        if (idx >= 0) {
+            value = "string:" + node.options.item(idx).value;
+        } else {
+            value = null;
+        }
+    }
 } else {
   value = "string:" + node.getAttribute('value');
 }
@@ -357,6 +367,11 @@ JS;
             return $vars[1];
         } elseif (preg_match('/^boolean:(.*)$/', $value, $vars)) {
             return 'true' === strtolower($vars[1]);
+        } elseif (preg_match('/^array:(.*)$/', $value, $vars)) {
+            if ('' === trim($vars[1])) {
+                return array();
+            }
+            return explode(',', $vars[1]);
         }
     }
 

@@ -23,4 +23,9 @@ class ZombieDriverTest extends JavascriptDriverTest
      * As of 0.10.1, zombie.js doesn't support drag'n'drop
      */
     public function testDragDrop() {}
+
+    /**
+     * No need in wait method for Zombie
+     */
+    public function testWait() {}
 }

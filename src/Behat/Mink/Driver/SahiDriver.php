@@ -218,7 +218,6 @@ class SahiDriver implements DriverInterface
             '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/sU',
             '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/sU'
         ), '', $html);
-        $html = html_entity_decode($html);
 
         return "<html>\n$html\n</html>";
     }
@@ -228,16 +227,16 @@ class SahiDriver implements DriverInterface
      */
     public function find($xpath)
     {
-        $previous = libxml_use_internal_errors(true);
-        $document = new \DOMDocument('1.0');
-        @$document->loadHTML($this->getContent());
-        libxml_clear_errors();
-        libxml_use_internal_errors($previous);
-
-        $domxpath = new \DOMXPath($document);
-        $domcount = $domxpath->query($xpath)->length;
+        $function = <<<JS
+(function(){
+    var count = 0;
+    while (_sahi._byXPath("({$xpath})["+(count+1)+"]")) count++;
+    return count;
+})()
+JS;
+        $count = intval($this->evaluateScript($function));
         $elements = array();
-        for ($i = 0; $i < $domcount; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i + 1), $this->session);
         }
 
@@ -281,16 +280,17 @@ class SahiDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
-        $xpath  = $this->prepareXPath($xpath);
-        $type   = $this->getAttribute($xpath, 'type');
-        $value  = null;
+        $xpath = $this->prepareXPath($xpath);
+        $tag   = $this->getTagName($xpath);
+        $type  = $this->getAttribute($xpath, 'type');
+        $value = null;
 
         if ('radio' === $type) {
             $name = $this->getAttribute($xpath, 'name');
 
             if (null !== $name) {
                 $function = <<<JS
-function(){
+(function(){
     for (var i = 0; i < document.forms.length; i++) {
         if (document.forms[i].elements['{$name}']) {
             var form  = document.forms[i];
@@ -306,13 +306,41 @@ function(){
         }
     }
     return null;
-}()
+})()
 JS;
 
                 return $this->evaluateScript($function);
             }
         } elseif ('checkbox' === $type) {
             return $this->client->findByXPath($xpath)->isChecked();
+        } elseif ('select' === $tag && 'multiple' === $this->getAttribute($xpath, 'multiple')) {
+            $name = $this->getAttribute($xpath, 'name');
+
+            $function = <<<JS
+(function(){
+    for (var i = 0; i < document.forms.length; i++) {
+        if (document.forms[i].elements['{$name}']) {
+            var form = document.forms[i];
+            var node = form.elements['{$name}'];
+            var options = [];
+            for (var i = 0; i < node.options.length; i++) {
+                if (node.options[ i ].selected) {
+                    options.push(node.options[ i ].value);
+                }
+            }
+            return options.join(",");
+        }
+    }
+    return '';
+})()
+JS;
+            $value = $this->evaluateScript($function);
+
+            if ('' === $value) {
+                return array();
+            } else {
+                return explode(',', $value);
+            }
         }
 
         return $this->client->findByXPath($xpath)->getValue();
@@ -517,21 +545,21 @@ JS;
 
         if (null !== $name) {
             $function = <<<JS
-function(){
-for (var i = 0; i < document.forms.length; i++) {
-    if (document.forms[i].elements['{$name}']) {
-        var form  = document.forms[i];
-        var elements = form.elements['{$name}'];
-        var value = elements[0].value;
-        for (var f = 0; f < elements.length; f++) {
-            var item = elements[f];
-            if ("{$value}" == item.value) {
-                item.checked = true;
+(function(){
+    for (var i = 0; i < document.forms.length; i++) {
+        if (document.forms[i].elements['{$name}']) {
+            var form  = document.forms[i];
+            var elements = form.elements['{$name}'];
+            var value = elements[0].value;
+            for (var f = 0; f < elements.length; f++) {
+                var item = elements[f];
+                if ("{$value}" == item.value) {
+                    item.checked = true;
+                }
             }
         }
     }
-}
-}()
+})()
 JS;
 
             $this->executeScript($function);

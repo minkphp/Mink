@@ -46,102 +46,22 @@ class MapFileCompiler
         }
         $mappings = '';
 
-        foreach ($this->findPhpFile()->in($this->libPath . '/src') as $file) {
-            $path   = str_replace($this->libPath . '/src/', '', $file->getRealPath());
-            $class  = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "\$mappings['$class'] = \$minkDir . 'src/$path';\n";
-        }
-
-        // autoload Goutte
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_GOUTTE') || true === BEHAT_AUTOLOAD_GOUTTE) {\n";
-        $mappings .= "    \$mappings['Goutte\Client'] = __DIR__ . '/vendor/Goutte/src/Goutte/Client.php';\n";
-        $mappings .= "}\n";
-
-        // autoload SahiClient
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SAHI') || true === BEHAT_AUTOLOAD_SAHI) {\n";
-        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/SahiClient/src') as $file) {
-            $path  = str_replace($this->libPath . '/vendor/SahiClient/src/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = __DIR__ . '/vendor/SahiClient/src/$path';\n";
-        }
-        $mappings .= "}\n";
-
-        // autoload php-selenium
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SELENIUM') || true === BEHAT_AUTOLOAD_SELENIUM) {\n";
-        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/php-selenium/src') as $file) {
-            $path  = str_replace($this->libPath . '/vendor/php-selenium/src/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = __DIR__ . '/vendor/php-selenium/src/$path';\n";
-        }
-        $mappings .= "}\n";
-
-        // autoload Buzz
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_BUZZ') || true === BEHAT_AUTOLOAD_BUZZ) {\n";
-        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Buzz/lib') as $file) {
-            $path  = str_replace($this->libPath . '/vendor/Buzz/lib/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = __DIR__ . '/vendor/Buzz/lib/$path';\n";
-        }
-        $mappings .= "}\n";
-
         // autoload Symfony2
         $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SF2') || true === BEHAT_AUTOLOAD_SF2) {\n";
-        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/Symfony') as $file) {
-            $path  = str_replace($this->libPath . '/vendor/', '', $file->getRealPath());
+        foreach ($this->findPhpFile()->in($this->libPath . '/vendor/symfony') as $file) {
+            $path  = str_replace(array(
+                $this->libPath . '/vendor/symfony/browser-kit/',
+                $this->libPath . '/vendor/symfony/css-selector/',
+                $this->libPath . '/vendor/symfony/dom-crawler/',
+                $this->libPath . '/vendor/symfony/process/',
+            ), '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$symfonyDir . '$path';\n";
-        }
-        $mappings .= "}\n";
-
-        // autoload ZF2
-        $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_ZF2') || true === BEHAT_AUTOLOAD_ZF2) {\n";
-        $zendDir   = $this->libPath . '/vendor/Goutte/vendor/zend/library';
-        foreach (array(
-                'Zend\Tool\Framework\Exception',
-                'Zend\Registry',
-                'Zend\Uri\Uri',
-                'Zend\Validator\Validator',
-                'Zend\Validator\AbstractValidator',
-                'Zend\Validator\Hostname',
-                'Zend\Validator\Ip',
-                'Zend\Validator\Hostname\Com',
-                'Zend\Validator\Hostname\Jp',
-            ) as $class) {
-            $path = str_replace('\\', '/', $class) . '.php';
-            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Uri') as $file) {
-            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
-            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
-            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
-            $path  = str_replace($zendDir . '/', '', $file->getRealPath());
-            $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$zendDir . '$path';\n";
+            $mappings .= "    \$mappings['$class'] = '$path';\n";
         }
         $mappings .= "}\n";
 
         $mapContent = <<<MAP_FILE
 <?php
-
-\$minkDir = __DIR__ . '/';
-\$zendDir = __DIR__ . '/vendor/Goutte/vendor/zend/library/';
-if (is_dir(__DIR__ . '/vendor/Symfony/')) {
-    \$symfonyDir = __DIR__ . '/vendor/';
-} else {
-    \$symfonyDir = '';
-}
 
 \$mappings = array();
 $mappings
@@ -180,6 +100,8 @@ use Behat\Mink\ClassLoader\MapFileClassLoader;
 
 $loader = new MapFileClassLoader(__DIR__ . '/%s');
 $loader->register();
+
+require_once __DIR__ . '/vendor/.composer/autoload.php';
 
 EOF
         , $mapFilename);

@@ -8,6 +8,7 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
     Behat\Mink\Driver\SeleniumDriver,
+    Behat\Mink\Driver\Selenium2Driver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
@@ -119,6 +120,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         if (!$mink->hasSession('selenium')) {
             $mink->registerSession('selenium', static::initSeleniumSession());
         }
+
+        if (!$mink->hasSession('webdriver')) {
+            $mink->registerSession('webdriver', static::initWebdriverSession());
+        }
     }
 
     /**
@@ -171,18 +176,33 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Initizalizes and returns new Selenium session.
+     * Initizalizes and returns new SeleniumDriver session.
      *
+     * @param   string  $browser        browser info
+     * @param   string  $baseUrl        selenium start url
      * @param   string  $host           selenium server server host
      * @param   integer $port           port number
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initSeleniumSession($host = '127.0.0.1', $port = 4444)
+    protected static function initSeleniumSession($browser = '*firefox',
+                                                  $baseUrl = 'http://localhost',
+                                                  $host = '127.0.0.1', $port = 4444)
     {
-        $client     = new SeleniumClient($host, $port);
-        $driver     = new SeleniumDriver('firefox', $_SERVER['WEB_FIXTURES_HOST'], $client);
+        return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
 
-        return new Session($driver);
+    /**
+     * Initizalizes and returns new Selenium2Driver session.
+     *
+     * @param   string  $browser        browser name
+     * @param   string  $host           selenium server server host
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initWebdriverSession($browser = 'firefox',
+                                                   $host = 'http://localhost:4444/wd/hub')
+    {
+        return new Session(new Selenium2Driver($browser, null, $host));
     }
 }

@@ -9,7 +9,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
-    Behat\Mink\Driver\SeleniumDriver;
+    Behat\Mink\Driver\SeleniumDriver,
+    Behat\Mink\Driver\Selenium2Driver;
 
 use Goutte\Client as GoutteClient;
 
@@ -133,9 +134,18 @@ class MinkContext extends BaseMinkContext
         }
 
         if (!$mink->hasSession('selenium')) {
-            $params = $parameters['selenium'];
+            $params  = $parameters['selenium'];
+            $browser = isset($params['browser']) ? $params['browser'] : '*'.$parameters['browser'];
             $mink->registerSession('selenium', static::initSeleniumSession(
-                $parameters['browser'], $parameters['base_url'], $params['host'], $params['port']
+                $browser, $parameters['base_url'], $params['host'], $params['port']
+            ));
+        }
+
+        if (!$mink->hasSession('webdriver')) {
+            $params  = $parameters['webdriver'];
+            $browser = $parameters['browser'];
+            $mink->registerSession('selenium', static::initWebdriverSession(
+                $browser, $params['host']
             ));
         }
     }
@@ -192,15 +202,32 @@ class MinkContext extends BaseMinkContext
     /**
      * Initizalizes and returns new SeleniumDriver session.
      *
-     * @param   string  $browser    browser name to use (default = firefox)
-     * @param   string  $host       sahi proxy host
-     * @param   integer $port       port number
+     * @param   string  $browser        browser info
+     * @param   string  $baseUrl        selenium start url
+     * @param   string  $host           selenium server server host
+     * @param   integer $port           port number
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initSeleniumSession($browser, $baseUrl, $host, $port)
+    protected static function initSeleniumSession($browser = '*firefox',
+                                                  $baseUrl = 'http://localhost',
+                                                  $host = '127.0.0.1', $port = 4444)
     {
         return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
+     * Initizalizes and returns new Selenium2Driver session.
+     *
+     * @param   string  $browser        browser name
+     * @param   string  $host           selenium server server host
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initWebdriverSession($browser = 'firefox',
+                                                   $host = 'http://localhost:4444/wd/hub')
+    {
+        return new Session(new Selenium2Driver($browser, null, $host));
     }
 
     /**
@@ -235,6 +262,9 @@ class MinkContext extends BaseMinkContext
             'selenium' => array(
                 'host' => 'localhost',
                 'port' => 4444
+            ),
+            'webdriver' => array(
+                'host' => 'http://localhost:4444/wd/hub'
             ),
         );
     }

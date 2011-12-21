@@ -4,6 +4,9 @@ namespace Tests\Behat\Mink;
 
 use Behat\Mink\Mink;
 
+/**
+ * @group unittest
+ */
 class MinkTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

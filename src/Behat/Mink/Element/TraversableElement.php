@@ -260,7 +260,7 @@ abstract class TraversableElement extends Element
      *
      * @throws  Behat\Mink\Exception\ElementNotFoundException
      */
-    public function selectFieldOption($locator, $value)
+    public function selectFieldOption($locator, $value, $multiple = false)
     {
         $field = $this->findField($locator);
 
@@ -270,7 +270,7 @@ abstract class TraversableElement extends Element
             );
         }
 
-        $field->selectOption($value);
+        $field->selectOption($value, $multiple);
     }
 
     /**

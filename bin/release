@@ -17,9 +17,11 @@
  * @author     Konstantin Kudryashov <ever.zet@gmail.com>
  */
 
-require_once __DIR__ . '/../autoload.php.dist';
+require_once __DIR__ . '/../vendor/.composer/autoload.php';
 
 use Behat\Mink\Compiler;
+
+system('rm *.phar *.tgz');
 
 if (!isset($argv[1])) {
   throw new RuntimeException('You must provide version.');
@@ -41,6 +43,7 @@ echo "PEAR package compiled: mink-$version.tgz\n";
 
 $phar = new Compiler\PharCompiler();
 $phar->compile($version);
+system("cp mink-$version.phar mink.phar");
 echo "PHAR package compiled: mink-$version.phar\n";
 
 unlink($autoloaderFilename);

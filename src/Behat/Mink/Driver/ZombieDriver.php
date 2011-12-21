@@ -358,7 +358,7 @@ var node = {$ref},
     tagName = node.tagName,
     value = null;
 if (tagName == "INPUT") {
-  var type = node.getAttribute('type');
+  var type = node.getAttribute('type').toLowerCase();
   if (type == "checkbox") {
     value = node.checked;
   } else if (type == "radio") {
@@ -375,8 +375,21 @@ if (tagName == "INPUT") {
 } else if (tagName == "TEXTAREA") {
   value = node.text;
 } else if (tagName == "SELECT") {
-  var idx = node.selectedIndex;
-  value = node.options.item(idx).value;
+  if (node.getAttribute('multiple')) {
+    value = [];
+    for (var i = 0; i < node.options.length; i++) {
+      if (node.options[ i ].selected) {
+        value.push(node.options[ i ].value);
+      }
+    }
+  } else {
+    var idx = node.selectedIndex;
+    if (idx >= 0) {
+      value = node.options.item(idx).value;
+    } else {
+      value = null;
+    }
+  }
 } else {
   value = node.getAttribute('value');
 }
@@ -488,10 +501,10 @@ JS;
         }
 
         $js = <<<JS
-var node = {$ref},
-    tagName = node.tagName
-    type = node.getAttribute('type') || null;
-if (tagName == "BUTTON" || (tagName == "INPUT" && (type == "button" || type == "submit"))) {
+var node    = {$ref},
+    tagName = node.tagName.toLowerCase();
+    type    = (node.getAttribute('type') || '').toLowerCase();
+if (tagName == "button" || (tagName == "input" && (type == "button" || type == "submit"))) {
   browser.pressButton(node.value, function(err) {
     if (err) {
       stream.end(JSON.stringify(err.stack));

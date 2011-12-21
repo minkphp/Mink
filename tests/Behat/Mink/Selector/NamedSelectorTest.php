@@ -4,6 +4,9 @@ namespace Tests\Behat\Mink\Selector;
 
 use Behat\Mink\Selector\NamedSelector;
 
+/**
+ * @group unittest
+ */
 class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterXpath()
