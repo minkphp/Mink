@@ -25,8 +25,9 @@
 
     "recommend": {
         "fabpot/goutte":                 "*",
-        "behat/sahi-client":             ">=1.0",
-        "alexandresalome/php-selenium":  "*"
+        "behat/sahi-client":             ">=1.0.1",
+        "alexandresalome/php-selenium":  "*",
+        "facebook/php-webdriver":        "*"
     },
 
     "autoload": {
@@ -85,6 +86,32 @@
                 },
                 "autoload": {
                     "psr-0": { "Selenium": "src/" }
+                }
+            }
+        },
+        "facebook/php-webdriver": {
+            "package": {
+                "name":    "facebook/php-webdriver",
+                "version": "master-dev",
+                "dist": {
+                    "url":  "https://github.com/facebook/php-webdriver/zipball/master",
+                    "type": "zip"
+                },
+                "source": {
+                    "url":       "git://github.com/facebook/php-webdriver.git",
+                    "type":      "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0": {
+                        "WebDriverBase":         ".",
+                        "WebDriver":             ".",
+                        "WebDriverContainer":    ".",
+                        "WebDriverSession":      ".",
+                        "WebDriverElement":      ".",
+                        "WebDriverEnvironment":  ".",
+                        "WebDriverSimpleItem":   "."
+                    }
                 }
             }
         },

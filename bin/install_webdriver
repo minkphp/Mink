@@ -1,9 +1,0 @@
-#!/bin/sh
-
-BASEDIR=$(dirname $0)
-cd $BASEDIR/../vendor
-
-wget https://github.com/facebook/php-webdriver/zipball/master -O webdriver.zip
-unzip webriver.zip
-mv facebook-php-webdriver-* WebDriver
-rm webdriver.zip

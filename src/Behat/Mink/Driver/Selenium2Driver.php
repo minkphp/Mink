@@ -10,7 +10,7 @@ use Behat\Mink\Session,
 use Selenium\Client as SeleniumClient,
     Selenium\Locator as SeleniumLocator,
     Selenium\Exception as SeleniumException,
-    \WebDriver as WebDriver;
+    WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
@@ -42,7 +42,7 @@ class Selenium2Driver implements DriverInterface
     /**
      * The WebDriver instance
      * @var WebDriver
-     */ 
+     */
     private $webDriver;
 
     /**
@@ -54,6 +54,16 @@ class Selenium2Driver implements DriverInterface
      */
     public function __construct($browserName = 'firefox', $desiredCapabilities = null, $wdHost = 'http://localhost:4444/wd/hub')
     {
+        // load WD exceptions if not loaded
+        if (!class_exists('IndexOutOfBoundsWebDriverError')) {
+            $wdReflection = new \ReflectionClass('WebDriver');
+            $libPath = dirname($wdReflection->getFilename());
+
+            if (file_exists($path = $libPath.'/WebDriverExceptions.php')) {
+                require_once($path);
+            }
+        }
+
         $this->setBrowserName($browserName);
         $this->setDesiredCapabilities($desiredCapabilities);
         $this->setWebDriver( new WebDriver($wdHost) );
@@ -174,7 +184,7 @@ class Selenium2Driver implements DriverInterface
     {
         $this->wdSession = $this->webDriver->session($this->browserName, $this->desiredCapabilities);
         if ( !$this->wdSession ) {
-            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+            throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = true;
     }
@@ -195,7 +205,7 @@ class Selenium2Driver implements DriverInterface
     public function stop()
     {
         if ( !$this->wdSession ) {
-            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+            throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = false;
         $this->wdSession->close();
@@ -454,8 +464,22 @@ class Selenium2Driver implements DriverInterface
     } else if (tagName == "TEXTAREA") {
       value = "string:" + node.text;
     } else if (tagName == "SELECT") {
-      var idx = node.selectedIndex;
-      value = "string:" + node.options.item(idx).value;
+        if (node.getAttribute('multiple')) {
+            options = [];
+            for (var i = 0; i < node.options.length; i++) {
+                if (node.options[ i ].selected) {
+                    options.push(node.options[ i ].value);
+                }
+            }
+            value = "array:" + options.join(',');
+        } else {
+            var idx = node.selectedIndex;
+            if (idx >= 0) {
+                value = "string:" + node.options.item(idx).value;
+            } else {
+                value = null;
+            }
+        }
     } else {
       value = "string:" + node.getAttribute('value');
     }
@@ -466,6 +490,11 @@ JS;
             return $vars[1];
         } elseif ($value && preg_match('/^boolean:(.*)$/', $value, $vars)) {
             return 'true' === strtolower($vars[1]);
+        } elseif (preg_match('/^array:(.*)$/', $value, $vars)) {
+            if ('' === trim($vars[1])) {
+                return array();
+            }
+            return explode(',', $vars[1]);
         }
     }
 
@@ -739,8 +768,7 @@ JS;
         $start = 1000 * microtime(true);
         $end = $start + $time;
         $count = 0;
-        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
-        {
+        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) ) {
             sleep(0.1);
         }
     }
