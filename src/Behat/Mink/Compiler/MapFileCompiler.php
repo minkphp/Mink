@@ -50,13 +50,13 @@ class MapFileCompiler
         $mappings .= "\nif (!defined('BEHAT_AUTOLOAD_SF2') || true === BEHAT_AUTOLOAD_SF2) {\n";
         foreach ($this->findPhpFile()->in($this->libPath . '/vendor/symfony') as $file) {
             $path  = str_replace(array(
-                $this->libPath . '/vendor/symfony/browser-kit',
-                $this->libPath . '/vendor/symfony/css-selector',
-                $this->libPath . '/vendor/symfony/dom-crawler',
-                $this->libPath . '/vendor/symfony/process',
+                $this->libPath . '/vendor/symfony/browser-kit/',
+                $this->libPath . '/vendor/symfony/css-selector/',
+                $this->libPath . '/vendor/symfony/dom-crawler/',
+                $this->libPath . '/vendor/symfony/process/',
             ), '', $file->getRealPath());
             $class = str_replace(array('/', '.php'), array('\\', ''), $path);
-            $mappings .= "    \$mappings['$class'] = \$symfonyDir . '$path';\n";
+            $mappings .= "    \$mappings['$class'] = '$path';\n";
         }
         $mappings .= "}\n";
 

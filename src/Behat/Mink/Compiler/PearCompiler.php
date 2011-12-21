@@ -52,23 +52,56 @@ class PearCompiler
             ->name('*.php')
             ->name('*.xliff')
             ->name('*.xml')
+            ->name('*.js')
             ->name('*.feature')
             ->name('LICENSE')
-            ->in($this->libPath . '/src')
-            ->in($this->libPath . '/vendor')
+            ->name('LICENSE.txt')
+            ->notName('test')
+            ->notName('tests')
             ->exclude(array(
-                $this->libPath.'/src/Behat/Mink/Compiler',
-                $this->libPath.'/vendor/symfony',
-                $this->libPath.'/vendor/zend-http/php/PEAR2',
-                $this->libPath.'/vendor/zend-loader/php/PEAR2',
-                $this->libPath.'/vendor/zend-registry/php/PEAR2',
-                $this->libPath.'/vendor/zend-stdlib/php/PEAR2',
-                $this->libPath.'/vendor/zend-uri/php/PEAR2',
-                $this->libPath.'/vendor/zend-validator/php/PEAR2',
-            ));
+                'Compiler',
+                'finder',
+                'test',
+                'tests',
+                'vendor',
+            ))
+            ->in($this->libPath . '/src')
+            ->in($this->libPath . '/vendor/.composer')
+            ->in($this->libPath . '/vendor/alexandresalome')
+            ->in($this->libPath . '/vendor/behat')
+            ->in($this->libPath . '/vendor/fabpot')
+            ->in($this->libPath . '/vendor/facebook')
+            ->in($this->libPath . '/vendor/kriswallsmith')
+            ->in($this->libPath . '/vendor/zendframework/zend-uri')
+            ->in($this->libPath . '/vendor/zendframework/zend-http')
+        ;
+
+        $files = array(
+            $this->libPath . '/vendor/zendframework/zend-registry/php/Zend/Registry.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Validator.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/AbstractValidator.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Ip.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Com.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Jp.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Dispatchable.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Message.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/MessageDescription.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/RequestDescription.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Parameters.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ParametersDescription.php',
+            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ResponseDescription.php',
+            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLoader.php',
+            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLocator.php',
+            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/ShortNameLocator.php',
+        );
 
         $xmlSourceFiles = '';
-        foreach ($finder as $file) {
+        foreach (array_merge($files, iterator_to_array($finder)) as $file) {
+            if (!$file instanceof \SplFileInfo) {
+                $file = new \SplFileInfo($file);
+            }
+
             $path = str_replace($this->libPath . '/', '', $file->getRealPath());
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
@@ -149,6 +182,7 @@ class PearCompiler
             ##SOURCE_FILES##
 
             <file role="php" baseinstalldir="mink" name="autoload.php" />
+            <file role="php" baseinstalldir="mink" name="autoload_map.php" />
             <file role="php" baseinstalldir="mink" name="CHANGES.md" />
             <file role="php" baseinstalldir="mink" name="LICENSE" />
             <file role="php" baseinstalldir="mink" name="README.md" />
