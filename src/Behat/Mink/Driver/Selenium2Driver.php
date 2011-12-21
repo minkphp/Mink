@@ -184,7 +184,8 @@ class Selenium2Driver implements DriverInterface
      *
      * @return mixed
      */
-    protected function executeJsOnXpath($xpath, $script, $sync = true) {
+    protected function executeJsOnXpath($xpath, $script, $sync = true)
+    {
         $element   = $this->wdSession->element('xpath', $xpath);
         $elementID = $element->getID();
         $subscript = "arguments[0]";
