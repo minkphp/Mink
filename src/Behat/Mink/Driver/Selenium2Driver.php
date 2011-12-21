@@ -10,7 +10,7 @@ use Behat\Mink\Session,
 use Selenium\Client as SeleniumClient,
     Selenium\Locator as SeleniumLocator,
     Selenium\Exception as SeleniumException,
-    \WebDriver as WebDriver;
+    WebDriver as WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
@@ -42,7 +42,7 @@ class Selenium2Driver implements DriverInterface
     /**
      * The WebDriver instance
      * @var WebDriver
-     */ 
+     */
     private $webDriver;
 
     /**
@@ -54,6 +54,16 @@ class Selenium2Driver implements DriverInterface
      */
     public function __construct($browserName = 'firefox', $desiredCapabilities = null, $wdHost = 'http://localhost:4444/wd/hub')
     {
+        // load WD exceptions if not loaded
+        if (!class_exists('IndexOutOfBoundsWebDriverError')) {
+            $wdReflection = new \ReflectionClass('WebDriver');
+            $libPath = dirname($wdReflection->getFilename());
+
+            if (file_exists($path = $libPath.'/WebDriverExceptions.php')) {
+                require_once($path);
+            }
+        }
+
         $this->setBrowserName($browserName);
         $this->setDesiredCapabilities($desiredCapabilities);
         $this->setWebDriver( new WebDriver($wdHost) );
