@@ -1,7 +1,0 @@
-#!/bin/sh
-
-BASEDIR=$(dirname $0)
-cd $BASEDIR/../vendor
-
-wget https://github.com/facebook/php-webdriver/zipball/master -O webdriver.zip
-wget http://selenium.googlecode.com/files/selenium-server-standalone-2.15.0.jar -O webdriver.jar
