@@ -1,3 +1,8 @@
+1.3.2 / 2011-12-21
+==================
+
+  * Fixed webdriver registration in MinkContext
+
 1.3.1 / 2011-12-21
 ==================
 
