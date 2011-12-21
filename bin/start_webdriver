@@ -1,0 +1,7 @@
+#!/bin/sh
+
+BASEDIR=$(dirname $0)
+cd $BASEDIR/../vendor
+
+java -jar webdriver.jar > /dev/null &
+sleep 5
