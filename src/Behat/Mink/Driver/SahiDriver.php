@@ -228,11 +228,11 @@ class SahiDriver implements DriverInterface
     public function find($xpath)
     {
         $function = <<<JS
-function(){
+(function(){
     var count = 0;
     while (_sahi._byXPath("({$xpath})["+(count+1)+"]")) count++;
     return count;
-}()
+})()
 JS;
         $count = intval($this->evaluateScript($function));
         $elements = array();
@@ -290,7 +290,7 @@ JS;
 
             if (null !== $name) {
                 $function = <<<JS
-function(){
+(function(){
     for (var i = 0; i < document.forms.length; i++) {
         if (document.forms[i].elements['{$name}']) {
             var form  = document.forms[i];
@@ -306,7 +306,7 @@ function(){
         }
     }
     return null;
-}()
+})()
 JS;
 
                 return $this->evaluateScript($function);
@@ -317,7 +317,7 @@ JS;
             $name = $this->getAttribute($xpath, 'name');
 
             $function = <<<JS
-function(){
+(function(){
     for (var i = 0; i < document.forms.length; i++) {
         if (document.forms[i].elements['{$name}']) {
             var form = document.forms[i];
@@ -332,7 +332,7 @@ function(){
         }
     }
     return '';
-}()
+})()
 JS;
             $value = $this->evaluateScript($function);
 
@@ -545,21 +545,21 @@ JS;
 
         if (null !== $name) {
             $function = <<<JS
-function(){
-for (var i = 0; i < document.forms.length; i++) {
-    if (document.forms[i].elements['{$name}']) {
-        var form  = document.forms[i];
-        var elements = form.elements['{$name}'];
-        var value = elements[0].value;
-        for (var f = 0; f < elements.length; f++) {
-            var item = elements[f];
-            if ("{$value}" == item.value) {
-                item.checked = true;
+(function(){
+    for (var i = 0; i < document.forms.length; i++) {
+        if (document.forms[i].elements['{$name}']) {
+            var form  = document.forms[i];
+            var elements = form.elements['{$name}'];
+            var value = elements[0].value;
+            for (var f = 0; f < elements.length; f++) {
+                var item = elements[f];
+                if ("{$value}" == item.value) {
+                    item.checked = true;
+                }
             }
         }
     }
-}
-}()
+})()
 JS;
 
             $this->executeScript($function);
