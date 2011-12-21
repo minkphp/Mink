@@ -11,7 +11,7 @@ class Selenium2DriverTest extends JavascriptDriverTest
 {
     protected function setUp()
     {
-        $this->getMink()->setDefaultSessionName('selenium2');
+        $this->getMink()->setDefaultSessionName('webdriver');
     }
 
     public function testMouseEvents() {} // Right click and blur are not supported

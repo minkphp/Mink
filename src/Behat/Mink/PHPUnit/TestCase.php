@@ -121,8 +121,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             $mink->registerSession('selenium', static::initSeleniumSession());
         }
 
-        if (!$mink->hasSession('selenium2')) {
-            $mink->registerSession('selenium2', static::initSelenium2Session());
+        if (!$mink->hasSession('webdriver')) {
+            $mink->registerSession('webdriver', static::initWebdriverSession());
         }
     }
 
@@ -200,7 +200,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initSelenium2Session($browser = 'firefox',
+    protected static function initWebdriverSession($browser = 'firefox',
                                                    $host = 'http://localhost:4444/wd/hub')
     {
         return new Session(new Selenium2Driver($browser, null, $host));

@@ -141,10 +141,10 @@ class MinkContext extends BaseMinkContext
             ));
         }
 
-        if (!$mink->hasSession('selenium2')) {
-            $params  = $parameters['selenium2'];
+        if (!$mink->hasSession('webdriver')) {
+            $params  = $parameters['webdriver'];
             $browser = $parameters['browser'];
-            $mink->registerSession('selenium', static::initSelenium2Session(
+            $mink->registerSession('selenium', static::initWebdriverSession(
                 $browser, $params['host']
             ));
         }
@@ -224,7 +224,7 @@ class MinkContext extends BaseMinkContext
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initSelenium2Session($browser = 'firefox',
+    protected static function initWebdriverSession($browser = 'firefox',
                                                    $host = 'http://localhost:4444/wd/hub')
     {
         return new Session(new Selenium2Driver($browser, null, $host));
@@ -262,6 +262,9 @@ class MinkContext extends BaseMinkContext
             'selenium' => array(
                 'host' => 'localhost',
                 'port' => 4444
+            ),
+            'webdriver' => array(
+                'host' => 'http://localhost:4444/wd/hub'
             ),
         );
     }
