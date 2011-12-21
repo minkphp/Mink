@@ -149,7 +149,8 @@ class Selenium2Driver implements DriverInterface
         $subscript = "arguments[0]";
         $script = str_replace('{{ELEMENT}}', $subscript, $script);
         $execute = ($sync) ? 'execute' : 'execute_async';
-        return $this->wdSession->$execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
+        $return = $this->wdSession->$execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
+        return $return;
     }
 
 
@@ -612,7 +613,7 @@ JS;
      */
     function mouseOver($xpath)
     {
-        $script = 'Syn.trigger("mouseover", {{ELEMENT}})';
+        $script = 'Syn.trigger("mouseover", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
@@ -623,7 +624,7 @@ JS;
      */
     function focus($xpath)
     {
-        $script = 'Syn.trigger("focus", {{ELEMENT}})';
+        $script = 'Syn.trigger("focus", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 
@@ -634,7 +635,7 @@ JS;
      */
     function blur($xpath)
     {
-        $script = 'Syn.trigger("blur", {{ELEMENT}})';
+        $script = 'Syn.trigger("blur", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
     }
 

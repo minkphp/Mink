@@ -320,7 +320,7 @@
             return el;
         },
         //regex to match focusable elements
-        focusable: /^(a|area|frame|iframe|label|input|select|textarea|button|html|object)$/i,
+        focusable: /^(a|area|frame|iframe|label|input|select|textarea|button|html|object|div)$/i,
         /**
          * Returns if an element is focusable
          * @hide
