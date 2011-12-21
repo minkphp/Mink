@@ -8,11 +8,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-if (file_exists(__DIR__ . '/../../autoload.php')) {
-    require_once __DIR__ . '/../../autoload.php';
-} else {
-    require_once __DIR__ . '/../../autoload.php.dist';
-}
+require_once __DIR__.'/../../vendor/.composer/autoload.php';
 
 /**
  * Features context.
