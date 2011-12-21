@@ -25,7 +25,7 @@
 
     "recommend": {
         "fabpot/goutte":                 "*",
-        "behat/sahi-client":             ">=1.0",
+        "behat/sahi-client":             ">=1.0.1",
         "alexandresalome/php-selenium":  "*"
     },
 
