@@ -144,7 +144,7 @@ class MinkContext extends BaseMinkContext
         if (!$mink->hasSession('webdriver')) {
             $params  = $parameters['webdriver'];
             $browser = $parameters['browser'];
-            $mink->registerSession('selenium', static::initWebdriverSession(
+            $mink->registerSession('webdriver', static::initWebdriverSession(
                 $browser, $params['host']
             ));
         }
