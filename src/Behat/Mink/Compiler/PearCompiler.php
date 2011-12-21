@@ -54,56 +54,21 @@ class PearCompiler
             ->name('*.xml')
             ->name('*.feature')
             ->name('LICENSE')
-            ->notName('PharCompiler.php')
-            ->notName('PearCompiler.php')
-            ->notName('Compiler.php')
             ->in($this->libPath . '/src')
-            ->in($this->libPath . '/features')
-            ->in($this->libPath . '/tests')
-            ->in($this->libPath . '/vendor/Buzz/lib')
-            ->in($this->libPath . '/vendor/Goutte/src')
-            ->in($this->libPath . '/vendor/SahiClient/src')
-            ->in($this->libPath . '/vendor/php-selenium/src');
+            ->in($this->libPath . '/vendor')
+            ->exclude(array(
+                $this->libPath.'/src/Behat/Mink/Compiler',
+                $this->libPath.'/vendor/symfony',
+                $this->libPath.'/vendor/zend-http/php/PEAR2',
+                $this->libPath.'/vendor/zend-loader/php/PEAR2',
+                $this->libPath.'/vendor/zend-registry/php/PEAR2',
+                $this->libPath.'/vendor/zend-stdlib/php/PEAR2',
+                $this->libPath.'/vendor/zend-uri/php/PEAR2',
+                $this->libPath.'/vendor/zend-validator/php/PEAR2',
+            ));
 
         $xmlSourceFiles = '';
         foreach ($finder as $file) {
-            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
-            $xmlSourceFiles .=
-                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
-        }
-
-        $zendDir = $this->libPath . '/vendor/Goutte/vendor/zend/library/';
-        foreach (array(
-                'Zend\Tool\Framework\Exception',
-                'Zend\Registry',
-                'Zend\Uri\Uri',
-                'Zend\Validator\Validator',
-                'Zend\Validator\AbstractValidator',
-                'Zend\Validator\Hostname',
-                'Zend\Validator\Ip',
-                'Zend\Validator\Hostname\Com',
-                'Zend\Validator\Hostname\Jp',
-            ) as $class) {
-            $path = 'vendor/Goutte/vendor/zend/library/' . str_replace('\\', '/', $class) . '.php';
-            $xmlSourceFiles .=
-                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Uri') as $file) {
-            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
-            $xmlSourceFiles .=
-                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
-            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
-            $xmlSourceFiles .=
-                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
-            $path = str_replace($this->libPath . '/', '', $file->getRealPath());
-            $xmlSourceFiles .=
-                '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
             $path = str_replace($this->libPath . '/', '', $file->getRealPath());
             $xmlSourceFiles .=
                 '<file role="php" baseinstalldir="mink" install-as="'.$path.'" name="'.$path.'" />'."\n";
@@ -183,15 +148,7 @@ class PearCompiler
         <dir name="/">
             ##SOURCE_FILES##
 
-            <file role="php" baseinstalldir="mink" install-as="vendor/Buzz/LICENSE" name="vendor/Buzz/LICENSE" />
-            <file role="php" baseinstalldir="mink" install-as="vendor/Goutte/LICENSE" name="vendor/Goutte/LICENSE" />
-            <file role="php" baseinstalldir="mink" install-as="vendor/SahiClient/LICENSE" name="vendor/SahiClient/LICENSE" />
-            <file role="php" baseinstalldir="mink" install-as="vendor/Goutte/vendor/zend/LICENSE.txt" name="vendor/Goutte/vendor/zend/LICENSE.txt" />
-
             <file role="php" baseinstalldir="mink" name="autoload.php" />
-            <file role="php" baseinstalldir="mink" name="autoload_map.php" />
-            <file role="php" baseinstalldir="mink" name="behat.yml" />
-            <file role="php" baseinstalldir="mink" name="phpunit.xml.dist" />
             <file role="php" baseinstalldir="mink" name="CHANGES.md" />
             <file role="php" baseinstalldir="mink" name="LICENSE" />
             <file role="php" baseinstalldir="mink" name="README.md" />

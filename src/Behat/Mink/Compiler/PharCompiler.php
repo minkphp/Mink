@@ -54,21 +54,23 @@ class PharCompiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->name('*.xml')
             ->name('*.xliff')
+            ->name('*.xml')
+            ->name('*.feature')
             ->name('LICENSE')
-            ->notName('PharCompiler.php')
-            ->notName('PearCompiler.php')
-            ->notName('Compiler.php')
+            ->name('LICENSE.txt')
             ->in($this->libPath . '/src')
-            ->in($this->libPath . '/vendor/Symfony/Component/BrowserKit')
-            ->in($this->libPath . '/vendor/Symfony/Component/CssSelector')
-            ->in($this->libPath . '/vendor/Symfony/Component/DomCrawler')
-            ->in($this->libPath . '/vendor/Symfony/Component/Process')
-            ->in($this->libPath . '/vendor/Buzz/lib')
-            ->in($this->libPath . '/vendor/Goutte/src')
-            ->in($this->libPath . '/vendor/SahiClient/src')
-            ->in($this->libPath . '/vendor/php-selenium/src');
+            ->in($this->libPath . '/vendor')
+            ->exclude(array(
+                $this->libPath.'/src/Behat/Mink/Compiler',
+                $this->libPath.'/vendor/symfony/finder',
+                $this->libPath.'/vendor/zend-http/php/PEAR2',
+                $this->libPath.'/vendor/zend-loader/php/PEAR2',
+                $this->libPath.'/vendor/zend-registry/php/PEAR2',
+                $this->libPath.'/vendor/zend-stdlib/php/PEAR2',
+                $this->libPath.'/vendor/zend-uri/php/PEAR2',
+                $this->libPath.'/vendor/zend-validator/php/PEAR2',
+            ));
 
         foreach ($finder as $file) {
             // don't compile test suites
@@ -76,49 +78,6 @@ class PharCompiler
                 $this->addFileToPhar($file, $phar);
             }
         }
-
-        $zendDir = $this->libPath . '/vendor/Goutte/vendor/zend/library/';
-        foreach (array(
-                'Zend\Tool\Framework\Exception',
-                'Zend\Registry',
-                'Zend\Uri\Uri',
-                'Zend\Validator\Validator',
-                'Zend\Validator\AbstractValidator',
-                'Zend\Validator\Hostname',
-                'Zend\Validator\Ip',
-                'Zend\Validator\Hostname\Com',
-                'Zend\Validator\Hostname\Jp',
-            ) as $class) {
-            $path = str_replace('\\', '/', $class) . '.php';
-            $this->addFileToPhar(new \SplFileInfo($zendDir . $path), $phar);
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Uri') as $file) {
-            $this->addFileToPhar($file, $phar);
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Http') as $file) {
-            $this->addFileToPhar($file, $phar);
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Stdlib') as $file) {
-            $this->addFileToPhar($file, $phar);
-        }
-        foreach ($this->findPhpFile()->in($zendDir . '/Zend/Loader') as $file) {
-            $this->addFileToPhar($file, $phar);
-        }
-
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/LICENSE'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/autoload.php'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/autoload_map.php'), $phar);
-
-        // license and autoloading
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/LICENSE'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/autoload.php'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/autoload_map.php'), $phar);
-
-        // 3rd-party licenses
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/vendor/Goutte/LICENSE'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/vendor/Buzz/LICENSE'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/vendor/SahiClient/LICENSE'), $phar);
-        $this->addFileToPhar(new \SplFileInfo($this->libPath . '/vendor/Goutte/vendor/zend/LICENSE.txt'), $phar);
 
         // stub
         $phar->setStub($this->getStub($version));
@@ -160,22 +119,10 @@ class PharCompiler
  */
 
 Phar::mapPhar('mink.phar');
-require_once 'phar://mink.phar/autoload.php';
+require_once 'phar://mink.phar/vendor/.composer/autoload.php';
 
 __HALT_COMPILER();
 EOF
         , $version);
-    }
-
-    /**
-     * Creates finder instance to search php files.
-     *
-     * @return  Symfony\Component\Finder\Finder
-     */
-    private function findPhpFile()
-    {
-        $finder = new Finder();
-
-        return $finder->files()->ignoreVCS(true)->name('*.php');
     }
 }
