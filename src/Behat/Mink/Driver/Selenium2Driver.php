@@ -1,0 +1,751 @@
+<?php
+
+namespace Behat\Mink\Driver;
+
+use Behat\Mink\Session,
+    Behat\Mink\Element\NodeElement,
+    Behat\Mink\Exception\DriverException,
+    Behat\Mink\Exception\UnsupportedDriverActionException;
+
+use Selenium\Client as SeleniumClient,
+    Selenium\Locator as SeleniumLocator,
+    Selenium\Exception as SeleniumException,
+    \WebDriver as WebDriver;
+
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Selenium2 driver.
+ *
+ * @author Pete Otaqui <pete@otaqui.com>
+ */
+class Selenium2Driver implements DriverInterface
+{
+
+    /**
+     * The current Mink session
+     * @var Behat\Mink\Session
+     */
+    private $session;
+
+    /**
+     * Whether the browser has been started
+     * @var Boolean
+     */
+    private $started = false;
+
+    /**
+     * The WebDriver instance
+     * @var WebDriver
+     */ 
+    private $webDriver;
+
+    /**
+     * Instantiates the driver.
+     *
+     * @param string    $browser Browser name
+     * @param array     $desiredCapabilities The desired capabilities
+     * @param string    $wdHost The WebDriver host
+     */
+    public function __construct($browserName = 'firefox', $desiredCapabilities = NULL, $wdHost = 'http://localhost:4444/wd/hub')
+    {
+        $this->setBrowserName($browserName);
+        $this->setDesiredCapabilities($desiredCapabilities);
+        $this->setWebDriver( new WebDriver($wdHost) );
+    }
+
+    /**
+     * Sets the browser name
+     * @param string $browserName the name of the browser to start, default is 'firefox'
+     */
+    protected function setBrowserName($browserName = 'firefox') {
+        $this->browserName = $browserName;
+    }
+
+    /**
+     * Sets the desired capabilities - called on construction.  If null is provided, will set the defaults as dsesired.
+     * @param array $desiredCapabilities an array of capabilities to pass on to the WebDriver server
+     */
+    public function setDesiredCapabilities($desiredCapabilities = NULL) {
+        if ( $desiredCapabilities === NULL ) {
+            $desiredCapabilities = self::getDefaultCapabilities();
+        }
+        $this->desiredCapabilities = $desiredCapabilities;
+    }
+
+    /**
+     * Set the WebDriver instance
+     * @param \WebDriver $webDriver An instance of the WebDriver class
+     */
+    public function setWebDriver($webDriver) {
+        $this->webDriver = $webDriver;
+    }
+
+    /**
+     * Get the default capabilities
+     * @return array
+     */
+    protected static function getDefaultCapabilities() {
+        return array('browserName'=>'firefox', 'version'=>'8', 'platform'=>'ANY', 'browserVersion'=>'8', 'browser'=>'firefox');
+    }
+
+    /**
+     * Make sure that the Syn event library has been injected into the current page, and return $this for a fluid interface,
+     * $this->withSyn()->executeJsOnXpath($xpath, $script);
+     * @return Mixed
+     */
+    protected function withSyn() {
+        $hasSyn = $this->wdSession->execute(array('script'=>'return typeof window["Syn"]!=="undefined"', 'args'=>array()));
+        if ( !$hasSyn ) {
+            $synJs = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Selenium2' . DIRECTORY_SEPARATOR . 'syn.js');
+            $this->wdSession->execute(array('script'=>$synJs, 'args'=>array()));
+        }
+        return $this;
+    }
+
+    /**
+     * Create some options for key events
+     * @param  String $event         The type of event ('keypress', 'keydown', 'keyup');
+     * @param  String $char          The character or code
+     * @param  String $modifier=null One of 'shift', 'alt', 'ctrl' or 'meta'
+     * @return String a json encoded options array for Syn
+     */
+    protected static function charToOptions($event, $char, $modifier=null) {
+        if ( is_numeric($char) ) {
+            $ord = $char;
+            $char = chr($char);
+        } else {
+            $ord = ord($char);
+        }
+        $options = array(
+            'keyCode' => $ord,
+            'charCode' => $ord
+        );
+        if ( $modifier ) {
+            $options[$modifier.'Key'] = 1;
+        }
+        $json = json_encode($options);
+        return $json;
+    }
+
+    /**
+     * Execute JS on a given element - pass in a js script string and {{ELEMENT}} will be replaced with a reference to the result of the
+     * $xpath query
+     * @example $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.childNodes.length');
+     * @param  String $xpath  The xpath to search with
+     * @param  String $script The script to execute
+     * @param  bool   $sync   Whether to run the script synchronously (default is TRUE)
+     * @return Mixed
+     */
+    protected function executeJsOnXpath($xpath, $script, $sync = true) {
+        $element = $this->wdSession->element('xpath', $xpath);
+        $elementID = $element->getID();
+        $subscript = "arguments[0]";
+        $script = str_replace('{{ELEMENT}}', $subscript, $script);
+        $execute = ($sync) ? 'execute' : 'execute_async';
+        $return = $this->wdSession->$execute(array('script'=>$script, 'args'=>array(array('ELEMENT'=>$elementID))));
+        return $return;
+    }
+
+
+    /**
+     * @see Behat\Mink\Driver\DriverInterface::setSession()
+     */
+    public function setSession(Session $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * Starts driver.
+     */
+    public function start()
+    {
+        $this->wdSession = $this->webDriver->session($this->browserName, $this->desiredCapabilities);
+        if ( !$this->wdSession ) {
+            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+        }
+        $this->started = true;
+    }
+
+    /**
+     * Checks whether driver is started.
+     *
+     * @return  Boolean
+     */
+    public function isStarted()
+    {
+        return $this->started;
+    }
+
+    /**
+     * Stops driver.
+     */
+    public function stop()
+    {
+        if ( !$this->wdSession ) {
+            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+        }
+        $this->started = false;
+        $this->wdSession->close();
+    }
+
+    /**
+     * Resets driver.
+     */
+    public function reset()
+    {
+        $this->wdSession->deleteAllCookies();
+    }
+
+    /**
+     * Visit specified URL.
+     *
+     * @param   string  $url    url of the page
+     */
+    public function visit($url)
+    {
+        $this->wdSession->open($url);
+    }
+
+    /**
+     * Returns current URL address.
+     *
+     * @return  string
+     */
+    public function getCurrentUrl()
+    {
+        $url = $this->wdSession->url();
+        return $url;
+    }
+
+    /**
+     * Reloads current page.
+     */
+    function reload()
+    {
+        $this->wdSession->refresh();
+    }
+
+    /**
+     * Moves browser forward 1 page.
+     */
+    function forward()
+    {
+        $this->wdSession->forward();
+    }
+
+    /**
+     * Moves browser backward 1 page.
+     */
+    function back()
+    {
+        $this->wdSession->back();
+    }
+
+    /**
+     * Sets HTTP Basic authentication parameters
+     *
+     * @param   string|false    $user       user name or false to disable authentication
+     * @param   string          $password   password
+     */
+    function setBasicAuth($user, $password)
+    {
+        throw new UnsupportedDriverActionException('Basic Auth is not supported by %s', $this);
+    }
+
+    /**
+     * Sets specific request header on client.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setRequestHeader($name, $value)
+    {
+        throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
+    }
+
+    /**
+     * Returns last response headers.
+     *
+     * @return  array
+     */
+    function getResponseHeaders()
+    {
+        throw new UnsupportedDriverActionException('Response header is not supported by %s', $this);
+    }
+
+    /**
+     * Sets cookie.
+     *
+     * @param   string  $name
+     * @param   string  $value
+     */
+    function setCookie($name, $value = null)
+    {
+        if ( $value !== null ) {
+            $cookieArray = array(
+                'name' => $name,
+                'value' => (string) $value,
+                'secure' => false, // thanks, chibimagic!
+            );
+            $this->wdSession->setCookie($cookieArray);
+        } else {
+            $this->wdSession->deleteCookie($name);
+        }
+    }
+
+    /**
+     * Returns cookie by name.
+     *
+     * @param   string  $name
+     *
+     * @return  string|null
+     */
+    function getCookie($name)
+    {
+        $cookies = $this->wdSession->getAllCookies();
+        foreach ( $cookies as $cookie ) {
+            if ( $cookie['name'] === $name ) {
+                return $cookie['value'];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns last response status code.
+     *
+     * @return  integer
+     */
+    function getStatusCode()
+    {
+        throw new UnsupportedDriverActionException('Status code is not supported by %s', $this);
+    }
+
+    /**
+     * Returns last response content.
+     *
+     * @return  string
+     */
+    function getContent()
+    {
+        return $this->wdSession->source();
+    }
+
+    /**
+     * Finds elements with specified XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  array           array of Behat\Mink\Element\NodeElement
+     */
+    function find($xpath)
+    {
+        $elements = array();
+        $nodes = $this->wdSession->elements('xpath', $xpath);
+        foreach ( $nodes as $i => $node ) {
+            $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i+1), $this->session);
+        }
+        if ( !empty($elements) ) {
+            return $elements;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns element's tag name by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
+    function getTagName($xpath)
+    {
+        $node = $this->wdSession->element('xpath', $xpath);
+        return $node->name();
+    }
+
+    /**
+     * Returns element's text by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
+    function getText($xpath)
+    {
+        $node = $this->wdSession->element('xpath', $xpath);
+        $text = $node->text();
+        $text = (string)str_replace(array("\r", "\r\n", "\n"), ' ', $text);
+        return $text;
+    }
+
+    /**
+     * Returns element's html by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  string
+     */
+    function getHtml($xpath)
+    {
+        return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML;');
+    }
+
+    /**
+     * Returns element's attribute by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  mixed
+     */
+    public function getAttribute($xpath, $attr)
+    {
+        $attribute = $this->wdSession->element('xpath', $xpath)->attribute($attr);
+        if ( $attribute !== '' ) {
+            return $attribute;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns element's value by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  mixed
+     */
+    function getValue($xpath)
+    {
+        $script = <<<JS
+
+    var node = {{ELEMENT}},
+        tagName = node.tagName;
+
+    if (tagName == "INPUT") {
+        var type = node.getAttribute('type');
+        if (type == "checkbox") {
+            value = "boolean:" + node.checked;
+        } else if (type == "radio") {
+            var name = node.getAttribute('name');
+            if (name) {
+                var fields = window.document.getElementsByName(name);
+                var i, l = fields.length;
+                for (i = 0; i < l; i++) {
+                    var field = fields.item(i);
+                    if (field.checked) {
+                        value = "string:" + field.value;
+                    }
+                }
+            }
+        } else {
+            value = "string:" + node.value;
+        }
+    } else if (tagName == "TEXTAREA") {
+      value = "string:" + node.text;
+    } else if (tagName == "SELECT") {
+      var idx = node.selectedIndex;
+      value = "string:" + node.options.item(idx).value;
+    } else {
+      value = "string:" + node.getAttribute('value');
+    }
+    return value;
+JS;
+        $value = $this->executeJsOnXpath($xpath, $script);
+        if (null === $value) {
+            return null;
+        } elseif (preg_match('/^string:(.*)$/', $value, $vars)) {
+            return $vars[1];
+        } elseif (preg_match('/^boolean:(.*)$/', $value, $vars)) {
+            return 'true' === strtolower($vars[1]);
+        }
+    }
+
+    /**
+     * Sets element's value by it's XPath query.
+     *
+     * @param   string  $xpath
+     * @param   string  $value
+     */
+    function setValue($xpath, $value)
+    {
+        $valueEscaped = str_replace('"', '\"', $value);
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
+    }
+
+    /**
+     * Checks checkbox by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function check($xpath)
+    {
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = true');
+    }
+
+    /**
+     * Unchecks checkbox by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function uncheck($xpath)
+    {
+        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = false');
+    }
+
+    /**
+     * Checks whether checkbox checked located by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  Boolean
+     */
+    function isChecked($xpath)
+    {
+        return $this->wdSession->element('xpath', $xpath)->selected();
+    }
+
+    /**
+     * Selects option from select field located by it's XPath query.
+     *
+     * @param   string  $xpath
+     * @param   string  $value
+     * @param   Boolean $multiple
+     */
+    function selectOption($xpath, $value, $multiple = false)
+    {
+        $valueEscaped = str_replace('"', '\"', $value);
+        $multipleJS   = $multiple ? 'true' : 'false';
+
+        $script = <<<JS
+var node = {{ELEMENT}}
+if (node.tagName == 'SELECT') {
+    var i, l = node.length;
+    for (i = 0; i < l; i++) {
+        if (node[i].value == "$valueEscaped") {
+            node[i].selected = true;
+        } else if (!$multipleJS) {
+            node[i].selected = false;
+        }
+    }
+} else {
+    var nodes = window.document.getElementsByName(node.getAttribute('name'));
+    var i, l = nodes.length;
+    for (i = 0; i < l; i++) {
+        if (nodes[i].getAttribute('value') == "$valueEscaped") {
+            node.checked = true;
+        }
+    }
+}
+JS;
+
+        $this->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function click($xpath)
+    {
+        $this->wdSession->element('xpath', $xpath)->click("");
+    }
+
+    /**
+     * Double-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function doubleClick($xpath)
+    {
+        $script = 'Syn.dblclick({{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Right-clicks button or link located by it's XPath query.
+     *
+     * @param   string  $xpath
+     */
+    function rightClick($xpath)
+    {
+        $script = 'Syn.rightClick({{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Attaches file path to file field located by it's XPath query.
+     *
+     * @param   string  $xpath
+     * @param   string  $path
+     */
+    function attachFile($xpath, $path)
+    {
+        $this->wdSession->element('xpath', $xpath)->value(array('value'=>str_split($path)));
+    }
+
+    /**
+     * Checks whether element visible located by it's XPath query.
+     *
+     * @param   string  $xpath
+     *
+     * @return  Boolean
+     */
+    function isVisible($xpath)
+    {
+        return $this->wdSession->element('xpath', $xpath)->displayed();
+    }
+
+    /**
+     * Simulates a mouse over on the element.
+     *
+     * @param   string  $xpath
+     */
+    function mouseOver($xpath)
+    {
+        $script = 'Syn.trigger("mouseover", {}, {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Brings focus to element.
+     *
+     * @param   string  $xpath
+     */
+    function focus($xpath)
+    {
+        $script = 'Syn.trigger("focus", {}, {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Removes focus from element.
+     *
+     * @param   string  $xpath
+     */
+    function blur($xpath)
+    {
+        $script = 'Syn.trigger("blur", {}, {{ELEMENT}})';
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Presses specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyPress($xpath, $char, $modifier = null)
+    {
+        $options = Selenium2Driver::charToOptions('keypress', $char, $modifier);
+        $script = "Syn.trigger('keypress', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Pressed down specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyDown($xpath, $char, $modifier = null)
+    {
+        $options = Selenium2Driver::charToOptions('keydown', $char, $modifier);
+        $script = "Syn.trigger('keydown', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+    /**
+     * Pressed up specific keyboard key.
+     *
+     * @param   string  $xpath
+     * @param   mixed   $char       could be either char ('b') or char-code (98)
+     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    function keyUp($xpath, $char, $modifier = null)
+    {
+        $options = Selenium2Driver::charToOptions('keyup', $char, $modifier);
+        $script = "Syn.trigger('keyup', $options, {{ELEMENT}})";
+        $this->withSyn()->executeJsOnXpath($xpath, $script);
+    }
+
+
+    /**
+     * Drag one element onto another.
+     *
+     * @param   string  $sourceXpath
+     * @param   string  $destinationXpath
+     */
+    function dragTo($sourceXpath, $destinationXpath)
+    {
+        $source = $this->wdSession->element('xpath', $sourceXpath);
+        $destination = $this->wdSession->element('xpath', $destinationXpath);
+        $sourceSize = $source->size();
+        $destinationSize = $destination->size();
+        $sourceX = $sourceSize['width']/2;
+        $sourceY = $sourceSize['height']/2;
+        $destinationX = $destinationSize['width']/2;
+        $destinationY = $destinationSize['height']/2;
+        $this->wdSession->moveto(array('element'=>$source->getID(), 'xoffset'=>$sourceX, 'yoffset'=>$sourceY));
+        $this->wdSession->buttondown();
+        $this->wdSession->moveto(array('element'=>$source->getID(), 'xoffset'=>$sourceX+1, 'yoffset'=>$sourceY+1));
+        $this->wdSession->moveto(array('element'=>$destination->getID(), 'xoffset'=>$destinationX, 'yoffset'=>$destinationY));
+        $this->wdSession->moveto(array('element'=>$destination->getID(), 'xoffset'=>$destinationX+1, 'yoffset'=>$destinationY+1));
+        $this->wdSession->buttonup();
+    }
+
+    /**
+     * Executes JS script.
+     *
+     * @param   string  $script
+     */
+    function executeScript($script)
+    {
+        $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
+    }
+
+    /**
+     * Evaluates JS script.
+     *
+     * @param   string  $script
+     *
+     * @return  mixed           script return value
+     */
+    function evaluateScript($script)
+    {
+        return $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
+    }
+
+    /**
+     * Waits some time or until JS condition turns true.
+     *
+     * @param   integer $time       time in milliseconds
+     * @param   string  $condition  JS condition
+     */
+    function wait($time, $condition)
+    {
+        $script = "return $condition;";
+        $start = 1000 * microtime(true);
+        $end = $start + $time;
+        $count = 0;
+        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
+        {
+            sleep(0.1);
+            if ( $count++ >= 30 ) {
+                return false;
+            }
+        }
+    }
+}
