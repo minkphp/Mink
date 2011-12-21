@@ -84,7 +84,7 @@ class Selenium2Driver implements DriverInterface
      */
     public function setDesiredCapabilities($desiredCapabilities = null)
     {
-        if ( $desiredCapabilities === null ) {
+        if ($desiredCapabilities === null) {
             $desiredCapabilities = self::getDefaultCapabilities();
         }
         $this->desiredCapabilities = $desiredCapabilities;
@@ -116,7 +116,7 @@ class Selenium2Driver implements DriverInterface
     protected function withSyn()
     {
         $hasSyn = $this->wdSession->execute(array('script'=>'return typeof window["Syn"]!=="undefined"', 'args'=>array()));
-        if ( !$hasSyn ) {
+        if (!$hasSyn) {
             $synJs = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Selenium2' . DIRECTORY_SEPARATOR . 'syn.js');
             $this->wdSession->execute(array('script'=>$synJs, 'args'=>array()));
         }
@@ -132,7 +132,7 @@ class Selenium2Driver implements DriverInterface
      */
     protected static function charToOptions($event, $char, $modifier=null)
     {
-        if ( is_numeric($char) ) {
+        if (is_numeric($char)) {
             $ord = $char;
             $char = chr($char);
         } else {
@@ -142,7 +142,7 @@ class Selenium2Driver implements DriverInterface
             'keyCode' => $ord,
             'charCode' => $ord
         );
-        if ( $modifier ) {
+        if ($modifier) {
             $options[$modifier.'Key'] = 1;
         }
         $json = json_encode($options);
@@ -183,7 +183,7 @@ class Selenium2Driver implements DriverInterface
     public function start()
     {
         $this->wdSession = $this->webDriver->session($this->browserName, $this->desiredCapabilities);
-        if ( !$this->wdSession ) {
+        if (!$this->wdSession) {
             throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = true;
@@ -204,7 +204,7 @@ class Selenium2Driver implements DriverInterface
      */
     public function stop()
     {
-        if ( !$this->wdSession ) {
+        if (!$this->wdSession) {
             throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = false;
@@ -304,7 +304,7 @@ class Selenium2Driver implements DriverInterface
      */
     public function setCookie($name, $value = null)
     {
-        if ( $value !== null ) {
+        if ($value !== null) {
             $cookieArray = array(
                 'name' => $name,
                 'value' => (string) $value,
@@ -327,7 +327,7 @@ class Selenium2Driver implements DriverInterface
     {
         $cookies = $this->wdSession->getAllCookies();
         foreach ( $cookies as $cookie ) {
-            if ( $cookie['name'] === $name ) {
+            if ($cookie['name'] === $name) {
                 return $cookie['value'];
             }
         }
@@ -368,7 +368,7 @@ class Selenium2Driver implements DriverInterface
         foreach ( $nodes as $i => $node ) {
             $elements[] = new NodeElement(sprintf('(%s)[%d]', $xpath, $i+1), $this->session);
         }
-        if ( !empty($elements) ) {
+        if (!empty($elements)) {
             return $elements;
         }
     }
@@ -423,7 +423,7 @@ class Selenium2Driver implements DriverInterface
     public function getAttribute($xpath, $attr)
     {
         $attribute = $this->wdSession->element('xpath', $xpath)->attribute($attr);
-        if ( $attribute !== '' ) {
+        if ($attribute !== '') {
             return $attribute;
         }
     }
