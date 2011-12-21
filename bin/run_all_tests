@@ -4,12 +4,8 @@ bin/kill_sahi
 bin/start_sahi
 bin/kill_selenium
 bin/start_selenium
-# don't need to start "webdriver" since selenium will do the job!
-#bin/start_webdriver
 
 phpunit
 
 bin/kill_selenium
 bin/kill_sahi
-# don't need to start "webdriver" since selenium will do the job!
-#bin/kill_webdriver
