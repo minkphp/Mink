@@ -15,15 +15,12 @@
     ],
 
     "require": {
-        "php":                   ">=5.3.1",
-        "symfony/browser-kit":   ">=2.0",
-        "symfony/dom-crawler":   ">=2.0",
-        "symfony/css-selector":  ">=2.0",
-        "symfony/finder":        ">=2.0",
-        "symfony/process":       ">=2.0"
-    },
-
-    "recommend": {
+        "php":                           ">=5.3.1",
+        "symfony/browser-kit":           ">=2.0",
+        "symfony/dom-crawler":           ">=2.0",
+        "symfony/css-selector":          ">=2.0",
+        "symfony/finder":                ">=2.0",
+        "symfony/process":               ">=2.0",
         "fabpot/goutte":                 "*",
         "behat/sahi-client":             ">=1.0.1",
         "alexandresalome/php-selenium":  "*",
