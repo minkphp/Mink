@@ -254,7 +254,7 @@ class Session
      * @param   integer $time       time in milliseconds
      * @param   string  $condition  JS condition
      */
-    public function wait($time, $condition)
+    public function wait($time, $condition = 'false')
     {
         $this->driver->wait($time, $condition);
     }

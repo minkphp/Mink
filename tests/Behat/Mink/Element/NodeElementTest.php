@@ -6,6 +6,9 @@ use Behat\Mink\Element\NodeElement;
 
 require_once 'ElementTest.php';
 
+/**
+ * @group unittest
+ */
 class NodeElementTest extends ElementTest
 {
     private $session;

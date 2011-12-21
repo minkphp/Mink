@@ -7,8 +7,11 @@
 <body>
     <h1>There is a non breaking&#160;space</h1>
     <pre id="foobar">Some accentués characters</pre>
-    <select name="foobar">
-      <option value="1" type="text">Gimme some accentués characters</option>
-    </select>
+    <form>
+        <select name="foobar">
+          <option value="1" type="text">Gimme some accentués characters</option>
+        </select>
+        <input type="submit" />
+    </form>
 </body>
 </html>

@@ -1,6 +1,8 @@
 Mink
 ====
 
+[![Build Status](https://secure.travis-ci.org/Behat/Mink.png)](http://travis-ci.org/Behat/Mink)
+
 * The main website with documentation is at
 [http://mink.behat.org](http://mink.behat.org)
 * Official user group is at [Google Groups](http://groups.google.com/group/behat)
@@ -55,8 +57,42 @@ Install Dependencies
 How to run Mink test suite
 --------------------------
 
-1. Install dependencies
-2. Run all tests with `phpunit .` or specific driver tests with `phpunit tests/Behat/Mink/Driver/...`
+1. Install dependencies (including Sahi and Selenium)
+
+    ``` bash
+    bin/install_deps
+    bin/install_sahi
+    bin/install_selenium
+    ```
+
+2. To run all tests - call `bin/run_all_tests`
+
+If you want to run specific driver tests, use appropriate PHPUnit group
+and make sure that `Sahi`/`Selenium` is runned if you want to test
+one of them:
+
+``` bash
+bin/start_sahi
+phpunit --group sahidriver
+bin/kill_sahi
+```
+
+``` bash
+bin/start_selenium
+phpunit --group seleniumdriver
+bin/kill_selenium
+```
+
+`Zombie` and `Goutte` driver tests doesn't require some specific proxy
+to be runned and could be tested as is:
+
+``` bash
+phpunit --group zombiedriver
+```
+
+``` bash
+phpunit --group gouttedriver
+```
 
 Translated languages
 --------------------

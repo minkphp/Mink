@@ -1,5 +1,5 @@
 *.tgz
 *.phar
 phpunit.xml
-vendor
 composer.lock
+vendor

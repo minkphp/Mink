@@ -4,6 +4,9 @@ namespace Tests\Behat\Mink\Selector;
 
 use Behat\Mink\Selector\CssSelector;
 
+/**
+ * @group unittest
+ */
 class CssSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testSelector()

@@ -17,6 +17,19 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
     }
 
+    /**
+     * @group issue131
+     */
+    public function testIssue131()
+    {
+        $this->getSession()->visit($this->pathTo('/issue131.php'));
+        $page = $this->getSession()->getPage();
+
+        $page->selectFieldOption('foobar', 'Gimme some accentués characters');
+
+        $this->assertEquals('1', $page->findField('foobar')->getValue());
+    }
+
     public function testCookie()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
@@ -297,6 +310,48 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
+    public function testMultiselect()
+    {
+        $this->getSession()->visit($this->pathTo('/multiselect_form.php'));
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('Multiselect Test', $page->find('css', 'h1')->getText());
+
+        $select      = $page->findField('select_number');
+        $multiSelect = $page->findField('select_multiple_numbers[]');
+
+        $this->assertNotNull($select);
+        $this->assertNotNull($multiSelect);
+
+        $this->assertEquals('20', $select->getValue());
+        $this->assertSame(array(), $multiSelect->getValue());
+
+        $select->selectOption('thirty');
+        $this->assertEquals('30', $select->getValue());
+
+        $multiSelect->selectOption('one', true);
+
+        $this->assertSame(array('1'), $multiSelect->getValue());
+
+        $multiSelect->selectOption('three', true);
+
+        $this->assertEquals(array('1', '3'), $multiSelect->getValue());
+
+        $button = $page->findButton('Register');
+        $button->press();
+
+        $space = ' ';
+        $this->assertContains(<<<OUT
+  'select_number' = '30',
+  'select_multiple_numbers' =$space
+  array (
+    0 = '1',
+    1 = '3',
+  )
+OUT
+            , $page->getContent()
+        );
+    }
+
     public function testAdvancedForm()
     {
         $this->getSession()->visit($this->pathTo('/advanced_form.php'));
@@ -318,7 +373,6 @@ abstract class GeneralDriverTest extends TestCase
         $lastname    = $page->findField('lastn');
         $email       = $page->findField('Your email:');
         $select      = $page->findField('select_number');
-        $multiSelect = $page->findField('select_multiple_numbers[]');
         $sex         = $page->findField('sex');
         $maillist    = $page->findField('mail_list');
         $agreement   = $page->findField('agreement');
@@ -328,7 +382,6 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertNotNull($lastname);
         $this->assertNotNull($email);
         $this->assertNotNull($select);
-        $this->assertNotNull($multiSelect);
         $this->assertNotNull($sex);
         $this->assertNotNull($maillist);
         $this->assertNotNull($agreement);
@@ -358,9 +411,6 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('m', $sex->getValue());
         $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
 
-        $multiSelect->selectOption('one', true);
-        $multiSelect->selectOption('three', true);
-
         $button = $page->findButton('Register');
 
         $page->fillField('first_name', 'Foo "item"');
@@ -380,11 +430,6 @@ array (
   'email' = 'ever.zet@gmail.com',
   'select_number' = '30',
   'sex' = 'm',
-  'select_multiple_numbers' =$space
-  array (
-    0 = '1',
-    1 = '3',
-  ),
   'agreement' = 'on',
   'submit' = 'Register',
 )
