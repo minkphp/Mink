@@ -243,7 +243,7 @@ abstract class GeneralDriverTest extends TestCase
         $subUrl = $subDivs[2]->findLink('some deep url');
         $this->assertNotNull($subUrl);
 
-        $this->assertEquals('some_url', $subUrl->getAttribute('href'));
+        $this->assertRegExp('/some_url$/', $subUrl->getAttribute('href'));
         $this->assertEquals('some deep url', $subUrl->getText());
         $this->assertEquals('some <strong>deep</strong> url', $subUrl->getHtml());
 
@@ -258,7 +258,7 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('Redirect me to');
 
-        $this->assertEquals('redirector.php', $link->getAttribute('href'));
+        $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/redirect_destination.php'), $this->getSession()->getCurrentUrl());
@@ -267,7 +267,7 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
-        $this->assertEquals('/basic_form.php', $link->getAttribute('href'));
+        $this->assertRegExp('/\/basic_form\.php$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
