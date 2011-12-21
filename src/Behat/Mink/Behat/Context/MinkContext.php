@@ -9,7 +9,8 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
-    Behat\Mink\Driver\SeleniumDriver;
+    Behat\Mink\Driver\SeleniumDriver,
+    Behat\Mink\Driver\Selenium2Driver;
 
 use Goutte\Client as GoutteClient;
 
@@ -139,6 +140,14 @@ class MinkContext extends BaseMinkContext
                 $browser, $parameters['base_url'], $params['host'], $params['port']
             ));
         }
+
+        if (!$mink->hasSession('selenium2')) {
+            $params  = $parameters['selenium2'];
+            $browser = $parameters['browser'];
+            $mink->registerSession('selenium', static::initSelenium2Session(
+                $browser, $params['host']
+            ));
+        }
     }
 
     /**
@@ -205,6 +214,20 @@ class MinkContext extends BaseMinkContext
                                                   $host = '127.0.0.1', $port = 4444)
     {
         return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
+     * Initizalizes and returns new Selenium2Driver session.
+     *
+     * @param   string  $browser        browser name
+     * @param   string  $host           selenium server server host
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSelenium2Session($browser = 'firefox',
+                                                   $host = 'http://localhost:4444/wd/hub')
+    {
+        return new Session(new Selenium2Driver($browser, null, $host));
     }
 
     /**

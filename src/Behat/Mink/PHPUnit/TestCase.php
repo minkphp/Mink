@@ -8,6 +8,7 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
     Behat\Mink\Driver\SeleniumDriver,
+    Behat\Mink\Driver\Selenium2Driver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
@@ -119,6 +120,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         if (!$mink->hasSession('selenium')) {
             $mink->registerSession('selenium', static::initSeleniumSession());
         }
+
+        if (!$mink->hasSession('selenium2')) {
+            $mink->registerSession('selenium2', static::initSelenium2Session());
+        }
     }
 
     /**
@@ -185,5 +190,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                                                   $host = '127.0.0.1', $port = 4444)
     {
         return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
+    }
+
+    /**
+     * Initizalizes and returns new Selenium2Driver session.
+     *
+     * @param   string  $browser        browser name
+     * @param   string  $host           selenium server server host
+     *
+     * @return  Behat\Mink\Session
+     */
+    protected static function initSelenium2Session($browser = 'firefox',
+                                                   $host = 'http://localhost:4444/wd/hub')
+    {
+        return new Session(new Selenium2Driver($browser, null, $host));
     }
 }
