@@ -485,16 +485,22 @@ class Selenium2Driver implements DriverInterface
     }
     return value;
 JS;
+
         $value = $this->executeJsOnXpath($xpath, $script);
-        if ($value && preg_match('/^string:(.*)$/', $value, $vars)) {
-            return $vars[1];
-        } elseif ($value && preg_match('/^boolean:(.*)$/', $value, $vars)) {
-            return 'true' === strtolower($vars[1]);
-        } elseif (preg_match('/^array:(.*)$/', $value, $vars)) {
-            if ('' === trim($vars[1])) {
-                return array();
+        if ($value) {
+            if (preg_match('/^string:(.*)$/', $value, $vars)) {
+                return $vars[1];
             }
-            return explode(',', $vars[1]);
+            if (preg_match('/^boolean:(.*)$/', $value, $vars)) {
+                return 'true' === strtolower($vars[1]);
+            }
+            if (preg_match('/^array:(.*)$/', $value, $vars)) {
+                if ('' === trim($vars[1])) {
+                    return array();
+                }
+
+                return explode(',', $vars[1]);
+            }
         }
     }
 
