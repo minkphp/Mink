@@ -27,7 +27,6 @@ use Selenium\Client as SeleniumClient,
  */
 class Selenium2Driver implements DriverInterface
 {
-
     /**
      * The current Mink session
      * @var Behat\Mink\Session
@@ -53,7 +52,7 @@ class Selenium2Driver implements DriverInterface
      * @param array     $desiredCapabilities The desired capabilities
      * @param string    $wdHost The WebDriver host
      */
-    public function __construct($browserName = 'firefox', $desiredCapabilities = NULL, $wdHost = 'http://localhost:4444/wd/hub')
+    public function __construct($browserName = 'firefox', $desiredCapabilities = null, $wdHost = 'http://localhost:4444/wd/hub')
     {
         $this->setBrowserName($browserName);
         $this->setDesiredCapabilities($desiredCapabilities);
@@ -64,7 +63,8 @@ class Selenium2Driver implements DriverInterface
      * Sets the browser name
      * @param string $browserName the name of the browser to start, default is 'firefox'
      */
-    protected function setBrowserName($browserName = 'firefox') {
+    protected function setBrowserName($browserName = 'firefox')
+    {
         $this->browserName = $browserName;
     }
 
@@ -72,8 +72,9 @@ class Selenium2Driver implements DriverInterface
      * Sets the desired capabilities - called on construction.  If null is provided, will set the defaults as dsesired.
      * @param array $desiredCapabilities an array of capabilities to pass on to the WebDriver server
      */
-    public function setDesiredCapabilities($desiredCapabilities = NULL) {
-        if ( $desiredCapabilities === NULL ) {
+    public function setDesiredCapabilities($desiredCapabilities = null)
+    {
+        if ( $desiredCapabilities === null ) {
             $desiredCapabilities = self::getDefaultCapabilities();
         }
         $this->desiredCapabilities = $desiredCapabilities;
@@ -83,7 +84,8 @@ class Selenium2Driver implements DriverInterface
      * Set the WebDriver instance
      * @param \WebDriver $webDriver An instance of the WebDriver class
      */
-    public function setWebDriver($webDriver) {
+    public function setWebDriver($webDriver)
+    {
         $this->webDriver = $webDriver;
     }
 
@@ -91,7 +93,8 @@ class Selenium2Driver implements DriverInterface
      * Get the default capabilities
      * @return array
      */
-    protected static function getDefaultCapabilities() {
+    protected static function getDefaultCapabilities()
+    {
         return array('browserName'=>'firefox', 'version'=>'8', 'platform'=>'ANY', 'browserVersion'=>'8', 'browser'=>'firefox');
     }
 
@@ -100,7 +103,8 @@ class Selenium2Driver implements DriverInterface
      * $this->withSyn()->executeJsOnXpath($xpath, $script);
      * @return Mixed
      */
-    protected function withSyn() {
+    protected function withSyn()
+    {
         $hasSyn = $this->wdSession->execute(array('script'=>'return typeof window["Syn"]!=="undefined"', 'args'=>array()));
         if ( !$hasSyn ) {
             $synJs = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Selenium2' . DIRECTORY_SEPARATOR . 'syn.js');
@@ -116,7 +120,8 @@ class Selenium2Driver implements DriverInterface
      * @param  String $modifier=null One of 'shift', 'alt', 'ctrl' or 'meta'
      * @return String a json encoded options array for Syn
      */
-    protected static function charToOptions($event, $char, $modifier=null) {
+    protected static function charToOptions($event, $char, $modifier=null)
+    {
         if ( is_numeric($char) ) {
             $ord = $char;
             $char = chr($char);
@@ -228,7 +233,7 @@ class Selenium2Driver implements DriverInterface
     /**
      * Reloads current page.
      */
-    function reload()
+    public function reload()
     {
         $this->wdSession->refresh();
     }
@@ -236,7 +241,7 @@ class Selenium2Driver implements DriverInterface
     /**
      * Moves browser forward 1 page.
      */
-    function forward()
+    public function forward()
     {
         $this->wdSession->forward();
     }
@@ -244,7 +249,7 @@ class Selenium2Driver implements DriverInterface
     /**
      * Moves browser backward 1 page.
      */
-    function back()
+    public function back()
     {
         $this->wdSession->back();
     }
@@ -255,7 +260,7 @@ class Selenium2Driver implements DriverInterface
      * @param   string|false    $user       user name or false to disable authentication
      * @param   string          $password   password
      */
-    function setBasicAuth($user, $password)
+    public function setBasicAuth($user, $password)
     {
         throw new UnsupportedDriverActionException('Basic Auth is not supported by %s', $this);
     }
@@ -266,7 +271,7 @@ class Selenium2Driver implements DriverInterface
      * @param   string  $name
      * @param   string  $value
      */
-    function setRequestHeader($name, $value)
+    public function setRequestHeader($name, $value)
     {
         throw new UnsupportedDriverActionException('Request header is not supported by %s', $this);
     }
@@ -276,7 +281,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  array
      */
-    function getResponseHeaders()
+    public function getResponseHeaders()
     {
         throw new UnsupportedDriverActionException('Response header is not supported by %s', $this);
     }
@@ -287,7 +292,7 @@ class Selenium2Driver implements DriverInterface
      * @param   string  $name
      * @param   string  $value
      */
-    function setCookie($name, $value = null)
+    public function setCookie($name, $value = null)
     {
         if ( $value !== null ) {
             $cookieArray = array(
@@ -308,7 +313,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  string|null
      */
-    function getCookie($name)
+    public function getCookie($name)
     {
         $cookies = $this->wdSession->getAllCookies();
         foreach ( $cookies as $cookie ) {
@@ -324,7 +329,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  integer
      */
-    function getStatusCode()
+    public function getStatusCode()
     {
         throw new UnsupportedDriverActionException('Status code is not supported by %s', $this);
     }
@@ -334,7 +339,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  string
      */
-    function getContent()
+    public function getContent()
     {
         return $this->wdSession->source();
     }
@@ -346,7 +351,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  array           array of Behat\Mink\Element\NodeElement
      */
-    function find($xpath)
+    public function find($xpath)
     {
         $elements = array();
         $nodes = $this->wdSession->elements('xpath', $xpath);
@@ -355,8 +360,6 @@ class Selenium2Driver implements DriverInterface
         }
         if ( !empty($elements) ) {
             return $elements;
-        } else {
-            return null;
         }
     }
 
@@ -367,7 +370,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  string
      */
-    function getTagName($xpath)
+    public function getTagName($xpath)
     {
         $node = $this->wdSession->element('xpath', $xpath);
         return $node->name();
@@ -380,7 +383,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  string
      */
-    function getText($xpath)
+    public function getText($xpath)
     {
         $node = $this->wdSession->element('xpath', $xpath);
         $text = $node->text();
@@ -395,7 +398,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  string
      */
-    function getHtml($xpath)
+    public function getHtml($xpath)
     {
         return $this->executeJsOnXpath($xpath, 'return {{ELEMENT}}.innerHTML;');
     }
@@ -412,8 +415,6 @@ class Selenium2Driver implements DriverInterface
         $attribute = $this->wdSession->element('xpath', $xpath)->attribute($attr);
         if ( $attribute !== '' ) {
             return $attribute;
-        } else {
-            return null;
         }
     }
 
@@ -424,7 +425,7 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  mixed
      */
-    function getValue($xpath)
+    public function getValue($xpath)
     {
         $script = <<<JS
 
@@ -461,11 +462,9 @@ class Selenium2Driver implements DriverInterface
     return value;
 JS;
         $value = $this->executeJsOnXpath($xpath, $script);
-        if (null === $value) {
-            return null;
-        } elseif (preg_match('/^string:(.*)$/', $value, $vars)) {
+        if ($value && preg_match('/^string:(.*)$/', $value, $vars)) {
             return $vars[1];
-        } elseif (preg_match('/^boolean:(.*)$/', $value, $vars)) {
+        } elseif ($value && preg_match('/^boolean:(.*)$/', $value, $vars)) {
             return 'true' === strtolower($vars[1]);
         }
     }
@@ -476,7 +475,7 @@ JS;
      * @param   string  $xpath
      * @param   string  $value
      */
-    function setValue($xpath, $value)
+    public function setValue($xpath, $value)
     {
         $valueEscaped = str_replace('"', '\"', $value);
         $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
@@ -487,7 +486,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function check($xpath)
+    public function check($xpath)
     {
         $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = true');
     }
@@ -497,7 +496,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function uncheck($xpath)
+    public function uncheck($xpath)
     {
         $this->executeJsOnXpath($xpath, '{{ELEMENT}}.checked = false');
     }
@@ -509,7 +508,7 @@ JS;
      *
      * @return  Boolean
      */
-    function isChecked($xpath)
+    public function isChecked($xpath)
     {
         return $this->wdSession->element('xpath', $xpath)->selected();
     }
@@ -521,7 +520,7 @@ JS;
      * @param   string  $value
      * @param   Boolean $multiple
      */
-    function selectOption($xpath, $value, $multiple = false)
+    public function selectOption($xpath, $value, $multiple = false)
     {
         $valueEscaped = str_replace('"', '\"', $value);
         $multipleJS   = $multiple ? 'true' : 'false';
@@ -556,7 +555,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function click($xpath)
+    public function click($xpath)
     {
         $this->wdSession->element('xpath', $xpath)->click("");
     }
@@ -566,7 +565,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function doubleClick($xpath)
+    public function doubleClick($xpath)
     {
         $script = 'Syn.dblclick({{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
@@ -577,7 +576,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function rightClick($xpath)
+    public function rightClick($xpath)
     {
         $script = 'Syn.rightClick({{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
@@ -589,7 +588,7 @@ JS;
      * @param   string  $xpath
      * @param   string  $path
      */
-    function attachFile($xpath, $path)
+    public function attachFile($xpath, $path)
     {
         $this->wdSession->element('xpath', $xpath)->value(array('value'=>str_split($path)));
     }
@@ -601,7 +600,7 @@ JS;
      *
      * @return  Boolean
      */
-    function isVisible($xpath)
+    public function isVisible($xpath)
     {
         return $this->wdSession->element('xpath', $xpath)->displayed();
     }
@@ -611,7 +610,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function mouseOver($xpath)
+    public function mouseOver($xpath)
     {
         $script = 'Syn.trigger("mouseover", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
@@ -622,7 +621,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function focus($xpath)
+    public function focus($xpath)
     {
         $script = 'Syn.trigger("focus", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
@@ -633,7 +632,7 @@ JS;
      *
      * @param   string  $xpath
      */
-    function blur($xpath)
+    public function blur($xpath)
     {
         $script = 'Syn.trigger("blur", {}, {{ELEMENT}})';
         $this->withSyn()->executeJsOnXpath($xpath, $script);
@@ -646,7 +645,7 @@ JS;
      * @param   mixed   $char       could be either char ('b') or char-code (98)
      * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyPress($xpath, $char, $modifier = null)
+    public function keyPress($xpath, $char, $modifier = null)
     {
         $options = Selenium2Driver::charToOptions('keypress', $char, $modifier);
         $script = "Syn.trigger('keypress', $options, {{ELEMENT}})";
@@ -660,7 +659,7 @@ JS;
      * @param   mixed   $char       could be either char ('b') or char-code (98)
      * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyDown($xpath, $char, $modifier = null)
+    public function keyDown($xpath, $char, $modifier = null)
     {
         $options = Selenium2Driver::charToOptions('keydown', $char, $modifier);
         $script = "Syn.trigger('keydown', $options, {{ELEMENT}})";
@@ -674,7 +673,7 @@ JS;
      * @param   mixed   $char       could be either char ('b') or char-code (98)
      * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyUp($xpath, $char, $modifier = null)
+    public function keyUp($xpath, $char, $modifier = null)
     {
         $options = Selenium2Driver::charToOptions('keyup', $char, $modifier);
         $script = "Syn.trigger('keyup', $options, {{ELEMENT}})";
@@ -688,7 +687,7 @@ JS;
      * @param   string  $sourceXpath
      * @param   string  $destinationXpath
      */
-    function dragTo($sourceXpath, $destinationXpath)
+    public function dragTo($sourceXpath, $destinationXpath)
     {
         $source = $this->wdSession->element('xpath', $sourceXpath);
         $destination = $this->wdSession->element('xpath', $destinationXpath);
@@ -711,7 +710,7 @@ JS;
      *
      * @param   string  $script
      */
-    function executeScript($script)
+    public function executeScript($script)
     {
         $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
     }
@@ -723,7 +722,7 @@ JS;
      *
      * @return  mixed           script return value
      */
-    function evaluateScript($script)
+    public function evaluateScript($script)
     {
         return $this->wdSession->execute(array('script'=>$script, 'args'=>array()));
     }
@@ -734,7 +733,7 @@ JS;
      * @param   integer $time       time in milliseconds
      * @param   string  $condition  JS condition
      */
-    function wait($time, $condition)
+    public function wait($time, $condition)
     {
         $script = "return $condition;";
         $start = 1000 * microtime(true);
@@ -743,9 +742,6 @@ JS;
         while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
         {
             sleep(0.1);
-            if ( $count++ >= 30 ) {
-                return false;
-            }
         }
     }
 }
