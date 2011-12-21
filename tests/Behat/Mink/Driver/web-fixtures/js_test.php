@@ -14,6 +14,10 @@
             width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px;
             background:#eee;
         }
+        #waitable {
+            width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px;
+            background:#eee;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +35,8 @@
     <div id="droppable" class="ui-widget-header">
         <p>Drop here</p>
     </div>
+
+    <div id="waitable"></div>
 
     <script src="js/jquery-1.6.2-min.js"></script>
     <script src="js/jquery-ui-1.8.14.custom.min.js"></script>
@@ -77,6 +83,24 @@
                 drop: function( event, ui ) {
                     $( this ).find( "p" ).html( "Dropped!" );
                 }
+            });
+
+            var t1, t2;
+
+            $('#waitable').click(function() {
+                var el = $(this);
+
+                el.html('');
+                clearTimeout(t1);
+                clearTimeout(t2);
+
+                t1 = setTimeout(function() {
+                    el.html('<div>arrived</div>');
+                }, 1000);
+
+                t2 = setTimeout(function() {
+                    el.html('<div>timeout</div>');
+                }, 2000);
             });
 		});
 	</script>
