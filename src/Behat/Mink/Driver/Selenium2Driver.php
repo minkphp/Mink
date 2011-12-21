@@ -184,7 +184,7 @@ class Selenium2Driver implements DriverInterface
     {
         $this->wdSession = $this->webDriver->session($this->browserName, $this->desiredCapabilities);
         if ( !$this->wdSession ) {
-            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+            throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = true;
     }
@@ -205,7 +205,7 @@ class Selenium2Driver implements DriverInterface
     public function stop()
     {
         if ( !$this->wdSession ) {
-            throw new \Behat\Mink\Exception\DriverException('Could not connect to a Selenium 2 / WebDriver server');
+            throw new DriverException('Could not connect to a Selenium 2 / WebDriver server');
         }
         $this->started = false;
         $this->wdSession->close();
