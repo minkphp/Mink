@@ -73,6 +73,19 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('key upped:78 / 1', $event->getText());
     }
 
+    public function testWait()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $this->getSession()->getPage()->findById('waitable')->click();
+        $this->getSession()->wait(3000, '$("#waitable").has("div").length > 0');
+        $this->assertEquals('arrived', $this->getSession()->getPage()->find('css', '#waitable > div')->getText());
+
+        $this->getSession()->getPage()->findById('waitable')->click();
+        $this->getSession()->wait(3000, 'false');
+        $this->assertEquals('timeout', $this->getSession()->getPage()->find('css', '#waitable > div')->getText());
+    }
+
     public function testVisibility()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
