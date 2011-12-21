@@ -336,23 +336,22 @@ if (tagName == "INPUT") {
 } else if (tagName == "TEXTAREA") {
   value = "string:" + node.text;
 } else if (tagName == "SELECT") {
-  var idx = node.selectedIndex;
-  if (node.getAttribute('multiple')) {
-    options = [];
-    for (var i = 0; i < node.options.length; i++) {
-      if (node.options[ i ].selected) {
-        options.push(node.options[ i ].value);
-      }
-    }
-    value = "array:" + options.join(',');
-  } else {
-    var idx = node.selectedIndex;
-    if (idx >= 0) {
-      value = "string:" + node.options.item(idx).value;
+    if (node.getAttribute('multiple')) {
+        options = [];
+        for (var i = 0; i < node.options.length; i++) {
+            if (node.options[ i ].selected) {
+                options.push(node.options[ i ].value);
+            }
+        }
+        value = "array:" + options.join(',');
     } else {
-      value = null;
+        var idx = node.selectedIndex;
+        if (idx >= 0) {
+            value = "string:" + node.options.item(idx).value;
+        } else {
+            value = null;
+        }
     }
-  }
 } else {
   value = "string:" + node.getAttribute('value');
 }
