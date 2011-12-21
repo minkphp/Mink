@@ -768,8 +768,7 @@ JS;
         $start = 1000 * microtime(true);
         $end = $start + $time;
         $count = 0;
-        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) )
-        {
+        while ( 1000 * microtime(true) < $end && !$this->wdSession->execute(array('script'=>$script, 'args'=>array())) ) {
             sleep(0.1);
         }
     }
