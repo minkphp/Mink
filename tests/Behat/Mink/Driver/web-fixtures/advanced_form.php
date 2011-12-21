@@ -37,7 +37,8 @@
 
         <input type="file" name="about" />
 
-        <input type="submit" value="Register" />
+        <input type="submit" name="submit" value="Register" />
+        <input type="submit" name="submit" value="Login" />
     </form>
 </body>
 </html>

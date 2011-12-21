@@ -46,6 +46,18 @@ $mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
 $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
 
+Install Dependencies
+--------------------
+
+    wget http://getcomposer.org/composer.phar
+    php composer.phar install
+
+How to run Mink test suite
+--------------------------
+
+1. Install dependencies
+2. Run all tests with `phpunit .` or specific driver tests with `phpunit tests/Behat/Mink/Driver/...`
+
 Translated languages
 --------------------
 
@@ -72,6 +84,7 @@ Contributors
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
 * Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
+* Alexandre Salomé [alexandresalome](http://github.com/alexandresalome) [SeleniumDriver creator]
 
 Sponsors
 --------

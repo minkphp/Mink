@@ -171,18 +171,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Initizalizes and returns new Selenium session.
+     * Initizalizes and returns new SeleniumDriver session.
      *
+     * @param   string  $browser        browser info
+     * @param   string  $baseUrl        selenium start url
      * @param   string  $host           selenium server server host
      * @param   integer $port           port number
      *
      * @return  Behat\Mink\Session
      */
-    protected static function initSeleniumSession($host = '127.0.0.1', $port = 4444)
+    protected static function initSeleniumSession($browser = '*firefox',
+                                                  $baseUrl = 'http://localhost',
+                                                  $host = '127.0.0.1', $port = 4444)
     {
-        $client     = new SeleniumClient($host, $port);
-        $driver     = new SeleniumDriver('firefox', $_SERVER['WEB_FIXTURES_HOST'], $client);
-
-        return new Session($driver);
+        return new Session(new SeleniumDriver($browser, $baseUrl, new SeleniumClient($host, $port)));
     }
 }
