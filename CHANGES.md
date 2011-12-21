@@ -1,3 +1,13 @@
+1.3.0 / 2011-12-21
+==================
+
+  * Brand new Selenium2Driver (webdriver session)
+  * Multiselect bugfixes
+  * ZombieDriver back in the business
+  * Composer now manages dependencies
+  * Some MinkContext steps got fixes
+  * Lots of bug fixes and cleanup
+
 1.2.0 / 2011-11-04
 ==================
 
