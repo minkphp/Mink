@@ -10,7 +10,7 @@ use Behat\Mink\Session,
 use Selenium\Client as SeleniumClient,
     Selenium\Locator as SeleniumLocator,
     Selenium\Exception as SeleniumException,
-    WebDriver as WebDriver;
+    WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
