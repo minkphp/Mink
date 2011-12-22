@@ -20,7 +20,10 @@
         "symfony/dom-crawler":           ">=2.0",
         "symfony/css-selector":          ">=2.0",
         "symfony/finder":                ">=2.0",
-        "symfony/process":               ">=2.0",
+        "symfony/process":               ">=2.0"
+    },
+
+    "recommend": {
         "fabpot/goutte":                 "*",
         "behat/sahi-client":             ">=1.0.1",
         "alexandresalome/php-selenium":  "*",
