@@ -46,6 +46,10 @@
             <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|ich )wähle "(?P<option>(?:[^"]|\\")*)" von "(?P<select>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
+        <trans-unit id="i-additionally-select-option-from-select">
+            <source><![CDATA[/^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ich )wähle zusätzlich "(?P<option>(?:[^"]|\\")*)" von "(?P<select>(?:[^"]|\\")*)"$/]]></target>
+        </trans-unit>
         <trans-unit id="i-check-option">
             <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|ich )aktiviere "(?P<option>(?:[^"]|\\")*)"$/]]></target>
@@ -114,9 +118,17 @@
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|ich )sollte kein "(?P<element>[^"]*)" Element sehen$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-see-num-elements">
+            <source><![CDATA[/^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/]]></source>
+            <target><![CDATA[/^(?:|ich )sollte (?P<num>\d+) "(?P<element>[^"]*)" Elemente? sehen$/]]></target>
+        </trans-unit>
         <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
             <target><![CDATA[/^die Status-Code-Rückmeldung sollte (?P<code>\d+) sein$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-not-be">
+            <source><![CDATA[/^the response status code should not be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^die Status-Code-Rückmeldung sollte nicht (?P<code>\d+) sein$/]]></target>
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
