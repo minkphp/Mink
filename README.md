@@ -97,9 +97,9 @@ phpunit --group gouttedriver
 Translated languages
 --------------------
 
-For now exists 8 translated language: `de`,`es`,`fr`,`ja`,`nl`,`pt`,`ru`,`sv`.
+For now exist 9 translated languages: `cs`,`de`,`es`,`fr`,`ja`,`nl`,`pt`,`ru`,`sv`.
 
-**Note:** The `de`,`ja`,`nl`,`pt` and `sv` are outdated.
+**Note:** The `ja`,`nl`,`pt` and `sv` are outdated.
 
 #### How to add a new translated language?
 
