@@ -36,7 +36,7 @@
         </trans-unit>
         <trans-unit id="i-fill-in-value-for-field">
             <source><![CDATA[/^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^(?:|ich )gebe "(?P<value>(?:[^"]|\\")*)" in "(?P<field>(?:[^"]|\\")*)"ein$/]]></target>
+            <target><![CDATA[/^(?:|ich )gebe "(?P<value>(?:[^"]|\\")*)" in "(?P<field>(?:[^"]|\\")*)" ein$/]]></target>
         </trans-unit>
         <trans-unit id="i-fill-in-the-following">
             <source><![CDATA[/^(?:|I )fill in the following:$/]]></source>
