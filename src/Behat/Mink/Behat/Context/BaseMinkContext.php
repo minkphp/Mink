@@ -633,15 +633,6 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
      */
     public function getTranslationResources()
     {
-        return array(
-            __DIR__ . '/translations/ru.xliff',
-            __DIR__ . '/translations/fr.xliff',
-            __DIR__ . '/translations/ja.xliff',
-            __DIR__ . '/translations/es.xliff',
-            __DIR__ . '/translations/nl.xliff',
-            __DIR__ . '/translations/pt.xliff',
-            __DIR__ . '/translations/sv.xliff',
-            __DIR__ . '/translations/de.xliff',
-        );
+        return glob(__DIR__.'/../../../../../i18n/*.xliff');
     }
 }
