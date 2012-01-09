@@ -108,7 +108,7 @@ abstract class Exception extends \Exception
         $driver = basename(str_replace('\\', '/', get_class($this->session->getDriver())));
 
         $info = '+--[ ';
-        if ('SahiDriver' !== $driver) {
+        if (!in_array($driver, array('SahiDriver', 'SeleniumDriver'))) {
             $info .= 'HTTP/1.1 '.$this->session->getStatusCode().' | ';
         }
         $info .= $this->session->getCurrentUrl().' | '.$driver." ]\n|\n";
