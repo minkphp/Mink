@@ -369,6 +369,56 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks, that page contains text matching specified pattern.
+     *
+     * @Then /^(?:|I )should see text matching "(?P<pattern>(?:[^"]|\\")*)"$/
+     */
+    public function assertPageMatchesText($pattern)
+    {
+        $expected = str_replace('\\"', '"', $pattern);
+
+        if (!preg_match('/^\/.*\/$/', $pattern)) {
+            $this->assertPageContainsText($pattern);
+
+            return;
+        }
+        
+        $actual = $this->getSession()->getPage()->getText();
+
+        try {
+            assertRegExp($pattern, $actual);
+        } catch (AssertException $e) {
+            $message = sprintf('The pattern "%s" was not found anywhere in the text of the current page.', $pattern);
+            throw new ResponseTextException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
+     * Checks, that page doesn't contain text matching specified pattern.
+     *
+     * @Then /^(?:|I )should not see text matching "(?P<pattern>(?:[^"]|\\")*)"$/
+     */
+    public function assertPageNotMatchesText($pattern)
+    {
+        $expected = str_replace('\\"', '"', $pattern);
+
+        if (!preg_match('/^\/.*\/$/', $pattern)) {
+            $this->assertPageNotContainsText($pattern);
+
+            return;
+        }
+        
+        $actual = $this->getSession()->getPage()->getText();
+
+        try {
+            assertNotRegExp($pattern, $actual);
+        } catch (AssertException $e) {
+            $message = sprintf('The pattern "%s" was found in the text of the current page, but it should not.', $pattern);
+            throw new ResponseTextException($message, $this->getSession(), $e);
+        }
+    }
+    
+    /**
      * Checks, that HTML response contains specified string.
      *
      * @Then /^the response should contain "(?P<text>(?:[^"]|\\")*)"$/
