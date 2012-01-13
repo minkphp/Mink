@@ -277,17 +277,10 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     /**
      * Checks, that current page PATH matches regular expression.
      *
-     * @Then /^the (?i)url(?-i) should match "(?P<pattern>(?:[^"]|\\")*)"$/
+     * @Then /^the (?i)url(?-i) should match (?P<pattern>\/([^\/]|\\\/)*\/)$/
      */
     public function assertUrlRegExp($pattern)
     {
-        $pattern = str_replace('\\"', '"', $pattern);
-        if (!preg_match('/^\/.*\/$/', $pattern)) {
-            $this->assertPageAddress($pattern);
-
-            return;
-        }
-
         $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
 
         try {
