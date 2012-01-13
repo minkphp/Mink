@@ -32,7 +32,7 @@
             <input type="text" placeholder="Search site..." />
         </form>
         <form id="profile">
-            <div>
+            <div data-custom="something">
                 <label>
                     <input type="text" id="user-name" name="username" />
                 </label>

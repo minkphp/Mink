@@ -221,6 +221,12 @@ abstract class GeneralDriverTest extends TestCase
         $profileFormDivLabel = $profileFormDiv->find('css', 'label');
         $this->assertNotNull($profileFormDivLabel);
 
+        $profileFormDivParent = $profileFormDivLabel->getParent();
+        $this->assertNotNull($profileFormDivParent);
+
+        $profileFormDivParent = $profileFormDivLabel->getParent();
+        $this->assertEquals('something', $profileFormDivParent->getAttribute('data-custom'));
+
         $profileFormInput = $profileFormDivLabel->findField('user-name');
         $this->assertNotNull($profileFormInput);
         $this->assertEquals('username', $profileFormInput->getAttribute('name'));
