@@ -424,7 +424,8 @@ if (node.tagName == 'SELECT') {
     var i, l = nodes.length;
     for (i = 0; i < l; i++) {
         if (nodes[i].getAttribute('value') == "$valueEscaped") {
-            node.checked = true;
+            nodes[i].checked = true;
+            break;
         }
     }
 }
