@@ -145,7 +145,7 @@ class MinkContext extends BaseMinkContext
             $params  = $parameters['webdriver'];
             $browser = $parameters['browser'];
             $mink->registerSession('webdriver', static::initWebdriverSession(
-                $browser, $params['host'],$params['capabilities']
+                $browser, $params['host'],$params['capabilitie']
             ));
         }
     }
@@ -265,7 +265,7 @@ class MinkContext extends BaseMinkContext
             ),
             'webdriver' => array(
                 'host' => 'http://localhost:4444/wd/hub',
-				'capabilitie' => Selenium2Driver::getDefaultCapabilities()				
+                'capabilitie' => Selenium2Driver::getDefaultCapabilities()				
             ),
         );
     }

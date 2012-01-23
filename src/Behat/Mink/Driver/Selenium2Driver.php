@@ -113,9 +113,9 @@ class Selenium2Driver implements DriverInterface
     {
         return array(
             'browserName'    => 'firefox',
-            'version'        => '5',
+            'version'        => '9',
             'platform'       => 'ANY',
-            'browserVersion' => '5',
+            'browserVersion' => '9',
             'browser'        => 'firefox'
         );
     }
