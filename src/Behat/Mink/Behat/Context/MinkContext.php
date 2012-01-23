@@ -145,7 +145,7 @@ class MinkContext extends BaseMinkContext
             $params  = $parameters['webdriver'];
             $browser = $parameters['browser'];
             $mink->registerSession('webdriver', static::initWebdriverSession(
-                $browser, $params['host'],$params['capabilitie']
+                $browser, $params['host'],$params['capabilities']
             ));
         }
     }
@@ -225,9 +225,9 @@ class MinkContext extends BaseMinkContext
      * @return  Behat\Mink\Session
      */
     protected static function initWebdriverSession($browser = 'firefox',
-                                                   $host = 'http://localhost:4444/wd/hub',$capabilitie = null)
+                                                   $host = 'http://localhost:4444/wd/hub',$capabilities = null)
     {
-        return new Session(new Selenium2Driver($browser, $capabilitie, $host));
+        return new Session(new Selenium2Driver($browser, $capabilities, $host));
     }
 
     /**
@@ -264,8 +264,8 @@ class MinkContext extends BaseMinkContext
                 'port' => 4444
             ),
             'webdriver' => array(
-                'host' => 'http://localhost:4444/wd/hub',
-                'capabilitie' => Selenium2Driver::getDefaultCapabilities()				
+                'host'         => 'http://localhost:4444/wd/hub',
+                'capabilities' => Selenium2Driver::getDefaultCapabilities()
             ),
         );
     }
