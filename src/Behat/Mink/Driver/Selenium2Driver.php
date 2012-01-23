@@ -91,7 +91,6 @@ class Selenium2Driver implements DriverInterface
             $desiredCapabilities = self::getDefaultCapabilities();
         }
         $this->desiredCapabilities = $desiredCapabilities;
-		var_dump( $this->desiredCapabilities);
     }
 
     /**
