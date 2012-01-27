@@ -4,6 +4,7 @@ namespace Behat\Mink\PHPUnit;
 
 use Behat\Mink\Mink,
     Behat\Mink\Session,
+    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
@@ -11,8 +12,6 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\Selenium2Driver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
     Behat\Mink\Driver\Zombie\Server as ZombieServer;
-
-use Goutte\Client as GoutteClient;
 
 use Selenium\Client as SeleniumClient;
 

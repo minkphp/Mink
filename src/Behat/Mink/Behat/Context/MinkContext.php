@@ -7,18 +7,16 @@ use Behat\Behat\Event\SuiteEvent;
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
+    Behat\Mink\Driver\Goutte\Client as GoutteClient;
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
+    Behat\Mink\Driver\Zombie\Server as ZombieServer,
     Behat\Mink\Driver\SeleniumDriver,
     Behat\Mink\Driver\Selenium2Driver;
 
-use Goutte\Client as GoutteClient;
-
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
-
-use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
-    Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
 use Selenium\Client as SeleniumClient;
 
