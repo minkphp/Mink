@@ -56,6 +56,17 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
     }
 
+    /**
+     * @group issue162
+     */
+    public function testIssue162()
+    {
+        $this->getSession()->visit($this->pathTo('/issue162.php'));
+
+        $this->getSession()->getPage()->uncheckField('Checkbox 1');
+        $this->getSession()->getPage()->pressButton('Submit');
+    }
+
     public function testCookie()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
