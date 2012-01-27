@@ -18,17 +18,15 @@ abstract class GeneralDriverTest extends TestCase
     }
 
     /**
-     * @group issue140
+     * @group issue130
      */
-    public function testIssue140()
+    public function testIssue130()
     {
-        $this->getSession()->visit($this->pathTo('/issue140.php'));
+        $this->getSession()->visit($this->pathTo('/issue130.php?p=1'));
+        $page = $this->getSession()->getPage();
 
-        $this->getSession()->getPage()->fillField('cookie_value', 'some:value;');
-        $this->getSession()->getPage()->pressButton('Set cookie');
-
-        $this->getSession()->visit($this->pathTo('/issue140.php?show_value'));
-        $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
+        $page->clickLink('Go to 2');
+        $this->assertEquals('/issue130.php?p=1', $page->getText());
     }
 
     /**
@@ -42,6 +40,20 @@ abstract class GeneralDriverTest extends TestCase
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
 
         $this->assertEquals('1', $page->findField('foobar')->getValue());
+    }
+
+    /**
+     * @group issue140
+     */
+    public function testIssue140()
+    {
+        $this->getSession()->visit($this->pathTo('/issue140.php'));
+
+        $this->getSession()->getPage()->fillField('cookie_value', 'some:value;');
+        $this->getSession()->getPage()->pressButton('Set cookie');
+
+        $this->getSession()->visit($this->pathTo('/issue140.php?show_value'));
+        $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
     }
 
     public function testCookie()
