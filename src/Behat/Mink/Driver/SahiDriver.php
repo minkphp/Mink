@@ -213,11 +213,7 @@ class SahiDriver implements DriverInterface
     public function getContent()
     {
         $html = $this->evaluateScript('document.getElementsByTagName("html")[0].innerHTML');
-
-        $html = preg_replace(array(
-            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/sU',
-            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/sU'
-        ), '', $html);
+        $html = $this->removeSahiInjectionFromText($html);
 
         return "<html>\n$html\n</html>";
     }
@@ -256,7 +252,9 @@ JS;
      */
     public function getText($xpath)
     {
-        return $this->client->findByXPath($this->prepareXPath($xpath))->getText();
+        return $this->removeSahiInjectionFromText(
+            $this->client->findByXPath($this->prepareXPath($xpath))->getText()
+        );
     }
 
     /**
@@ -576,5 +574,24 @@ JS;
     private function prepareXPath($xpath)
     {
         return strtr($xpath, array('"' => '\\"'));
+    }
+
+    /**
+     * Removes injected by Sahi code.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    private function removeSahiInjectionFromText($string)
+    {
+        $string = preg_replace(array(
+            '/<\!--SAHI_INJECT_START--\>.*\<\!--SAHI_INJECT_END--\>/sU',
+            '/\<script\>\/\*\<\!\[CDATA\[\*\/\/\*----\>\*\/__sahi.*\<\!--SAHI_INJECT_END--\>/sU'
+        ), '', $string);
+
+        $string = str_replace('/*<![CDATA[*//*---->*/__sahiDebugStr__="";__sahiDebug__=function(s){__sahiDebugStr__+=(s+"\n");};/*--*//*]]>*/ /*<![CDATA[*//*---->*/_sahi.createCookie(\'sahisid\', _sahi.sid);_sahi.loadXPathScript()/*--*//*]]>*/ /*<![CDATA[*//*---->*/eval(_sahi.sendToServer("/_s_/dyn/Player_script/script.js"));/*--*//*]]>*/ ', '', $string);
+
+        return $string;
     }
 }
