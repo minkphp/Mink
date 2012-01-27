@@ -3,6 +3,7 @@
 namespace Behat\Mink\Driver\Goutte;
 
 use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\BrowserKit\History;
 use Goutte\Client as BaseClient;
 
 /**
@@ -10,6 +11,15 @@ use Goutte\Client as BaseClient;
  */
 class Client extends BaseClient
 {
+    public function __construct(array $zendConfig = array(), array $server = array(), History $history = null, CookieJar $cookieJar = null)
+    {
+        if (null === $cookieJar) {
+            $cookieJar = new CookieJar();
+        }
+
+        parent::__construct($zendConfig, $server, $history, $cookieJar);
+    }
+
     protected function createClient(Request $request)
     {
         // create new request without content body
