@@ -26,7 +26,7 @@ abstract class GeneralDriverTest extends TestCase
         $page = $this->getSession()->getPage();
 
         $page->clickLink('Go to 2');
-        $this->assertEquals('/issue130.php?p=1', $page->getText());
+        $this->assertEquals($this->pathTo('/issue130.php?p=1'), $page->getText());
     }
 
     /**

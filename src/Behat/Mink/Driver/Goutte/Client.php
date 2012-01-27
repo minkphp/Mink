@@ -23,7 +23,7 @@ class Client extends BaseClient
     protected function createClient(Request $request)
     {
         // create new request without content body
-        return parent::createClient(new Request(
+        $client = parent::createClient(new Request(
             $request->getUri(),
             $request->getMethod(),
             $request->getParameters(),
@@ -31,5 +31,18 @@ class Client extends BaseClient
             $request->getCookies(),
             $request->getServer()
         ));
+
+        // add server variables
+        $headers = $this->headers;
+        foreach ($request->getServer() as $key => $val) {
+            $key = ucfirst(strtolower(str_replace(array('_', 'HTTP-'), array('-', ''), $key)));
+
+            if (!isset($headers[$key])) {
+                $headers[$key] = $val;
+            }
+        }
+        $client->setHeaders($headers);
+
+        return $client;
     }
 }
