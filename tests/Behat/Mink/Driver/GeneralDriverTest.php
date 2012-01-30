@@ -314,6 +314,15 @@ abstract class GeneralDriverTest extends TestCase
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
+
+        $this->getSession()->visit($this->pathTo('/links.php'));
+        $page = $this->getSession()->getPage();
+        $link = $page->findLink("Link with a '");
+
+        $this->assertRegExp('/\/links\.php\?quoted$/', $link->getAttribute('href'));
+        $link->click();
+
+        $this->assertEquals($this->pathTo('/links.php?quoted'), $this->getSession()->getCurrentUrl());
     }
 
     public function testJson()
