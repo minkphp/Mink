@@ -33,4 +33,19 @@ class SahiDriverTest extends JavascriptDriverTest
 
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
     }
+
+    public function testPrepareXPath()
+    {
+        $driver = $this->getSession()->getDriver();
+
+        // Make the method accessible for testing purposes
+        $method = new \ReflectionMethod(
+          'Behat\Mink\Driver\SahiDriver', 'prepareXPath'
+        );
+        $method->setAccessible(true);
+
+        $this->assertEquals('No quotes', $method->invokeArgs($driver, array('No quotes')));
+        $this->assertEquals("Single quote'", $method->invokeArgs($driver, array("Single quote'")));
+        $this->assertEquals('Double quote\"', $method->invokeArgs($driver, array('Double quote"')));
+    }
 }
