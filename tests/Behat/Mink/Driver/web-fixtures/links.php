@@ -7,6 +7,7 @@
 <body>
     <a href="redirector.php">Redirect me to</a>
     <a href="randomizer.php">Random number page</a>
+    <a href="/links.php?quoted">Link with a '</a>
     <a href="/basic_form.php">
         <img src="basic_form" alt="basic form image"/>
     </a>

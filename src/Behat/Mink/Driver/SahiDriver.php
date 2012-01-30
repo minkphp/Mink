@@ -227,10 +227,11 @@ class SahiDriver implements DriverInterface
      */
     public function find($xpath)
     {
+        $jsXpath = $this->prepareXPath($xpath);
         $function = <<<JS
 (function(){
     var count = 0;
-    while (_sahi._byXPath("({$xpath})["+(count+1)+"]")) count++;
+    while (_sahi._byXPath("({$jsXpath})["+(count+1)+"]")) count++;
     return count;
 })()
 JS;
@@ -503,8 +504,8 @@ JS;
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
-        $from = $this->client->findByXPath($sourceXpath);
-        $to   = $this->client->findByXPath($destinationXpath);
+        $from = $this->client->findByXPath($this->prepareXPath($sourceXpath));
+        $to   = $this->client->findByXPath($this->prepareXPath($destinationXpath));
 
         $from->dragDrop($to);
     }
