@@ -96,7 +96,7 @@
         </trans-unit>
         <trans-unit id="i-should-be-on-page">
             <source><![CDATA[/^(?:|I )should be on "(?P<page>[^"]+)"$/]]></source>
-            <target><![CDATA[/^(?:|ich )sollte auf "(?P<page>[^"]+) sein"$/]]></target>
+            <target><![CDATA[/^(?:|ich )sollte auf "(?P<page>[^"]+)" sein$/]]></target>
         </trans-unit>
         <trans-unit id="the-url-should-match">
             <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
