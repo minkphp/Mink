@@ -7,7 +7,7 @@ use Behat\Behat\Event\SuiteEvent;
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\Goutte\Client as GoutteClient;
+    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
