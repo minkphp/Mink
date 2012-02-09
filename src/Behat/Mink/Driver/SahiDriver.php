@@ -227,6 +227,7 @@ class SahiDriver implements DriverInterface
      */
     public function find($xpath)
     {
+        $xpath = addcslashes($xpath, "\0..\37\"");
         $function = <<<JS
 (function(){
     var count = 0;
