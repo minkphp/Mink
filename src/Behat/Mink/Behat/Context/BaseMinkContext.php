@@ -344,7 +344,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that page doesn't contains specified text.
+     * Checks, that page doesn't contain specified text.
      *
      * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/
      */
@@ -414,7 +414,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that HTML response doesn't contains specified string.
+     * Checks, that HTML response doesn't contain specified string.
      *
      * @Then /^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/
      */
@@ -451,6 +451,30 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
             assertContains($text, $node->getText());
         } catch (AssertException $e) {
             $message = sprintf('The text "%s" was not found in the text of the element matching css "%s"', $text, $element);
+            throw new ElementTextException($message, $this->getSession(), $node, $e);
+        }
+    }
+
+    /**
+     * Checks, that element with specified CSS doesn't contain specified text.
+     *
+     * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementNotContainsText($element, $text)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+        $text = str_replace('\\"', '"', $text);
+
+        if (null === $node) {
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
+        }
+
+        try {
+            assertNotContains($text, $node->getText());
+        } catch (AssertException $e) {
+            $message = sprintf('The text "%s" appears in the text of the element matching css "%s", but it should not.', $text, $element);
             throw new ElementTextException($message, $this->getSession(), $node, $e);
         }
     }
@@ -496,7 +520,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that element with specified CSS doesn't exists on page.
+     * Checks, that element with specified CSS doesn't exist on page.
      *
      * @Then /^(?:|I )should not see an? "(?P<element>[^"]*)" element$/
      */
