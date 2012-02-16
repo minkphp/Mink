@@ -512,14 +512,7 @@ if (tagName == "INPUT") {
         }
     }
 } else {
-    attributeValue = node.getAttribute('value');
-    if(attributeValue) {
-        value = "string:" + attributeValue;
-    } else if(node.value) {
-        value = "string:" + node.value;
-    } else {
-        return null;
-    }
+  value = "string:" + node.getAttribute('value');
 }
 
 return value;
