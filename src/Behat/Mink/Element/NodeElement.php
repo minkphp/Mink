@@ -46,6 +46,16 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Returns parent element to the current one.
+     *
+     * @return  Behat\Mink\Element\NodeElement
+     */
+    public function getParent()
+    {
+        return $this->find('xpath', '..');
+    }
+
+    /**
      * Returns current node tag name.
      *
      * @return  string

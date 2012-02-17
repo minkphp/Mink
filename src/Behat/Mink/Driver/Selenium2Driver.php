@@ -108,13 +108,13 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  array
      */
-    protected static function getDefaultCapabilities()
+    public static function getDefaultCapabilities()
     {
         return array(
             'browserName'    => 'firefox',
-            'version'        => '8',
+            'version'        => '9',
             'platform'       => 'ANY',
-            'browserVersion' => '8',
+            'browserVersion' => '9',
             'browser'        => 'firefox'
         );
     }
@@ -512,7 +512,14 @@ if (tagName == "INPUT") {
         }
     }
 } else {
-  value = "string:" + node.getAttribute('value');
+    attributeValue = node.getAttribute('value');
+    if(attributeValue) {
+        value = "string:" + attributeValue;
+    } else if(node.value) {
+        value = "string:" + node.value;
+    } else {
+        return null;
+    }
 }
 
 return value;

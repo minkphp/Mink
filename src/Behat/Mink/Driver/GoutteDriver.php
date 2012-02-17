@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Driver;
 
-use Goutte\Client as GoutteClient,
+use Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Client,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,

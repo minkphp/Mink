@@ -27,8 +27,17 @@ class ElementTextException extends ElementHtmlException
      */
     public function __toString()
     {
-        return $this->getMessage()."\n\n"
-             . $this->getResponseInfo()
-             . $this->pipeString($this->trimString($this->element->getText()) . "\n");
+        try {
+            $pageText = $this->trimString($this->element->getText());
+            $string   = sprintf("%s\n\n%s%s",
+                $this->getMessage(),
+                $this->getResponseInfo(),
+                $this->pipeString($pageText."\n")
+            );
+        } catch (\Exception $e) {
+            return $this->getMessage();
+        }
+
+        return $string;
     }
 }
