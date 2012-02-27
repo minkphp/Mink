@@ -38,7 +38,8 @@
 
     "repositories": {
         "behat/mink-deps": {
-            "composer": { "url": "behat.org" }
+            "type":  "composer",
+            "url":   "behat.org"
         }
     }
 }
