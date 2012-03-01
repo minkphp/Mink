@@ -7,10 +7,7 @@ use Behat\Mink\Session,
     Behat\Mink\Exception\DriverException,
     Behat\Mink\Exception\UnsupportedDriverActionException;
 
-use Selenium\Client as SeleniumClient,
-    Selenium\Locator as SeleniumLocator,
-    Selenium\Exception as SeleniumException,
-    WebDriver;
+use WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
