@@ -333,6 +333,51 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Checks that browser has a cookie
+     *
+     * @Then /^the browser should have an? "(?P<cookieName>[^"]*)" cookie$/
+     */
+    public function assertBrowserHasCookie($cookieName)
+    {
+        try {
+            assertNotEmpty($this->getSession()->getCookie($cookieName));
+        } catch (AssertException $e) {
+            $message = sprintf('Browser does not have a "%s" cookie with path "%s" and domain "%s"', $cookieName, $path, $domain);
+            throw new ExpectationException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
+     * @Then /^the browser should receive an? "([^"]*)" cookie$/
+     */
+    public function assertBrowserReceivesCookie($cookieName)
+    {
+        $setCookieResponseHeaders = $this->getSetCookieResponseHeaders();
+        assertArrayHasKey($cookieName, $setCookieResponseHeaders, "Response should have requested the browser to set cookie \"$cookieName\"");
+    }
+
+    /**
+     * Returns an array of 'Set-Cookie' response headers
+     *
+     * @return  array
+     */
+    protected function getSetCookieResponseHeaders()
+    {
+        $responseHeaders = $this->getSession()->getResponseHeaders();
+        $setCookieHeaders = $responseHeaders['Set-Cookie'];
+        $setCookieArray = array();
+
+        if (is_array($setCookieHeaders)) {
+            foreach ($setCookieHeaders as $cookieHeader) {
+                list ($name, $value) = explode('=', $cookieHeader, 2);
+                $setCookieArray[$name] = $value;
+            }
+        }
+
+        return $setCookieArray;
+    }
+
+    /**
      * Checks, that page contains specified text.
      *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
