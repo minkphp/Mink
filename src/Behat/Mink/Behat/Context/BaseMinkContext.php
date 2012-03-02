@@ -333,6 +333,31 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
+     * Prints cookie jar to console.
+     *
+     * @Then /^print cookie jar$/
+     */
+    public function printCookieJar()
+    {
+        print_r($this->getSession()->getDriver()->getClient()->getCookieJar());
+    }
+
+    /**
+     * Checks that browser has a cookie
+     *
+     * @Then /^the browser should have an? "(?P<cookieName>[^"]*)" cookie$/
+     */
+    public function assertBrowserHasCookie($cookieName)
+    {
+        try {
+            assertNotEmpty($this->getSession()->getCookie($cookieName));
+        } catch (AssertException $e) {
+            $message = sprintf('Browser does not have a "%s" cookie with path "%s" and domain "%s"', $cookieName, $path, $domain);
+            throw new ExpectationException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
      * Checks, that page contains specified text.
      *
      * @Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
