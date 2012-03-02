@@ -207,8 +207,6 @@ class GoutteDriver implements DriverInterface
 
         if (isset($allValues[$name])) {
             return $allValues[$name];
-        } else {
-            return null;
         }
     }
 
