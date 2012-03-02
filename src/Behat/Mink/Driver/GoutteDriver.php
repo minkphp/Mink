@@ -199,6 +199,8 @@ class GoutteDriver implements DriverInterface
         // path, AND domain and if you don't fill them all in correctly then
         // you won't get the value that you're expecting.
         //
+        // $jar = $this->client->getCookieJar();
+        //
         // if (null !== $cookie = $jar->get($name)) {
         //     return $cookie->getValue();
         // }
