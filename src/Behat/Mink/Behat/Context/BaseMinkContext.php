@@ -333,16 +333,6 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Prints cookie jar to console.
-     *
-     * @Then /^print cookie jar$/
-     */
-    public function printCookieJar()
-    {
-        print_r($this->getSession()->getDriver()->getClient()->getCookieJar());
-    }
-
-    /**
      * Checks that browser has a cookie
      *
      * @Then /^the browser should have an? "(?P<cookieName>[^"]*)" cookie$/
