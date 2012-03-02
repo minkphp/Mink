@@ -200,7 +200,12 @@ class GoutteDriver implements DriverInterface
         // you won't get the value that you're expecting.
 
         $allValues = $this->client->getCookieJar()->allValues($this->getCurrentUrl());
-        return $allValues[$name];
+
+        if (isset($allValues[$name])) {
+            return $allValues[$name];
+        } else {
+            return null;
+        }
     }
 
     /**
