@@ -7,10 +7,7 @@ use Behat\Mink\Session,
     Behat\Mink\Exception\DriverException,
     Behat\Mink\Exception\UnsupportedDriverActionException;
 
-use Selenium\Client as SeleniumClient,
-    Selenium\Locator as SeleniumLocator,
-    Selenium\Exception as SeleniumException,
-    WebDriver;
+use WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
@@ -512,7 +509,14 @@ if (tagName == "INPUT") {
         }
     }
 } else {
-  value = "string:" + node.getAttribute('value');
+    attributeValue = node.getAttribute('value');
+    if(attributeValue) {
+        value = "string:" + attributeValue;
+    } else if(node.value) {
+        value = "string:" + node.value;
+    } else {
+        return null;
+    }
 }
 
 return value;
