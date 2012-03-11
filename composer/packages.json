@@ -20,12 +20,12 @@
                     "symfony\/css-selector":          ">=2.0",
                     "symfony\/finder":                ">=2.0",
                     "symfony\/process":               ">=2.0",
-                    "zendframework\/zend-registry":   ">=2.0beta2,<3.0",
-                    "zendframework\/zend-loader":     ">=2.0beta2,<3.0",
-                    "zendframework\/zend-stdlib":     ">=2.0beta2,<3.0",
-                    "zendframework\/zend-validator":  ">=2.0beta2,<3.0",
-                    "zendframework\/zend-http":       ">=2.0beta2,<3.0",
-                    "zendframework\/zend-uri":        ">=2.0beta2,<3.0"
+                    "zendframework\/zend-registry":   ">=2.0beta3,<3.0",
+                    "zendframework\/zend-loader":     ">=2.0beta3,<3.0",
+                    "zendframework\/zend-stdlib":     ">=2.0beta3,<3.0",
+                    "zendframework\/zend-validator":  ">=2.0beta3,<3.0",
+                    "zendframework\/zend-http":       ">=2.0beta3,<3.0",
+                    "zendframework\/zend-uri":        ">=2.0beta3,<3.0"
                 },
                 "autoload": {
                     "psr-0": { "Goutte": "src\/" }
@@ -89,11 +89,11 @@
     "zendframework\/zend-registry": {
         "name":       "zendframework\/zend-registry",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-registry",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Registry-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Registry-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
@@ -105,11 +105,11 @@
     "zendframework\/zend-loader": {
         "name":       "zendframework\/zend-loader",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-loader",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Loader-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Loader-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
@@ -121,11 +121,11 @@
     "zendframework\/zend-stdlib": {
         "name":       "zendframework\/zend-stdlib",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-stdlib",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Stdlib-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Stdlib-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
@@ -137,11 +137,11 @@
     "zendframework\/zend-validator": {
         "name":       "zendframework\/zend-validator",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-validator",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Validator-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Validator-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
@@ -153,11 +153,11 @@
     "zendframework\/zend-http": {
         "name":       "zendframework\/zend-http",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-http",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Http-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Http-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
@@ -169,11 +169,11 @@
     "zendframework\/zend-uri": {
         "name":       "zendframework\/zend-uri",
         "versions": {
-            "2.0.0beta2": {
+            "2.0.0beta3": {
                 "name":       "zendframework\/zend-uri",
-                "version":    "2.0.0beta2",
+                "version":    "2.0.0beta3",
                 "dist": {
-                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Uri-2.0.0beta2.tgz",
+                    "url":  "http:\/\/packages.zendframework.com\/get\/Zend_Uri-2.0.0beta3.tgz",
                     "type": "pear"
                 },
                 "autoload": {
