@@ -12,7 +12,7 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Behat\Mink\PHPUnit\TestCase::assertPageContainsText
-     * @expectedException Behat\Mink\Exception\ResponseTextException
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
      */
     public function testAssertPageContainsTextFail()
     {

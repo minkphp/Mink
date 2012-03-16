@@ -19,10 +19,10 @@ use Selenium\Client as SeleniumClient;
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
 
+use Behat\Mink\PHPUnit\Constraints\PageContains as PageContainsConstraint;
+
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
-
-use PHPUnit_Framework_ExpectationFailedException as AssertException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -115,19 +115,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     public static function assertPageContainsText(Session $session, $text, $message = null)
     {
-      $expected = str_replace('\\"', '"', $text);
-      $actual = $session->getPage()->getText();
+      $text = str_replace('\\"', '"', $text);
+      $haystack = $session->getPage()->getText();
 
-      try
-      {
-        assertContains($expected, $actual);
-      }
-      catch (AssertException $e)
-      {
-        $message = $message ?:
-          sprintf('The text "%s" was not found anywhere in the text of the page', $expected);
-        throw new ResponseTextException($message, $session, $e);
-      }
+      $message = $message ?:
+        sprintf('The text "%s" was not found anywhere in the text of the page', $text);
+
+      $constraint = new PageContainsConstraint($text, false);
+      self::assertThat($haystack, $constraint, $message);
     }
 
     /**
