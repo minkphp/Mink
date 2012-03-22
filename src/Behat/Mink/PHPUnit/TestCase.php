@@ -11,12 +11,18 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\SeleniumDriver,
     Behat\Mink\Driver\Selenium2Driver,
     Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
-    Behat\Mink\Driver\Zombie\Server as ZombieServer;
+    Behat\Mink\Driver\Zombie\Server as ZombieServer,
+    Behat\Mink\Exception\ResponseTextException;
 
 use Selenium\Client as SeleniumClient;
 
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
+
+use Behat\Mink\PHPUnit\Constraints\PageContains as PageContainsConstraint;
+
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 /*
  * This file is part of the Behat\Mink.
@@ -94,6 +100,29 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     public function getSession($name = null)
     {
         return $this->getMink()->getSession($name);
+    }
+
+    /**
+     * Checks, that page contains specified text
+     *
+     * @param Session $session
+     * @param string  $text     text to look for
+     * @param string  $message  optional message to show on fail
+     *
+     * @throws ResponseTextException
+     *
+     * @return void
+     */
+    public static function assertPageContainsText(Session $session, $text, $message = null)
+    {
+      $text = str_replace('\\"', '"', $text);
+      $haystack = $session->getPage()->getText();
+
+      $message = $message ?:
+        sprintf('The text "%s" was not found anywhere in the text of the page', $text);
+
+      $constraint = new PageContainsConstraint($text, false);
+      self::assertThat($haystack, $constraint, $message);
     }
 
     /**
