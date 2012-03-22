@@ -194,10 +194,23 @@ class GoutteDriver implements DriverInterface
      */
     public function getCookie($name)
     {
-        $jar = $this->client->getCookieJar();
+        // Note that the following doesn't work well because
+        // Symfony\Component\BrowserKit\CookieJar stores cookies by name,
+        // path, AND domain and if you don't fill them all in correctly then
+        // you won't get the value that you're expecting.
+        //
+        // $jar = $this->client->getCookieJar();
+        //
+        // if (null !== $cookie = $jar->get($name)) {
+        //     return $cookie->getValue();
+        // }
 
-        if (null !== $cookie = $jar->get($name)) {
-            return $cookie->getValue();
+        $allValues = $this->client->getCookieJar()->allValues($this->getCurrentUrl());
+
+        if (isset($allValues[$name])) {
+            return $allValues[$name];
+        } else {
+            return null;
         }
     }
 
