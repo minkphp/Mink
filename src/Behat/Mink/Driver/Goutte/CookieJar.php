@@ -17,7 +17,7 @@ class CookieJar extends BaseJar
     public function updateFromResponse(Response $response, $uri = null)
     {
         foreach ($response->getHeader('Set-Cookie', false) as $cookie) {
-            $this->set(Cookie::fromString(urldecode($cookie), $uri));
+            $this->set(Cookie::fromString($cookie, $uri));
         }
     }
 }
