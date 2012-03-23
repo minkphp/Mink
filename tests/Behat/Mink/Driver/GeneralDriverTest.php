@@ -79,6 +79,17 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertNotNull($field);
     }
 
+    public function testIssue212()
+    {
+        $session = $this->getSession();
+
+        $session->visit($this->pathTo('/issue212.php'));
+        $page = $session->getPage();
+
+        $field = $page->findById('poney-button');
+        $this->assertEquals('poney', $field->getValue());
+    }
+
     public function testCookie()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
