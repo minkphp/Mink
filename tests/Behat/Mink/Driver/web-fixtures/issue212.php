@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <body>
   <form action="/" method="post" id="user-login-form">
-    <input type="submit" name="toto1" id="jaguar-button" value="jaguar"/>
-    <input type="submit" name="toto2" id="poney-button" value="poney"/>
+    <input type="submit" name="toto" id="jaguar-button" value="jaguar"/>
+    <input type="submit" name="toto" id="poney-button" value="poney"/>
   </form>
 </body>
 </html>

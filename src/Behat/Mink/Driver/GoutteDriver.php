@@ -294,6 +294,10 @@ class GoutteDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
+        if (in_array($this->getAttribute($xpath, 'type'), array('submit', 'image'))) {
+            return $this->getAttribute($xpath, 'value');
+        }
+
         try {
             $field = $this->getFormField($xpath);
         } catch (\InvalidArgumentException $e) {
