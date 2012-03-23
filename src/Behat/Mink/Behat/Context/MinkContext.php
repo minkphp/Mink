@@ -7,18 +7,16 @@ use Behat\Behat\Event\SuiteEvent;
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
+    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
+    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
+    Behat\Mink\Driver\Zombie\Server as ZombieServer,
     Behat\Mink\Driver\SeleniumDriver,
     Behat\Mink\Driver\Selenium2Driver;
 
-use Goutte\Client as GoutteClient;
-
 use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
-
-use Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
-    Behat\Mink\Driver\Zombie\Server as ZombieServer;
 
 use Selenium\Client as SeleniumClient;
 
@@ -145,7 +143,7 @@ class MinkContext extends BaseMinkContext
             $params  = $parameters['webdriver'];
             $browser = $parameters['browser'];
             $mink->registerSession('webdriver', static::initWebdriverSession(
-                $browser, $params['host']
+                $browser, $params['host'],$params['capabilities']
             ));
         }
     }
@@ -225,9 +223,9 @@ class MinkContext extends BaseMinkContext
      * @return  Behat\Mink\Session
      */
     protected static function initWebdriverSession($browser = 'firefox',
-                                                   $host = 'http://localhost:4444/wd/hub')
+                                                   $host = 'http://localhost:4444/wd/hub',$capabilities = null)
     {
-        return new Session(new Selenium2Driver($browser, null, $host));
+        return new Session(new Selenium2Driver($browser, $capabilities, $host));
     }
 
     /**
@@ -264,7 +262,8 @@ class MinkContext extends BaseMinkContext
                 'port' => 4444
             ),
             'webdriver' => array(
-                'host' => 'http://localhost:4444/wd/hub'
+                'host'         => 'http://localhost:4444/wd/hub',
+                'capabilities' => Selenium2Driver::getDefaultCapabilities()
             ),
         );
     }

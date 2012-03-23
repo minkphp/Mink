@@ -662,31 +662,15 @@ JS;
      *
      * @param   string  $event  The name of the event
      * @param   string  $xpath  The xpath of the element to trigger this event
-     * @param   array   $opts   Additional event options (key-value)
-     * @param   array   $attrs  Additional event attributes (key-value)
      */
-    protected function triggerBrowserEvent($event, $xpath, array $opts = array(), array $attrs = array())
+    protected function triggerBrowserEvent($event, $xpath)
     {
         if (!$ref = $this->getNativeRefForXPath($xpath)) {
             return;
         }
 
-        // Merge event attributes with event options
-        if (!empty($attrs)) {
-            $mergedAttrs = array_merge(
-              (isset($opt["attributes"]) ? $opt["attributes"] : array()), $attrs
-            );
-
-            if (!empty($mergedAttrs)) {
-              $opts["attributes"] = $mergedAttrs;
-            }
-        }
-
-        // Encode options array
-        $opts = !empty($opts) ? json_encode($opts) : "{}";
-
         $js = <<<JS
-browser.fire("{$event}", {$ref}, {$opts}, function(err) {
+browser.fire("{$event}", {$ref}, function(err) {
   if (err) {
     stream.end(JSON.stringify(err.stack));
   } else {

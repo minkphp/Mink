@@ -70,6 +70,7 @@ class PharCompiler
                 'vendor',
             ))
             ->in($this->libPath . '/src')
+            ->in($this->libPath . '/i18n')
             ->in($this->libPath . '/vendor/.composer')
             ->in($this->libPath . '/vendor/symfony')
             ->in($this->libPath . '/vendor/alexandresalome')
@@ -89,6 +90,8 @@ class PharCompiler
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Ip.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Com.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Jp.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Cn.php',
+            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Biz.php',
             $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Dispatchable.php',
             $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Message.php',
             $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/MessageDescription.php',

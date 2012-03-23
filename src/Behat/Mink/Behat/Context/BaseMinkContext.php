@@ -277,17 +277,10 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     /**
      * Checks, that current page PATH matches regular expression.
      *
-     * @Then /^the (?i)url(?-i) should match "(?P<pattern>(?:[^"]|\\")*)"$/
+     * @Then /^the (?i)url(?-i) should match (?P<pattern>\/([^\/]|\\\/)*\/)$/
      */
     public function assertUrlRegExp($pattern)
     {
-        $pattern = str_replace('\\"', '"', $pattern);
-        if (!preg_match('/^\/.*\/$/', $pattern)) {
-            $this->assertPageAddress($pattern);
-
-            return;
-        }
-
         $actual = parse_url($this->getSession()->getCurrentUrl(), PHP_URL_PATH);
 
         try {
@@ -351,7 +344,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that page doesn't contains specified text.
+     * Checks, that page doesn't contain specified text.
      *
      * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/
      */
@@ -364,6 +357,40 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
             assertNotContains($expected, $actual);
         } catch (AssertException $e) {
             $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $expected);
+            throw new ResponseTextException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
+     * Checks, that page contains text matching specified pattern.
+     *
+     * @Then /^(?:|I )should see text matching (?P<pattern>"(?:[^"]|\\")*")$/
+     */
+    public function assertPageMatchesText($pattern)
+    {
+        $actual = $this->getSession()->getPage()->getText();
+
+        try {
+            assertRegExp($pattern, $actual);
+        } catch (AssertException $e) {
+            $message = sprintf('The pattern %s was not found anywhere in the text of the current page.', $pattern);
+            throw new ResponseTextException($message, $this->getSession(), $e);
+        }
+    }
+
+    /**
+     * Checks, that page doesn't contain text matching specified pattern.
+     *
+     * @Then /^(?:|I )should not see text matching (?P<pattern>"(?:[^"]|\\")*")$/
+     */
+    public function assertPageNotMatchesText($pattern)
+    {
+        $actual = $this->getSession()->getPage()->getText();
+
+        try {
+            assertNotRegExp($pattern, $actual);
+        } catch (AssertException $e) {
+            $message = sprintf('The pattern %s was found in the text of the current page, but it should not.', $pattern);
             throw new ResponseTextException($message, $this->getSession(), $e);
         }
     }
@@ -387,7 +414,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that HTML response doesn't contains specified string.
+     * Checks, that HTML response doesn't contain specified string.
      *
      * @Then /^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/
      */
@@ -424,6 +451,30 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
             assertContains($text, $node->getText());
         } catch (AssertException $e) {
             $message = sprintf('The text "%s" was not found in the text of the element matching css "%s"', $text, $element);
+            throw new ElementTextException($message, $this->getSession(), $node, $e);
+        }
+    }
+
+    /**
+     * Checks, that element with specified CSS doesn't contain specified text.
+     *
+     * @Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
+     */
+    public function assertElementNotContainsText($element, $text)
+    {
+        $node = $this->getSession()->getPage()->find('css', $element);
+        $text = str_replace('\\"', '"', $text);
+
+        if (null === $node) {
+            throw new ElementNotFoundException(
+                $this->getSession(), 'element', 'css', $element
+            );
+        }
+
+        try {
+            assertNotContains($text, $node->getText());
+        } catch (AssertException $e) {
+            $message = sprintf('The text "%s" appears in the text of the element matching css "%s", but it should not.', $text, $element);
             throw new ElementTextException($message, $this->getSession(), $node, $e);
         }
     }
@@ -469,7 +520,7 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
     }
 
     /**
-     * Checks, that element with specified CSS doesn't exists on page.
+     * Checks, that element with specified CSS doesn't exist on page.
      *
      * @Then /^(?:|I )should not see an? "(?P<element>[^"]*)" element$/
      */
@@ -633,15 +684,6 @@ abstract class BaseMinkContext extends BehatContext implements TranslatedContext
      */
     public function getTranslationResources()
     {
-        return array(
-            __DIR__ . '/translations/ru.xliff',
-            __DIR__ . '/translations/fr.xliff',
-            __DIR__ . '/translations/ja.xliff',
-            __DIR__ . '/translations/es.xliff',
-            __DIR__ . '/translations/nl.xliff',
-            __DIR__ . '/translations/pt.xliff',
-            __DIR__ . '/translations/sv.xliff',
-            __DIR__ . '/translations/de.xliff',
-        );
+        return glob(__DIR__.'/../../../../../i18n/*.xliff');
     }
 }

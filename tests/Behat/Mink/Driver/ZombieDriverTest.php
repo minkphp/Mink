@@ -28,4 +28,9 @@ class ZombieDriverTest extends JavascriptDriverTest
      * No need in wait method for Zombie
      */
     public function testWait() {}
+
+    /**
+     * Zombie.js doesn't handle selects without values
+     */
+    public function testIssue193() {}
 }

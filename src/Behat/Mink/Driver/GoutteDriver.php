@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\Driver;
 
-use Goutte\Client as GoutteClient,
+use Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Client,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
@@ -194,10 +194,23 @@ class GoutteDriver implements DriverInterface
      */
     public function getCookie($name)
     {
-        $jar = $this->client->getCookieJar();
+        // Note that the following doesn't work well because
+        // Symfony\Component\BrowserKit\CookieJar stores cookies by name,
+        // path, AND domain and if you don't fill them all in correctly then
+        // you won't get the value that you're expecting.
+        //
+        // $jar = $this->client->getCookieJar();
+        //
+        // if (null !== $cookie = $jar->get($name)) {
+        //     return $cookie->getValue();
+        // }
 
-        if (null !== $cookie = $jar->get($name)) {
-            return $cookie->getValue();
+        $allValues = $this->client->getCookieJar()->allValues($this->getCurrentUrl());
+
+        if (isset($allValues[$name])) {
+            return $allValues[$name];
+        } else {
+            return null;
         }
     }
 
@@ -281,6 +294,10 @@ class GoutteDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
+        if (in_array($this->getAttribute($xpath, 'type'), array('submit', 'image', 'button'))) {
+            return $this->getAttribute($xpath, 'value');
+        }
+
         try {
             $field = $this->getFormField($xpath);
         } catch (\InvalidArgumentException $e) {
@@ -374,7 +391,7 @@ class GoutteDriver implements DriverInterface
      */
     public function isChecked($xpath)
     {
-        return true === $this->getValue($xpath);
+        return (bool) $this->getValue($xpath);
     }
 
     /**
@@ -613,7 +630,7 @@ class GoutteDriver implements DriverInterface
             $nodeReflection->setAccessible(true);
             $valueReflection->setAccessible(true);
 
-            if (!($field instanceof Field\InputtoField && in_array(
+            if (!($field instanceof Field\InputFormField && in_array(
                 $nodeReflection->getValue($field)->getAttribute('type'),
                 array('submit', 'button', 'image')
             ))) {

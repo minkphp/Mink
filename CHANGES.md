@@ -1,3 +1,12 @@
+1.3.3 / 2012-03-23
+==================
+
+  * Prevent exceptions in `__toString()`
+  * Added couple of useful step definitions for Behat
+  * Fixed issues #168, #211, #212, #208
+  * Lot of small bug fixes and improvements
+  * Fixed dependencies and composer installation routine
+
 1.3.2 / 2011-12-21
 ==================
 

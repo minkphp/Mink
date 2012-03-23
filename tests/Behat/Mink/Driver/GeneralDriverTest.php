@@ -18,6 +18,18 @@ abstract class GeneralDriverTest extends TestCase
     }
 
     /**
+     * @group issue130
+     */
+    public function testIssue130()
+    {
+        $this->getSession()->visit($this->pathTo('/issue130.php?p=1'));
+        $page = $this->getSession()->getPage();
+
+        $page->clickLink('Go to 2');
+        $this->assertEquals($this->pathTo('/issue130.php?p=1'), $page->getText());
+    }
+
+    /**
      * @group issue131
      */
     public function testIssue131()
@@ -28,6 +40,54 @@ abstract class GeneralDriverTest extends TestCase
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
 
         $this->assertEquals('1', $page->findField('foobar')->getValue());
+    }
+
+    /**
+     * @group issue140
+     */
+    public function testIssue140()
+    {
+        $this->getSession()->visit($this->pathTo('/issue140.php'));
+
+        $this->getSession()->getPage()->fillField('cookie_value', 'some:value;');
+        $this->getSession()->getPage()->pressButton('Set cookie');
+
+        $this->getSession()->visit($this->pathTo('/issue140.php?show_value'));
+        $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
+    }
+
+    /**
+     * @group issue162
+     * TODO: fix goutte behavior
+     */
+    public function _testIssue162()
+    {
+        $this->getSession()->visit($this->pathTo('/issue162.php'));
+
+        $this->getSession()->getPage()->uncheckField('Checkbox 1');
+        $this->getSession()->getPage()->pressButton('Submit');
+    }
+
+    /**
+     * @group issue211
+     */
+    public function testIssue211()
+    {
+        $this->getSession()->visit($this->pathTo('/issue211.php'));
+        $field = $this->getSession()->getPage()->findField('Téléphone');
+
+        $this->assertNotNull($field);
+    }
+
+    public function testIssue212()
+    {
+        $session = $this->getSession();
+
+        $session->visit($this->pathTo('/issue212.php'));
+        $page = $session->getPage();
+
+        $field = $page->findById('poney-button');
+        $this->assertEquals('poney', $field->getValue());
     }
 
     public function testCookie()
@@ -221,6 +281,12 @@ abstract class GeneralDriverTest extends TestCase
         $profileFormDivLabel = $profileFormDiv->find('css', 'label');
         $this->assertNotNull($profileFormDivLabel);
 
+        $profileFormDivParent = $profileFormDivLabel->getParent();
+        $this->assertNotNull($profileFormDivParent);
+
+        $profileFormDivParent = $profileFormDivLabel->getParent();
+        $this->assertEquals('something', $profileFormDivParent->getAttribute('data-custom'));
+
         $profileFormInput = $profileFormDivLabel->findField('user-name');
         $this->assertNotNull($profileFormInput);
         $this->assertEquals('username', $profileFormInput->getAttribute('name'));
@@ -271,6 +337,16 @@ abstract class GeneralDriverTest extends TestCase
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
+
+        $this->getSession()->visit($this->pathTo('/links.php'));
+        $page = $this->getSession()->getPage();
+        $link = $page->findLink("Link with a ");
+
+        $this->assertNotNull($link);
+        $this->assertRegExp('/\/links\.php\?quoted$/', $link->getAttribute('href'));
+        $link->click();
+
+        $this->assertEquals($this->pathTo('/links.php?quoted'), $this->getSession()->getCurrentUrl());
     }
 
     public function testJson()
