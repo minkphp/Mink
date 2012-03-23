@@ -6,7 +6,7 @@
     "type":         "library",
     "license":      "MIT",
 
-    "authors":      [
+    "authors": [
         {
             "name":      "Konstantin Kudryashov",
             "email":     "ever.zet@gmail.com",
@@ -15,12 +15,12 @@
     ],
 
     "require": {
-        "php":                           ">=5.3.1",
-        "symfony/browser-kit":           ">=2.0",
-        "symfony/dom-crawler":           ">=2.0",
-        "symfony/css-selector":          ">=2.0",
-        "symfony/finder":                ">=2.0",
-        "symfony/process":               ">=2.0"
+        "php":                   ">=5.3.1",
+        "symfony/browser-kit":   ">=2.0",
+        "symfony/dom-crawler":   ">=2.0",
+        "symfony/css-selector":  ">=2.0",
+        "symfony/finder":        ">=2.0",
+        "symfony/process":       ">=2.0"
     },
 
     "recommend": {
