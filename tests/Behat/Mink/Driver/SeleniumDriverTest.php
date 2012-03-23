@@ -44,4 +44,9 @@ class SeleniumDriverTest extends JavascriptDriverTest
         $clicker->mouseOver();
         $this->assertEquals('mouse overed', $clicker->getText());
     }
+
+    /**
+     * Selenium1 doesn't handle selects without values
+     */
+    public function testIssue193() {}
 }

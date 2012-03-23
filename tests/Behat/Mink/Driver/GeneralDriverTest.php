@@ -58,7 +58,7 @@ abstract class GeneralDriverTest extends TestCase
 
     /**
      * @group issue162
-     * TODO: fix
+     * TODO: fix goutte behavior
      */
     public function _testIssue162()
     {
@@ -318,8 +318,9 @@ abstract class GeneralDriverTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/links.php'));
         $page = $this->getSession()->getPage();
-        $link = $page->findLink("Link with a '");
+        $link = $page->findLink("Link with a ");
 
+        $this->assertNotNull($link);
         $this->assertRegExp('/\/links\.php\?quoted$/', $link->getAttribute('href'));
         $link->click();
 
