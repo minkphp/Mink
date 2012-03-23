@@ -294,7 +294,7 @@ class GoutteDriver implements DriverInterface
      */
     public function getValue($xpath)
     {
-        if (in_array($this->getAttribute($xpath, 'type'), array('submit', 'image'))) {
+        if (in_array($this->getAttribute($xpath, 'type'), array('submit', 'image', 'button'))) {
             return $this->getAttribute($xpath, 'value');
         }
 
@@ -630,7 +630,7 @@ class GoutteDriver implements DriverInterface
             $nodeReflection->setAccessible(true);
             $valueReflection->setAccessible(true);
 
-            if (!($field instanceof Field\InputtoField && in_array(
+            if (!($field instanceof Field\InputFormField && in_array(
                 $nodeReflection->getValue($field)->getAttribute('type'),
                 array('submit', 'button', 'image')
             ))) {
