@@ -5,6 +5,14 @@ namespace Test\Behat\Mink\PHPUnit;
 use Behat\Mink\PHPUnit\TestCase,
     Behat\Mink\Session;
 
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /**
  * @group unittest
  */
@@ -39,5 +47,55 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
         $session->expects($this->any())->method('getPage')->will($this->returnValue($page));
 
         TestCase::assertPageContainsText($session, 'bar');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertCookieExistsTextFail()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue(null));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     */
+    public function testAssertCookieExistsSuccess()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('bar'));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieEquals
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertCookieEqualsTextFail()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('baz'));
+
+        TestCase::assertCookieEquals($session, 'foo', 'bar');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieEquals
+     */
+    public function testAssertCookieEqualsSuccess()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('bar'));
+
+        TestCase::assertCookieEquals($session, 'foo', 'bar');
     }
 }
