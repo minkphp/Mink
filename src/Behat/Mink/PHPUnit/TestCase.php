@@ -20,7 +20,8 @@ use Behat\SahiClient\Connection as SahiConnection,
     Behat\SahiClient\Client as SahiClient;
 
 use Behat\Mink\PHPUnit\Constraints\PageContains as PageContainsConstraint,
-    Behat\Mink\PHPUnit\Constraints\CookieExists as CookieExistsConstraint;
+    Behat\Mink\PHPUnit\Constraints\CookieExists as CookieExistsConstraint,
+    Behat\Mink\PHPUnit\Constraints\CookieEquals as CookieEqualsConstraint;
 
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
@@ -140,6 +141,24 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     public static function assertCookieExists(Session $session, $name, $message = null)
     {
       $constraint = new CookieExistsConstraint($name);
+      self::assertThat($session->getCookie($name), $constraint, $message);
+    }
+
+    /**
+     * Asserts that cookie exists and have specified value
+     *
+     * @param Session $session
+     * @param string  $name     cookie name to look for
+     * @param string  $value    value to compare with
+     * @param string  $message  message to show on fail
+     *
+     * @throws ResponseTextException
+     *
+     * @return void
+     */
+    public static function assertCookieEquals(Session $session, $name, $value, $message = null)
+    {
+      $constraint = new CookieEqualsConstraint($name, $value);
       self::assertThat($session->getCookie($name), $constraint, $message);
     }
 

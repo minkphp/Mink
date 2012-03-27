@@ -65,4 +65,29 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
 
         TestCase::assertCookieExists($session, 'foo');
     }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieEquals
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertCookieEqualsTextFail()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('baz'));
+
+        TestCase::assertCookieEquals($session, 'foo', 'bar');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieEquals
+     */
+    public function testAssertCookieEqualsSuccess()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('bar'));
+
+        TestCase::assertCookieEquals($session, 'foo', 'bar');
+    }
 }
