@@ -1,15 +1,17 @@
 <?php
-/**
- * Mink
- *
- * @package Mink
- * @author Михаил Красильников <mihalych@vsepofigu.ru>
- */
 namespace Test\Behat\Mink\PHPUnit\Constraints;
 
 use PHPUnit_Framework_ExpectationFailedException;
 
 use Behat\Mink\PHPUnit\Constraints\CookieEquals;
+
+/*
+ * This file is part of the Behat\Mink.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 /**
  * @group unittest
