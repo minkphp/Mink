@@ -119,4 +119,13 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $session->getPage()->selectFieldOption('options-with-values', 'two');
         $this->assertEquals('two', $session->getPage()->findById('options-with-values')->getValue());
     }
+
+    public function testIssue225()
+    {
+        $this->getSession()->visit($this->pathTo('/issue225.html'));
+        $this->getSession()->getPage()->pressButton('Créer un compte');
+        $this->getSession()->wait(5000, '$("#panel").text() != ""');
+
+        $this->assertContains('OH AIH!', $this->getSession()->getPage()->getText());
+    }
 }
