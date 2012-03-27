@@ -14,7 +14,7 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
      * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
      * @expectedException PHPUnit_Framework_ExpectationFailedException
      */
-    public function testAssertCookieExistsTextFail()
+    public function testAssertCookieExistsFail()
     {
         $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
             disableOriginalConstructor()->getMock();
