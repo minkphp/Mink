@@ -40,4 +40,29 @@ class TestCaseTest extends \PHPUnit_Framework_TestCase
 
         TestCase::assertPageContainsText($session, 'bar');
     }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertCookieExistsTextFail()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue(null));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     */
+    public function testAssertCookieExistsSuccess()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('bar'));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
 }
