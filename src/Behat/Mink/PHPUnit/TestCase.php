@@ -110,8 +110,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @param string  $name     cookie name to look for
      * @param string  $message  message to show on fail
      *
-     * @throws ResponseTextException
-     *
      * @return void
      */
     public static function assertCookieExists(Session $session, $name, $message = null)
