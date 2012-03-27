@@ -43,6 +43,18 @@ class CookieExists extends PHPUnit_Framework_Constraint
     }
 
     /**
+     * Returns the description of the failure
+     *
+     * @param mixed $other  evaluated value or object
+     *
+     * @return string
+     */
+    protected function failureDescription($other)
+    {
+        return $this->toString();
+    }
+
+    /**
      * Returns a string representation of the constraint.
      *
      * @return string
