@@ -2,8 +2,7 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Driver\Zombie\Connection,
-    Behat\Mink\Driver\Zombie\Server;
+use Behat\Mink\Driver\NodeJS\Server\ZombieServer;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -36,52 +35,60 @@ class ZombieDriver implements DriverInterface
     private $nativeRefs = array();
 
     /**
-     * @var Behat\Mink\Driver\Zombie\Connection
-     */
-    private $conn = null;
-
-    /**
-     * @var Behat\Mink\Driver\Zombie\Server
+     * @var Behat\Mink\Driver\NodeJS\Server\ZombieServer
      */
     private $server = null;
 
     /**
      * Constructor
      *
-     * @param   Behat\Mink\Driver\Zombie\Connection $conn       a Zombie.js connection
-     * @param   Behat\Mink\Driver\Zombie\Server     $server     a Zombie.js server
-     * @param   Boolean                             $autoServer automatically create Zombie.js server
+     * @param   mixed $v,...  Either the connection parameters for creating
+     *                        the server
+     *                          string  $host - The server's host
+     *                          int     $port - The port to connect to
+     *                        or a valid ZombieServer object instance
      */
-    public function __construct(Connection $conn = null, Server $server = null, $autoServer = true)
+    public function __construct()
     {
-        if (null === $conn) {
-            $conn = new Connection();
+        $numArgs = func_num_args();
+        if (0 === $numArgs) {
+            throw new \InvalidArgumentException(
+                "You must either provide connection parameters or a ZombieServer object"
+            );
         }
 
-        if ($autoServer && null === $server) {
-            $server = new Server($conn->getHost(), $conn->getPort());
-        } elseif (!$autoServer) {
-            $server = null;
+        $argList = func_get_args();
+        $first = array_shift($argList);
+        if ($first instanceof ZombieServer) {
+            $this->server = $first;
+
+            return;
+        } else if (is_object($first)) {
+            throw new \InvalidArgumentException(
+                "Invalid first argument"
+            );
         }
 
-        $this->conn   = $conn;
-        $this->server = $server;
-    }
+        $params = array();
+        $params['host'] = (string)$first;
 
-    /**
-     * Returns Zombie.js connection.
-     *
-     * @return  Behat\Mink\Driver\Zombie\Connection
-     */
-    public function getConnection()
-    {
-        return $this->conn;
+        $second = array_shift($argList);
+        if (null !== $second) {
+            $params['port'] = intval($second);
+        }
+
+        $params = array_replace(array(
+            'host' => '127.0.0.1',
+            'port' => 8124,
+        ), $params);
+
+        $this->server = new ZombieServer($params['host'], $params['port']);
     }
 
     /**
      * Returns Zombie.js server.
      *
-     * @return  Behat\Mink\Driver\Zombie\Server
+     * @return  Behat\Mink\Driver\NodeJS\Server\ZombieServer
      */
     public function getServer()
     {
@@ -143,7 +150,7 @@ pointers = [];
 stream.end();
 JS;
 
-        $this->conn->evalJS($js);
+        $this->server->evalJS($js);
     }
 
     /**
@@ -164,7 +171,7 @@ browser.visit("{$url}", function(err) {
   }
 });
 JS;
-        $out = $this->conn->evalJS($js);
+        $out = $this->server->evalJS($js);
 
         if (!empty($out)) {
           throw new DriverException(sprintf("Could not load resource for URL '%s'", $url));
@@ -176,7 +183,7 @@ JS;
      */
     public function getCurrentUrl()
     {
-        return $this->conn->evalJSON('browser.location.toString()');
+        return $this->server->evalJS('browser.location.toString()', 'json');
     }
 
     /**
@@ -192,7 +199,7 @@ JS;
      */
     public function forward()
     {
-        $this->conn->evalJS("browser.window.history.forward(); browser.wait(function() { stream.end(); })");
+        $this->server->evalJS("browser.window.history.forward(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -200,7 +207,7 @@ JS;
      */
     public function back()
     {
-        $this->conn->evalJS("browser.window.history.back(); browser.wait(function() { stream.end(); })");
+        $this->server->evalJS("browser.window.history.back(); browser.wait(function() { stream.end(); })");
     }
 
     /**
@@ -224,7 +231,7 @@ JS;
      */
     public function getResponseHeaders()
     {
-        return (array)$this->conn->evalJSON('browser.lastResponse.headers');
+        return (array)$this->server->evalJS('browser.lastResponse.headers', 'json');
     }
 
     /**
@@ -234,7 +241,7 @@ JS;
     {
         $js = "browser.cookies(browser.window.location.hostname, '/')";
         $js .= (null === $value) ? ".remove('{$name}')" : ".set('{$name}', '{$value}')";
-        $this->conn->evalJSON($js);
+        $this->server->evalJS($js, 'json');
     }
 
     /**
@@ -242,7 +249,7 @@ JS;
      */
     public function getCookie($name)
     {
-        return $this->conn->evalJSON("browser.cookies(browser.window.location.hostname, '/').get('{$name}')");
+        return $this->server->evalJS("browser.cookies(browser.window.location.hostname, '/').get('{$name}')", 'json');
     }
 
     /**
@@ -250,7 +257,7 @@ JS;
      */
     public function getStatusCode()
     {
-        return (int)$this->conn->evalJSON('browser.statusCode');
+        return (int)$this->server->evalJS('browser.statusCode', 'json');
     }
 
     /**
@@ -258,7 +265,7 @@ JS;
      */
     public function getContent()
     {
-        return html_entity_decode($this->conn->evalJSON('browser.html()'));
+        return html_entity_decode($this->server->evalJS('browser.html()', 'json'));
     }
 
     /**
@@ -277,7 +284,7 @@ browser.xpath("{$xpath}").value.forEach(function(node) {
 });
 stream.end(JSON.stringify(refs));
 JS;
-        $refs = (array)json_decode($this->conn->evalJS($js));
+        $refs = (array)json_decode($this->server->evalJS($js));
 
         $elements = array();
         foreach ($refs as $i => $ref) {
@@ -303,7 +310,7 @@ JS;
             return null;
         }
 
-        return strtolower($this->conn->evalJSON("{$ref}.tagName"));
+        return strtolower($this->server->evalJS("{$ref}.tagName", 'json'));
     }
 
     /**
@@ -315,7 +322,7 @@ JS;
             return null;
         }
 
-        return trim($this->conn->evalJSON("{$ref}.textContent.replace(/\s+/g, ' ')"));
+        return trim($this->server->evalJS("{$ref}.textContent.replace(/\s+/g, ' ')", 'json'));
     }
 
     /**
@@ -327,7 +334,7 @@ JS;
             return null;
         }
 
-        return $this->conn->evalJSON("{$ref}.innerHTML");
+        return $this->server->evalJS("{$ref}.innerHTML", 'json');
     }
 
     /**
@@ -339,7 +346,7 @@ JS;
             return null;
         }
 
-        $out = $this->conn->evalJSON("{$ref}.getAttribute('{$name}')");
+        $out = $this->server->evalJS("{$ref}.getAttribute('{$name}')", 'json');
 
         return empty($out) ? null : $out;
     }
@@ -395,7 +402,7 @@ if (tagName == "INPUT") {
 }
 stream.end(JSON.stringify(value));
 JS;
-        return json_decode($this->conn->evalJS($js));
+        return json_decode($this->server->evalJS($js));
     }
 
     /**
@@ -426,7 +433,7 @@ if (tagName == "TEXTAREA") {
 }
 stream.end();
 JS;
-        $this->conn->evalJS($js);
+        $this->server->evalJS($js);
     }
 
     /**
@@ -438,7 +445,7 @@ JS;
             return;
         }
 
-        $this->conn->evalJS("browser.check({$ref});stream.end();");
+        $this->server->evalJS("browser.check({$ref});stream.end();");
     }
 
     /**
@@ -450,7 +457,7 @@ JS;
             return;
         }
 
-        $this->conn->evalJS("browser.uncheck({$ref});stream.end();");
+        $this->server->evalJS("browser.uncheck({$ref});stream.end();");
     }
 
     /**
@@ -462,7 +469,7 @@ JS;
             return false;
         }
 
-        return (boolean)$this->conn->evalJSON("{$ref}.checked");
+        return (boolean)$this->server->evalJS("{$ref}.checked", 'json');
     }
 
     /**
@@ -488,7 +495,7 @@ if (tagName == "SELECT") {
 }
 stream.end();
 JS;
-        $this->conn->evalJS($js);
+        $this->server->evalJS($js);
     }
 
     /**
@@ -522,7 +529,7 @@ if (tagName == "button" || (tagName == "input" && (type == "button" || type == "
   });
 }
 JS;
-        $this->conn->evalJS($js);
+        $this->server->evalJS($js);
     }
 
     /**
@@ -551,7 +558,7 @@ JS;
         }
 
         $path = json_encode($path);
-        $this->conn->evalJS("browser.attach({$ref}, {$path});stream.end();");
+        $this->server->evalJS("browser.attach({$ref}, {$path});stream.end();");
     }
 
     /**
@@ -566,7 +573,7 @@ JS;
         // This is kind of a workaround, because the current version of
         // Zombie.js does not fully support the DOMElement's style attribute
         $hiddenXpath = json_encode("./ancestor-or-self::*[contains(@style, 'display:none') or contains(@style, 'display: none')]");
-        return (0 == (int)$this->conn->evalJSON("browser.xpath({$hiddenXpath}, {$ref}).value.length"));
+        return (0 == (int)$this->server->evalJS("browser.xpath({$hiddenXpath}, {$ref}).value.length", 'json'));
     }
 
     /**
@@ -631,7 +638,7 @@ JS;
     public function executeScript($script)
     {
         $script = json_encode($script);
-        $this->conn->evalJS("browser.evaluate({$script})");
+        $this->server->evalJS("browser.evaluate({$script})");
     }
 
     /**
@@ -640,7 +647,7 @@ JS;
     public function evaluateScript($script)
     {
         $script = json_encode($script);
-        return $this->conn->evalJSON("browser.evaluate({$script})");
+        return $this->server->evalJS("browser.evaluate({$script})", 'json');
     }
 
     /**
@@ -652,7 +659,7 @@ JS;
         // there are events in the event loop. As soon as it's empty, it calls
         // the callback. So there's no need to wait for a specific time or
         // condition
-        $this->conn->evalJS("browser.wait(function() { stream.end(); });");
+        $this->server->evalJS("browser.wait(function() { stream.end(); });");
     }
 
     /**
@@ -678,7 +685,7 @@ browser.fire("{$event}", {$ref}, function(err) {
   }
 });
 JS;
-        $out = $this->conn->evalJS($js);
+        $out = $this->server->evalJS($js);
         if (!empty($out)) {
             throw new DriverException(sprintf("Error while processing event '%s'", $event));
         }
@@ -718,7 +725,7 @@ e.keyCode = {$char};
 node.dispatchEvent(e);
 stream.end();
 JS;
-        $this->conn->evalJS($js);
+        $this->server->evalJS($js);
     }
 
     /**
