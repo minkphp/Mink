@@ -199,9 +199,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $server = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
         if (null === $server) {
             return new Session(new ZombieDriver($host, $port));
-        } else {
-            return new Session(new ZombieDriver($server));
         }
+
+        return new Session(new ZombieDriver($server));
     }
 
     /**

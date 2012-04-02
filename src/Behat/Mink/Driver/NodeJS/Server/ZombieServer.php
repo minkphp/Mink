@@ -3,9 +3,9 @@
 namespace Behat\Mink\Driver\NodeJS\Server;
 
 use Behat\Mink\Driver\NodeJS\Connection;
-use Behat\Mink\Driver\NodeJS\Server as BaseServer;
+use Behat\Mink\Driver\NodeJS\Server;
 
-class ZombieServer extends BaseServer
+class ZombieServer extends Server
 {
     protected function doEvalJS(Connection $conn, $str, $returnType = 'js')
     {
@@ -56,7 +56,7 @@ net.createServer(function (stream) {
   });
 }).listen(port, host, function() {
   console.log('server started on ' + host + ':' + port);
-    });
+});
 JS;
     }
 }

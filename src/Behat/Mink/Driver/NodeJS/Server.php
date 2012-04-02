@@ -17,6 +17,7 @@
 namespace Behat\Mink\Driver\NodeJS;
 
 use Behat\Mink\Driver\NodeJS\Connection;
+use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Process;
 
 abstract class Server
@@ -55,6 +56,51 @@ abstract class Server
      * @var     Behat\Mink\Driver\NodeJS\Connection
      */
     protected $connection;
+
+        /**
+     * Constructor
+     *
+     * @param  string  $host        The server host
+     * @param  int     $port        The server port
+     * @param  string  $nodeBin     Path to NodeJS binary
+     * @param  string  $serverPath  Path to server script
+     * @param  int     $threshold   Threshold value in micro seconds
+     */
+    public function __construct(
+        $host       = '127.0.0.1',
+        $port       = 8124,
+        $nodeBin    = null,
+        $serverPath = null,
+        $threshold  = 2000000
+    )
+    {
+        if (null === $nodeBin) {
+            $nodeBin = 'node';
+        }
+
+        $this->host       = $host;
+        $this->port       = intval($port);
+        $this->nodeBin    = $nodeBin;
+
+        if (null === $serverPath) {
+            $serverPath = $this->createTemporaryServer();
+        }
+
+        $this->serverPath = $serverPath;
+        $this->threshold  = intval($threshold);
+        $this->process    = null;
+        $this->connection = null;
+    }
+
+    /**
+     * Destructor
+     *
+     * Make sure that current process is stopped
+     */
+    public function __destruct()
+    {
+        $this->stop();
+    }
 
     /**
      * Setter host
@@ -177,51 +223,6 @@ abstract class Server
     }
 
     /**
-     * Constructor
-     *
-     * @param  string  $host        The server host
-     * @param  int     $port        The server port
-     * @param  string  $nodeBin     Path to NodeJS binary
-     * @param  string  $serverPath  Path to server script
-     * @param  int     $threshold   Threshold value in micro seconds
-     */
-    public function __construct(
-      $host       = '127.0.0.1',
-      $port       = 8124,
-      $nodeBin    = null,
-      $serverPath = null,
-      $threshold  = 2000000
-    )
-    {
-        if (null === $nodeBin) {
-            $nodeBin = 'node';
-        }
-
-        $this->host       = $host;
-        $this->port       = intval($port);
-        $this->nodeBin    = $nodeBin;
-
-        if (null === $serverPath) {
-            $serverPath = $this->createTemporaryServer();
-        }
-
-        $this->serverPath = $serverPath;
-        $this->threshold  = intval($threshold);
-        $this->process    = null;
-        $this->connection = null;
-    }
-
-    /**
-     * Destructor
-     *
-     * Make sure that current process is stopped
-     */
-    public function __destruct()
-    {
-        $this->stop();
-    }
-
-    /**
      * Starts the server process
      *
      * @param   Symfony\Component\Process\Process  $process  A process object
@@ -239,7 +240,12 @@ abstract class Server
 
         // Create process object if neccessary
         if (null === $process) {
-            $process = new Process(sprintf('env %s %s', $this->nodeBin, $this->serverPath));
+            $processBuilder = new ProcessBuilder(array(
+                'exec',
+                $this->nodeBin,
+                $this->serverPath,
+            ));
+            $process = $processBuilder->getProcess();
         }
         $this->process = $process;
 
@@ -251,12 +257,12 @@ abstract class Server
         $time = 0;
         $successString = sprintf("server started on %s:%s", $this->host, $this->port);
         while ($this->process->isRunning() && $time < $this->threshold) {
-          if ($successString == trim($this->process->getOutput())) {
-              $this->connection = new Connection($this->host, $this->port);
-              break;
-          }
-          usleep(1000);
-          $time += 1000;
+            if ($successString == trim($this->process->getOutput())) {
+                $this->connection = new Connection($this->host, $this->port);
+                break;
+            }
+            usleep(1000);
+            $time += 1000;
         }
 
         // Make sure the server is ready or throw an exception otherwise
@@ -265,6 +271,8 @@ abstract class Server
 
     /**
      * Stops the server process
+     *
+     * @link    https://github.com/symfony/Process
      */
     public function stop()
     {
@@ -288,6 +296,8 @@ abstract class Server
 
     /**
      * Checks if the server process is running
+     *
+     * @link    https://github.com/symfony/Process
      */
     public function isRunning()
     {
@@ -326,7 +336,7 @@ abstract class Server
      *
      * @return  string  The eval'ed response
      */
-    protected abstract function doEvalJS(Connection $conn, $str, $returnType = 'js');
+    abstract protected function doEvalJS(Connection $conn, $str, $returnType = 'js');
 
     /**
      * Checks whether server connection and server process are still available
@@ -340,8 +350,9 @@ abstract class Server
             if (null === $this->process) {
                 throw new \RuntimeException(
                     "No connection available. Did you start the server?"
-                );
-            } else if ($this->process->isRunning()) {
+                  );
+            }
+            if ($this->process->isRunning()) {
               $this->process->stop();
               throw new \RuntimeException(sprintf(
                   "Server did not respond in time: (%s) [Stopped]",
@@ -381,5 +392,5 @@ abstract class Server
      *
      * @return  string  The server's JavaScript code
      */
-    protected abstract function getServerScript();
+    abstract protected function getServerScript();
 }

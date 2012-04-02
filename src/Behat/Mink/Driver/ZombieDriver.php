@@ -513,7 +513,7 @@ var node    = {$ref},
     type    = (node.getAttribute('type') || '').toLowerCase();
 if (tagName == "button" || (tagName == "input" && (type == "button" || type == "submit"))) {
   if (node.getAttribute('disabled')) {
-    stream.end('This button is diabled');
+    stream.end('This button is disabled');
   }
 }
 browser.fire("click", node, function(err) {
