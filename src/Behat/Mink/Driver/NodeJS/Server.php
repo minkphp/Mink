@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Abstract base class to start and connect to a NodeJS server process.
- *
- * @author      Pascal Cremer <b00gizm@gmail.com>
- */
-
 namespace Behat\Mink\Driver\NodeJS;
 
 use Behat\Mink\Driver\NodeJS\Connection;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Process;
+
+/**
+ * Abstract base class to start and connect to a NodeJS server process.
+ *
+ * @author      Pascal Cremer <b00gizm@gmail.com>
+ */
 
 abstract class Server
 {
@@ -57,7 +57,7 @@ abstract class Server
      */
     protected $connection;
 
-        /**
+    /**
      * Constructor
      *
      * @param  string  $host        The server host
