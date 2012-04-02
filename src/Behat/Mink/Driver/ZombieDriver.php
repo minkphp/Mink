@@ -512,24 +512,22 @@ var node    = {$ref},
     tagName = node.tagName.toLowerCase();
     type    = (node.getAttribute('type') || '').toLowerCase();
 if (tagName == "button" || (tagName == "input" && (type == "button" || type == "submit"))) {
-  browser.pressButton(node.value, function(err) {
-    if (err) {
-      stream.end(JSON.stringify(err.stack));
-    } else {
-      stream.end();
-    }
-  });
-} else {
-  browser.fire("click", node, function(err) {
-    if (err) {
-      stream.end(JSON.stringify(err.stack));
-    } else {
-      stream.end();
-    }
-  });
+  if (node.getAttribute('disabled')) {
+    stream.end('This button is diabled');
+  }
 }
+browser.fire("click", node, function(err) {
+  if (err) {
+    stream.end(JSON.stringify(err.stack));
+  } else {
+    stream.end();
+  }
+});
 JS;
-        $this->server->evalJS($js);
+        $out = $this->server->evalJS($js);
+        if (!empty($out)) {
+            throw new \DriverException('Error while clicking button: [%s]', $out);
+        }
     }
 
     /**
