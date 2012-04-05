@@ -33,4 +33,12 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $clicker->mouseOver();
         $this->assertEquals('mouse overed', $clicker->getText());
     }
+
+    public function testIssue215()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue215.html'));
+
+        $this->assertContains("foo\nbar", $session->getPage()->findById('textarea')->getValue());
+    }
 }
