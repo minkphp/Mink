@@ -548,8 +548,7 @@ JS;
      */
     public function setValue($xpath, $value)
     {
-        $valueEscaped = str_replace('"', '\"', $value);
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
+        $this->wdSession->element('xpath', $xpath)->value(array('value' => array($value)));
     }
 
     /**
