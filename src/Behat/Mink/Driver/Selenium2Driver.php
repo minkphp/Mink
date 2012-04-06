@@ -549,7 +549,14 @@ JS;
     public function setValue($xpath, $value)
     {
         $element = $this->wdSession->element('xpath', $xpath);
-        $element->clear();
+        if (
+            strtolower($element->name()) != 'input' ||
+            strtolower($element->attribute('type')) != 'file'
+        )
+        {
+            $element->clear();
+        }
+
         $element->value(array('value' => array($value)));
     }
 
