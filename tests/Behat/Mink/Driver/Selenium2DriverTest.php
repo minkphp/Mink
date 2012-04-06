@@ -42,4 +42,12 @@ class Selenium2DriverTest extends JavascriptDriverTest
         $session->getPage()->findById('source')->setValue('foo');
         $this->assertEquals('foo', $session->getPage()->findById('target')->getText());
     }
+
+    public function testIssue215()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue215.html'));
+
+        $this->assertContains("foo\nbar", $session->getPage()->findById('textarea')->getValue());
+    }
 }
