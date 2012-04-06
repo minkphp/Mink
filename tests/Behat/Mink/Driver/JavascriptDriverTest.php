@@ -122,7 +122,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
     public function testIssue225()
     {
-        $this->getSession()->visit($this->pathTo('/issue225.html'));
+        $this->getSession()->visit($this->pathTo('/issue225.php'));
         $this->getSession()->getPage()->pressButton('Créer un compte');
         $this->getSession()->wait(5000, '$("#panel").text() != ""');
 
