@@ -548,7 +548,9 @@ JS;
      */
     public function setValue($xpath, $value)
     {
-        $this->wdSession->element('xpath', $xpath)->value(array('value' => array($value)));
+        $element = $this->wdSession->element('xpath', $xpath);
+        $element->clear();
+        $element->value(array('value' => array($value)));
     }
 
     /**
