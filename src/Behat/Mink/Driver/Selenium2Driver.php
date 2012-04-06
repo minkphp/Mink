@@ -548,8 +548,16 @@ JS;
      */
     public function setValue($xpath, $value)
     {
-        $valueEscaped = str_replace('"', '\"', $value);
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
+        $element = $this->wdSession->element('xpath', $xpath);
+        if (
+            strtolower($element->name()) != 'input' ||
+            strtolower($element->attribute('type')) != 'file'
+        )
+        {
+            $element->clear();
+        }
+
+        $element->value(array('value' => array($value)));
     }
 
     /**
