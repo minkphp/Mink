@@ -67,7 +67,7 @@ class PearCompiler
             ))
             ->in($this->libPath . '/src')
             ->in($this->libPath . '/i18n')
-            ->in($this->libPath . '/vendor/.composer')
+            ->in($this->libPath . '/vendor/composer')
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')
             ->in($this->libPath . '/vendor/fabpot')
@@ -78,6 +78,7 @@ class PearCompiler
         ;
 
         $files = array(
+            $this->libPath . '/vendor/autoload.php',
             $this->libPath . '/vendor/zendframework/zend-registry/php/Zend/Registry.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Validator.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/AbstractValidator.php',
