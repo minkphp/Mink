@@ -470,7 +470,7 @@ class Selenium2Driver implements DriverInterface
 var node = {{ELEMENT}},
     tagName = node.tagName;
 
-if (tagName == "INPUT") {
+if (tagName == "INPUT" || "TEXTAREA" == tagName) {
     var type = node.getAttribute('type');
     if (type == "checkbox") {
         value = "boolean:" + node.checked;
@@ -489,8 +489,6 @@ if (tagName == "INPUT") {
     } else {
         value = "string:" + node.value;
     }
-} else if (tagName == "TEXTAREA") {
-  value = "string:" + node.text;
 } else if (tagName == "SELECT") {
     if (node.getAttribute('multiple')) {
         options = [];
@@ -524,7 +522,7 @@ JS;
 
         $value = $this->executeJsOnXpath($xpath, $script);
         if ($value) {
-            if (preg_match('/^string:(.*)$/', $value, $vars)) {
+            if (preg_match('/^string:(.*)$/ms', $value, $vars)) {
                 return $vars[1];
             }
             if (preg_match('/^boolean:(.*)$/', $value, $vars)) {
@@ -548,8 +546,16 @@ JS;
      */
     public function setValue($xpath, $value)
     {
-        $valueEscaped = str_replace('"', '\"', $value);
-        $this->executeJsOnXpath($xpath, '{{ELEMENT}}.value="'.$valueEscaped.'";');
+        $element = $this->wdSession->element('xpath', $xpath);
+        if (
+            strtolower($element->name()) != 'input' ||
+            strtolower($element->attribute('type')) != 'file'
+        )
+        {
+            $element->clear();
+        }
+
+        $element->value(array('value' => array($value)));
     }
 
     /**

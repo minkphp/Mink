@@ -71,7 +71,7 @@ class PharCompiler
             ))
             ->in($this->libPath . '/src')
             ->in($this->libPath . '/i18n')
-            ->in($this->libPath . '/vendor/.composer')
+            ->in($this->libPath . '/vendor/composer')
             ->in($this->libPath . '/vendor/symfony')
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')
@@ -83,6 +83,7 @@ class PharCompiler
         ;
 
         $files = array(
+            $this->libPath . '/vendor/autoload.php',
             $this->libPath . '/vendor/zendframework/zend-registry/php/Zend/Registry.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Validator.php',
             $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/AbstractValidator.php',
@@ -153,7 +154,7 @@ class PharCompiler
 
 Phar::mapPhar('mink.phar');
 require_once 'phar://mink.phar/vendor/facebook/php-webdriver/__init__.php';
-require_once 'phar://mink.phar/vendor/.composer/autoload.php';
+require_once 'phar://mink.phar/vendor/autoload.php';
 
 __HALT_COMPILER();
 EOF

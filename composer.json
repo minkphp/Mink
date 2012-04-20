@@ -20,14 +20,21 @@
         "symfony/dom-crawler":   ">=2.0,<2.2-dev",
         "symfony/css-selector":  ">=2.0,<2.2-dev",
         "symfony/finder":        ">=2.0,<2.2-dev",
-        "symfony/process":       ">=2.0,<2.2-dev"
+        "symfony/process":       ">=2.1,<2.2-dev"
     },
 
-    "recommend": {
+    "require-dev": {
         "fabpot/goutte":                 "*",
         "behat/sahi-client":             ">=1.0.1,<1.1-dev",
         "alexandresalome/php-selenium":  "*",
         "facebook/php-webdriver":        "*"
+    },
+
+    "suggest": {
+        "fabpot/goutte":                 "Goutte is needed to use the GoutteDriver",
+        "behat/sahi-client":             "Sahi-Client is needed to use the SahiDriver",
+        "alexandresalome/php-selenium":  "Php-Selenium is needed to use the SeleniumDriver",
+        "facebook/php-webdriver":        "Php-Webdriver is needed to use the Selenium2Driver"
     },
 
     "autoload": {

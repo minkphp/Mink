@@ -10,8 +10,7 @@ use Behat\Mink\Mink,
     Behat\Mink\Driver\ZombieDriver,
     Behat\Mink\Driver\SeleniumDriver,
     Behat\Mink\Driver\Selenium2Driver,
-    Behat\Mink\Driver\Zombie\Connection as ZombieConnection,
-    Behat\Mink\Driver\Zombie\Server as ZombieServer,
+    Behat\Mink\Driver\NodeJS\Server\ZombieServer,
     Behat\Mink\Exception\ResponseTextException;
 
 use Selenium\Client as SeleniumClient;
@@ -197,10 +196,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected static function initZombieSession($host = '127.0.0.1', $port = 8124,
                                                 $autoServer = true, $nodeBin = 'node')
     {
-        $connection = new ZombieConnection($host, $port);
-        $server     = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
+        $server = $autoServer ? new ZombieServer($host, $port, $nodeBin) : null;
+        if (null === $server) {
+            return new Session(new ZombieDriver($host, $port));
+        }
 
-        return new Session(new ZombieDriver($connection, $server, $autoServer));
+        return new Session(new ZombieDriver($server));
     }
 
     /**
