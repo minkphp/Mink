@@ -99,7 +99,7 @@
             <target><![CDATA[/^(?:|я )должен быть на странице "(?P<page>[^"]+)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-url-should-match">
-            <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
+            <source><![CDATA[/^the (?i)url(?-i) should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:url|адрес) должен соответствовать "(?P<pattern>(?:[^"]|\\")*)"$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-contain">
