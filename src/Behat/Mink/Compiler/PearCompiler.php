@@ -226,6 +226,12 @@ class PearCompiler
                 <name>xml</name>
             </extension>
         </required>
+        <optional>
+            <package>
+                <name>PHPUnit</name>
+                <channel>pear.phpunit.de</channel>
+            </package>
+        </optional>
     </dependencies>
     <phprelease />
 </package>
