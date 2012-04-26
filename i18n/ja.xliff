@@ -46,6 +46,10 @@
             <source><![CDATA[/^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" という値を "(?P<select>(?:[^"]|\\")*)" から選択する$/]]></target>
         </trans-unit>
+        <trans-unit id="i-additionally-select-option-from-select">
+            <source><![CDATA[/^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/]]></source>
+            <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" という値を "(?P<select>(?:[^"]|\\")*)" から追加で選択する$/]]></target>
+        </trans-unit>
         <trans-unit id="i-check-option">
             <source><![CDATA[/^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/]]></source>
             <target><![CDATA[/^(?:|ユーザーが )"(?P<option>(?:[^"]|\\")*)" にチェックをつける$/]]></target>
@@ -95,8 +99,8 @@
             <target><![CDATA[/^(?:|ユーザーが )(?P<page>[^\s]+) を表示していること$/]]></target>
         </trans-unit>
         <trans-unit id="the-url-should-match">
-            <source><![CDATA[/^the url should match "(?P<pattern>(?:[^"]|\\")*)"$/]]></source>
-            <target><![CDATA[/^URLが "(?P<pattern>(?:[^"]|\\")*)" にマッチすること$/]]></target>
+            <source><![CDATA[/^the (?i)url(?-i) should match (?P<pattern>\/([^\/]|\\\/)*\/)$/]]></source>
+            <target><![CDATA[/^(?i)url(?-i)が "(?P<pattern>\/([^\/]|\\\/)*\/)" にマッチすること$/]]></target>
         </trans-unit>
         <trans-unit id="the-element-should-contain">
             <source><![CDATA[/^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/]]></source>
@@ -106,6 +110,10 @@
             <source><![CDATA[/^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<text>(?:[^"]|\\")*)" と表示されていること$/]]></target>
         </trans-unit>
+        <trans-unit id="i-should-not-see-text-in-element">
+            <source><![CDATA[/^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/]]></source>
+            <target><![CDATA[/^"(?P<element>[^"]*)" エレメントに "(?P<text>(?:[^"]|\\")*)" と表示されていないこと$/]]></target>
+        </trans-unit>
         <trans-unit id="i-should-see-element">
             <source><![CDATA[/^(?:|I )should see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていること$/]]></target>
@@ -114,9 +122,17 @@
             <source><![CDATA[/^(?:|I )should not see an? "(?P<element>[^"]*)" element$/]]></source>
             <target><![CDATA[/^(?:|画面に )"(?P<element>[^"]*)" エレメントが表示されていないこと$/]]></target>
         </trans-unit>
-        <trans-unit id="response-status-code-should-be">
+        <trans-unit id="i-should-see-num-elements">
+            <source><![CDATA[/^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/]]></source>
+            <target><![CDATA[/^(?:|画面に )(?P<num>\d+) 個の "(?P<element>[^"]*)" エレメントが表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-be">
             <source><![CDATA[/^the response status code should be (?P<code>\d+)$/]]></source>
-            <target><![CDATA[/レスポンスコードが (?P<code>\d+) であること/]]></target>
+            <target><![CDATA[/^レスポンスコードが (?P<code>\d+) であること$/]]></target>
+        </trans-unit>
+        <trans-unit id="the-response-status-code-should-not-be">
+            <source><![CDATA[/^the response status code should not be (?P<code>\d+)$/]]></source>
+            <target><![CDATA[/^レスポンスコードが (?P<code>\d+) ではないこと$/]]></target>
         </trans-unit>
         <trans-unit id="print-last-response">
             <source><![CDATA[/^print last response$/]]></source>
@@ -125,6 +141,14 @@
         <trans-unit id="show-last-response">
             <source><![CDATA[/^show last response$/]]></source>
             <target><![CDATA[/^最後のレスポンスをブラウザで表示$/]]></target>
+        </trans-unit>
+        <trans-unit id="-should-see-text-matching">
+            <source><![CDATA[/^(?:|I )should see text matching (?P<pattern>"(?:[^"]|\\")*")$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<pattern>"(?:[^"]|\\")*")" にマッチするテキストが表示されていること$/]]></target>
+        </trans-unit>
+        <trans-unit id="-should-not-see-text-matching">
+            <source><![CDATA[/^(?:|I )should not see text matching (?P<pattern>"(?:[^"]|\\")*")$/]]></source>
+            <target><![CDATA[/^(?:|画面に )"(?P<pattern>"(?:[^"]|\\")*")" にマッチするテキストが表示されていないこと$/]]></target>
         </trans-unit>
     </body>
   </file>
