@@ -29,6 +29,7 @@ class SahiDriver implements DriverInterface
     private $browserName;
     private $client;
     private $session;
+    private $window;
 
     /**
      * Initializes Sahi driver.
@@ -153,6 +154,30 @@ class SahiDriver implements DriverInterface
     }
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function switchToWindow($name = null)
+    {
+        throw new UnsupportedDriverActionException('Window management is broken in Sahi, so %s does not support switching into windows', $this);
+    }
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function switchToIFrame($name = null)
+    {
+        throw new UnsupportedDriverActionException('Sahi does not have ability to switch into iFrames, so %s does not support it too', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
      *
      * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
@@ -231,6 +256,7 @@ class SahiDriver implements DriverInterface
     return count;
 })()
 JS;
+
         $count = intval($this->evaluateScript($function));
         $elements = array();
         for ($i = 0; $i < $count; $i++) {

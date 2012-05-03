@@ -227,6 +227,26 @@ class Session
     }
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     */
+    public function switchToWindow($name = null)
+    {
+        $this->driver->switchToWindow($name);
+    }
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     */
+    public function switchToIFrame($name = null)
+    {
+        $this->driver->switchToIFrame($name);
+    }
+
+    /**
      * Execute JS in browser.
      *
      * @param   string  $script     javascript

@@ -211,6 +211,30 @@ JS;
     }
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function switchToWindow($name = null)
+    {
+        throw new UnsupportedDriverActionException('Window management is not supported by %s', $this);
+    }
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     *
+     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     */
+    public function switchToIFrame($name = null)
+    {
+        throw new UnsupportedDriverActionException('iFrame management is not supported by %s', $this);
+    }
+
+    /**
      * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
      */
     public function setBasicAuth($user, $password)

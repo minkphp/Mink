@@ -292,6 +292,26 @@ class Selenium2Driver implements DriverInterface
     }
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     */
+    public function switchToWindow($name = null)
+    {
+        $this->wdSession->focusWindow($name ? $name : '');
+    }
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     */
+    public function switchToIFrame($name = null)
+    {
+        $this->wdSession->frame(array('id' => $name));
+    }
+
+    /**
      * Sets HTTP Basic authentication parameters
      *
      * @param   string|false    $user       user name or false to disable authentication

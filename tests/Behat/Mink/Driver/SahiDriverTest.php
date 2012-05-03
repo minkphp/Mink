@@ -48,4 +48,10 @@ class SahiDriverTest extends JavascriptDriverTest
         $this->assertEquals("Single quote'", $method->invokeArgs($driver, array("Single quote'")));
         $this->assertEquals('Double quote\"', $method->invokeArgs($driver, array('Double quote"')));
     }
+
+    // Sahi doesn't support iFrames switching
+    public function testIFrame() {}
+
+    // Sahi doesn't support window switching
+    public function testWindow() {}
 }

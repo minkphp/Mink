@@ -86,6 +86,20 @@ interface DriverInterface
     function setBasicAuth($user, $password);
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     */
+    function switchToWindow($name = null);
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     */
+    function switchToIFrame($name = null);
+
+    /**
      * Sets specific request header on client.
      *
      * @param   string  $name

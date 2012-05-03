@@ -28,4 +28,10 @@ class ZombieDriverTest extends JavascriptDriverTest
      * Zombie.js doesn't handle selects without values
      */
     public function testIssue193() {}
+
+    // Zombie.js doesn't support iFrames switching
+    public function testIFrame() {}
+
+    // Zombie.js doesn't support window switching
+    public function testWindow() {}
 }

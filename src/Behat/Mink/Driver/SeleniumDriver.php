@@ -175,6 +175,30 @@ class SeleniumDriver implements DriverInterface
     }
 
     /**
+     * Switches to specific browser window.
+     *
+     * @param string $name window name (null for switching back to main window)
+     */
+    public function switchToWindow($name = null)
+    {
+        $this->browser->selectWindow($name ? $name : 'null');
+    }
+
+    /**
+     * Switches to specific iFrame.
+     *
+     * @param string $name iframe name (null for switching back)
+     */
+    public function switchToIFrame($name = null)
+    {
+        if ($name) {
+            $this->browser->selectFrame('dom=window.frames["'.$name.'"]');
+        } else {
+            $this->browser->selectFrame('relative=top');
+        }
+    }
+
+    /**
      * @see Behat\Mink\Driver\DriverInterface::setBasicAuth()
      */
     public function setBasicAuth($user, $password)

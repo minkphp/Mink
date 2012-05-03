@@ -6,6 +6,57 @@ require_once 'GeneralDriverTest.php';
 
 abstract class JavascriptDriverTest extends GeneralDriverTest
 {
+    public function testIFrame()
+    {
+        $this->getSession()->visit($this->pathTo('/iframe.php'));
+        $page = $this->getSession()->getPage();
+
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Main window div text', $el->getText());
+
+        $this->getSession()->switchToIFrame('subframe');
+
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('iFrame div text', $el->getText());
+
+        $this->getSession()->switchToIFrame();
+
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Main window div text', $el->getText());
+    }
+
+    public function testWindow()
+    {
+        $this->getSession()->visit($this->pathTo('/window.php'));
+        $session = $this->getSession();
+        $page    = $session->getPage();
+
+        $page->clickLink('Popup #1');
+        $page->clickLink('Popup #2');
+
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Main window div text', $el->getText());
+
+        $session->switchToWindow('popup_1');
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Popup#1 div text', $el->getText());
+
+        $session->switchToWindow('popup_2');
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Popup#2 div text', $el->getText());
+
+        $session->switchToWindow(null);
+        $el = $page->find('css', '#text');
+        $this->assertNotNull($el);
+        $this->assertSame('Main window div text', $el->getText());
+    }
+
     public function testAriaRoles()
     {
         $this->getSession()->visit($this->pathTo('/aria_roles.php'));
