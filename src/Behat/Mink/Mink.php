@@ -124,6 +124,16 @@ class Mink
     }
 
     /**
+     * Returns session asserter.
+     *
+     * @return WebAssert
+     */
+    public function assertSession($name = null)
+    {
+        return new WebAssert($this->getSession($name));
+    }
+
+    /**
      * Resets all started sessions.
      */
     public function resetSessions()
