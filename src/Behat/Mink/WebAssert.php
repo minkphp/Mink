@@ -201,7 +201,7 @@ class WebAssert
         return $node;
     }
 
-    public function elementContainsText($selectorType, $selector, $text)
+    public function elementTextContains($selectorType, $selector, $text)
     {
         $element = $this->elementExists($selectorType, $selector);
         $actual  = $element->getText();
@@ -213,7 +213,7 @@ class WebAssert
         }
     }
 
-    public function elementNotContainsText($selectorType, $selector, $text)
+    public function elementTextNotContains($selectorType, $selector, $text)
     {
         $element = $this->elementExists($selectorType, $selector);
         $actual  = $element->getText();
