@@ -66,7 +66,6 @@ class PearCompiler
                 'vendor',
             ))
             ->in($this->libPath . '/src')
-            ->in($this->libPath . '/i18n')
             ->in($this->libPath . '/vendor/composer')
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')

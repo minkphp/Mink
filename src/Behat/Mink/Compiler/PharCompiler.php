@@ -70,7 +70,6 @@ class PharCompiler
                 'vendor',
             ))
             ->in($this->libPath . '/src')
-            ->in($this->libPath . '/i18n')
             ->in($this->libPath . '/vendor/composer')
             ->in($this->libPath . '/vendor/symfony')
             ->in($this->libPath . '/vendor/alexandresalome')
