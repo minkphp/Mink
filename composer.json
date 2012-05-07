@@ -31,10 +31,10 @@
     },
 
     "suggest": {
-        "fabpot/goutte":                 "Goutte is needed to use the GoutteDriver",
-        "behat/sahi-client":             "Sahi-Client is needed to use the SahiDriver",
-        "alexandresalome/php-selenium":  "Php-Selenium is needed to use the SeleniumDriver",
-        "facebook/php-webdriver":        "Php-Webdriver is needed to use the Selenium2Driver"
+        "fabpot/goutte":                 "goutte is required if you want to use GoutteDriver",
+        "behat/sahi-client":             "sahi-client is required if you want to use SahiDriver",
+        "alexandresalome/php-selenium":  "php-selenium is required if you want to use SeleniumDriver",
+        "facebook/php-webdriver":        "php-webdriver is required if you want to use Selenium2Driver"
     },
 
     "autoload": {
