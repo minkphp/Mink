@@ -11,6 +11,31 @@ use Behat\Mink\PHPUnit\TestCase,
 class TestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     */
+    public function testAssertCookieExistsFail()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue(null));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
+
+    /**
+     * @covers Behat\Mink\PHPUnit\TestCase::assertCookieExists
+     */
+    public function testAssertCookieExistsSuccess()
+    {
+        $session = $this->getMockBuilder('Behat\Mink\Session')->setMethods(array('getCookie'))->
+            disableOriginalConstructor()->getMock();
+        $session->expects($this->any())->method('getCookie')->will($this->returnValue('bar'));
+
+        TestCase::assertCookieExists($session, 'foo');
+    }
+
+    /**
      * @covers Behat\Mink\PHPUnit\TestCase::assertPageContainsText
      * @expectedException PHPUnit_Framework_ExpectationFailedException
      */
