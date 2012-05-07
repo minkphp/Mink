@@ -469,9 +469,9 @@ class Selenium2Driver implements DriverInterface
      *
      * @return  mixed
      */
-    public function getAttribute($xpath, $attr)
+    public function getAttribute($xpath, $name)
     {
-        $attribute = $this->wdSession->element('xpath', $xpath)->attribute($attr);
+        $attribute = $this->wdSession->element('xpath', $xpath)->attribute($name);
         if ('' !== $attribute) {
             return $attribute;
         }

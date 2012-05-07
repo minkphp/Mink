@@ -15,17 +15,17 @@ use Behat\Mink\Session;
 /**
  * Mink "element not found" exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class ElementNotFoundException extends Exception
 {
     /**
      * Initializes exception.
      *
-     * @param   Behat\Mink\Session  $session    session instance
-     * @param   string              $type       element type
-     * @param   string              $selector   element selector type
-     * @param   string              $locator    element locator
+     * @param Session $session  session instance
+     * @param string  $type     element type
+     * @param string  $selector element selector type
+     * @param string  $locator  element locator
      */
     public function __construct(Session $session, $type = null, $selector = null, $locator = null)
     {
@@ -46,7 +46,7 @@ class ElementNotFoundException extends Exception
             $message .= ' '.$selector.' "' . $locator . '" ';
         }
 
-        $message .= 'not found';
+        $message .= 'not found.';
 
         parent::__construct($message, $session);
     }
@@ -54,7 +54,7 @@ class ElementNotFoundException extends Exception
     /**
      * Returns exception message with additional context info.
      *
-     * @return  string
+     * @return string
      */
     public function __toString()
     {

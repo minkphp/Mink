@@ -15,16 +15,16 @@ use Behat\Mink\Exception\ElementNotFoundException;
 /**
  * Traversable element.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 abstract class TraversableElement extends Element
 {
     /**
      * Finds element by it's id.
      *
-     * @param   string  $id     element id
+     * @param string $id element id
      *
-     * @return  Behat\Mink\Element\NodeElement|null
+     * @return NodeElement|null
      */
     public function findById($id)
     {
@@ -36,9 +36,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a link with specified locator.
      *
-     * @param   string  $locator    link id, title, text or image alt
+     * @param string $locator link id, title, text or image alt
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasLink($locator)
     {
@@ -48,9 +48,9 @@ abstract class TraversableElement extends Element
     /**
      * Finds link with specified locator.
      *
-     * @param   string  $locator    link id, title, text or image alt
+     * @param string $locator link id, title, text or image alt
      *
-     * @return  Behat\Mink\Element\NodeElement|null
+     * @return NodeElement|null
      */
     public function findLink($locator)
     {
@@ -62,9 +62,9 @@ abstract class TraversableElement extends Element
     /**
      * Clicks link with specified locator.
      *
-     * @param   string  $locator    link id, title, text or image alt
+     * @param string $locator link id, title, text or image alt
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function clickLink($locator)
     {
@@ -82,9 +82,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a button (input[type=submit|image|button], button) with specified locator.
      *
-     * @param   string  $locator    button id, value or alt
+     * @param string $locator button id, value or alt
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasButton($locator)
     {
@@ -94,9 +94,9 @@ abstract class TraversableElement extends Element
     /**
      * Finds button (input[type=submit|image|button], button) with specified locator.
      *
-     * @param   string  $locator    button id, value or alt
+     * @param string $locator button id, value or alt
      *
-     * @return  Behat\Mink\Element\NodeElement|null
+     * @return NodeElement|null
      */
     public function findButton($locator)
     {
@@ -108,9 +108,9 @@ abstract class TraversableElement extends Element
     /**
      * Presses button (input[type=submit|image|button], button) with specified locator.
      *
-     * @param   string  $locator    button id, value or alt
+     * @param string $locator button id, value or alt
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function pressButton($locator)
     {
@@ -128,9 +128,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a field (input, textarea, select) with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasField($locator)
     {
@@ -140,9 +140,9 @@ abstract class TraversableElement extends Element
     /**
      * Finds field (input, textarea, select) with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @return  Behat\Mink\Element\NodeElement|null
+     * @return NodeElement|null
      */
     public function findField($locator)
     {
@@ -154,9 +154,10 @@ abstract class TraversableElement extends Element
     /**
      * Fills in field (input, textarea, select) with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
+     * @param string $value   value
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function fillField($locator, $value)
     {
@@ -174,9 +175,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a checkbox with specified locator, which is checked.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasCheckedField($locator)
     {
@@ -188,9 +189,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a checkbox with specified locator, which is unchecked.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasUncheckedField($locator)
     {
@@ -202,9 +203,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks checkbox with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function checkField($locator)
     {
@@ -222,9 +223,9 @@ abstract class TraversableElement extends Element
     /**
      * Unchecks checkbox with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function uncheckField($locator)
     {
@@ -242,9 +243,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a select field with specified locator.
      *
-     * @param   string  $locator    select id, name or label
+     * @param string $locator select id, name or label
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasSelect($locator)
     {
@@ -256,9 +257,11 @@ abstract class TraversableElement extends Element
     /**
      * Selects option from select field with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string  $locator  input id, name or label
+     * @param string  $value    option value
+     * @param Boolean $multiple select multiple options
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function selectFieldOption($locator, $value, $multiple = false)
     {
@@ -276,9 +279,9 @@ abstract class TraversableElement extends Element
     /**
      * Checks whether document has a table with specified locator.
      *
-     * @param   string  $locator    table id or caption
+     * @param string $locator table id or caption
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasTable($locator)
     {
@@ -290,9 +293,10 @@ abstract class TraversableElement extends Element
     /**
      * Attach file to file field with specified locator.
      *
-     * @param   string  $locator    input id, name or label
+     * @param string $locator input id, name or label
+     * @param string $path    path to file
      *
-     * @throws  Behat\Mink\Exception\ElementNotFoundException
+     * @throws ElementNotFoundException
      */
     public function attachFileToField($locator, $path)
     {

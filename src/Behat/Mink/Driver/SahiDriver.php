@@ -21,7 +21,7 @@ use Behat\Mink\Session,
 /**
  * Sahi (JS) driver.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class SahiDriver implements DriverInterface
 {
@@ -29,13 +29,12 @@ class SahiDriver implements DriverInterface
     private $browserName;
     private $client;
     private $session;
-    private $window;
 
     /**
      * Initializes Sahi driver.
      *
-     * @param   string                      $browserName    browser to start (firefox, safari, ie, etc...)
-     * @param   Behat\SahiClient\Client     $client         Sahi client instance
+     * @param string $browserName browser to start (firefox, safari, ie, etc...)
+     * @param Client $client      Sahi client instance
      */
     public function __construct($browserName, Client $client = null)
     {
@@ -50,7 +49,7 @@ class SahiDriver implements DriverInterface
     /**
      * Returns Sahi client instance.
      *
-     * @return  Behat\SahiClient\Client
+     * @return Client
      */
     public function getClient()
     {
@@ -58,7 +57,9 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setSession()
+     * Sets driver's current session.
+     *
+     * @param Session $session
      */
     public function setSession(Session $session)
     {
@@ -66,7 +67,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::start()
+     * Starts driver.
      */
     public function start()
     {
@@ -75,7 +76,9 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isStarted()
+     * Checks whether driver is started.
+     *
+     * @return Boolean
      */
     public function isStarted()
     {
@@ -83,7 +86,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::stop()
+     * Stops driver.
      */
     public function stop()
     {
@@ -92,7 +95,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::reset()
+     * Resets driver.
      */
     public function reset()
     {
@@ -104,7 +107,9 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::visit()
+     * Visit specified URL.
+     *
+     * @param string $url url of the page
      */
     public function visit($url)
     {
@@ -112,7 +117,9 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getCurrentUrl()
+     * Returns current URL address.
+     *
+     * @return string
      */
     public function getCurrentUrl()
     {
@@ -120,7 +127,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     * Reloads current page.
      */
     public function reload()
     {
@@ -128,7 +135,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     * Moves browser forward 1 page.
      */
     public function forward()
     {
@@ -136,7 +143,7 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::back()
+     * Moves browser backward 1 page.
      */
     public function back()
     {
@@ -144,9 +151,12 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
+     * Sets HTTP Basic authentication parameters
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string|Boolean $user     user name or false to disable authentication
+     * @param string         $password password
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function setBasicAuth($user, $password)
     {
@@ -158,7 +168,7 @@ class SahiDriver implements DriverInterface
      *
      * @param string $name window name (null for switching back to main window)
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @throws UnsupportedDriverActionException
      */
     public function switchToWindow($name = null)
     {
@@ -170,7 +180,7 @@ class SahiDriver implements DriverInterface
      *
      * @param string $name iframe name (null for switching back)
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @throws UnsupportedDriverActionException
      */
     public function switchToIFrame($name = null)
     {
@@ -178,9 +188,12 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     * Sets specific request header on client.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $name
+     * @param string $value
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function setRequestHeader($name, $value)
     {
@@ -188,9 +201,11 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
+     * Returns last response headers.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @return array
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function getResponseHeaders()
     {
@@ -198,7 +213,10 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setCookie()
+     * Sets cookie.
+     *
+     * @param string $name
+     * @param string $value
      */
     public function setCookie($name, $value = null)
     {
@@ -213,7 +231,11 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getCookie()
+     * Returns cookie by name.
+     *
+     * @param string $name
+     *
+     * @return string|null
      */
     public function getCookie($name)
     {
@@ -223,9 +245,11 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getStatusCode()
+     * Returns last response status code.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @return integer
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function getStatusCode()
     {
@@ -233,7 +257,9 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getContent()
+     * Returns last response content.
+     *
+     * @return string
      */
     public function getContent()
     {
@@ -244,7 +270,11 @@ class SahiDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::find()
+     * Finds elements with specified XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return array array of NodeElements
      */
     public function find($xpath)
     {
@@ -267,7 +297,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getTagName()
+     * Returns element's tag name by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getTagName($xpath)
     {
@@ -275,7 +309,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getText()
+     * Returns element's text by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getText($xpath)
     {
@@ -285,7 +323,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getHtml()
+     * Returns element's html by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getHtml($xpath)
     {
@@ -293,7 +335,12 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getAttribute()
+     * Returns element's attribute by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $name
+     *
+     * @return mixed
      */
     public function getAttribute($xpath, $name)
     {
@@ -301,7 +348,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getValue()
+     * Returns element's value by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return mixed
      */
     public function getValue($xpath)
     {
@@ -372,7 +423,10 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setValue()
+     * Sets element's value by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $value
      */
     public function setValue($xpath, $value)
     {
@@ -392,7 +446,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::check()
+     * Checks checkbox by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function check($xpath)
     {
@@ -400,7 +456,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::uncheck()
+     * Unchecks checkbox by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function uncheck($xpath)
     {
@@ -408,7 +466,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isChecked()
+     * Checks whether checkbox checked located by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return Boolean
      */
     public function isChecked($xpath)
     {
@@ -416,7 +478,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::selectOption()
+     * Selects option from select field located by it's XPath query.
+     *
+     * @param string  $xpath
+     * @param string  $value
+     * @param Boolean $multiple
      */
     public function selectOption($xpath, $value, $multiple = false)
     {
@@ -430,7 +496,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::click()
+     * Clicks button or link located by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function click($xpath)
     {
@@ -438,7 +506,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     * Double-clicks button or link located by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function doubleClick($xpath)
     {
@@ -446,7 +516,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::rightClick()
+     * Right-clicks button or link located by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function rightClick($xpath)
     {
@@ -454,7 +526,10 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::attachFile()
+     * Attaches file path to file field located by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $path
      */
     public function attachFile($xpath, $path)
     {
@@ -462,7 +537,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isVisible()
+     * Checks whether element visible located by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return Boolean
      */
     public function isVisible($xpath)
     {
@@ -470,7 +549,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::mouseOver()
+     * Simulates a mouse over on the element.
+     *
+     * @param string $xpath
      */
     public function mouseOver($xpath)
     {
@@ -478,7 +559,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::focus()
+     * Brings focus to element.
+     *
+     * @param string $xpath
      */
     public function focus($xpath)
     {
@@ -486,7 +569,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::blur()
+     * Removes focus from element.
+     *
+     * @param string $xpath
      */
     public function blur($xpath)
     {
@@ -494,7 +579,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Presses specific keyboard key.
+     *
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
@@ -504,7 +593,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Pressed down specific keyboard key.
+     *
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
@@ -514,7 +607,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Pressed up specific keyboard key.
+     *
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
@@ -524,7 +621,10 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::dragTo()
+     * Drag one element onto another.
+     *
+     * @param string $sourceXpath
+     * @param string $destinationXpath
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
@@ -535,7 +635,9 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::executeScript()
+     * Executes JS script.
+     *
+     * @param string $script
      */
     public function executeScript($script)
     {
@@ -543,7 +645,11 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::evaluateScript()
+     * Evaluates JS script.
+     *
+     * @param string $script
+     *
+     * @return mixed
      */
     public function evaluateScript($script)
     {
@@ -551,7 +657,10 @@ JS;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::wait()
+     * Waits some time or until JS condition turns true.
+     *
+     * @param integer $time      time in milliseconds
+     * @param string  $condition JS condition
      */
     public function wait($time, $condition)
     {
@@ -561,8 +670,8 @@ JS;
     /**
      * Selects specific radio option.
      *
-     * @param   string  $xpath  xpath to one of the radio buttons
-     * @param   string  $value  value to be set
+     * @param string $xpath xpath to one of the radio buttons
+     * @param string $value value to be set
      */
     private function selectRadioOption($xpath, $value)
     {
@@ -594,9 +703,9 @@ JS;
     /**
      * Prepare XPath to be sent via Sahi proxy.
      *
-     * @param   string  $xpath
+     * @param string $xpath
      *
-     * @return  string
+     * @return string
      */
     private function prepareXPath($xpath)
     {

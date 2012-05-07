@@ -16,14 +16,14 @@ use Behat\Mink\Session,
 /**
  * Mink's element text exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class ElementTextException extends ElementHtmlException
 {
     /**
      * Returns exception message with additional context info.
      *
-     * @return  string
+     * @return string
      */
     public function __toString()
     {

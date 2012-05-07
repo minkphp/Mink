@@ -17,7 +17,7 @@ use Behat\Mink\Driver\DriverInterface,
 /**
  * Mink session.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Session
 {
@@ -26,10 +26,10 @@ class Session
     private $selectorsHandler;
 
     /**
-     * Initialize session.
+     * Initializes session.
      *
-     * @param   Behat\Mink\Driver\DriverInterface       $driver             driver instance
-     * @param   Behat\Mink\Selector\SelectorsHandler    $selectorsHandler   selectors handler
+     * @param DriverInterface  $driver
+     * @param SelectorsHandler $selectorsHandler
      */
     public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
     {
@@ -47,7 +47,7 @@ class Session
     /**
      * Checks whether session (driver) was started.
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function isStarted()
     {
@@ -90,7 +90,7 @@ class Session
     /**
      * Returns session driver.
      *
-     * @return  Behat\Mink\Driver\DriverInterface
+     * @return DriverInterface
      */
     public function getDriver()
     {
@@ -100,7 +100,7 @@ class Session
     /**
      * Returns page element.
      *
-     * @return  Behat\Mink\Element\DocumentElement
+     * @return DocumentElement
      */
     public function getPage()
     {
@@ -110,7 +110,7 @@ class Session
     /**
      * Returns selectors handler.
      *
-     * @return  Behat\Mink\Selector\SelectorsHandler
+     * @return SelectorsHandler
      */
     public function getSelectorsHandler()
     {
@@ -120,7 +120,7 @@ class Session
     /**
      * Visit specified URL.
      *
-     * @param   string  $url    url of the page
+     * @param string $url url of the page
      */
     public function visit($url)
     {
@@ -130,8 +130,8 @@ class Session
     /**
      * Sets HTTP Basic authentication parameters
      *
-     * @param   string|false    $user       user name or false to disable authentication
-     * @param   string          $password   password
+     * @param string|Boolean $user     user name or false to disable authentication
+     * @param string         $password password
      */
     public function setBasicAuth($user, $password = '')
     {
@@ -141,8 +141,8 @@ class Session
     /**
      * Sets specific request header.
      *
-     * @param   string  $name
-     * @param   string  $value
+     * @param string $name
+     * @param string $value
      */
     public function setRequestHeader($name, $value)
     {
@@ -152,7 +152,7 @@ class Session
     /**
      * Returns all response headers.
      *
-     * @return  array
+     * @return array
      */
     public function getResponseHeaders()
     {
@@ -162,8 +162,8 @@ class Session
     /**
      * Sets cookie.
      *
-     * @param   string  $name
-     * @param   string  $value
+     * @param string $name
+     * @param string $value
      */
     public function setCookie($name, $value = null)
     {
@@ -173,9 +173,9 @@ class Session
     /**
      * Returns cookie by name.
      *
-     * @param   string  $name
+     * @param string $name
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getCookie($name)
     {
@@ -185,7 +185,7 @@ class Session
     /**
      * Returns response status code.
      *
-     * @return  integer
+     * @return integer
      */
     public function getStatusCode()
     {
@@ -195,7 +195,7 @@ class Session
     /**
      * Returns current URL address.
      *
-     * @return  string
+     * @return string
      */
     public function getCurrentUrl()
     {
@@ -249,7 +249,7 @@ class Session
     /**
      * Execute JS in browser.
      *
-     * @param   string  $script     javascript
+     * @param string $script javascript
      */
     public function executeScript($script)
     {
@@ -259,9 +259,9 @@ class Session
     /**
      * Execute JS in browser and return it's response.
      *
-     * @param   string  $script     javascript
+     * @param string $script javascript
      *
-     * @return  string              response
+     * @return string
      */
     public function evaluateScript($script)
     {
@@ -271,8 +271,8 @@ class Session
     /**
      * Waits some time or until JS condition turns true.
      *
-     * @param   integer $time       time in milliseconds
-     * @param   string  $condition  JS condition
+     * @param integer $time      time in milliseconds
+     * @param string  $condition JS condition
      */
     public function wait($time, $condition = 'false')
     {

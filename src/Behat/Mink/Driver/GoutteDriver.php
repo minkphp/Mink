@@ -7,7 +7,8 @@ use Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
     Symfony\Component\DomCrawler\Form,
-    Symfony\Component\DomCrawler\Field;
+    Symfony\Component\DomCrawler\Field,
+    Symfony\Component\DomCrawler\Field\FormField;
 
 use Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
@@ -26,7 +27,7 @@ use Behat\Mink\Session,
 /**
  * Goutte (Symfony2) driver.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class GoutteDriver implements DriverInterface
 {
@@ -38,7 +39,7 @@ class GoutteDriver implements DriverInterface
     /**
      * Initializes Goutte driver.
      *
-     * @param   Symfony\Component\BrowserKit\Client $client     BrowserKit client instance
+     * @param Client $client BrowserKit client instance
      */
     public function __construct(Client $client = null)
     {
@@ -53,7 +54,7 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns BrowserKit HTTP client instance.
      *
-     * @return  Symfony\Component\BrowserKit\Client
+     * @return Client
      */
     public function getClient()
     {
@@ -61,7 +62,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setSession()
+     * Sets driver's current session.
+     *
+     * @param Session $session
      */
     public function setSession(Session $session)
     {
@@ -69,7 +72,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::start()
+     * Starts driver.
      */
     public function start()
     {
@@ -77,7 +80,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isStarted()
+     * Checks whether driver is started.
+     *
+     * @return Boolean
      */
     public function isStarted()
     {
@@ -85,7 +90,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::stop()
+     * Stops driver.
      */
     public function stop()
     {
@@ -95,7 +100,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::reset()
+     * Resets driver.
      */
     public function reset()
     {
@@ -104,7 +109,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::visit()
+     * Visit specified URL.
+     *
+     * @param string $url url of the page
      */
     public function visit($url)
     {
@@ -113,7 +120,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getCurrentUrl()
+     * Returns current URL address.
+     *
+     * @return string
      */
     public function getCurrentUrl()
     {
@@ -121,7 +130,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::reload()
+     * Reloads current page.
      */
     public function reload()
     {
@@ -130,7 +139,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::forward()
+     * Moves browser forward 1 page.
      */
     public function forward()
     {
@@ -139,7 +148,7 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::back()
+     * Moves browser backward 1 page.
      */
     public function back()
     {
@@ -152,7 +161,7 @@ class GoutteDriver implements DriverInterface
      *
      * @param string $name window name (null for switching back to main window)
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @throws UnsupportedDriverActionException
      */
     public function switchToWindow($name = null)
     {
@@ -164,7 +173,7 @@ class GoutteDriver implements DriverInterface
      *
      * @param string $name iframe name (null for switching back)
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @throws UnsupportedDriverActionException
      */
     public function switchToIFrame($name = null)
     {
@@ -172,7 +181,10 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setBasicAuth()
+     * Sets HTTP Basic authentication parameters
+     *
+     * @param string|Boolean $user     user name or false to disable authentication
+     * @param string         $password password
      */
     public function setBasicAuth($user, $password)
     {
@@ -180,7 +192,10 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setRequestHeader()
+     * Sets specific request header on client.
+     *
+     * @param string $name
+     * @param string $value
      */
     public function setRequestHeader($name, $value)
     {
@@ -188,7 +203,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getResponseHeaders()
+     * Returns last response headers.
+     *
+     * @return array
      */
     public function getResponseHeaders()
     {
@@ -196,7 +213,10 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setCookie()
+     * Sets cookie.
+     *
+     * @param string $name
+     * @param string $value
      */
     public function setCookie($name, $value = null)
     {
@@ -214,7 +234,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getCookie()
+     * Returns cookie by name.
+     *
+     * @param string $name
+     *
+     * @return string|null
      */
     public function getCookie($name)
     {
@@ -239,7 +263,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getStatusCode()
+     * Returns last response status code.
+     *
+     * @return integer
      */
     public function getStatusCode()
     {
@@ -247,7 +273,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getContent()
+     * Returns last response content.
+     *
+     * @return string
      */
     public function getContent()
     {
@@ -255,7 +283,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::find()
+     * Finds elements with specified XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return array array of NodeElements
      */
     public function find($xpath)
     {
@@ -270,7 +302,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getTagName()
+     * Returns element's tag name by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getTagName($xpath)
     {
@@ -278,7 +314,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getText()
+     * Returns element's text by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getText($xpath)
     {
@@ -290,7 +330,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getHtml()
+     * Returns element's html by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
      */
     public function getHtml($xpath)
     {
@@ -304,17 +348,26 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getAttribute()
+     * Returns element's attribute by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $name
+     *
+     * @return mixed
      */
-    public function getAttribute($xpath, $attr)
+    public function getAttribute($xpath, $name)
     {
-        $value = $this->getCrawler()->filterXPath($xpath)->eq(0)->attr($attr);
+        $value = $this->getCrawler()->filterXPath($xpath)->eq(0)->attr($name);
 
         return '' !== $value ? $value : null;
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::getValue()
+     * Returns element's value by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return mixed
      */
     public function getValue($xpath)
     {
@@ -338,7 +391,10 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::setValue()
+     * Sets element's value by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $value
      */
     public function setValue($xpath, $value)
     {
@@ -346,7 +402,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::check()
+     * Checks checkbox by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function check($xpath)
     {
@@ -354,7 +412,9 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::uncheck()
+     * Unchecks checkbox by it's XPath query.
+     *
+     * @param string $xpath
      */
     public function uncheck($xpath)
     {
@@ -362,7 +422,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::selectOption()
+     * Selects option from select field located by it's XPath query.
+     *
+     * @param string  $xpath
+     * @param string  $value
+     * @param Boolean $multiple
      */
     public function selectOption($xpath, $value, $multiple = false)
     {
@@ -378,7 +442,12 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::click()
+     * Clicks button or link located by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @throws ElementNotFoundException
+     * @throws DriverException
      */
     public function click($xpath)
     {
@@ -411,7 +480,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isChecked()
+     * Checks whether checkbox checked located by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return Boolean
      */
     public function isChecked($xpath)
     {
@@ -419,7 +492,10 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::attachFile()
+     * Attaches file path to file field located by it's XPath query.
+     *
+     * @param string $xpath
+     * @param string $path
      */
     public function attachFile($xpath, $path)
     {
@@ -427,9 +503,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::doubleClick()
+     * Double-clicks button or link located by it's XPath query.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function doubleClick($xpath)
     {
@@ -437,9 +515,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::rightClick()
+     * Right-clicks button or link located by it's XPath query.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function rightClick($xpath)
     {
@@ -447,9 +527,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::mouseOver()
+     * Simulates a mouse over on the element.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function mouseOver($xpath)
     {
@@ -457,9 +539,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::focus()
+     * Brings focus to element.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function focus($xpath)
     {
@@ -467,9 +551,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::blur()
+     * Removes focus from element.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function blur($xpath)
     {
@@ -477,9 +563,13 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Presses specific keyboard key.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
@@ -487,9 +577,13 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Pressed down specific keyboard key.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
@@ -497,9 +591,13 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::keyPress()
+     * Pressed up specific keyboard key.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
@@ -507,9 +605,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::executeScript()
+     * Executes JS script.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $script
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function executeScript($script)
     {
@@ -517,9 +617,11 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::evaluateScript()
+     * Evaluates JS script.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $script
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function evaluateScript($script)
     {
@@ -527,9 +629,12 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::wait()
+     * Waits some time or until JS condition turns true.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param integer $time      time in milliseconds
+     * @param string  $condition JS condition
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function wait($time, $condition)
     {
@@ -537,9 +642,13 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::isVisible()
+     * Checks whether element visible located by it's XPath query.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $xpath
+     *
+     * @return Boolean
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function isVisible($xpath)
     {
@@ -547,9 +656,12 @@ class GoutteDriver implements DriverInterface
     }
 
     /**
-     * @see     Behat\Mink\Driver\DriverInterface::dragTo()
+     * Drag one element onto another.
      *
-     * @throws  Behat\Mink\Exception\UnsupportedDriverActionException   action is not supported by this driver
+     * @param string $sourceXpath
+     * @param string $destinationXpath
+     *
+     * @throws UnsupportedDriverActionException
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
@@ -559,9 +671,12 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns form field from XPath query.
      *
-     * @param   string  $xpath
+     * @param string $xpath
      *
-     * @return  Symfony\Component\DomCrawler\Field\FormField
+     * @return FormField
+     *
+     * @throws ElementNotFoundException
+     * @throws \LogicException
      */
     private function getFormField($xpath)
     {
@@ -604,9 +719,9 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns form node unique identifier.
      *
-     * @param   \DOMElement $form
+     * @param \DOMElement $form
      *
-     * @return  mixed
+     * @return mixed
      */
     private function getFormNodeId(\DOMElement $form)
     {
@@ -616,9 +731,9 @@ class GoutteDriver implements DriverInterface
     /**
      * Finds form submit button inside form node.
      *
-     * @param   \DOMElement $form
+     * @param \DOMElement $form
      *
-     * @return  \DOMElement
+     * @return \DOMElement
      */
     private function findFormButton(\DOMElement $form)
     {
@@ -641,8 +756,8 @@ class GoutteDriver implements DriverInterface
     /**
      * Merges second form values into first one.
      *
-     * @param   Form    $to     merging target
-     * @param   Form    $from   merging source
+     * @param Form $to   merging target
+     * @param Form $from merging source
      */
     private function mergeForms(Form $to, Form $from)
     {
@@ -668,10 +783,10 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns DOMNode from crawler instance.
      *
-     * @param   Symfony\Component\DomCrawler\Crawler    $crawler
-     * @param   integer                                 $num        number of node from crawler
+     * @param Crawler $crawler
+     * @param integer $num     number of node from crawler
      *
-     * @return  DOMNode
+     * @return \DOMNode
      */
     private function getCrawlerNode(Crawler $crawler, $num = 0)
     {
@@ -687,9 +802,9 @@ class GoutteDriver implements DriverInterface
     /**
      * Returns crawler instance (got from client).
      *
-     * @return  Symfony\Component\DomCrawler\Crawler
+     * @return Crawler
      *
-     * @throws  Behat\Mink\Exception\DriverException    if can't init crawler (no page is opened)
+     * @throws DriverException
      */
     private function getCrawler()
     {

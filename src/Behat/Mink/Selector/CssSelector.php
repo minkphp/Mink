@@ -15,12 +15,16 @@ use Symfony\Component\CssSelector\CssSelector as CSS;
 /**
  * CSS selector engine. Transforms CSS to XPath.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class CssSelector implements SelectorInterface
 {
     /**
-     * @see     Behat\Mink\Selector\SelectorInterface::translateToXPath()
+     * Translates CSS into XPath.
+     *
+     * @param string $locator current selector locator
+     *
+     * @return string
      */
     public function translateToXPath($locator)
     {

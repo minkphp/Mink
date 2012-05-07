@@ -14,9 +14,9 @@ use Behat\Mink\Driver\DriverInterface,
  */
 
 /**
- * Mink.
+ * Mink sessions manager.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Mink
 {
@@ -24,9 +24,9 @@ class Mink
     private $sessions = array();
 
     /**
-     * Initializes mink.
+     * Initializes manager.
      *
-     * @param   Behat\Mink\Selector\SelectorsHandler    $selectorsHandler
+     * @param array $sessions
      */
     public function __construct(array $sessions = array())
     {
@@ -46,8 +46,8 @@ class Mink
     /**
      * Registers new session.
      *
-     * @param   string              $name       session alias name
-     * @param   Behat\Mink\Session  $session    session instance
+     * @param string  $name
+     * @param Session $session
      */
     public function registerSession($name, Session $session)
     {
@@ -59,9 +59,9 @@ class Mink
     /**
      * Checks whether session with specified name is registered.
      *
-     * @param   string  $name
+     * @param string $name
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasSession($name)
     {
@@ -71,7 +71,9 @@ class Mink
     /**
      * Sets default session name to use.
      *
-     * @param   string  $name   name of the registered session
+     * @param string $name name of the registered session
+     *
+     * @throws \InvalidArgumentException
      */
     public function setDefaultSessionName($name)
     {
@@ -87,7 +89,7 @@ class Mink
     /**
      * Returns default session name or null if none.
      *
-     * @return  null|string
+     * @return null|string
      */
     public function getDefaultSessionName()
     {
@@ -97,9 +99,11 @@ class Mink
     /**
      * Returns registered session by it's name or active one.
      *
-     * @param   string  $name   session name
+     * @param string $name session name
      *
-     * @return  Behat\Mink\Session
+     * @return Session
+     *
+     * @throws \InvalidArgumentException
      */
     public function getSession($name = null)
     {
@@ -125,6 +129,8 @@ class Mink
 
     /**
      * Returns session asserter.
+     *
+     * @param string $name session name
      *
      * @return WebAssert
      */

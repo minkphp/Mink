@@ -13,12 +13,14 @@ namespace Behat\Mink\Element;
 /**
  * Document element.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class DocumentElement extends TraversableElement
 {
     /**
-     * @see     Behat\Mink\Element\ElementInterface::getXpath()
+     * Returns XPath for handled element.
+     *
+     * @return string
      */
     public function getXpath()
     {
@@ -28,7 +30,7 @@ class DocumentElement extends TraversableElement
     /**
      * Returns document content.
      *
-     * @return  string
+     * @return string
      */
     public function getContent()
     {
@@ -38,9 +40,9 @@ class DocumentElement extends TraversableElement
     /**
      * Check whether document has specified content.
      *
-     * @param   string  $content
+     * @param string $content
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function hasContent($content)
     {

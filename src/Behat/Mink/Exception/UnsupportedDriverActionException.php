@@ -15,16 +15,16 @@ use Behat\Mink\Driver\DriverInterface;
 /**
  * Mink "element not found" exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class UnsupportedDriverActionException extends DriverException
 {
     /**
      * Initializes exception.
      *
-     * @param   string                              $template   what is unsupported?
-     * @param   Behat\Mink\Driver\DriverInterface   $driver     driver instance
-     * @param   Exception                           $previous   previous exception
+     * @param string          $template what is unsupported?
+     * @param DriverInterface $driver   driver instance
+     * @param \Exception      $previous previous exception
      */
     public function __construct($template, DriverInterface $driver, \Exception $previous = null)
     {

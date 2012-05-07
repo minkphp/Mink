@@ -15,7 +15,7 @@ use Behat\Mink\Selector\SelectorInterface;
 /**
  * Selectors handler.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class SelectorsHandler
 {
@@ -24,7 +24,7 @@ class SelectorsHandler
     /**
      * Initializes selectors handler.
      *
-     * @param   array   $selectors  default selectors to register
+     * @param array $selectors default selectors to register
      */
     public function __construct(array $selectors = array())
     {
@@ -39,8 +39,8 @@ class SelectorsHandler
     /**
      * Registers new selector engine with specified name.
      *
-     * @param   string                                  $name       selector engine name
-     * @param   Behat\Mink\Selector\SelectorInterface   $selector   selector engine instance
+     * @param string            $name     selector engine name
+     * @param SelectorInterface $selector selector engine instance
      */
     public function registerSelector($name, SelectorInterface $selector)
     {
@@ -50,9 +50,9 @@ class SelectorsHandler
     /**
      * Checks whether selector with specified name is registered on handler.
      *
-     * @param   string  $name   selector engine name
+     * @param string $name selector engine name
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function isSelectorRegistered($name)
     {
@@ -62,11 +62,11 @@ class SelectorsHandler
     /**
      * Returns selector engine with specified name.
      *
-     * @param   string  $name               selector engine name
+     * @param string $name selector engine name
      *
-     * @return  Behat\Mink\Selector\SelectorInterface
+     * @return SelectorInterface
      *
-     * @throws  InvalidArgumentException    if selector engine with specified name is not registered
+     * @throws \InvalidArgumentException
      */
     public function getSelector($name)
     {
@@ -80,10 +80,10 @@ class SelectorsHandler
     /**
      * Translates selector with specified name to XPath.
      *
-     * @param   string  $selector   selector engine name (registered)
-     * @param   string  $locator    selector locator
+     * @param string $selector selector engine name (registered)
+     * @param string $locator  selector locator
      *
-     * @return  string              xpath
+     * @return string
      */
     public function selectorToXpath($selector, $locator)
     {
@@ -97,9 +97,9 @@ class SelectorsHandler
     /**
      * Translates string to XPath literal.
      *
-     * @param   string  $s
+     * @param string $s
      *
-     * @return  string
+     * @return string
      */
     public function xpathLiteral($s)
     {

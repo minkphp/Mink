@@ -319,9 +319,9 @@ class SeleniumDriver implements DriverInterface
     /**
      * @see Behat\Mink\Driver\DriverInterface::getAttribute()
      */
-    public function getAttribute($xpath, $attr)
+    public function getAttribute($xpath, $name)
     {
-        $result = $this->getCrawler()->filterXPath($xpath)->attr($attr);
+        $result = $this->getCrawler()->filterXPath($xpath)->attr($name);
         if ('' === $result) {
             $result = null;
         }

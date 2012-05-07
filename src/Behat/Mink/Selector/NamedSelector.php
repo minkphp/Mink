@@ -13,7 +13,7 @@ namespace Behat\Mink\Selector;
 /**
  * Named selectors engine. Uses registered XPath selectors to create new expressions.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class NamedSelector implements SelectorInterface
 {
@@ -62,8 +62,8 @@ XPATH
     /**
      * Registers new XPath selector with specified name.
      *
-     * @param   string  $name   name for selector
-     * @param   string  $xpath  xpath expression
+     * @param string $name  name for selector
+     * @param string $xpath xpath expression
      */
     public function registerNamedXpath($name, $xpath)
     {
@@ -73,9 +73,11 @@ XPATH
     /**
      * Translates provided locator into XPath.
      *
-     * @param   string|array    $locator    selector name or array of (selector_name, locator)
+     * @param string|array $locator selector name or array of (selector_name, locator)
      *
-     * @return  string                      XPath
+     * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     public function translateToXPath($locator)
     {
