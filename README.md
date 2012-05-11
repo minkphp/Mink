@@ -21,12 +21,12 @@ use Behat\Mink\Mink,
 $startUrl = 'http://example.com';
 
 // init Mink and register sessions
-$mink = new Mink(
+$mink = new Mink(array(
     'goutte1'    => new Session(new GoutteDriver($startUrl)),
     'goutte2'    => new Session(new GoutteDriver($startUrl)),
     'javascript' => new Session(new SahiDriver($startUrl, 'firefox')),
     'custom'     => new Session(new MyCustomDriver($startUrl))
-);
+));
 
 // set default session name
 $mink->setDefaultSessionName('goutte2');
