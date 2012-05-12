@@ -99,7 +99,7 @@ class WebAssert
     public function cookieExists($name)
     {
         if ($this->session->getCookie($name) === null) {
-            $message = sprintf('Cookie "%s" does not exists.', $name);
+            $message = sprintf('Cookie "%s" is not set, but should be.', $name);
             throw new ExpectationException($message, $this->session);
         }
     }

@@ -93,7 +93,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'cookieExists', array('bar'),
             'Behat\Mink\Exception\ExpectationException',
-            'Cookie "bar" does not exists.'
+            'Cookie "bar" is not set, but should be.'
         );
     }
 
