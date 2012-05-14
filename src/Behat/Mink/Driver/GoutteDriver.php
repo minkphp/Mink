@@ -25,7 +25,7 @@ use Behat\Mink\Session,
  */
 
 /**
- * Goutte (Symfony2) driver.
+ * Goutte driver.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
