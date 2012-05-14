@@ -44,17 +44,6 @@ class HttpKernelDriver extends GoutteDriver
     /**
      * {@inheritdoc}
      */
-    public function reset()
-    {
-        $this->getClient()->getKernel()->shutdown();
-        $this->getClient()->getKernel()->boot();
-
-        parent::reset();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setBasicAuth($user, $password)
     {
         $this->getClient()->setServerParameter('PHP_AUTH_USER', $user);
