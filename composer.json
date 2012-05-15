@@ -27,7 +27,7 @@
         "fabpot/goutte":                 "*",
         "behat/sahi-client":             ">=1.0.1,<1.1-dev",
         "alexandresalome/php-selenium":  "*",
-        "facebook/php-webdriver":        "*"
+        "instaclick/php-webdriver":      "*"
     },
 
     "autoload": {
