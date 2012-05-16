@@ -74,6 +74,29 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers Behat\Mink\WebAssert::cookieExists
+     */
+    public function testCookieExists()
+    {
+        $this->session->
+            expects($this->any())->
+            method('getCookie')->
+            will($this->returnValueMap(
+                array(
+                    array('foo', '1'),
+                    array('bar', null),
+                )
+            ));
+
+        $this->assertCorrectAssertion('cookieExists', array('foo'));
+        $this->assertWrongAssertion(
+            'cookieExists', array('bar'),
+            'Behat\Mink\Exception\ExpectationException',
+            'Cookie "bar" is not set, but should be.'
+        );
+    }
+
     public function testStatusCodeEquals()
     {
         $this->session
