@@ -833,4 +833,14 @@ JS;
             sleep(0.1);
         }
     }
+
+    /**
+     * Selects a frame
+     *
+     * @param   string $locator Iframe name or id
+     */
+    public function selectFrame($locator)
+    {
+       return $this->wdSession->frame(array('id' => $locator));
+    }
 }
