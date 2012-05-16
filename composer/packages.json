@@ -28,7 +28,7 @@
                     "zendframework\/zend-uri":        ">=2.0beta3,<3.0"
                 },
                 "autoload": {
-                    "psr-0": { "Goutte": "src\/" }
+                    "psr-0": { "Goutte": "." }
                 }
             }
         }
