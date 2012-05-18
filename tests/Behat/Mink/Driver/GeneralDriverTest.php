@@ -53,6 +53,7 @@ abstract class GeneralDriverTest extends TestCase
         $this->getSession()->getPage()->pressButton('Set cookie');
 
         $this->getSession()->visit($this->pathTo('/issue140.php?show_value'));
+        $this->assertEquals('some:value;', $this->getSession()->getCookie('tc'));
         $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
     }
 
