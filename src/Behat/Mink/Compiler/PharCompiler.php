@@ -77,34 +77,10 @@ class PharCompiler
             ->in($this->libPath . '/vendor/fabpot')
             ->in($this->libPath . '/vendor/facebook')
             ->in($this->libPath . '/vendor/kriswallsmith')
-            ->in($this->libPath . '/vendor/zendframework/zend-uri')
-            ->in($this->libPath . '/vendor/zendframework/zend-http')
+            ->in($this->libPath . '/vendor/guzzle')
         ;
 
-        $files = array(
-            $this->libPath . '/vendor/autoload.php',
-            $this->libPath . '/vendor/zendframework/zend-registry/php/Zend/Registry.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Validator.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/AbstractValidator.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Ip.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Com.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Jp.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Cn.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Biz.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Dispatchable.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Message.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/MessageDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/RequestDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Parameters.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ParametersDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ResponseDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLoader.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLocator.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/ShortNameLocator.php',
-        );
-
-        foreach (array_merge($files, iterator_to_array($finder)) as $file) {
+        foreach ($finder as $file) {
             if (!$file instanceof \SplFileInfo) {
                 $file = new \SplFileInfo($file);
             }
