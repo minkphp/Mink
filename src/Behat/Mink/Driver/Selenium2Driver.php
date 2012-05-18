@@ -378,7 +378,7 @@ class Selenium2Driver implements DriverInterface
         $cookies = $this->wdSession->getAllCookies();
         foreach ($cookies as $cookie) {
             if ($cookie['name'] === $name) {
-                return $cookie['value'];
+                return urldecode($cookie['value']);
             }
         }
     }
