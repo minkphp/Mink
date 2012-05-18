@@ -112,6 +112,10 @@ abstract class GeneralDriverTest extends TestCase
         $this->getSession()->setCookie('srvr_cookie', null);
         $this->getSession()->reload();
         $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
+
+        $this->getSession()->setCookie('srvr_cookie', 'some:value;');
+        $this->getSession()->reload();
+        $this->assertEquals('some:value;', $this->getSession()->getCookie('srvr_cookie'));
     }
 
     public function testReset()

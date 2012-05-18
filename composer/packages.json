@@ -57,31 +57,23 @@
             }
         }
     },
-    "facebook\/php-webdriver": {
-        "name":    "facebook\/php-webdriver",
+    "instaclick\/php-webdriver": {
+        "name":    "instaclick\/php-webdriver",
         "versions": {
             "master-dev": {
-                "name":    "facebook\/php-webdriver",
+                "name":    "instaclick\/php-webdriver",
                 "version": "master-dev",
                 "dist": {
-                    "url":  "https:\/\/github.com\/facebook\/php-webdriver\/zipball\/master",
+                    "url":  "https:\/\/github.com\/instaclick\/php-webdriver\/zipball\/master",
                     "type": "zip"
                 },
                 "source": {
-                    "url":       "git:\/\/github.com\/facebook\/php-webdriver.git",
+                    "url":       "git:\/\/github.com\/instaclick\/php-webdriver.git",
                     "type":      "git",
                     "reference": "master"
                 },
                 "autoload": {
-                    "psr-0": {
-                        "WebDriverBase":         ".",
-                        "WebDriver":             ".",
-                        "WebDriverContainer":    ".",
-                        "WebDriverSession":      ".",
-                        "WebDriverElement":      ".",
-                        "WebDriverEnvironment":  ".",
-                        "WebDriverSimpleItem":   "."
-                    }
+                    "psr-0": { "WebDriver": "lib\/" }
                 }
             }
         }

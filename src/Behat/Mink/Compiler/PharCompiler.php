@@ -76,7 +76,7 @@ class PharCompiler
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')
             ->in($this->libPath . '/vendor/fabpot')
-            ->in($this->libPath . '/vendor/facebook')
+            ->in($this->libPath . '/vendor/instaclick')
             ->in($this->libPath . '/vendor/kriswallsmith')
             ->in($this->libPath . '/vendor/zendframework/zend-uri')
             ->in($this->libPath . '/vendor/zendframework/zend-http')
@@ -152,7 +152,6 @@ class PharCompiler
  */
 
 Phar::mapPhar('mink.phar');
-require_once 'phar://mink.phar/vendor/facebook/php-webdriver/__init__.php';
 require_once 'phar://mink.phar/vendor/.composer/autoload.php';
 
 __HALT_COMPILER();
