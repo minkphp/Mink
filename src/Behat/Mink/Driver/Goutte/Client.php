@@ -18,10 +18,7 @@ class Client extends BaseClient
     {
         foreach ($request->getServer() as $key => $val) {
             $key = ucfirst(strtolower(str_replace(array('_', 'HTTP-'), array('-', ''), $key)));
-
-            if (!isset($this->headers[$key])) {
-                $this->headers[$key] = $val;
-            }
+            $this->headers[$key] = $val;
         }
 
         try {
