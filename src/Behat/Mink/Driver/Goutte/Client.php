@@ -2,38 +2,42 @@
 
 namespace Behat\Mink\Driver\Goutte;
 
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\BrowserKit\History;
 use Goutte\Client as BaseClient;
+use Symfony\Component\BrowserKit\Response;
+use Guzzle\Http\Message\Response as GuzzleResponse;
 
 /**
  * Goutte extension point.
  */
 class Client extends BaseClient
 {
-    protected function createClient(Request $request)
+    protected function doRequest($request)
     {
-        // create new request without content body
-        $client = parent::createClient(new Request(
-            $request->getUri(),
-            $request->getMethod(),
-            $request->getParameters(),
-            $request->getFiles(),
-            $request->getCookies(),
-            $request->getServer()
-        ));
-
-        // add server variables
-        $headers = $this->headers;
         foreach ($request->getServer() as $key => $val) {
             $key = ucfirst(strtolower(str_replace(array('_', 'HTTP-'), array('-', ''), $key)));
 
-            if (!isset($headers[$key])) {
-                $headers[$key] = $val;
+            if (!isset($this->headers[$key])) {
+                $this->headers[$key] = $val;
             }
         }
-        $client->setHeaders($headers);
 
-        return $client;
+        return parent::doRequest($request);
+    }
+
+    protected function createResponse(GuzzleResponse $response)
+    {
+        $body        = $response->getBody(true);
+        $statusCode  = $response->getStatusCode();
+        $headers     = $response->getHeaders()->getAll();
+        $contentType = $response->getContentType();
+
+        if (!$contentType || false === strpos($contentType, 'charset=')) {
+            if (preg_match('/\<meta[^\>]+charset *= *["\']?([a-zA-Z\-0-9]+)/', $body, $matches)) {
+                $contentType .= ';charset='.$matches[1];
+            }
+        }
+        $headers['Content-Type'] = $contentType;
+
+        return new Response($body, $statusCode, $headers);
     }
 }

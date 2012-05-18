@@ -2,15 +2,15 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Driver\Goutte\Client as GoutteClient,
-    Symfony\Component\BrowserKit\Client,
+use Symfony\Component\BrowserKit\Client,
     Symfony\Component\BrowserKit\Cookie,
     Symfony\Component\DomCrawler\Crawler,
     Symfony\Component\DomCrawler\Form,
     Symfony\Component\DomCrawler\Field,
     Symfony\Component\DomCrawler\Field\FormField;
 
-use Behat\Mink\Session,
+use Behat\Mink\Driver\Goutte\Client as GoutteClient,
+    Behat\Mink\Session,
     Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\DriverException,
     Behat\Mink\Exception\UnsupportedDriverActionException,

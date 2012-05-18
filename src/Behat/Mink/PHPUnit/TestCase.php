@@ -2,9 +2,9 @@
 
 namespace Behat\Mink\PHPUnit;
 
-use Behat\Mink\Mink,
+use Behat\Mink\Driver\Goutte\Client as GoutteClient,
+    Behat\Mink\Mink,
     Behat\Mink\Session,
-    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\GoutteDriver,
     Behat\Mink\Driver\SahiDriver,
     Behat\Mink\Driver\ZombieDriver,
@@ -151,16 +151,13 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Initizalizes and returns new GoutteDriver session.
      *
-     * @param array $zendConfig       zend config parameters
      * @param array $serverParameters server parameters
      *
      * @return Session
      */
-    protected static function initGoutteSession(array $zendConfig = array(), array $serverParameters = array())
+    protected static function initGoutteSession(array $serverParameters = array())
     {
-        $zendConfig = array_merge(array('encodecookies' => false), $zendConfig);
-
-        return new Session(new GoutteDriver(new GoutteClient($zendConfig, $serverParameters)));
+        return new Session(new GoutteDriver(new GoutteClient($serverParameters)));
     }
 
     /**
