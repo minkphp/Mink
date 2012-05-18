@@ -7,7 +7,7 @@ use Behat\Mink\Session,
     Behat\Mink\Exception\DriverException,
     Behat\Mink\Exception\UnsupportedDriverActionException;
 
-use WebDriver;
+use WebDriver\WebDriver;
 
 /*
  * This file is part of the Behat\Mink.
@@ -51,19 +51,9 @@ class Selenium2Driver implements DriverInterface
      */
     public function __construct($browserName = 'firefox', $desiredCapabilities = null, $wdHost = 'http://localhost:4444/wd/hub')
     {
-        // load WD exceptions if not loaded
-        if (!class_exists('IndexOutOfBoundsWebDriverError')) {
-            $wdReflection = new \ReflectionClass('WebDriver');
-            $libPath = dirname($wdReflection->getFilename());
-
-            if (file_exists($path = $libPath.DIRECTORY_SEPARATOR.'WebDriverExceptions.php')) {
-                require_once($path);
-            }
-        }
-
         $this->setBrowserName($browserName);
         $this->setDesiredCapabilities($desiredCapabilities);
-        $this->setWebDriver( new WebDriver($wdHost) );
+        $this->setWebDriver(new WebDriver($wdHost));
     }
 
     /**

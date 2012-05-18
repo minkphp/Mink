@@ -22,34 +22,5 @@
                 }
             }
         }
-    },
-    "facebook\/php-webdriver": {
-        "name":    "facebook\/php-webdriver",
-        "versions": {
-            "master-dev": {
-                "name":    "facebook\/php-webdriver",
-                "version": "master-dev",
-                "dist": {
-                    "url":  "https:\/\/github.com\/facebook\/php-webdriver\/zipball\/master",
-                    "type": "zip"
-                },
-                "source": {
-                    "url":       "git:\/\/github.com\/facebook\/php-webdriver.git",
-                    "type":      "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "psr-0": {
-                        "WebDriverBase":         ".",
-                        "WebDriver":             ".",
-                        "WebDriverContainer":    ".",
-                        "WebDriverSession":      ".",
-                        "WebDriverElement":      ".",
-                        "WebDriverEnvironment":  ".",
-                        "WebDriverSimpleItem":   "."
-                    }
-                }
-            }
-        }
     }
 }
