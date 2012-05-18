@@ -2,9 +2,12 @@
 
 namespace Behat\Mink\Driver\Goutte;
 
-use Goutte\Client as BaseClient;
 use Symfony\Component\BrowserKit\Response;
+
+use Goutte\Client as BaseClient;
+
 use Guzzle\Http\Message\Response as GuzzleResponse;
+use Guzzle\Http\Exception\BadResponseException;
 
 /**
  * Goutte extension point.
@@ -21,7 +24,13 @@ class Client extends BaseClient
             }
         }
 
-        return parent::doRequest($request);
+        try {
+            $response = parent::doRequest($request);
+        } catch (BadResponseException $e) {
+            return $this->createResponse($e->getResponse());
+        }
+
+        return $response;
     }
 
     protected function createResponse(GuzzleResponse $response)
