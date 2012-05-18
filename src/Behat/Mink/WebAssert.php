@@ -90,21 +90,40 @@ class WebAssert
     }
 
     /**
-     * Checks that specified cookie exists
+     * Checks that specified cookie exists and its value equals to a given one
      *
-     * @param string $name  cookie name
+     * @param string $name   cookie name
+     * @param string $value  cookie value
      *
      * @throws Behat\Mink\Exception\ExpectationException
      */
-    public function cookieExists($name)
+    public function cookieEquals($name, $value)
     {
-        if ($this->session->getCookie($name) === null) {
-            $message = sprintf('Cookie "%s" is not set, but should be.', $name);
+        $this->cookieExists($name);
+        $actualValue = $this->session->getCookie($name);
+        if ($actualValue != $value) {
+            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name,
+                $actualValue, $value);
             throw new ExpectationException($message, $this->session);
         }
     }
 
-    /**
+	/**
+	 * Checks that specified cookie exists
+	 *
+	 * @param string $name  cookie name
+	 *
+	 * @throws Behat\Mink\Exception\ExpectationException
+	 */
+	public function cookieExists($name)
+	{
+		if ($this->session->getCookie($name) === null) {
+			$message = sprintf('Cookie "%s" is not set, but should be.', $name);
+			throw new ExpectationException($message, $this->session);
+		}
+	}
+
+	/**
      * Checks that current response code equals to provided one.
      *
      * @param integer $code

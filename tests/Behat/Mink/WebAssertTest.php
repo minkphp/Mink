@@ -75,6 +75,29 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Behat\Mink\WebAssert::cookieEquals
+     */
+    public function testCookieEquals()
+    {
+        $this->session->
+            expects($this->any())->
+            method('getCookie')->
+            will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('cookieEquals', array('foo', 'bar'));
+        $this->assertWrongAssertion(
+            'cookieEquals', array('bar', 'foo'),
+            'Behat\Mink\Exception\ExpectationException',
+            'Cookie "bar" value is "baz", but should be "foo".'
+        );
+    }
+
+    /**
      * @covers Behat\Mink\WebAssert::cookieExists
      */
     public function testCookieExists()
@@ -83,11 +106,11 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             expects($this->any())->
             method('getCookie')->
             will($this->returnValueMap(
-                array(
-                    array('foo', '1'),
-                    array('bar', null),
-                )
-            ));
+            array(
+                array('foo', '1'),
+                array('bar', null),
+            )
+        ));
 
         $this->assertCorrectAssertion('cookieExists', array('foo'));
         $this->assertWrongAssertion(
