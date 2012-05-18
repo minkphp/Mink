@@ -90,6 +90,21 @@ class WebAssert
     }
 
     /**
+     * Checks that specified cookie exists
+     *
+     * @param string $name  cookie name
+     *
+     * @throws Behat\Mink\Exception\ExpectationException
+     */
+    public function cookieExists($name)
+    {
+        if ($this->session->getCookie($name) === null) {
+            $message = sprintf('Cookie "%s" is not set, but should be.', $name);
+            throw new ExpectationException($message, $this->session);
+        }
+    }
+
+    /**
      * Checks that current response code equals to provided one.
      *
      * @param integer $code
