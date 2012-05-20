@@ -398,7 +398,8 @@ abstract class GeneralDriverTest extends TestCase
         $search->setValue('some#query');
         $page->pressButton('Find');
 
-        $this->assertEquals('some#query', $page->find('css', '#search')->getText());
+        $this->assertNotNull($div = $page->find('css', 'div'));
+        $this->assertEquals('some#query', $div->getText());
     }
 
     public function testMultiselect()
