@@ -3,7 +3,10 @@
 namespace Behat\Mink\Driver\Goutte;
 
 use Goutte\Client as BaseClient;
-use Guzzle\Message\Response as GuzzleResponse;
+
+use Symfony\Component\BrowserKit\Response;
+
+use Guzzle\Http\Message\Response as GuzzleResponse;
 
 /*
  * This file is part of the Behat\Mink.
