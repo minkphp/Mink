@@ -2,7 +2,7 @@
 
 namespace Behat\Mink\PHPUnit;
 
-use Goutte\Client as GoutteClient,
+use Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
