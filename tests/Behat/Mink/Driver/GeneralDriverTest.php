@@ -387,6 +387,20 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
+    public function testBasicGetForm()
+    {
+        $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
+
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('Basic Get Form Page', $page->find('css', 'h1')->getText());
+
+        $search = $page->findField('q');
+        $search->setValue('some#query');
+        $page->pressButton('Find');
+
+        $this->assertEquals('some#query', $page->find('css', '#search')->getText());
+    }
+
     public function testMultiselect()
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.php'));
