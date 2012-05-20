@@ -16,15 +16,16 @@ Usage Example
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
+    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\SahiDriver;
 
 $startUrl = 'http://example.com';
 
 // init Mink and register sessions
 $mink = new Mink(array(
-    'goutte1'    => new Session(new GoutteDriver($startUrl)),
-    'goutte2'    => new Session(new GoutteDriver($startUrl)),
-    'javascript' => new Session(new SahiDriver($startUrl, 'firefox')),
+    'goutte1'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'goutte2'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'javascript' => new Session(new SahiDriver('firefox')),
     'custom'     => new Session(new MyCustomDriver($startUrl))
 ));
 
