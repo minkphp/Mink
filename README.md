@@ -118,6 +118,7 @@ Contributors
 * Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
 * Alexandre Salomé [alexandresalome](http://github.com/alexandresalome) [SeleniumDriver creator]
 * Pete Otaqui [pete-otaqui](http://github.com/pete-otaqui) [Selenium2Driver creator]
+* Other [awesome developers](https://github.com/Behat/Mink/graphs/contributors)
 
 Sponsors
 --------
