@@ -70,9 +70,9 @@ class PearCompiler
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')
             ->in($this->libPath . '/vendor/fabpot')
-            ->in($this->libPath . '/vendor/facebook')
             ->in($this->libPath . '/vendor/kriswallsmith')
             ->in($this->libPath . '/vendor/guzzle')
+            ->in($this->libPath . '/vendor/instaclick')
         ;
 
         $xmlSourceFiles = '';
