@@ -26,8 +26,8 @@
     "require-dev": {
         "fabpot/goutte":                 "*",
         "behat/sahi-client":             ">=1.0.1,<1.1-dev",
-        "instaclick/php-webdriver":      "*",
-        "alexandresalome/php-selenium":  "*"
+        "alexandresalome/php-selenium":  "*",
+        "instaclick/php-webdriver":      "*"
     },
 
     "suggest": {
