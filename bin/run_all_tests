@@ -1,9 +1,10 @@
 #!/bin/sh
 
 bin/kill_sahi
-bin/start_sahi
 bin/kill_selenium
-bin/start_selenium
+
+bin/spawn_sahi
+bin/spawn_selenium
 
 phpunit
 
