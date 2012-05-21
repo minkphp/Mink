@@ -75,13 +75,13 @@ and make sure that `Sahi`/`Selenium` is runned if you want to test
 one of them:
 
 ``` bash
-bin/start_sahi
+bin/spawn_sahi
 phpunit --group sahidriver
 bin/kill_sahi
 ```
 
 ``` bash
-bin/start_selenium
+bin/spawn_selenium
 phpunit --group seleniumdriver
 bin/kill_selenium
 ```
