@@ -7,6 +7,8 @@ use Behat\Mink\Session,
     Behat\Mink\Exception\DriverException,
     Behat\Mink\Exception\UnsupportedDriverActionException;
 
+use Symfony\Component\DomCrawler\Crawler;
+
 use Selenium\Client as SeleniumClient,
     Selenium\Locator as SeleniumLocator,
     Selenium\Exception as SeleniumException;
@@ -627,7 +629,18 @@ JS;
      */
     private function getCrawler()
     {
-        return new \Symfony\Component\DomCrawler\Crawler('<html>'.$this->browser->getHtmlSource().'</html>');
+        $content = '<html>'.$this->browser->getHtmlSource().'</html>';
+
+        $contentType = null;
+        // get content-type from meta tag
+        if (preg_match('/\<meta[^\>]+charset *= *["\']?([a-zA-Z\-0-9]+)/i', $content, $matches)) {
+            $contentType = 'text/html;charset='.$matches[1];
+        }
+
+        $crawler = new Crawler();
+        $crawler->addContent($content, $contentType);
+
+        return $crawler;
     }
 
     /**

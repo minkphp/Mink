@@ -32,7 +32,7 @@ class Client extends BaseClient
         $contentType = $response->getContentType();
 
         if (!$contentType || false === strpos($contentType, 'charset=')) {
-            if (preg_match('/\<meta[^\>]+charset *= *["\']?([a-zA-Z\-0-9]+)/', $body, $matches)) {
+            if (preg_match('/\<meta[^\>]+charset *= *["\']?([a-zA-Z\-0-9]+)/i', $body, $matches)) {
                 $contentType .= ';charset='.$matches[1];
             }
         }
