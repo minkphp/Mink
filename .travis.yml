@@ -10,6 +10,7 @@ branches:
     - develop
 
 before_script:
-  - bin/install_deps
+  - curl http://getcomposer.org/installer | php
+  - php composer.phar install
 
-script: phpunit --group unittest
+script: phpunit
