@@ -1,3 +1,14 @@
+1.4.0 / 2012-05-40
+==================
+
+  * New `Session::selectWindow()` and `Session::selectIFrame()` methods
+  * New built-in `WebAssert` class
+  * Fixed DocBlocks (autocompletion in any IDE now should just work)
+  * Moved Behat-related code into `Behat\MinkExtension`
+  * Removed PHPUnit test case class
+  * Updated composer dependencies to not require custom repository anymore
+  * All drivers moved into separate packages
+
 1.3.3 / 2012-03-23
 ==================
 
