@@ -1,8 +1,0 @@
-#!/bin/sh
-
-BASEDIR=$(dirname $0)
-cd $BASEDIR/../vendor
-
-wget http://downloads.sourceforge.net/project/sahi/sahi-v35/20110719/sahi_20110719.zip -O sahi.zip
-unzip sahi.zip
-rm sahi.zip
