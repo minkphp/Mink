@@ -16,26 +16,24 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/browser-kit":   ">=2.0.0,<2.2.0-dev",
-        "symfony/dom-crawler":   ">=2.0.0,<2.2.0-dev",
-        "symfony/css-selector":  ">=2.0.0,<2.2.0-dev",
-        "symfony/finder":        ">=2.0.0,<2.2.0-dev"
+        "symfony/css-selector":  ">=2.0.0,<2.2.0-dev"
     },
 
     "require-dev": {
-        "fabpot/goutte":                 "1.0.*",
-        "behat/sahi-client":             ">=1.0.1,<1.1.x-dev",
-        "alexandresalome/php-selenium":  "*",
-        "instaclick/php-webdriver":      "*",
-        "symfony/process":               ">=2.1.0,<2.2.0-dev"
+        "behat/mink-goutte-driver":     "*",
+        "behat/mink-sahi-driver":       "*",
+        "behat/mink-selenium-driver":   "*",
+        "behat/mink-selenium2-driver":  "*",
+        "behat/mink-zombie-driver":     "*",
+        "symfony/finder":               ">=2.0.0,<2.2.0-dev"
     },
 
     "suggest": {
-        "fabpot/goutte":                 "to enable GoutteDriver",
-        "behat/sahi-client":             "to enable SahiDriver",
-        "alexandresalome/php-selenium":  "to enable SeleniumDriver",
-        "instaclick/php-webdriver":      "to enable Selenium2Driver",
-        "symfony/process":               "to enable ZombieDriver (>=2.1.0)"
+        "behat/mink-goutte-driver":     "to enable Goutte support",
+        "behat/mink-sahi-driver":       "to enable Sahi.JS support",
+        "behat/mink-selenium-driver":   "to enable Selenium1 support",
+        "behat/mink-selenium2-driver":  "to enable Selenium2 (webdriver support)",
+        "behat/mink-zombie-driver":     "to enable Zombie.js support"
     },
 
     "autoload": {
