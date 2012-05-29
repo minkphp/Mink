@@ -128,7 +128,6 @@ class PharCompiler
  */
 
 Phar::mapPhar('mink.phar');
-require_once 'phar://mink.phar/vendor/facebook/php-webdriver/__init__.php';
 require_once 'phar://mink.phar/vendor/autoload.php';
 
 __HALT_COMPILER();
