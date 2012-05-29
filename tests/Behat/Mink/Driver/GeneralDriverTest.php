@@ -2,13 +2,32 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\PHPUnit\TestCase;
+use Behat\Mink\Mink,
+    Behat\Mink\Session;
 
-abstract class GeneralDriverTest extends TestCase
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
+
+abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
-    protected function pathTo($path)
+    private static $mink;
+
+    /**
+     * Initializes mink instance.
+     */
+    public static function setUpBeforeClass()
     {
-        return $_SERVER['WEB_FIXTURES_HOST'].$path;
+        self::$mink = new Mink(array('sess' => new Session(static::getDriver())));
+    }
+
+    public function getSession()
+    {
+        return self::$mink->getSession('sess');
+    }
+
+    protected function tearDown()
+    {
+        self::$mink->resetSessions();
     }
 
     public function testRedirect()
@@ -547,5 +566,10 @@ no file
 OUT
             , $page->getContent()
         );
+    }
+
+    protected function pathTo($path)
+    {
+        return $_SERVER['WEB_FIXTURES_HOST'].$path;
     }
 }
