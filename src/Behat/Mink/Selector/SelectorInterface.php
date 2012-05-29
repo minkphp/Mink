@@ -13,16 +13,16 @@ namespace Behat\Mink\Selector;
 /**
  * Mink selector engine interface.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 interface SelectorInterface
 {
     /**
      * Translates provided locator into XPath.
      *
-     * @param   string  $locator    current selector locator
+     * @param string $locator current selector locator
      *
-     * @return  string              XPath
+     * @return string
      */
     function translateToXPath($locator);
 }

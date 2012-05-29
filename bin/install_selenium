@@ -1,6 +1,0 @@
-#!/bin/sh
-
-BASEDIR=$(dirname $0)
-cd $BASEDIR/../vendor
-
-wget http://selenium.googlecode.com/files/selenium-server-standalone-2.20.0.jar -O selenium.jar

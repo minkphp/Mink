@@ -15,14 +15,14 @@ use Behat\Mink\Session;
 /**
  * Mink response's text exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class ResponseTextException extends ExpectationException
 {
     /**
      * Returns exception message with additional context info.
      *
-     * @return  string
+     * @return string
      */
     public function __toString()
     {

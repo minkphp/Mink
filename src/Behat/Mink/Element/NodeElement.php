@@ -18,7 +18,7 @@ use Behat\Mink\Session,
 /**
  * Page element node.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class NodeElement extends TraversableElement
 {
@@ -27,8 +27,8 @@ class NodeElement extends TraversableElement
     /**
      * Initializes node element.
      *
-     * @param   string                  $xpath      element xpath
-     * @param   Behat\Mink\Session      $session    session instance
+     * @param string  $xpath   element xpath
+     * @param Session $session session instance
      */
     public function __construct($xpath, Session $session)
     {
@@ -38,7 +38,9 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::getXpath()
+     * Returns XPath for handled element.
+     *
+     * @return string
      */
     public function getXpath()
     {
@@ -48,7 +50,7 @@ class NodeElement extends TraversableElement
     /**
      * Returns parent element to the current one.
      *
-     * @return  Behat\Mink\Element\NodeElement
+     * @return NodeElement
      */
     public function getParent()
     {
@@ -58,7 +60,7 @@ class NodeElement extends TraversableElement
     /**
      * Returns current node tag name.
      *
-     * @return  string
+     * @return string
      */
     public function getTagName()
     {
@@ -68,7 +70,7 @@ class NodeElement extends TraversableElement
     /**
      * Returns element value.
      *
-     * @return  mixed
+     * @return mixed
      */
     public function getValue()
     {
@@ -78,7 +80,7 @@ class NodeElement extends TraversableElement
     /**
      * Sets node value.
      *
-     * @param   string  $value
+     * @param string $value
      */
     public function setValue($value)
     {
@@ -88,7 +90,9 @@ class NodeElement extends TraversableElement
     /**
      * Checks whether element has attribute with specified name.
      *
-     * @param   string  $name
+     * @param string $name
+     *
+     * @return Boolean
      */
     public function hasAttribute($name)
     {
@@ -98,9 +102,9 @@ class NodeElement extends TraversableElement
     /**
      * Returns specified attribute value.
      *
-     * @param   string  $name
+     * @param string $name
      *
-     * @return  mixed|null
+     * @return mixed|null
      */
     public function getAttribute($name)
     {
@@ -158,7 +162,7 @@ class NodeElement extends TraversableElement
     /**
      * Checks whether current node is checked if it's a checkbox field.
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function isChecked()
     {
@@ -168,8 +172,10 @@ class NodeElement extends TraversableElement
     /**
      * Selects current node specified option if it's a select field.
      *
-     * @param   string  $option
-     * @param   Boolean $multiple
+     * @param string  $option
+     * @param Boolean $multiple
+     *
+     * @throws ElementNotFoundException
      */
     public function selectOption($option, $multiple = false)
     {
@@ -197,7 +203,7 @@ class NodeElement extends TraversableElement
     /**
      * Attach file to current node if it's a file input.
      *
-     * @param   string  $path   path to file (local)
+     * @param string $path path to file (local)
      */
     public function attachFile($path)
     {
@@ -207,7 +213,7 @@ class NodeElement extends TraversableElement
     /**
      * Checks whether current node is visible on page.
      *
-     * @return  Boolean
+     * @return Boolean
      */
     public function isVisible()
     {
@@ -225,7 +231,7 @@ class NodeElement extends TraversableElement
     /**
      * Drags current node onto other node.
      *
-     * @param   ElementInterface    $destination    other node
+     * @param ElementInterface $destination other node
      */
     public function dragTo(ElementInterface $destination)
     {
@@ -251,8 +257,8 @@ class NodeElement extends TraversableElement
     /**
      * Presses specific keyboard key.
      *
-     * @param   mixed   $char       could be either char ('b') or char-code (98)
-     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyPress($char, $modifier = null)
     {
@@ -262,8 +268,8 @@ class NodeElement extends TraversableElement
     /**
      * Pressed down specific keyboard key.
      *
-     * @param   mixed   $char       could be either char ('b') or char-code (98)
-     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyDown($char, $modifier = null)
     {
@@ -273,8 +279,8 @@ class NodeElement extends TraversableElement
     /**
      * Pressed up specific keyboard key.
      *
-     * @param   mixed   $char       could be either char ('b') or char-code (98)
-     * @param   string  $modifier   keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param mixed  $char     could be either char ('b') or char-code (98)
+     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyUp($char, $modifier = null)
     {

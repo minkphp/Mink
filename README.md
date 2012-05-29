@@ -16,17 +16,18 @@ Usage Example
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
+    Behat\Mink\Driver\Goutte\Client as GoutteClient,
     Behat\Mink\Driver\SahiDriver;
 
 $startUrl = 'http://example.com';
 
 // init Mink and register sessions
-$mink = new Mink(
-    'goutte1'    => new Session(new GoutteDriver($startUrl)),
-    'goutte2'    => new Session(new GoutteDriver($startUrl)),
-    'javascript' => new Session(new SahiDriver($startUrl, 'firefox')),
+$mink = new Mink(array(
+    'goutte1'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'goutte2'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'javascript' => new Session(new SahiDriver('firefox')),
     'custom'     => new Session(new MyCustomDriver($startUrl))
-);
+));
 
 // set default session name
 $mink->setDefaultSessionName('goutte2');
@@ -51,62 +52,19 @@ $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 Install Dependencies
 --------------------
 
-    wget http://getcomposer.org/composer.phar
-    php composer.phar install
-
-How to run Mink test suite
---------------------------
-
-1. Install dependencies (including Sahi and Selenium)
-
-    ``` bash
-    bin/install_deps
-    bin/install_sahi
-    bin/install_selenium
-    ```
-
-2. To run all tests - call `bin/run_all_tests`
-
-If you want to run specific driver tests, use appropriate PHPUnit group
-and make sure that `Sahi`/`Selenium` is runned if you want to test
-one of them:
-
 ``` bash
-bin/start_sahi
-phpunit --group sahidriver
-bin/kill_sahi
+curl http://getcomposer.org/installer | php
+php composer.phar install
 ```
 
-``` bash
-bin/start_selenium
-phpunit --group seleniumdriver
-bin/kill_selenium
-```
+Behat integration and translated languages
+------------------------------------------
 
-`Zombie` and `Goutte` driver tests doesn't require some specific proxy
-to be runned and could be tested as is:
-
-``` bash
-phpunit --group zombiedriver
-```
-
-``` bash
-phpunit --group gouttedriver
-```
-
-Translated languages
---------------------
-
-For now exist 10 translated languages: `cs`,`de`,`es`,`fr`,`ja`,`nl`,`pl`,`pt`,`ru`,`sv`.
-
-**Note:** The `ja`,`nl`,`pt` and `sv` are outdated.
-
-#### How to add a new translated language?
-
-If you want to translate another language, you can use as reference the `ru` language file under
-[translations folder](https://github.com/Behat/Mink/tree/develop/i18n).
-
-**Important:** The filename must match with the same translated language file in [Behat](https://github.com/Behat/Behat/tree/master/i18n) and [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) in order to work correctly. If the language does not exist in [Gherkin](https://github.com/Behat/Gherkin/tree/master/i18n) and [Behat](https://github.com/Behat/Behat/tree/master/i18n) you must add it there too.
+Behat integration altogether with translations have moved into separate
+project called `MinkExtension`. It's an extension to Behat 2.4. This will
+lead to much faster release cycles as `MinkExtension` doesn't have actual
+releases - any accepted PR about language translation or new step definitions
+will immediately go into live.
 
 Copyright
 ---------
@@ -117,9 +75,7 @@ Contributors
 ------------
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
-* Pascal Cremer [b00giZm](http://github.com/b00giZm) [ZombieDriver creator]
-* Alexandre Salomé [alexandresalome](http://github.com/alexandresalome) [SeleniumDriver creator]
-* Pete Otaqui [pete-otaqui](http://github.com/pete-otaqui) [Selenium2Driver creator]
+* Other [awesome developers](https://github.com/Behat/Mink/graphs/contributors)
 
 Sponsors
 --------

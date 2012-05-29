@@ -70,41 +70,17 @@ class PharCompiler
                 'vendor',
             ))
             ->in($this->libPath . '/src')
-            ->in($this->libPath . '/i18n')
-            ->in($this->libPath . '/vendor/.composer')
             ->in($this->libPath . '/vendor/symfony')
+            ->in($this->libPath . '/vendor/composer')
             ->in($this->libPath . '/vendor/alexandresalome')
             ->in($this->libPath . '/vendor/behat')
             ->in($this->libPath . '/vendor/fabpot')
-            ->in($this->libPath . '/vendor/facebook')
             ->in($this->libPath . '/vendor/kriswallsmith')
-            ->in($this->libPath . '/vendor/zendframework/zend-uri')
-            ->in($this->libPath . '/vendor/zendframework/zend-http')
+            ->in($this->libPath . '/vendor/guzzle')
+            ->in($this->libPath . '/vendor/instaclick')
         ;
 
-        $files = array(
-            $this->libPath . '/vendor/zendframework/zend-registry/php/Zend/Registry.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Validator.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/AbstractValidator.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Ip.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Com.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Jp.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Cn.php',
-            $this->libPath . '/vendor/zendframework/zend-validator/php/Zend/Validator/Hostname/Biz.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Dispatchable.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Message.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/MessageDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/RequestDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/Parameters.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ParametersDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-stdlib/php/Zend/Stdlib/ResponseDescription.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLoader.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/PluginClassLocator.php',
-            $this->libPath . '/vendor/zendframework/zend-loader/php/Zend/Loader/ShortNameLocator.php',
-        );
-
-        foreach (array_merge($files, iterator_to_array($finder)) as $file) {
+        foreach ($finder as $file) {
             if (!$file instanceof \SplFileInfo) {
                 $file = new \SplFileInfo($file);
             }
@@ -152,8 +128,7 @@ class PharCompiler
  */
 
 Phar::mapPhar('mink.phar');
-require_once 'phar://mink.phar/vendor/facebook/php-webdriver/__init__.php';
-require_once 'phar://mink.phar/vendor/.composer/autoload.php';
+require_once 'phar://mink.phar/vendor/autoload.php';
 
 __HALT_COMPILER();
 EOF

@@ -15,16 +15,16 @@ use Behat\Mink\Session;
 /**
  * Mink's expectation exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class ExpectationException extends Exception
 {
     /**
      * Initializes exception.
      *
-     * @param   string              $message    optional message
-     * @param   Behat\Mink\Session  $session    session instance
-     * @param   Exception           $exception  expectation exception
+     * @param string     $message   optional message
+     * @param Session    $session   session instance
+     * @param \Exception $exception expectation exception
      */
     public function __construct($message = null, Session $session, \Exception $exception = null)
     {
@@ -34,7 +34,7 @@ class ExpectationException extends Exception
     /**
      * Returns exception message with additional context info.
      *
-     * @return  string
+     * @return string
      */
     public function __toString()
     {

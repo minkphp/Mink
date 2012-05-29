@@ -9,18 +9,13 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="vendor/.composer/autoload.php"
+         bootstrap="vendor/autoload.php"
 >
     <testsuites>
         <testsuite name="Behat Mink test suite">
             <directory>./tests/Behat/Mink/</directory>
         </testsuite>
     </testsuites>
-
-    <php>
-        <!-- <server name="WEB_FIXTURES_HOST" value="http://test.mink.loc" /> -->
-        <!-- <server name="WEB_FIXTURES_BROWSER" value="firefox" /> -->
-    </php>
 
     <filter>
         <whitelist>

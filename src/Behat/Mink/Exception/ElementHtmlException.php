@@ -16,24 +16,24 @@ use Behat\Mink\Session,
 /**
  * Mink's element HTML exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class ElementHtmlException extends ExpectationException
 {
     /**
      * Element instance.
      *
-     * @var     Behat\Mink\Element\Element
+     * @var Element
      */
     protected $element;
 
     /**
      * Initializes exception.
      *
-     * @param   string                      $message    optional message
-     * @param   Behat\Mink\Session          $session    session instance
-     * @param   Behat\Mink\Element\Element  $element    element
-     * @param   Exception                   $exception  expectation exception
+     * @param string     $message   optional message
+     * @param Session    $session   session instance
+     * @param Element    $element   element
+     * @param \Exception $exception expectation exception
      */
     public function __construct($message = null, Session $session, Element $element, \Exception $exception = null)
     {
@@ -45,7 +45,7 @@ class ElementHtmlException extends ExpectationException
     /**
      * Returns exception message with additional context info.
      *
-     * @return  string
+     * @return string
      */
     public function __toString()
     {

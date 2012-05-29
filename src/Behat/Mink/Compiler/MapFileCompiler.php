@@ -101,7 +101,7 @@ use Behat\Mink\ClassLoader\MapFileClassLoader;
 $loader = new MapFileClassLoader(__DIR__ . '/%s');
 $loader->register();
 
-require_once __DIR__ . '/vendor/.composer/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 EOF
         , $mapFilename);

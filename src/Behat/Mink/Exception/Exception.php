@@ -15,24 +15,19 @@ use Behat\Mink\Session;
 /**
  * Mink base exception class.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 abstract class Exception extends \Exception
 {
-    /**
-     * Mink session.
-     *
-     * @var     Behat\Mink\Session
-     */
     private $session;
 
     /**
      * Initializes Mink exception.
      *
-     * @param   string              $message
-     * @param   Behat\Mink\Session  $session
-     * @param   integer             $code
-     * @param   \Exception          $previous
+     * @param string     $message
+     * @param Session    $session
+     * @param integer    $code
+     * @param \Exception $previous
      */
     public function __construct($message, Session $session = null, $code = 0, \Exception $previous = null)
     {
@@ -44,7 +39,7 @@ abstract class Exception extends \Exception
     /**
      * Returns exception session.
      *
-     * @return  Behat\Mink\Session
+     * @return Session
      */
     protected function getSession()
     {
@@ -54,9 +49,9 @@ abstract class Exception extends \Exception
     /**
      * Prepends every line in a string with pipe (|).
      *
-     * @param   string  $string
+     * @param string $string
      *
-     * @return  string
+     * @return string
      */
     protected function pipeString($string)
     {
@@ -64,12 +59,12 @@ abstract class Exception extends \Exception
     }
 
     /**
-     * Removes response header/footer, lefting only <body /> content and trim it.
+     * Removes response header/footer, letting only <body /> content and trim it.
      *
-     * @param   string  $string response content
-     * @param   integer $count  trim count
+     * @param string  $string response content
+     * @param integer $count  trim count
      *
-     * @return  string
+     * @return string
      */
     protected function trimBody($string, $count = 1000)
     {
@@ -82,10 +77,10 @@ abstract class Exception extends \Exception
     /**
      * Trims string to specified number of chars.
      *
-     * @param   string  $string response content
-     * @param   integer $count  trim count
+     * @param string  $string response content
+     * @param integer $count  trim count
      *
-     * @return  string
+     * @return string
      */
     protected function trimString($string, $count = 1000)
     {
@@ -101,7 +96,7 @@ abstract class Exception extends \Exception
     /**
      * Returns response information string.
      *
-     * @return  string
+     * @return string
      */
     protected function getResponseInfo()
     {

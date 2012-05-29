@@ -2,6 +2,8 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Session;
+
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -13,65 +15,65 @@ namespace Behat\Mink\Element;
 /**
  * Element interface.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 interface ElementInterface
 {
     /**
      * Returns XPath for handled element.
      *
-     * @return  string
+     * @return string
      */
     function getXpath();
 
     /**
      * Returns element's session.
      *
-     * @return  Behat\Mink\Session
+     * @return Session
      */
     function getSession();
 
     /**
      * Checks whether element with specified selector exists.
      *
-     * @param   string  $selector   selector engine name
-     * @param   string  $locator    selector locator
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
      *
-     * @return  Boolean
+     * @return Boolean
      */
     function has($selector, $locator);
 
     /**
      * Finds first element with specified selector.
      *
-     * @param   string  $selector   selector engine name
-     * @param   string  $locator    selector locator
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
      *
-     * @return  Behat\Mink\Element\NodeElement|null
+     * @return NodeElement|null
      */
     function find($selector, $locator);
 
     /**
      * Finds all elements with specified selector.
      *
-     * @param   string  $selector   selector engine name
-     * @param   string  $locator    selector locator
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
      *
-     * @return  array
+     * @return array
      */
     function findAll($selector, $locator);
 
     /**
      * Returns element text (inside tag).
      *
-     * @return  string|null
+     * @return string|null
      */
     function getText();
 
     /**
      * Returns element html.
      *
-     * @return  string|null
+     * @return string|null
      */
     function getHtml();
 }

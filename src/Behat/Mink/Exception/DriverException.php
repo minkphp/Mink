@@ -13,12 +13,16 @@ namespace Behat\Mink\Exception;
 /**
  * Mink driver exception.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class DriverException extends Exception
 {
     /**
      * Initializes exception.
+     *
+     * @param string $message
+     * @param int $code
+     * @param \Exception|null $previous
      */
     public function __construct($message, $code = 0, \Exception $previous = null)
     {

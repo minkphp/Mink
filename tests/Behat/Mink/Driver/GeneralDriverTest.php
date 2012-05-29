@@ -2,13 +2,32 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\PHPUnit\TestCase;
+use Behat\Mink\Mink,
+    Behat\Mink\Session;
 
-abstract class GeneralDriverTest extends TestCase
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
+
+abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
-    protected function pathTo($path)
+    private static $mink;
+
+    /**
+     * Initializes mink instance.
+     */
+    public static function setUpBeforeClass()
     {
-        return $_SERVER['WEB_FIXTURES_HOST'].$path;
+        self::$mink = new Mink(array('sess' => new Session(static::getDriver())));
+    }
+
+    public function getSession()
+    {
+        return self::$mink->getSession('sess');
+    }
+
+    protected function tearDown()
+    {
+        self::$mink->resetSessions();
     }
 
     public function testRedirect()
@@ -53,6 +72,7 @@ abstract class GeneralDriverTest extends TestCase
         $this->getSession()->getPage()->pressButton('Set cookie');
 
         $this->getSession()->visit($this->pathTo('/issue140.php?show_value'));
+        $this->assertEquals('some:value;', $this->getSession()->getCookie('tc'));
         $this->assertEquals('some:value;', $this->getSession()->getPage()->getText());
     }
 
@@ -386,6 +406,21 @@ abstract class GeneralDriverTest extends TestCase
         $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
+    public function testBasicGetForm()
+    {
+        $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
+
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('Basic Get Form Page', $page->find('css', 'h1')->getText());
+
+        $search = $page->findField('q');
+        $search->setValue('some#query');
+        $page->pressButton('Find');
+
+        $this->assertNotNull($div = $page->find('css', 'div'));
+        $this->assertEquals('some#query', $div->getText());
+    }
+
     public function testMultiselect()
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.php'));
@@ -531,5 +566,10 @@ no file
 OUT
             , $page->getContent()
         );
+    }
+
+    protected function pathTo($path)
+    {
+        return $_SERVER['WEB_FIXTURES_HOST'].$path;
     }
 }

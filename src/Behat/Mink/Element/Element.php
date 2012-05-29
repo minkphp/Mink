@@ -15,7 +15,7 @@ use Behat\Mink\Session;
 /**
  * Base element.
  *
- * @author      Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 abstract class Element implements ElementInterface
 {
@@ -24,7 +24,7 @@ abstract class Element implements ElementInterface
     /**
      * Initialize element.
      *
-     * @param   Behat\Mink\Session  $session
+     * @param Session $session
      */
     public function __construct(Session $session)
     {
@@ -34,7 +34,7 @@ abstract class Element implements ElementInterface
     /**
      * Returns element session.
      *
-     * @return  Behat\Mink\Session
+     * @return Session
      */
     public function getSession()
     {
@@ -42,7 +42,12 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     * Checks whether element with specified selector exists.
+     *
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
+     *
+     * @return Boolean
      */
     public function has($selector, $locator)
     {
@@ -50,7 +55,12 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::find()
+     * Finds first element with specified selector.
+     *
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
+     *
+     * @return NodeElement|null
      */
     public function find($selector, $locator)
     {
@@ -60,7 +70,12 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::findAll()
+     * Finds all elements with specified selector.
+     *
+     * @param string $selector selector engine name
+     * @param string $locator  selector locator
+     *
+     * @return array
      */
     public function findAll($selector, $locator)
     {
@@ -77,7 +92,9 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::getText()
+     * Returns element text (inside tag).
+     *
+     * @return string|null
      */
     public function getText()
     {
@@ -85,7 +102,9 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @see     Behat\Mink\Element\ElementInterface::getHtml()
+     * Returns element html.
+     *
+     * @return string|null
      */
     public function getHtml()
     {

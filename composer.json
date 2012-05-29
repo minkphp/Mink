@@ -16,30 +16,29 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/browser-kit":   ">=2.0,<2.2-dev",
-        "symfony/dom-crawler":   ">=2.0,<2.2-dev",
-        "symfony/css-selector":  ">=2.0,<2.2-dev",
-        "symfony/finder":        ">=2.0,<2.2-dev",
-        "symfony/process":       ">=2.0,<2.2-dev"
+        "symfony/css-selector":  ">=2.0.0,<2.2.0-dev"
     },
 
-    "recommend": {
-        "fabpot/goutte":                 "*",
-        "behat/sahi-client":             ">=1.0.1,<1.1-dev",
-        "alexandresalome/php-selenium":  "*",
-        "facebook/php-webdriver":        "*"
+    "require-dev": {
+        "behat/mink-goutte-driver":     "*",
+        "behat/mink-sahi-driver":       "*",
+        "behat/mink-selenium-driver":   "*",
+        "behat/mink-selenium2-driver":  "*",
+        "behat/mink-zombie-driver":     "*",
+        "symfony/finder":               ">=2.0.0,<2.2.0-dev"
+    },
+
+    "suggest": {
+        "behat/mink-goutte-driver":     "to enable Goutte support",
+        "behat/mink-sahi-driver":       "to enable Sahi.JS support",
+        "behat/mink-selenium-driver":   "to enable Selenium1 support",
+        "behat/mink-selenium2-driver":  "to enable Selenium2 (webdriver support)",
+        "behat/mink-zombie-driver":     "to enable Zombie.js support"
     },
 
     "autoload": {
         "psr-0": {
             "Behat\\Mink": "src/"
-        }
-    },
-
-    "repositories": {
-        "behat/mink-deps": {
-            "type": "composer",
-            "url":  "behat.org"
         }
     }
 }
