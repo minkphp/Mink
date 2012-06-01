@@ -87,6 +87,7 @@ class PharCompiler
 
             $this->addFileToPhar($file, $phar);
         }
+        $this->addFileToPhar(new \SplFileInfo('vendor/autoload.php'), $phar);
 
         // stub
         $phar->setStub($this->getStub($version));
