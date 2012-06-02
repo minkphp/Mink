@@ -24,14 +24,14 @@ interface ElementInterface
      *
      * @return string
      */
-    function getXpath();
+    public function getXpath();
 
     /**
      * Returns element's session.
      *
      * @return Session
      */
-    function getSession();
+    public function getSession();
 
     /**
      * Checks whether element with specified selector exists.
@@ -41,7 +41,7 @@ interface ElementInterface
      *
      * @return Boolean
      */
-    function has($selector, $locator);
+    public function has($selector, $locator);
 
     /**
      * Finds first element with specified selector.
@@ -51,7 +51,7 @@ interface ElementInterface
      *
      * @return NodeElement|null
      */
-    function find($selector, $locator);
+    public function find($selector, $locator);
 
     /**
      * Finds all elements with specified selector.
@@ -61,19 +61,19 @@ interface ElementInterface
      *
      * @return array
      */
-    function findAll($selector, $locator);
+    public function findAll($selector, $locator);
 
     /**
      * Returns element text (inside tag).
      *
      * @return string|null
      */
-    function getText();
+    public function getText();
 
     /**
      * Returns element html.
      *
      * @return string|null
      */
-    function getHtml();
+    public function getHtml();
 }
