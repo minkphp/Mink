@@ -37,7 +37,7 @@ class MapFileCompiler
     /**
      * Compiles map file and autoloader.
      *
-     * @param   string  $version
+     * @param string $version
      */
     public function compile($autoloaderFilename = 'autoload.php', $mapFilename = 'autoload_map.php')
     {
@@ -75,9 +75,9 @@ MAP_FILE;
     /**
      * Returns autoload.php content.
      *
-     * @param   string  $mapFilename
+     * @param string $mapFilename
      *
-     * @return  string
+     * @return string
      */
     protected function getAutoloadScript($mapFilename)
     {
@@ -110,7 +110,7 @@ EOF
     /**
      * Creates finder instance to search php files.
      *
-     * @return  Symfony\Component\Finder\Finder
+     * @return Symfony\Component\Finder\Finder
      */
     private function findPhpFile()
     {

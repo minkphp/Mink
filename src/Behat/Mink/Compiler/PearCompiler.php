@@ -37,7 +37,7 @@ class PearCompiler
     /**
      * Compiles pear package.
      *
-     * @param   string  $version
+     * @param string $version
      */
     public function compile($version, $stability)
     {
@@ -100,10 +100,10 @@ class PearCompiler
     /**
      * Replaces tokens in specified path.
      *
-     * @param   string|array    $files          files array or single file
-     * @param   string          $tokenStart     token start symbol
-     * @param   string          $tokenFinish    token finish symbol
-     * @param   array           $tokens         replace tokens array
+     * @param string|array $files       files array or single file
+     * @param string       $tokenStart  token start symbol
+     * @param string       $tokenFinish token finish symbol
+     * @param array        $tokens      replace tokens array
      */
     protected function replaceTokens($files, $tokenStart, $tokenFinish, array $tokens)
     {
@@ -123,7 +123,7 @@ class PearCompiler
     /**
      * Returns pear package template.
      *
-     * @return  string
+     * @return string
      */
     protected function getPackageTemplate()
     {
@@ -216,7 +216,7 @@ EOF;
     /**
      * Creates finder instance to search php files.
      *
-     * @return  Symfony\Component\Finder\Finder
+     * @return Symfony\Component\Finder\Finder
      */
     private function findPhpFile()
     {

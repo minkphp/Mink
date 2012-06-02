@@ -92,7 +92,7 @@ class WebAssert
     /**
      * Checks that specified cookie exists
      *
-     * @param string $name  cookie name
+     * @param string $name cookie name
      *
      * @throws Behat\Mink\Exception\ExpectationException
      */

@@ -24,5 +24,5 @@ interface SelectorInterface
      *
      * @return string
      */
-    function translateToXPath($locator);
+    public function translateToXPath($locator);
 }
