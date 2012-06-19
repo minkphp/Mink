@@ -40,5 +40,11 @@
         "psr-0": {
             "Behat\\Mink": "src/"
         }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.4-dev"
+        }
     }
 }
