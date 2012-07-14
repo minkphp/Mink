@@ -357,4 +357,12 @@ interface DriverInterface
      * @param string  $condition JS condition
      */
     function wait($time, $condition);
+    
+
+    /**
+     * capture a screenshot of the current webpage 
+     *
+     * @return base64 encoded png image 
+     */
+    function screenshot();
 }
