@@ -130,13 +130,16 @@ class Mink
     /**
      * Returns session asserter.
      *
-     * @param string $name session name
+     * @param Session|string $session session object or name
      *
      * @return WebAssert
      */
-    public function assertSession($name = null)
+    public function assertSession($session = null)
     {
-        return new WebAssert($this->getSession($name));
+        if (!($session instanceof Session)) {
+            $session = $this->getSession($session);
+        }
+        return new WebAssert($session);
     }
 
     /**
