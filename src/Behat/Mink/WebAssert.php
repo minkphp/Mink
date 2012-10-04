@@ -90,6 +90,25 @@ class WebAssert
     }
 
     /**
+     * Checks that specified cookie exists and its value equals to a given one
+     *
+     * @param string $name   cookie name
+     * @param string $value  cookie value
+     *
+     * @throws Behat\Mink\Exception\ExpectationException
+     */
+    public function cookieEquals($name, $value)
+    {
+        $this->cookieExists($name);
+        $actualValue = $this->session->getCookie($name);
+        if ($actualValue != $value) {
+            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name,
+                $actualValue, $value);
+            throw new ExpectationException($message, $this->session);
+        }
+    }
+
+    /**
      * Checks that specified cookie exists
      *
      * @param string $name cookie name
@@ -469,7 +488,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '$/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
@@ -489,7 +508,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '$/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
