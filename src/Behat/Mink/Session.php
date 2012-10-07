@@ -278,4 +278,16 @@ class Session
     {
         $this->driver->wait($time, $condition);
     }
+
+    /**
+     * Set the dimensions of the window.
+     *
+     * @param integer $width set the window width, measured in pixels
+     * @param integer $height set the window height, measured in pixels
+     * @param string $name window name (null for the main window)
+     */
+    public function resizeWindow($width, $height, $name = null)
+    {
+        return $this->driver->resizeWindow($width, $height, $name);
+    }
 }
