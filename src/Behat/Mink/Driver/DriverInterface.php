@@ -146,6 +146,14 @@ interface DriverInterface
     public function getContent();
 
     /**
+     * Capture a screenshot of the current window.
+     *
+     * @return  string  screenshot of MIME type image/* depending 
+     *   on driver (e.g., image/png, image/jpeg)
+     */
+    public function getScreenshot();
+
+    /**
      * Finds elements with specified XPath query.
      *
      * @param string $xpath
