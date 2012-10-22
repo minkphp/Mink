@@ -46,4 +46,14 @@ class ElementException extends Exception
     {
         return $this->element;
     }
+    
+    /**
+     * Override default __toString so we don't send a full backtrace in verbose mode.
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getMessage();
+    }
 }
