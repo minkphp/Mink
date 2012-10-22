@@ -5,6 +5,7 @@ namespace Behat\Mink\Element;
 use Behat\Mink\Session,
     Behat\Mink\Driver\DriverInterface,
     Behat\Mink\Element\ElementInterface,
+    Behat\Mink\Exception\ElementException,
     Behat\Mink\Exception\ElementNotFoundException;
 
 /*
@@ -116,7 +117,11 @@ class NodeElement extends TraversableElement
      */
     public function click()
     {
-        $this->getSession()->getDriver()->click($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->click($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
