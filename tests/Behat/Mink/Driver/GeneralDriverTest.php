@@ -159,7 +159,15 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
         $this->assertContains(
-            "array ( 'client_cookie1' = 'some_val', 'client_cookie2' = '123', '_SESS' = ",
+            "'client_cookie1' = 'some_val'",
+            $this->getSession()->getPage()->getText()
+        );
+        $this->assertContains(
+            "'client_cookie2' = '123'",
+            $this->getSession()->getPage()->getText()
+        );
+        $this->assertContains(
+            "_SESS' = ",
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
