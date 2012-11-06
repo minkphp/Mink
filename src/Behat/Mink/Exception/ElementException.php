@@ -46,4 +46,14 @@ class ElementException extends Exception
     {
         return $this->getMessage();
     }
+    
+    /**
+     * Get the element that caused the exception
+     * 
+     * @return Element
+     */
+    public function getElement()
+    {
+        return $this->element;
+    }
 }
