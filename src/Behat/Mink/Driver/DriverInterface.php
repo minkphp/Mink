@@ -358,7 +358,6 @@ interface DriverInterface
      */
     function wait($time, $condition);
     
-
     /**
      * capture a screenshot of the current webpage 
      *
