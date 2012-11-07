@@ -278,4 +278,14 @@ class Session
     {
         $this->driver->wait($time, $condition);
     }
+
+    /**
+     * capture a screenshot of the current webpage 
+     *
+     * @return base64 encoded png image 
+     */
+    public function screenshot()
+    {
+        return $this->driver->screenshot();
+    }
 }
