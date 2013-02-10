@@ -16,11 +16,13 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/css-selector":  ">=2.0,<2.3-dev"
-    },
-
-    "require-dev": {
-        "phpunit/phpunit": "3.*"
+        "symfony/css-selector":  ">=2.0,<2.3-dev",
+        "symfony/symfony": "2.1.*",
+        "behat/mink-goutte-driver": "@dev",
+        "behat/mink-sahi-driver": "@dev",
+        "behat/mink-selenium-driver": "@dev",
+        "behat/mink-selenium2-driver": "@dev",
+        "behat/mink-zombie-driver": "@dev"
     },
 
     "suggest": {
