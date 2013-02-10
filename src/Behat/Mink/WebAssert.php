@@ -2,7 +2,8 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\NodeElement,
+use Behat\Mink\Element\Element,
+    Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\ElementNotFoundException,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
@@ -90,9 +91,28 @@ class WebAssert
     }
 
     /**
+     * Checks that specified cookie exists and its value equals to a given one
+     *
+     * @param string $name   cookie name
+     * @param string $value  cookie value
+     *
+     * @throws Behat\Mink\Exception\ExpectationException
+     */
+    public function cookieEquals($name, $value)
+    {
+        $this->cookieExists($name);
+        $actualValue = $this->session->getCookie($name);
+        if ($actualValue != $value) {
+            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name,
+                $actualValue, $value);
+            throw new ExpectationException($message, $this->session);
+        }
+    }
+
+    /**
      * Checks that specified cookie exists
      *
-     * @param string $name  cookie name
+     * @param string $name cookie name
      *
      * @throws Behat\Mink\Exception\ExpectationException
      */
@@ -300,16 +320,18 @@ class WebAssert
     /**
      * Checks that specific element exists on the current page.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
+     * @param string  $selectorType element selector type (css, xpath)
+     * @param string  $selector     element selector
+     * @param Element $container    document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function elementExists($selectorType, $selector)
+    public function elementExists($selectorType, $selector, Element $container = null)
     {
-        $node = $this->session->getPage()->find($selectorType, $selector);
+        $container = ($container !== null) ? $container : $this->session->getPage();
+        $node = $container->find($selectorType, $selector);
 
         if (null === $node) {
             throw new ElementNotFoundException($this->session, 'element', $selectorType, $selector);
@@ -321,14 +343,16 @@ class WebAssert
     /**
      * Checks that specific element does not exists on the current page.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
+     * @param string  $selectorType element selector type (css, xpath)
+     * @param string  $selector     element selector
+     * @param Element $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementNotExists($selectorType, $selector)
+    public function elementNotExists($selectorType, $selector, Element $container = null)
     {
-        $node = $this->session->getPage()->find($selectorType, $selector);
+        $container = ($container !== null) ? $container : $this->session->getPage();
+        $node = $container->find($selectorType, $selector);
 
         if (null !== $node) {
             $message = sprintf('An element matching %s "%s" appears on this page, but it should not.', $selectorType, $selector);
@@ -469,7 +493,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '$/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
@@ -489,7 +513,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '$/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);

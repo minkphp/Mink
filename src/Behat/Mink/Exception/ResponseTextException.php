@@ -2,8 +2,6 @@
 
 namespace Behat\Mink\Exception;
 
-use Behat\Mink\Session;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>

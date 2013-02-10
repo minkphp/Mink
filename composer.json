@@ -16,16 +16,7 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/css-selector":  ">=2.0.0,<2.2.0-dev"
-    },
-
-    "require-dev": {
-        "behat/mink-goutte-driver":     "*",
-        "behat/mink-sahi-driver":       "*",
-        "behat/mink-selenium-driver":   "*",
-        "behat/mink-selenium2-driver":  "*",
-        "behat/mink-zombie-driver":     "*",
-        "symfony/finder":               ">=2.0.0,<2.2.0-dev"
+        "symfony/css-selector":  ">=2.0,<2.3-dev"
     },
 
     "suggest": {
@@ -39,6 +30,12 @@
     "autoload": {
         "psr-0": {
             "Behat\\Mink": "src/"
+        }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.4-dev"
         }
     }
 }

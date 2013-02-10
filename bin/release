@@ -17,11 +17,7 @@
  * @author     Konstantin Kudryashov <ever.zet@gmail.com>
  */
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Behat\Mink\Compiler;
-
-system('rm *.phar *.tgz');
 
 if (!isset($argv[1])) {
   throw new RuntimeException('You must provide version.');
@@ -33,20 +29,24 @@ if (!isset($argv[2])) {
 }
 $stability = $argv[2];
 
-$ldr = new Compiler\MapFileCompiler($autoloaderFilename = 'autoload.php', $mapFilename = 'autoload_map.php');
-$ldr->compile();
-echo "Autoloader compiled\n";
+system('rm -rf vendor composer.lock');
+system('cp composer.json composer.json.back');
+system('composer require --no-update "behat/mink-goutte-driver=@dev"');
+system('composer require --no-update "behat/mink-sahi-driver=@dev"');
+system('composer require --no-update "behat/mink-selenium-driver=@dev"');
+system('composer require --no-update "behat/mink-selenium2-driver=@dev"');
+system('composer require --no-update "behat/mink-zombie-driver=@dev"');
+system('composer install --prefer-dist');
 
-$pear = new Compiler\PearCompiler();
-$pear->compile($version, $stability);
-echo "PEAR package compiled: mink-$version.tgz\n";
+require_once __DIR__ . '/../vendor/autoload.php';
 
+system('rm *.phar');
 $phar = new Compiler\PharCompiler();
 $phar->compile($version);
 system("cp mink-$version.phar mink.phar");
 echo "PHAR package compiled: mink-$version.phar\n";
 
-unlink($autoloaderFilename);
-unlink($mapFilename);
-
+system('mv composer.json.back composer.json');
+system('rm -rf vendor composer.lock');
+system('composer install --dev --prefer-dist');
 exit(0);

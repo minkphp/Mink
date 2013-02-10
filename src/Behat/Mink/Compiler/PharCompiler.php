@@ -37,7 +37,7 @@ class PharCompiler
     /**
      * Compiles phar archive.
      *
-     * @param   string  $version
+     * @param string $version
      */
     public function compile($version)
     {
@@ -87,6 +87,7 @@ class PharCompiler
 
             $this->addFileToPhar($file, $phar);
         }
+        $this->addFileToPhar(new \SplFileInfo('vendor/autoload.php'), $phar);
 
         // stub
         $phar->setStub($this->getStub($version));
@@ -98,8 +99,8 @@ class PharCompiler
     /**
      * Adds a file to phar archive.
      *
-     * @param   SplFileInfo $file   file info
-     * @param   Phar        $phar   phar packager
+     * @param SplFileInfo $file file info
+     * @param Phar        $phar phar packager
      */
     protected function addFileToPhar(\SplFileInfo $file, \Phar $phar)
     {
@@ -110,9 +111,9 @@ class PharCompiler
     /**
      * Returns autoloader stub.
      *
-     * @param   string  $version
+     * @param string $version
      *
-     * @return  string
+     * @return string
      */
     protected function getStub($version)
     {

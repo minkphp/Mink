@@ -203,6 +203,17 @@ class Session
     }
 
     /**
+     * Capture a screenshot of the current window.
+     *
+     * @return  string  screenshot of MIME type image/* depending 
+     *   on driver (e.g., image/png, image/jpeg)
+     */
+    public function getScreenshot()
+    {
+        return $this->driver->getScreenshot();
+    }
+
+    /**
      * Reloads current session page.
      */
     public function reload()
@@ -277,5 +288,17 @@ class Session
     public function wait($time, $condition = 'false')
     {
         $this->driver->wait($time, $condition);
+    }
+
+    /**
+     * Set the dimensions of the window.
+     *
+     * @param integer $width set the window width, measured in pixels
+     * @param integer $height set the window height, measured in pixels
+     * @param string $name window name (null for the main window)
+     */
+    public function resizeWindow($width, $height, $name = null)
+    {
+        return $this->driver->resizeWindow($width, $height, $name);
     }
 }

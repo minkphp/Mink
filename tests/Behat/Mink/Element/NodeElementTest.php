@@ -66,6 +66,21 @@ class NodeElementTest extends ElementTest
         $this->assertEquals('http://...', $node->getAttribute('href'));
     }
 
+    public function testHasClass()
+    {
+        $node = new NodeElement('input_tag', $this->session);
+        
+        $this->session->getDriver()
+            ->expects($this->exactly(6))
+            ->method('getAttribute')
+            ->with('input_tag', 'class')
+            ->will($this->returnValue('class1 class2'));
+
+        $this->assertTrue($node->hasClass('class1'));
+        $this->assertTrue($node->hasClass('class2'));
+        $this->assertFalse($node->hasClass('class3'));
+    }
+
     public function testGetValue()
     {
         $node = new NodeElement('input_tag', $this->session);

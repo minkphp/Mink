@@ -24,58 +24,58 @@ interface DriverInterface
      *
      * @param Session $session
      */
-    function setSession(Session $session);
+    public function setSession(Session $session);
 
     /**
      * Starts driver.
      */
-    function start();
+    public function start();
 
     /**
      * Checks whether driver is started.
      *
      * @return Boolean
      */
-    function isStarted();
+    public function isStarted();
 
     /**
      * Stops driver.
      */
-    function stop();
+    public function stop();
 
     /**
      * Resets driver.
      */
-    function reset();
+    public function reset();
 
     /**
      * Visit specified URL.
      *
      * @param string $url url of the page
      */
-    function visit($url);
+    public function visit($url);
 
     /**
      * Returns current URL address.
      *
      * @return string
      */
-    function getCurrentUrl();
+    public function getCurrentUrl();
 
     /**
      * Reloads current page.
      */
-    function reload();
+    public function reload();
 
     /**
      * Moves browser forward 1 page.
      */
-    function forward();
+    public function forward();
 
     /**
      * Moves browser backward 1 page.
      */
-    function back();
+    public function back();
 
     /**
      * Sets HTTP Basic authentication parameters
@@ -83,21 +83,21 @@ interface DriverInterface
      * @param string|Boolean $user     user name or false to disable authentication
      * @param string         $password password
      */
-    function setBasicAuth($user, $password);
+    public function setBasicAuth($user, $password);
 
     /**
      * Switches to specific browser window.
      *
      * @param string $name window name (null for switching back to main window)
      */
-    function switchToWindow($name = null);
+    public function switchToWindow($name = null);
 
     /**
      * Switches to specific iFrame.
      *
      * @param string $name iframe name (null for switching back)
      */
-    function switchToIFrame($name = null);
+    public function switchToIFrame($name = null);
 
     /**
      * Sets specific request header on client.
@@ -105,14 +105,14 @@ interface DriverInterface
      * @param string $name
      * @param string $value
      */
-    function setRequestHeader($name, $value);
+    public function setRequestHeader($name, $value);
 
     /**
      * Returns last response headers.
      *
      * @return array
      */
-    function getResponseHeaders();
+    public function getResponseHeaders();
 
     /**
      * Sets cookie.
@@ -120,7 +120,7 @@ interface DriverInterface
      * @param string $name
      * @param string $value
      */
-    function setCookie($name, $value = null);
+    public function setCookie($name, $value = null);
 
     /**
      * Returns cookie by name.
@@ -129,21 +129,29 @@ interface DriverInterface
      *
      * @return string|null
      */
-    function getCookie($name);
+    public function getCookie($name);
 
     /**
      * Returns last response status code.
      *
      * @return integer
      */
-    function getStatusCode();
+    public function getStatusCode();
 
     /**
      * Returns last response content.
      *
      * @return string
      */
-    function getContent();
+    public function getContent();
+
+    /**
+     * Capture a screenshot of the current window.
+     *
+     * @return  string  screenshot of MIME type image/* depending 
+     *   on driver (e.g., image/png, image/jpeg)
+     */
+    public function getScreenshot();
 
     /**
      * Finds elements with specified XPath query.
@@ -152,7 +160,7 @@ interface DriverInterface
      *
      * @return array array of NodeElements
      */
-    function find($xpath);
+    public function find($xpath);
 
     /**
      * Returns element's tag name by it's XPath query.
@@ -161,7 +169,7 @@ interface DriverInterface
      *
      * @return string
      */
-    function getTagName($xpath);
+    public function getTagName($xpath);
 
     /**
      * Returns element's text by it's XPath query.
@@ -170,7 +178,7 @@ interface DriverInterface
      *
      * @return string
      */
-    function getText($xpath);
+    public function getText($xpath);
 
     /**
      * Returns element's html by it's XPath query.
@@ -179,7 +187,7 @@ interface DriverInterface
      *
      * @return string
      */
-    function getHtml($xpath);
+    public function getHtml($xpath);
 
     /**
      * Returns element's attribute by it's XPath query.
@@ -189,7 +197,7 @@ interface DriverInterface
      *
      * @return mixed
      */
-    function getAttribute($xpath, $name);
+    public function getAttribute($xpath, $name);
 
     /**
      * Returns element's value by it's XPath query.
@@ -198,7 +206,7 @@ interface DriverInterface
      *
      * @return mixed
      */
-    function getValue($xpath);
+    public function getValue($xpath);
 
     /**
      * Sets element's value by it's XPath query.
@@ -206,21 +214,21 @@ interface DriverInterface
      * @param string $xpath
      * @param string $value
      */
-    function setValue($xpath, $value);
+    public function setValue($xpath, $value);
 
     /**
      * Checks checkbox by it's XPath query.
      *
      * @param string $xpath
      */
-    function check($xpath);
+    public function check($xpath);
 
     /**
      * Unchecks checkbox by it's XPath query.
      *
      * @param string $xpath
      */
-    function uncheck($xpath);
+    public function uncheck($xpath);
 
     /**
      * Checks whether checkbox checked located by it's XPath query.
@@ -229,7 +237,7 @@ interface DriverInterface
      *
      * @return Boolean
      */
-    function isChecked($xpath);
+    public function isChecked($xpath);
 
     /**
      * Selects option from select field located by it's XPath query.
@@ -238,28 +246,28 @@ interface DriverInterface
      * @param string  $value
      * @param Boolean $multiple
      */
-    function selectOption($xpath, $value, $multiple = false);
+    public function selectOption($xpath, $value, $multiple = false);
 
     /**
      * Clicks button or link located by it's XPath query.
      *
      * @param string $xpath
      */
-    function click($xpath);
+    public function click($xpath);
 
     /**
      * Double-clicks button or link located by it's XPath query.
      *
      * @param string $xpath
      */
-    function doubleClick($xpath);
+    public function doubleClick($xpath);
 
     /**
      * Right-clicks button or link located by it's XPath query.
      *
      * @param string $xpath
      */
-    function rightClick($xpath);
+    public function rightClick($xpath);
 
     /**
      * Attaches file path to file field located by it's XPath query.
@@ -267,7 +275,7 @@ interface DriverInterface
      * @param string $xpath
      * @param string $path
      */
-    function attachFile($xpath, $path);
+    public function attachFile($xpath, $path);
 
     /**
      * Checks whether element visible located by it's XPath query.
@@ -276,28 +284,28 @@ interface DriverInterface
      *
      * @return Boolean
      */
-    function isVisible($xpath);
+    public function isVisible($xpath);
 
     /**
      * Simulates a mouse over on the element.
      *
      * @param string $xpath
      */
-    function mouseOver($xpath);
+    public function mouseOver($xpath);
 
     /**
      * Brings focus to element.
      *
      * @param string $xpath
      */
-    function focus($xpath);
+    public function focus($xpath);
 
     /**
      * Removes focus from element.
      *
      * @param string $xpath
      */
-    function blur($xpath);
+    public function blur($xpath);
 
     /**
      * Presses specific keyboard key.
@@ -306,7 +314,7 @@ interface DriverInterface
      * @param mixed  $char     could be either char ('b') or char-code (98)
      * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyPress($xpath, $char, $modifier = null);
+    public function keyPress($xpath, $char, $modifier = null);
 
     /**
      * Pressed down specific keyboard key.
@@ -315,7 +323,7 @@ interface DriverInterface
      * @param mixed  $char     could be either char ('b') or char-code (98)
      * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyDown($xpath, $char, $modifier = null);
+    public function keyDown($xpath, $char, $modifier = null);
 
     /**
      * Pressed up specific keyboard key.
@@ -324,7 +332,7 @@ interface DriverInterface
      * @param mixed  $char     could be either char ('b') or char-code (98)
      * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
-    function keyUp($xpath, $char, $modifier = null);
+    public function keyUp($xpath, $char, $modifier = null);
 
     /**
      * Drag one element onto another.
@@ -332,14 +340,14 @@ interface DriverInterface
      * @param string $sourceXpath
      * @param string $destinationXpath
      */
-    function dragTo($sourceXpath, $destinationXpath);
+    public function dragTo($sourceXpath, $destinationXpath);
 
     /**
      * Executes JS script.
      *
      * @param string $script
      */
-    function executeScript($script);
+    public function executeScript($script);
 
     /**
      * Evaluates JS script.
@@ -348,7 +356,7 @@ interface DriverInterface
      *
      * @return mixed
      */
-    function evaluateScript($script);
+    public function evaluateScript($script);
 
     /**
      * Waits some time or until JS condition turns true.
@@ -356,5 +364,14 @@ interface DriverInterface
      * @param integer $time      time in milliseconds
      * @param string  $condition JS condition
      */
-    function wait($time, $condition);
+    public function wait($time, $condition);
+
+    /**
+     * Set the dimensions of the window.
+     *
+     * @param integer $width set the window width, measured in pixels
+     * @param integer $height set the window height, measured in pixels
+     * @param string $name window name (null for the main window)
+     */
+    public function resizeWindow($width, $height, $name = null);
 }

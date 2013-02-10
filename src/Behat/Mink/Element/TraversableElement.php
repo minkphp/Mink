@@ -92,6 +92,22 @@ abstract class TraversableElement extends Element
     }
 
     /**
+     * Checks whether an element has a named CSS class
+     *
+     * @param string $className Name of the class
+     *
+     * @return boolean
+     */
+    public function hasClass($className)
+    {
+        if ($this->hasAttribute('class')) {
+            return in_array($className, explode(' ', $this->getAttribute('class')));
+        }
+        
+        return false;
+    }
+
+    /**
      * Finds button (input[type=submit|image|button], button) with specified locator.
      *
      * @param string $locator button id, value or alt
