@@ -5,6 +5,7 @@ namespace Behat\Mink\Element;
 use Behat\Mink\Session,
     Behat\Mink\Driver\DriverInterface,
     Behat\Mink\Element\ElementInterface,
+    Behat\Mink\Exception\ElementException,
     Behat\Mink\Exception\ElementNotFoundException;
 
 /*
@@ -84,7 +85,11 @@ class NodeElement extends TraversableElement
      */
     public function setValue($value)
     {
-        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
+        try {
+            $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -116,7 +121,11 @@ class NodeElement extends TraversableElement
      */
     public function click()
     {
-        $this->getSession()->getDriver()->click($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->click($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -132,7 +141,11 @@ class NodeElement extends TraversableElement
      */
     public function doubleClick()
     {
-        $this->getSession()->getDriver()->doubleClick($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->doubleClick($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -140,7 +153,11 @@ class NodeElement extends TraversableElement
      */
     public function rightClick()
     {
-        $this->getSession()->getDriver()->rightClick($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->rightClick($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -148,7 +165,11 @@ class NodeElement extends TraversableElement
      */
     public function check()
     {
-        $this->getSession()->getDriver()->check($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->check($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -156,7 +177,11 @@ class NodeElement extends TraversableElement
      */
     public function uncheck()
     {
-        $this->getSession()->getDriver()->uncheck($this->getXpath());
+        try {
+            $this->getSession()->getDriver()->uncheck($this->getXpath());
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
@@ -207,7 +232,11 @@ class NodeElement extends TraversableElement
      */
     public function attachFile($path)
     {
-        $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
+        try {
+            $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
+        } catch (\Exception $exception) {
+            throw new ElementException($this, $exception);
+        }
     }
 
     /**
