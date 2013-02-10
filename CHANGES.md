@@ -1,3 +1,14 @@
+1.4.1 / 2013-02-10
+==================
+
+  * Update dependencies
+  * Add ElementException to element actions
+  * Rel attribute support for named selectors
+  * Add hasClass() helper to traversable elements
+  * Add getScreenshot() method to session
+  * Name attr support in named selector for button
+  * Fix for bunch of bugs
+
 1.4.0 / 2012-05-40
 ==================
 
