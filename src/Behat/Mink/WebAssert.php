@@ -2,7 +2,8 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\NodeElement,
+use Behat\Mink\Element\Element,
+    Behat\Mink\Element\NodeElement,
     Behat\Mink\Exception\ElementNotFoundException,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
@@ -319,16 +320,18 @@ class WebAssert
     /**
      * Checks that specific element exists on the current page.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
+     * @param string  $selectorType element selector type (css, xpath)
+     * @param string  $selector     element selector
+     * @param Element $container    document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function elementExists($selectorType, $selector)
+    public function elementExists($selectorType, $selector, Element $container = null)
     {
-        $node = $this->session->getPage()->find($selectorType, $selector);
+        $container = ($container !== null) ? $container : $this->session->getPage();
+        $node = $container->find($selectorType, $selector);
 
         if (null === $node) {
             throw new ElementNotFoundException($this->session, 'element', $selectorType, $selector);
@@ -340,14 +343,16 @@ class WebAssert
     /**
      * Checks that specific element does not exists on the current page.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
+     * @param string  $selectorType element selector type (css, xpath)
+     * @param string  $selector     element selector
+     * @param Element $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementNotExists($selectorType, $selector)
+    public function elementNotExists($selectorType, $selector, Element $container = null)
     {
-        $node = $this->session->getPage()->find($selectorType, $selector);
+        $container = ($container !== null) ? $container : $this->session->getPage();
+        $node = $container->find($selectorType, $selector);
 
         if (null !== $node) {
             $message = sprintf('An element matching %s "%s" appears on this page, but it should not.', $selectorType, $selector);
