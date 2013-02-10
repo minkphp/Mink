@@ -395,15 +395,22 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('find')
             ->with('css', 'h2 > span')
-            ->will($this->onConsecutiveCalls(1, null))
+            ->will($this->onConsecutiveCalls(1, null, 1, null))
         ;
 
         $this->assertCorrectAssertion('elementExists', array('css', 'h2 > span'));
         $this->assertWrongAssertion(
             'elementExists', array('css', 'h2 > span'),
+            'Behat\\Mink\\Exception\\ElementNotFoundException',
+            'Element matching css "h2 > span" not found.'
+        );
+
+        $this->assertCorrectAssertion('elementExists', array('css', 'h2 > span', $page));
+        $this->assertWrongAssertion(
+            'elementExists', array('css', 'h2 > span', $page),
             'Behat\\Mink\\Exception\\ElementNotFoundException',
             'Element matching css "h2 > span" not found.'
         );
@@ -423,15 +430,22 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('find')
             ->with('css', 'h2 > span')
-            ->will($this->onConsecutiveCalls(null, 1))
+            ->will($this->onConsecutiveCalls(null, 1, null, 1))
         ;
 
         $this->assertCorrectAssertion('elementNotExists', array('css', 'h2 > span'));
         $this->assertWrongAssertion(
             'elementNotExists', array('css', 'h2 > span'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'An element matching css "h2 > span" appears on this page, but it should not.'
+        );
+
+        $this->assertCorrectAssertion('elementNotExists', array('css', 'h2 > span', $page));
+        $this->assertWrongAssertion(
+            'elementNotExists', array('css', 'h2 > span', $page),
             'Behat\\Mink\\Exception\\ExpectationException',
             'An element matching css "h2 > span" appears on this page, but it should not.'
         );
