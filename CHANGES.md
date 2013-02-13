@@ -1,3 +1,8 @@
+1.4.2 / 2013-02-13
+==================
+
+  * Fix wrong test case to ensure that core drivers work as expected
+
 1.4.1 / 2013-02-10
 ==================
 
