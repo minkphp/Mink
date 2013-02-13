@@ -186,11 +186,11 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     public function testIssue255()
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/issueChangeSelect.php'));
+        $session->visit($this->pathTo('/issue255.php'));
 
-        $session->getPage()->selectFieldOption('foobar', 'Option 3');
+        $session->getPage()->selectFieldOption('foo_select', 'Option 3');
 
-        $session->wait(2000, '$("#output").text() != ""');
-        $this->assertEquals('onChange', $session->getPage()->find('css', '#output')->getText());
+        $session->wait(2000, '$("#output_foo_select").text() != ""');
+        $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
     }
 }
