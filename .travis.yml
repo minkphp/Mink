@@ -3,9 +3,9 @@ language: php
 php: [5.3, 5.4, 5.5]
 
 env:
-  - SYMFONY_VERSION='2.0.*'
-  - SYMFONY_VERSION='2.1.*'
-  - SYMFONY_VERSION='2.2.*@dev'
+  - CSS_SELECTOR_VERSION='2.0.*'
+  - CSS_SELECTOR_VERSION='2.1.*'
+  - CSS_SELECTOR_VERSION='2.2.*@dev'
 
 branches:
   only:
@@ -14,7 +14,7 @@ branches:
 
 before_script:
   - curl http://getcomposer.org/installer | php
-  - php composer.phar require --no-update symfony/symfony=$SYMFONY_VERSION
+  - php composer.phar require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION
   - php composer.phar install --dev --prefer-source
 
 script: phpunit -v
