@@ -374,4 +374,32 @@ interface DriverInterface
      * @param string $name window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
+    
+    /**
+     * Accepts the currently displayed alert dialog.
+     *
+     * Usually, this is equivalent to clicking on the 'OK' button in the dialog.
+     */
+    function acceptAlert();
+
+    /**
+     * Dismiss currently displayed alert dialog.
+     *
+     * Usually, this is equivalent to clicking on the 'X' button in the dialog.
+     */
+    function dismissAlert();
+
+    /**
+     * Get alert dialog text.
+     *
+     * @return string
+     */
+    function getAlertText();
+
+    /**
+     * Set value of alert dialog text.
+     *
+     * @param string $text
+     */
+    function setAlertText($text);
 }
