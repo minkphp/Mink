@@ -300,5 +300,49 @@ class Session
     public function resizeWindow($width, $height, $name = null)
     {
         return $this->driver->resizeWindow($width, $height, $name);
+    }    
+    
+    /**
+     * Accepts the currently displayed alert dialog.
+     *
+     * Usually, this is equivalent to clicking on the 'OK' button in the dialog.
+     *
+     * @return void
+     */
+    function acceptAlert()
+    {
+        $this->driver->acceptAlert();
+    }
+
+    /**
+     * Dismiss currently displayed alert dialog.
+     *
+     * Usually, this is equivalent to clicking on the 'X' button in the dialog.
+     *
+     * @return void
+     */
+    function dismissAlert()
+    {
+        $this->driver->dismissAlert();
+    }
+
+    /**
+     * Get alert dialog text.
+     *
+     * @return bool
+     */
+    function getAlertText()
+    {
+        return $this->driver->getAlertText();
+    }
+
+    /**
+     * Set value of alert dialog text.
+     *
+     * @param string $test
+     */
+    function setAlertText($text)
+    {
+        $this->driver->setAlertText($text);
     }
 }
