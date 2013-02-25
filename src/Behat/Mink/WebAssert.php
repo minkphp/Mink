@@ -310,7 +310,7 @@ class WebAssert
      */
     public function elementsCount($selectorType, $selector, $count, Element $container = null)
     {
-        $container = ($container !== null) ? $container : $this->session->getPage();
+        $container = $container ?: $this->session->getPage();
         $nodes = $container->findAll($selectorType, $selector);
 
         if (intval($count) !== count($nodes)) {
@@ -332,7 +332,7 @@ class WebAssert
      */
     public function elementExists($selectorType, $selector, Element $container = null)
     {
-        $container = ($container !== null) ? $container : $this->session->getPage();
+        $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
 
         if (null === $node) {
@@ -353,7 +353,7 @@ class WebAssert
      */
     public function elementNotExists($selectorType, $selector, Element $container = null)
     {
-        $container = ($container !== null) ? $container : $this->session->getPage();
+        $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
 
         if (null !== $node) {
@@ -458,7 +458,7 @@ class WebAssert
      */
     public function fieldExists($field, Element $container = null)
     {
-        $container = ($container !== null) ? $container : $this->session->getPage();
+        $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
 
         if (null === $node) {
@@ -478,7 +478,7 @@ class WebAssert
      */
     public function fieldNotExists($field, Element $container = null)
     {
-        $container = ($container !== null) ? $container : $this->session->getPage();
+        $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
 
         if (null !== $node) {
