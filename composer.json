@@ -16,15 +16,14 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/css-selector":  ">=2.0,<2.3-dev"
+        "symfony/css-selector":  ">=2.0,<2.4-dev"
     },
 
     "suggest": {
-        "behat/mink-goutte-driver":     "to enable Goutte support",
-        "behat/mink-sahi-driver":       "to enable Sahi.JS support",
-        "behat/mink-selenium-driver":   "to enable Selenium1 support",
-        "behat/mink-selenium2-driver":  "to enable Selenium2 (webdriver support)",
-        "behat/mink-zombie-driver":     "to enable Zombie.js support"
+        "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
+        "behat/mink-goutte-driver":     "fast headless driver for any app without JS emulation",
+        "behat/mink-selenium2-driver":  "slow, but JS-enabled driver for any app (requires Selenium2)",
+        "behat/mink-zombie-driver":     "fast and JS-enabled headless driver for any app (requires node.js)"
     },
 
     "autoload": {

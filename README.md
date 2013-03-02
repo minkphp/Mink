@@ -1,11 +1,17 @@
 Mink
 ====
 
-[![Build Status](https://secure.travis-ci.org/Behat/Mink.png)](http://travis-ci.org/Behat/Mink)
+- [stable (master)](https://github.com/Behat/Mink) ([![Master Build
+Status](https://secure.travis-ci.org/Behat/Mink.png?branch=master)](http://travis-ci.org/Behat/Mink)) - staging branch. Last stable version.
+- [development (develop)](https://github.com/Behat/Mink/tree/develop) ([![Develop Build Status](https://secure.travis-ci.org/Behat/Mink.png?branch=develop)](http://travis-ci.org/Behat/Mink)) - development branch. Development happens here and you should send your PRs here too.
 
-* The main website with documentation is at
-[http://mink.behat.org](http://mink.behat.org)
-* Official user group is at [Google Groups](http://groups.google.com/group/behat)
+Useful Links
+------------
+
+- The main website with documentation is at [http://mink.behat.org](http://mink.behat.org)
+- Official Google Group is at [http://groups.google.com/group/behat](http://groups.google.com/group/behat)
+- IRC channel on [#freenode](http://freenode.net/) is `#behat`
+- [Note on Patches/Pull Requests](CONTRIBUTING.md)
 
 Usage Example
 -------------
@@ -16,35 +22,29 @@ Usage Example
 use Behat\Mink\Mink,
     Behat\Mink\Session,
     Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\Goutte\Client as GoutteClient,
-    Behat\Mink\Driver\SahiDriver;
+    Behat\Mink\Driver\Goutte\Client as GoutteClient;
 
 $startUrl = 'http://example.com';
 
 // init Mink and register sessions
 $mink = new Mink(array(
-    'goutte1'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
-    'goutte2'    => new Session(new GoutteDriver(GoutteClient($startUrl))),
-    'javascript' => new Session(new SahiDriver('firefox')),
-    'custom'     => new Session(new MyCustomDriver($startUrl))
+    'goutte1' => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'goutte2' => new Session(new GoutteDriver(GoutteClient($startUrl))),
+    'custom'  => new Session(new MyCustomDriver($startUrl))
 ));
 
-// set default session name
+// set the default session name
 $mink->setDefaultSessionName('goutte2');
 
-// call getSession without argument will always return default session if has one (goutte2 here)
+// call to getSession() without argument will always return a default session if has one (goutte2 here)
 $mink->getSession()->getPage()->findLink('Downloads')->click();
 echo $mink->getSession()->getPage()->getContent();
 
-// run in javascript (Sahi) session
-$mink->getSession('javascript')->getPage()->findLink('Downloads')->click();
-echo $mink->getSession('javascript')->getPage()->getContent();
-
-// run in custom session
+// call to getSession() with argument will return session by its name
 $mink->getSession('custom')->getPage()->findLink('Downloads')->click();
 echo $mink->getSession('custom')->getPage()->getContent();
 
-// mix sessions
+// this all is done to make possible mixing sessions
 $mink->getSession('goutte1')->getPage()->findLink('Chat')->click();
 $mink->getSession('goutte2')->getPage()->findLink('Chat')->click();
 ```
@@ -53,31 +53,12 @@ Install Dependencies
 --------------------
 
 ``` bash
-curl http://getcomposer.org/installer | php
-php composer.phar install
+$> curl http://getcomposer.org/installer | php
+$> php composer.phar install
 ```
-
-Behat integration and translated languages
-------------------------------------------
-
-Behat integration altogether with translations have moved into separate
-project called `MinkExtension`. It's an extension to Behat 2.4. This will
-lead to much faster release cycles as `MinkExtension` doesn't have actual
-releases - any accepted PR about language translation or new step definitions
-will immediately go into live.
-
-Copyright
----------
-
-Copyright (c) 2011 Konstantin Kudryashov (ever.zet). See LICENSE for details.
 
 Contributors
 ------------
 
 * Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
 * Other [awesome developers](https://github.com/Behat/Mink/graphs/contributors)
-
-Sponsors
---------
-
-* knpLabs [knpLabs](http://www.knplabs.com/) [main sponsor]
