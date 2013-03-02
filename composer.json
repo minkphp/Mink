@@ -16,7 +16,7 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/css-selector":  ">=2.0,<2.3-dev"
+        "symfony/css-selector":  ">=2.0,<2.4-dev"
     },
 
     "suggest": {
