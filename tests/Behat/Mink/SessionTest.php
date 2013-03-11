@@ -27,7 +27,18 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPage()
     {
-        $this->assertInstanceOf('Behat\Mink\Element\DocumentElement', $this->session->getPage());
+        $this->assertInstanceOf('Behat\Mink\Element\Element', $this->session->getPage());
+    }
+
+    public function testSetPage()
+    {
+        $page = $this->getMockBuilder('Behat\Mink\Element\Element')
+            ->setConstructorArgs(array($this->session))
+            ->getMock();
+
+        $this->session->setPage($page);
+
+        $this->assertSame($page, $this->session->getPage());
     }
 
     public function testGetSelectorsHandler()
