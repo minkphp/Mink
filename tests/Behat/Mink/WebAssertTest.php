@@ -152,7 +152,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $page
             ->expects($this->exactly(2))
             ->method('getText')
-            ->will($this->returnValue('Some page text'))
+            ->will($this->returnValue("Some  page\n\ttext"))
         ;
 
         $this->assertCorrectAssertion('pageTextContains', array('PAGE text'));
@@ -179,7 +179,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $page
             ->expects($this->exactly(2))
             ->method('getText')
-            ->will($this->returnValue('Some html text'))
+            ->will($this->returnValue("Some  html\n\ttext"))
         ;
 
         $this->assertCorrectAssertion('pageTextNotContains', array('PAGE text'));
