@@ -2,9 +2,6 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Selector\SelectorsHandler;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>

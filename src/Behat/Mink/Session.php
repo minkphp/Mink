@@ -2,9 +2,9 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Selector\SelectorsHandler,
-    Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Selector\SelectorsHandler;
+use Behat\Mink\Element\DocumentElement;
 
 /*
  * This file is part of the Behat\Mink.
@@ -205,7 +205,7 @@ class Session
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending 
+     * @return  string  screenshot of MIME type image/* depending
      *   on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot()

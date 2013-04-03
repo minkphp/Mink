@@ -2,8 +2,8 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Mink,
-    Behat\Mink\Session;
+use Behat\Mink\Mink;
+use Behat\Mink\Session;
 
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
