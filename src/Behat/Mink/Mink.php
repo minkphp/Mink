@@ -97,27 +97,17 @@ class Mink
     }
 
     /**
-     * Returns registered session by it's name or active one.
+     * Returns registered session by it's name or active one and automatically starts it if required.
      *
      * @param string $name session name
      *
      * @return Session
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException If the named session is not registered
      */
     public function getSession($name = null)
     {
-        $name = strtolower($name) ?: $this->defaultSessionName;
-
-        if (null === $name) {
-            throw new \InvalidArgumentException('Specify session name to get');
-        }
-
-        if (!isset($this->sessions[$name])) {
-            throw new \InvalidArgumentException(sprintf('Session "%s" is not registered.', $name));
-        }
-
-        $session = $this->sessions[$name];
+        $session = $this->locateSession($name);
 
         // start session if needed
         if (!$session->isStarted()) {
@@ -125,6 +115,21 @@ class Mink
         }
 
         return $session;
+    }
+
+    /**
+     * Checks whether a named session (or the default session) has already been started
+     *
+     * @param string $name session name - if null then the default session will be checked
+     *
+     * @return bool whether the session has been started
+     *
+     * @throws \InvalidArgumentException If the named session is not registered
+     */
+    public function isSessionStarted($name = null)
+    {
+        $session = $this->locateSession($name);
+        return $session->isStarted();
     }
 
     /**
@@ -176,5 +181,30 @@ class Mink
                 $session->stop();
             }
         }
+    }
+
+    /**
+     * Returns the named or default session without starting it.
+     *
+     * @param string $name session name
+     *
+     * @return Session
+     *
+     * @throws \InvalidArgumentException If the named session is not registered
+     */
+    protected function locateSession($name = null)
+    {
+        $name = strtolower($name) ?: $this->defaultSessionName;
+
+        if (null === $name) {
+            throw new \InvalidArgumentException('Specify session name to get');
+        }
+
+        if (!isset($this->sessions[$name])) {
+            throw new \InvalidArgumentException(sprintf('Session "%s" is not registered.', $name));
+        }
+
+        $session = $this->sessions[$name];
+        return $session;
     }
 }
