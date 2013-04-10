@@ -4,7 +4,8 @@ namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface,
     Behat\Mink\Selector\SelectorsHandler,
-    Behat\Mink\Element\DocumentElement;
+    Behat\Mink\Element\DocumentElement,
+    Behat\Mink\Exception\UnsupportedDriverActionException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -205,7 +206,7 @@ class Session
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending 
+     * @return  string  screenshot of MIME type image/* depending
      *   on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot()
@@ -300,5 +301,61 @@ class Session
     public function resizeWindow($width, $height, $name = null)
     {
         return $this->driver->resizeWindow($width, $height, $name);
+    }
+
+    /**
+     * Returns text of current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function getPopupText()
+    {
+        if (!$this->getDriver() instanceof Driver\PopupHandlingInterface) {
+            throw new UnsupportedDriverActionException('Driver %s does not support popup handling.', $this->getDriver());
+        }
+
+        return $this->getDriver()->getPopupText();
+    }
+
+    /**
+     * Fill in current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function setPopupText($text)
+    {
+        if (!$this->getDriver() instanceof Driver\PopupHandlingInterface) {
+            throw new UnsupportedDriverActionException('Driver %s does not support popup handling.', $this->getDriver());
+        }
+
+        $this->getDriver()->setPopupText($text);
+    }
+
+    /**
+     * Accepts current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function acceptPopup()
+    {
+        if (!$this->getDriver() instanceof Driver\PopupHandlingInterface) {
+            throw new UnsupportedDriverActionException('Driver %s does not support popup handling.', $this->getDriver());
+        }
+
+        $this->getDriver()->acceptPopup();
+    }
+
+    /**
+     * Cancels current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function dismissPopup()
+    {
+        if (!$this->getDriver() instanceof Driver\PopupHandlingInterface) {
+            throw new UnsupportedDriverActionException('Driver %s does not support popup handling.', $this->getDriver());
+        }
+
+        $this->getDriver()->dismissPopup();
     }
 }

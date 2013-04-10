@@ -2,7 +2,9 @@
 
 namespace Tests\Behat\Mink;
 
-use Behat\Mink\Session;
+use Behat\Mink\Session,
+    Behat\Mink\Driver\DriverInterface,
+    Behat\Mink\Driver\PopupHandlingInterface;
 
 /**
  * @group unittest
@@ -114,4 +116,73 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->session->wait(1000, 'function() {}');
     }
+
+
+    public function testGetPopupText()
+    {
+        $this->driver = $this->getMock('Tests\Behat\Mink\DriverWithPopupHandling');
+        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->driver
+            ->expects($this->once())
+            ->method('getPopupText');
+
+        $this->session->getPopupText();
+    }
+
+    public function testSetPopupText()
+    {
+        $this->driver = $this->getMock('Tests\Behat\Mink\DriverWithPopupHandling');
+        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->driver
+            ->expects($this->once())
+            ->method('setPopupText')
+            ->with($text = 'sdfsdfw');
+
+        $this->session->setPopupText($text);
+    }
+
+    public function testAcceptPopup()
+    {
+        $this->driver = $this->getMock('Tests\Behat\Mink\DriverWithPopupHandling');
+        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->driver
+            ->expects($this->once())
+            ->method('acceptPopup');
+
+        $this->session->acceptPopup();
+    }
+
+    public function testDismissPopup()
+    {
+        $this->driver = $this->getMock('Tests\Behat\Mink\DriverWithPopupHandling');
+        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->driver
+            ->expects($this->once())
+            ->method('dismissPopup');
+
+        $this->session->dismissPopup();
+    }
+
+    /**
+     * @dataProvider providerPopupMethodNames
+     * @expectedException Behat\Mink\Exception\UnsupportedDriverActionException
+     */
+    public function testPopupMethodsOnUnsupportedDriver($methodName, array $args)
+    {
+        call_user_func_array(array($this->session, $methodName), $args);
+    }
+
+    public function providerPopupMethodNames()
+    {
+        return array(
+            array('getPopupText', array()),
+            array('setPopupText', array('asdas')),
+            array('acceptPopup', array()),
+            array('dismissPopup', array()),
+        );
+    }
 }
+
+abstract class DriverWithPopupHandling implements PopupHandlingInterface, DriverInterface
+{}
+

@@ -568,6 +568,40 @@ class WebAssert
     }
 
     /**
+     * Checks that popup window contains text
+     *
+     * @param string $text Text
+     *
+     * @throws ExpectationException
+     */
+    public function popupContains($text)
+    {
+        if (false === strpos($this->session->getPopupText(), $text)) {
+            throw new ExpectationException(
+                "Popup window does not contain '$text' but should contain.",
+                $this->session
+            );
+        }
+    }
+
+    /**
+     * Checks that popup window does not contain text
+     *
+     * @param string $text Text
+     *
+     * @throws ExpectationException
+     */
+    public function popupNotContains($text)
+    {
+        if (false !== strpos($this->session->getPopupText(), $text)) {
+            throw new ExpectationException(
+                "Popup window contains '$text' but should not contain.",
+                $this->session
+            );
+        }
+    }
+
+    /**
      * Gets current url of the page.
      *
      * @return string
