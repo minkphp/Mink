@@ -842,10 +842,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
-            $this->fail('Wrong assertion should throw an exception');
         } catch (\Exception $e) {
             $this->assertInstanceOf($exceptionClass, $e);
             $this->assertSame($exceptionMessage, $e->getMessage());
+            return;
         }
+
+        $this->fail('Wrong assertion should throw an exception');
     }
 }
