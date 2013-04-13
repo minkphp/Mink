@@ -16,7 +16,7 @@
 
     "require": {
         "php":                   ">=5.3.1",
-        "symfony/css-selector":  ">=2.0,<2.4-dev"
+        "symfony/css-selector":  "~2.0"
     },
 
     "suggest": {
@@ -34,7 +34,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-develop": "1.4.x-dev"
+            "dev-develop": "1.5.x-dev"
         }
     }
 }

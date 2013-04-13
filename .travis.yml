@@ -8,11 +8,6 @@ env:
   - CSS_SELECTOR_VERSION='2.2.*'
   - CSS_SELECTOR_VERSION='2.3.*@dev'
 
-branches:
-  only:
-    - master
-    - develop
-
 before_script:
   - curl http://getcomposer.org/installer | php
   - php composer.phar require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION

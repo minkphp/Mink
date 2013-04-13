@@ -168,6 +168,7 @@ class WebAssert
     public function pageTextContains($text)
     {
         $actual = $this->session->getPage()->getText();
+        $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
@@ -186,6 +187,7 @@ class WebAssert
     public function pageTextNotContains($text)
     {
         $actual = $this->session->getPage()->getText();
+        $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {

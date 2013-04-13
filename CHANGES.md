@@ -1,3 +1,11 @@
+1.5.0 / 2013-04-14
+==================
+
+  * Add `CoreDriver` to simplify future drivers improvements
+  * Add `Mink::isSessionStarted()` method
+  * Fix multibite string `preg_replace` bugs
+  * Fix handling of whitespaces in `WebAssert::pageText...()` methods
+
 1.4.3 / 2013-03-02
 ==================
 
