@@ -280,6 +280,19 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
+     * Waits some time or until JS condition turns true.
+     *
+     * @param integer $time      time in milliseconds
+     * @param string  $condition JS condition
+     *
+     * @throws UnsupportedDriverActionException
+     */
+    public function wait($time, $condition)
+    {
+        throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
+    }
+
+    /**
      * Set the dimensions of the window.
      *
      * @param integer $width  set the window width, measured in pixels
