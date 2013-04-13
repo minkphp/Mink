@@ -3,3 +3,6 @@
 phpunit.xml
 composer.lock
 vendor
+.project
+.settings
+.buildpath
