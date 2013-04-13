@@ -2,11 +2,10 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session,
-    Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Element\ElementInterface,
-    Behat\Mink\Exception\ElementException,
-    Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Session;
+use Behat\Mink\Element\ElementInterface;
+use Behat\Mink\Exception\ElementException;
+use Behat\Mink\Exception\ElementNotFoundException;
 
 /*
  * This file is part of the Behat\Mink.

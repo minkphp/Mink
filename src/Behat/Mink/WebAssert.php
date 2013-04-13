@@ -2,13 +2,13 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\Element,
-    Behat\Mink\Element\NodeElement,
-    Behat\Mink\Exception\ElementNotFoundException,
-    Behat\Mink\Exception\ExpectationException,
-    Behat\Mink\Exception\ResponseTextException,
-    Behat\Mink\Exception\ElementHtmlException,
-    Behat\Mink\Exception\ElementTextException;
+use Behat\Mink\Element\Element;
+use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\ResponseTextException;
+use Behat\Mink\Exception\ElementHtmlException;
+use Behat\Mink\Exception\ElementTextException;
 
 /*
  * This file is part of the Behat\Mink.

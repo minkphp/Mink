@@ -19,10 +19,10 @@ Usage Example
 ``` php
 <?php
 
-use Behat\Mink\Mink,
-    Behat\Mink\Session,
-    Behat\Mink\Driver\GoutteDriver,
-    Behat\Mink\Driver\Goutte\Client as GoutteClient;
+use Behat\Mink\Mink;
+use Behat\Mink\Session;
+use Behat\Mink\Driver\GoutteDriver;
+use Behat\Mink\Driver\Goutte\Client as GoutteClient;
 
 $startUrl = 'http://example.com';
 

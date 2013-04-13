@@ -2,8 +2,8 @@
 
 namespace Test\Behat\Mink\Element;
 
-use Behat\Mink\Session,
-    Behat\Mink\Selector\SelectorsHandler;
+use Behat\Mink\Session;
+use Behat\Mink\Selector\SelectorsHandler;
 
 /**
  * @group unittest
