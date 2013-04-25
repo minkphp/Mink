@@ -842,10 +842,43 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
-            $this->fail('Wrong assertion should throw an exception');
         } catch (\Exception $e) {
             $this->assertInstanceOf($exceptionClass, $e);
             $this->assertSame($exceptionMessage, $e->getMessage());
+            return;
         }
+
+        $this->fail('Wrong assertion should throw an exception');
+    }
+
+
+    public function testPopupContains()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getPopupText')
+            ->will($this->returnValue('Message'));
+
+        $this->assertCorrectAssertion('popupContains', array('Message'));
+        $this->assertWrongAssertion(
+            'popupContains', array('Another message'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            "Popup window does not contain 'Another message' but should contain."
+        );
+    }
+
+    public function testPopupNotContains()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getPopupText')
+            ->will($this->returnValue($message = 'Message'));
+
+        $this->assertCorrectAssertion('popupNotContains', array('Another message'));
+        $this->assertWrongAssertion(
+            'popupNotContains', array('Message'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            "Popup window contains 'Message' but should not contain."
+        );
     }
 }

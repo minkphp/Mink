@@ -303,4 +303,41 @@ abstract class CoreDriver implements DriverInterface
     {
         throw new UnsupportedDriverActionException('Window resizing is not supported by %s', $this);
     }
+
+    /**
+     * Returns text of opened popup
+     *
+     */
+    public function getPopupText()
+    {
+        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+    }
+
+    /**
+     * Fills in text into popup
+     *
+     * @param string $text
+     */
+    public function setPopupText($text)
+    {
+        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+    }
+
+    /**
+     * Accept opened popup
+     *
+     */
+    public function acceptPopup()
+    {
+        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+    }
+
+    /**
+     * Dismisses opened popup
+     *
+     */
+    public function dismissPopup()
+    {
+        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+    }
 }

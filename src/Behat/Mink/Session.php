@@ -314,4 +314,44 @@ class Session
     {
         return $this->driver->resizeWindow($width, $height, $name);
     }
+
+    /**
+     * Returns text of current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function getPopupText()
+    {
+        return $this->getDriver()->getPopupText();
+    }
+
+    /**
+     * Fill in current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function setPopupText($text)
+    {
+        $this->getDriver()->setPopupText($text);
+    }
+
+    /**
+     * Accepts current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function acceptPopup()
+    {
+        $this->getDriver()->acceptPopup();
+    }
+
+    /**
+     * Cancels current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function dismissPopup()
+    {
+        $this->getDriver()->dismissPopup();
+    }
 }

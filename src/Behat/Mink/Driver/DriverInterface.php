@@ -148,7 +148,7 @@ interface DriverInterface
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending 
+     * @return  string  screenshot of MIME type image/* depending
      *   on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot();
@@ -374,4 +374,29 @@ interface DriverInterface
      * @param string $name window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
+
+    /**
+     * Returns text of opened popup
+     *
+     */
+    public function getPopupText();
+
+    /**
+     * Fills in text into popup
+     *
+     * @param string $text
+     */
+    public function setPopupText($text);
+
+    /**
+     * Accept opened popup
+     *
+     */
+    public function acceptPopup();
+
+    /**
+     * Dismisses opened popup
+     *
+     */
+    public function dismissPopup();
 }
