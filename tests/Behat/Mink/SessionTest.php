@@ -114,4 +114,42 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->session->wait(1000, 'function() {}');
     }
+
+
+    public function testGetPopupText()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('getPopupText');
+
+        $this->session->getPopupText();
+    }
+
+    public function testSetPopupText()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('setPopupText')
+            ->with($text = 'sdfsdfw');
+
+        $this->session->setPopupText($text);
+    }
+
+    public function testAcceptPopup()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('acceptPopup');
+
+        $this->session->acceptPopup();
+    }
+
+    public function testDismissPopup()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('dismissPopup');
+
+        $this->session->dismissPopup();
+    }
 }

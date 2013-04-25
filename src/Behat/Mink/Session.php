@@ -205,7 +205,7 @@ class Session
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending 
+     * @return  string  screenshot of MIME type image/* depending
      *   on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot()
@@ -300,5 +300,45 @@ class Session
     public function resizeWindow($width, $height, $name = null)
     {
         return $this->driver->resizeWindow($width, $height, $name);
+    }
+
+    /**
+     * Returns text of current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function getPopupText()
+    {
+        return $this->getDriver()->getPopupText();
+    }
+
+    /**
+     * Fill in current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function setPopupText($text)
+    {
+        $this->getDriver()->setPopupText($text);
+    }
+
+    /**
+     * Accepts current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function acceptPopup()
+    {
+        $this->getDriver()->acceptPopup();
+    }
+
+    /**
+     * Cancels current popup
+     *
+     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     */
+    public function dismissPopup()
+    {
+        $this->getDriver()->dismissPopup();
     }
 }
