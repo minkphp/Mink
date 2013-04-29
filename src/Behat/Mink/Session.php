@@ -318,7 +318,7 @@ class Session
     /**
      * Returns text of current popup
      *
-     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup handling
      */
     public function getPopupText()
     {
@@ -328,7 +328,7 @@ class Session
     /**
      * Fills in current prompt window
      *
-     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup handling
      */
     public function setPromptText($text)
     {
@@ -338,7 +338,7 @@ class Session
     /**
      * Accepts current popup
      *
-     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup handling
      */
     public function acceptPopup()
     {
@@ -348,7 +348,7 @@ class Session
     /**
      * Cancels current popup
      *
-     * @throws UnsupportedDriverActionException If driver does not sypport popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup handling
      */
     public function dismissPopup()
     {
