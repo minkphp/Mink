@@ -125,14 +125,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->session->getPopupText();
     }
 
-    public function testSetPopupText()
+    public function testSetPromptText()
     {
         $this->driver
             ->expects($this->once())
-            ->method('setPopupText')
+            ->method('setPromptText')
             ->with($text = 'sdfsdfw');
 
-        $this->session->setPopupText($text);
+        $this->session->setPromptText($text);
     }
 
     public function testAcceptPopup()

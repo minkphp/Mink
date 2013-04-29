@@ -313,13 +313,13 @@ class Session
     }
 
     /**
-     * Fill in current popup
+     * Fills in current prompt window
      *
      * @throws UnsupportedDriverActionException If driver does not sypport popup handling
      */
-    public function setPopupText($text)
+    public function setPromptText($text)
     {
-        $this->getDriver()->setPopupText($text);
+        $this->getDriver()->setPromptText($text);
     }
 
     /**

@@ -382,11 +382,11 @@ interface DriverInterface
     public function getPopupText();
 
     /**
-     * Fills in text into popup
+     * Fills in text into prompt window
      *
      * @param string $text
      */
-    public function setPopupText($text);
+    public function setPromptText($text);
 
     /**
      * Accept opened popup
