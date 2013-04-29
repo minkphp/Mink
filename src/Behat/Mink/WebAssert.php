@@ -590,7 +590,7 @@ class WebAssert
     {
         if (false === strpos($this->session->getPopupText(), $text)) {
             throw new ExpectationException(
-                "Popup window does not contain '$text' but should contain.",
+                "Popup window does not contain '$text', but should.",
                 $this->session
             );
         }
@@ -607,7 +607,7 @@ class WebAssert
     {
         if (false !== strpos($this->session->getPopupText(), $text)) {
             throw new ExpectationException(
-                "Popup window contains '$text' but should not contain.",
+                "Popup window contains '$text', but should not.",
                 $this->session
             );
         }
