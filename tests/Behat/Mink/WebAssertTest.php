@@ -863,7 +863,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'popupContains', array('Another message'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            "Popup window does not contain 'Another message' but should contain."
+            "Popup window does not contain 'Another message', but should."
         );
     }
 
@@ -878,7 +878,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'popupNotContains', array('Message'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            "Popup window contains 'Message' but should not contain."
+            "Popup window contains 'Message', but should not."
         );
     }
 }
