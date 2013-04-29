@@ -314,11 +314,11 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * Fills in text into popup
+     * Fills in text into prompt window
      *
      * @param string $text
      */
-    public function setPopupText($text)
+    public function setPromptText($text)
     {
         throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
     }
