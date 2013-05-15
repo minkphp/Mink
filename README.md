@@ -37,7 +37,7 @@ $mink = new Mink(array(
 $mink->setDefaultSessionName('goutte2');
 
 // visit a page
-$mink->visit($startUrl);
+$mink->getSession()->visit($startUrl);
 
 // call to getSession() without argument will always return a default session if has one (goutte2 here)
 $mink->getSession()->getPage()->findLink('Downloads')->click();
