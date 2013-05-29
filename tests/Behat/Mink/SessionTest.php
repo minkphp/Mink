@@ -116,13 +116,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testGetPopupText()
+    public function testGetDialogText()
     {
         $this->driver
             ->expects($this->once())
-            ->method('getPopupText');
+            ->method('getDialogText');
 
-        $this->session->getPopupText();
+        $this->session->getDialogText();
     }
 
     public function testSetPromptText()
@@ -135,21 +135,21 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->session->setPromptText($text);
     }
 
-    public function testAcceptPopup()
+    public function testAcceptDialog()
     {
         $this->driver
             ->expects($this->once())
-            ->method('acceptPopup');
+            ->method('acceptDialog');
 
-        $this->session->acceptPopup();
+        $this->session->acceptDialog();
     }
 
-    public function testDismissPopup()
+    public function testDismissDialog()
     {
         $this->driver
             ->expects($this->once())
-            ->method('dismissPopup');
+            ->method('dismissDialog');
 
-        $this->session->dismissPopup();
+        $this->session->dismissDialog();
     }
 }
