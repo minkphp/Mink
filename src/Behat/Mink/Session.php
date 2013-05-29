@@ -214,6 +214,26 @@ class Session
     }
 
     /**
+     * Return the names of all open windows
+     *
+     * @return array    array of all open windows
+     */
+    public function getWindowNames()
+    {
+        return $this->driver->getWindowNames();
+    }
+
+    /**
+     * Return the name of the currently active window
+     *
+     * @return string    the name of the current window
+     */
+    public function getWindowName()
+    {
+        return $this->driver->getWindowName();
+    }
+
+    /**
      * Reloads current session page.
      */
     public function reload()
