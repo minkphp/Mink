@@ -376,10 +376,10 @@ interface DriverInterface
     public function resizeWindow($width, $height, $name = null);
 
     /**
-     * Returns text of opened popup
+     * Returns text of opened popup dialog window
      *
      */
-    public function getPopupText();
+    public function getDialogText();
 
     /**
      * Fills in text into prompt window
@@ -389,14 +389,14 @@ interface DriverInterface
     public function setPromptText($text);
 
     /**
-     * Accept opened popup
+     * Accept opened popup dialog window
      *
      */
-    public function acceptPopup();
+    public function acceptDialog();
 
     /**
-     * Dismisses opened popup
+     * Dismisses opened popup dialog window
      *
      */
-    public function dismissPopup();
+    public function dismissDialog();
 }

@@ -316,19 +316,19 @@ class Session
     }
 
     /**
-     * Returns text of current popup
+     * Returns text of current popup dialog window
      *
-     * @throws UnsupportedDriverActionException If driver does not support popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup windows handling
      */
-    public function getPopupText()
+    public function getDialogText()
     {
-        return $this->getDriver()->getPopupText();
+        return $this->getDriver()->getDialogText();
     }
 
     /**
      * Fills in current prompt window
      *
-     * @throws UnsupportedDriverActionException If driver does not support popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup windows handling
      */
     public function setPromptText($text)
     {
@@ -336,22 +336,22 @@ class Session
     }
 
     /**
-     * Accepts current popup
+     * Accepts current popup dialog window
      *
-     * @throws UnsupportedDriverActionException If driver does not support popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup windows handling
      */
-    public function acceptPopup()
+    public function acceptDialog()
     {
-        $this->getDriver()->acceptPopup();
+        $this->getDriver()->acceptDialog();
     }
 
     /**
-     * Cancels current popup
+     * Cancels current popup dialog window
      *
-     * @throws UnsupportedDriverActionException If driver does not support popup handling
+     * @throws UnsupportedDriverActionException If driver does not support popup windows handling
      */
-    public function dismissPopup()
+    public function dismissDialog()
     {
-        $this->getDriver()->dismissPopup();
+        $this->getDriver()->dismissDialog();
     }
 }

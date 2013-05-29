@@ -852,33 +852,33 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testPopupContains()
+    public function testDialogContains()
     {
         $this->session
             ->expects($this->any())
-            ->method('getPopupText')
+            ->method('getDialogText')
             ->will($this->returnValue('Message'));
 
-        $this->assertCorrectAssertion('popupContains', array('Message'));
+        $this->assertCorrectAssertion('dialogContains', array('Message'));
         $this->assertWrongAssertion(
-            'popupContains', array('Another message'),
+            'dialogContains', array('Another message'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            "Popup window does not contain 'Another message', but should."
+            "Popup dialog window does not contain 'Another message', but should."
         );
     }
 
-    public function testPopupNotContains()
+    public function testDialogNotContains()
     {
         $this->session
             ->expects($this->any())
-            ->method('getPopupText')
+            ->method('getDialogText')
             ->will($this->returnValue($message = 'Message'));
 
-        $this->assertCorrectAssertion('popupNotContains', array('Another message'));
+        $this->assertCorrectAssertion('dialogNotContains', array('Another message'));
         $this->assertWrongAssertion(
-            'popupNotContains', array('Message'),
+            'dialogNotContains', array('Message'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            "Popup window contains 'Message', but should not."
+            "Popup dialog window contains 'Message', but should not."
         );
     }
 }
