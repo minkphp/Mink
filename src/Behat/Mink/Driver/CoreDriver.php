@@ -305,12 +305,12 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * Returns text of opened popup
+     * Returns text of opened popup dialog window
      *
      */
-    public function getPopupText()
+    public function getDialogText()
     {
-        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Dialog windows handling is not supported by %s', $this);
     }
 
     /**
@@ -320,24 +320,24 @@ abstract class CoreDriver implements DriverInterface
      */
     public function setPromptText($text)
     {
-        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Dialog windows handling is not supported by %s', $this);
     }
 
     /**
-     * Accept opened popup
+     * Accept opened popup dialog window
      *
      */
-    public function acceptPopup()
+    public function acceptDialog()
     {
-        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Dialog windows handling is not supported by %s', $this);
     }
 
     /**
      * Dismisses opened popup
      *
      */
-    public function dismissPopup()
+    public function dismissDialog()
     {
-        throw new UnsupportedDriverActionException('Popup windows handling is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Dialog windows handling is not supported by %s', $this);
     }
 }
