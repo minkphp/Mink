@@ -83,6 +83,30 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($ret, $this->session->getCurrentUrl());
     }
+    
+    public function testGetWindowNames()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('getWindowNames')
+            ->will($this->returnValue($ret = array(
+                    0 => '{65e7bd06-8472-4d16-b678-356e453e0b36}',
+                    1 => '{1715ad0f-b8ee-4ccc-9dbf-48fccbae890b}'
+                )
+            ));
+
+        $this->assertEquals($ret, $this->session->getWindowNames());
+    }
+
+    public function testGetWindowName()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('getWindowName')
+            ->will($this->returnValue($ret = '{65e7bd06-8472-4d16-b678-356e453e0b36}'));
+
+        $this->assertEquals($ret, $this->session->getWindowName());
+    }
 
     public function testExecuteScript()
     {
