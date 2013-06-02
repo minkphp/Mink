@@ -285,6 +285,7 @@ abstract class CoreDriver implements DriverInterface
      * @param integer $time      time in milliseconds
      * @param string  $condition JS condition
      *
+     * @return boolean
      * @throws UnsupportedDriverActionException
      */
     public function wait($time, $condition)

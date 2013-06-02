@@ -205,7 +205,7 @@ class Session
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending 
+     * @return  string  screenshot of MIME type image/* depending
      *   on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot()
@@ -284,10 +284,12 @@ class Session
      *
      * @param integer $time      time in milliseconds
      * @param string  $condition JS condition
+     *
+     * @return boolean
      */
     public function wait($time, $condition = 'false')
     {
-        $this->driver->wait($time, $condition);
+        return $this->driver->wait($time, $condition);
     }
 
     /**

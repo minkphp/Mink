@@ -69,6 +69,20 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
     }
 
+    /**
+     * Tests, that `wait` method returns check result after exit.
+     *
+     * @return void
+     * @access public
+     */
+    public function testWaitReturnValue()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $found = $this->getSession()->wait(5000, '$("#draggable:visible").length == 1');
+        $this->assertTrue($found);
+    }
+
     public function testMouseEvents()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
