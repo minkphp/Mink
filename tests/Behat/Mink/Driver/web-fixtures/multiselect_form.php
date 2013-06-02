@@ -7,7 +7,7 @@
 <body>
     <h1>Multiselect Test</h1>
 
-    <form method="POST" action="/advanced_form_post.php">
+    <form method="POST" action="advanced_form_post.php">
         <select name="select_number">
             <option value="10">ten</option>
             <option selected="selected" value="20">twenty</option>
