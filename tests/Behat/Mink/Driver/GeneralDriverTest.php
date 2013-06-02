@@ -528,7 +528,8 @@ OUT
 
         $sex->selectOption('m');
         $this->assertEquals('m', $sex->getValue());
-        $about->attachFile(__DIR__ . '/web-fixtures/some_file.txt');
+
+        $about->attachFile($this->mapRemoteFilePath(__DIR__ . '/web-fixtures/some_file.txt'));
 
         $button = $page->findButton('Register');
 
@@ -556,6 +557,23 @@ array (
 OUT
             , $page->getContent()
         );
+    }
+
+    /**
+     * Map remote file path.
+     *
+     * @param string $file File path.
+     *
+     * @return string
+     * @access protected
+     */
+    protected function mapRemoteFilePath($file)
+    {
+        if ( !isset($_SERVER['TEST_MACHINE_BASE_PATH']) || !isset($_SERVER['DRIVER_MACHINE_BASE_PATH']) ) {
+            return $file;
+        }
+
+        return preg_replace('/^' . preg_quote($_SERVER['TEST_MACHINE_BASE_PATH'], '/') . '/', $_SERVER['DRIVER_MACHINE_BASE_PATH'], $file, 1);
     }
 
     public function testAdvancedFormSecondSubmit()
