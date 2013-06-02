@@ -14,7 +14,7 @@
 	<!-- This link is created programmatically -->
 	<div id="link-element"></div>
 
-    <script language="javascript" type="text/javascript" src="/js/jquery-1.6.2-min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery-1.6.2-min.js"></script>
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function() {
 			$('#hidden-element-toggle-button').click(function() {
@@ -22,7 +22,7 @@
 			});
 
 			$('#link-element').attr('role', 'link').text('Go to Index').click(function() {
-        window.location.href = '/index.php';
+        window.location.href = 'index.php';
 			});
 		});
 	</script>
