@@ -171,7 +171,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
             $this->getSession()->getPage()->getText()
         );
         $this->assertContains(
-            " 'srvr_cookie' = 'srv_var_is_set', )",
+            " 'srvr_cookie' = 'srv_var_is_set'",
             $this->getSession()->getPage()->getText()
         );
 
