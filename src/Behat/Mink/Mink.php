@@ -207,4 +207,12 @@ class Mink
         $session = $this->sessions[$name];
         return $session;
     }
+
+
+    /**
+     * Mink class might wake up after un-serialization, but all of it's old sessions are most likely closed by someone else.
+     */
+    function __wakeup() {
+        $this->sessions = array();
+    }
 }
