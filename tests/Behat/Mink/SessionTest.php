@@ -11,6 +11,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 {
     private $driver;
     private $selectorsHandler;
+
+    /**
+     * Session.
+     *
+     * @var Session
+     * @access private
+     */
     private $session;
 
     protected function setUp()
@@ -113,5 +120,19 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->with(1000, 'function() {}');
 
         $this->session->wait(1000, 'function() {}');
+    }
+
+    /**
+     * Testing that 2 sessions created with same parameters have different IDs.
+     *
+     * @return void
+     * @access public
+     */
+    public function testUniqueId()
+    {
+        $session  = new Session($this->driver, $this->selectorsHandler);
+
+        $this->assertNotEquals($session->getUniqueId(), $this->session->getUniqueId());
+
     }
 }
