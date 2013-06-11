@@ -71,9 +71,6 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
     /**
      * Tests, that `wait` method returns check result after exit.
-     *
-     * @return void
-     * @access public
      */
     public function testWaitReturnValue()
     {
