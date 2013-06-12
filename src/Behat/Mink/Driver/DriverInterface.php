@@ -374,4 +374,11 @@ interface DriverInterface
      * @param string $name window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
+
+    /**
+     * Maximize the window if it is not maximized already
+     *
+     * @param string $name window name (null for the main window)
+     */
+    public function maximizeWindow($name = null);
 }
