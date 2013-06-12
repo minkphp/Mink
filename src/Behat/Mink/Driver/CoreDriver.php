@@ -309,8 +309,8 @@ abstract class CoreDriver implements DriverInterface
      *
      * @param string  $name   window name (null for the main window)
      */
-    public function resizeWindow($width, $height, $name = null)
+    public function maximizeWindow($name = null)
     {
-        throw new UnsupportedDriverActionException('Window resizing is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Window maximize is not supported by %s', $this);
     }
 }
