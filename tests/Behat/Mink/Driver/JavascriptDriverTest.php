@@ -63,13 +63,27 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $session = $this->getSession();
         $page    = $session->getPage();
 
-        $windowName = $this->getSession()->getWindowName();
+        try {
+            $windowName = $this->getSession()->getWindowName();
+        }
+        catch (Exception $e) {
+            $this->markTestSkipped('The current driver does not support getWindowName function.');
+            return;
+        }
+        
         $this->assertNotNull($windowName);
 
         $page->clickLink('Popup #1');
         $page->clickLink('Popup #2');
 
-        $windowNames = $this->getSession()->getWindowNames();
+        try {
+            $windowNames = $this->getSession()->getWindowNames();
+        }
+        catch (Exception $e) {
+            $this->markTestSkipped('The current driver does not support getWindowNames function.');
+            return;
+        }
+
         $this->assertNotNull($windowNames[0]);
         $this->assertNotNull($windowNames[1]);
         $this->assertNotNull($windowNames[2]);
