@@ -116,7 +116,7 @@ XPATH;
     public function testFindButton()
     {
         $xpath = <<<XPATH
-//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[((((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
+//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[((((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
 XPATH;
 
         $this->session->getDriver()
@@ -192,7 +192,7 @@ XPATH;
     public function testHasButton()
     {
         $xpath = <<<XPATH
-//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[((((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
+//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//button[((((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(normalize-space(string(.)), 'some button')) or contains(./@title, 'some button'))] | .//input[./@type = 'image'][contains(./@alt, 'some button')] | .//*[./@role = 'button'][(((./@id = 'some button' or ./@name = 'some button') or contains(./@value, 'some button')) or contains(./@title, 'some button') or contains(normalize-space(string(.)), 'some button'))]
 XPATH;
 
         $this->session->getDriver()

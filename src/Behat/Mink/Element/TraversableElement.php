@@ -78,7 +78,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a button (input[type=submit|image|button], button) with specified locator.
+     * Checks whether document has a button (input[type=submit|image|button|reset], button) with specified locator.
      *
      * @param string $locator button id, value or alt
      *
@@ -106,7 +106,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Finds button (input[type=submit|image|button], button) with specified locator.
+     * Finds button (input[type=submit|image|button|reset], button) with specified locator.
      *
      * @param string $locator button id, value or alt
      *
@@ -120,7 +120,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Presses button (input[type=submit|image|button], button) with specified locator.
+     * Presses button (input[type=submit|image|button|reset], button) with specified locator.
      *
      * @param string $locator button id, value or alt
      *
