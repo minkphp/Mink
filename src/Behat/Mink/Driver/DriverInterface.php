@@ -378,6 +378,7 @@ interface DriverInterface
     /**
      * Returns text of opened popup dialog window
      *
+     * @return string
      */
     public function getDialogText();
 

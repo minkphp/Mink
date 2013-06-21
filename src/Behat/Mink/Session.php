@@ -318,6 +318,7 @@ class Session
     /**
      * Returns text of current popup dialog window
      *
+     * @return string
      * @throws UnsupportedDriverActionException If driver does not support popup windows handling
      */
     public function getDialogText()
