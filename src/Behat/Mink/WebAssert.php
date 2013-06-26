@@ -46,7 +46,7 @@ class WebAssert
      */
     public function addressEquals($page)
     {
-        $expected = $this->cleanScriptnameFromPath(parse_url($page, PHP_URL_PATH));
+        $expected = $this->cleanUrl($page);
         $actual   = $this->getCurrentUrlPath();
 
         if ($actual !== $expected) {
@@ -64,7 +64,7 @@ class WebAssert
      */
     public function addressNotEquals($page)
     {
-        $expected = $this->cleanScriptnameFromPath(parse_url($page, PHP_URL_PATH));
+        $expected = $this->cleanUrl($page);
         $actual   = $this->getCurrentUrlPath();
 
         if ($actual === $expected) {
@@ -574,9 +574,7 @@ class WebAssert
      */
     protected function getCurrentUrlPath()
     {
-        return $this->cleanScriptnameFromPath(
-            parse_url($this->session->getCurrentUrl(), PHP_URL_PATH)
-        );
+        return $this->cleanUrl($this->session->getCurrentUrl());
     }
 
     /**
@@ -586,8 +584,10 @@ class WebAssert
      *
      * @return string
      */
-    protected function cleanScriptnameFromPath($path)
+    protected function cleanUrl($url)
     {
-        return preg_replace('/^\/[^\.\/]+\.php/', '', $path);
+        $parts = parse_url($url);
+        $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
+        return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
     }
 }
