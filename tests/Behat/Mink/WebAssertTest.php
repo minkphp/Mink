@@ -31,14 +31,14 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->session
             ->expects($this->exactly(2))
             ->method('getCurrentUrl')
-            ->will($this->returnValue('http://example.com/script.php/sub/url'))
+            ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
         ;
 
-        $this->assertCorrectAssertion('addressEquals', array('/sub/url'));
+        $this->assertCorrectAssertion('addressEquals', array('/sub/url#webapp/nav'));
         $this->assertWrongAssertion(
             'addressEquals', array('sub_url'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            'Current page is "/sub/url", but "sub_url" expected.'
+            'Current page is "/sub/url#webapp/nav", but "sub_url" expected.'
         );
     }
 
