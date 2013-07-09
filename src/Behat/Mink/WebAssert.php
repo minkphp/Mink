@@ -449,6 +449,50 @@ class WebAssert
     }
 
     /**
+     * Checks that an attribute of a specific elements contains text.
+     *
+     * @param $selectorType
+     * @param $selector
+     * @param $attribute
+     * @param $text
+     *
+     * @throws ElementTextException
+     */
+    public function elementAttributeContains($selectorType, $selector, $attribute, $text)
+    {
+        $element = $this->elementExists($selectorType, $selector);
+        $actual  = $element->getAttribute($attribute);
+        $regex   = '/'.preg_quote($text, '/').'/ui';
+
+        if (!preg_match($regex, $actual)) {
+            $message = sprintf('The text "%s" was not found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            throw new ElementTextException($message, $this->session, $element);
+        }
+    }
+
+    /**
+     * Checks that an attribute of a specific elements does not contain text.
+     *
+     * @param $selectorType
+     * @param $selector
+     * @param $attribute
+     * @param $text
+     *
+     * @throws ElementTextException
+     */
+    public function elementAttributeNotContains($selectorType, $selector, $attribute, $text)
+    {
+        $element = $this->elementExists($selectorType, $selector);
+        $actual  = $element->getAttribute($attribute);
+        $regex   = '/'.preg_quote($text, '/').'/ui';
+
+        if (preg_match($regex, $actual)) {
+            $message = sprintf('The text "%s" was found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            throw new ElementTextException($message, $this->session, $element);
+        }
+    }
+
+    /**
      * Checks that specific field exists on the current page.
      *
      * @param string $field field id|name|label|value
