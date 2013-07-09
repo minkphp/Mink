@@ -8,7 +8,9 @@ use Behat\Mink\Element\Element,
     Behat\Mink\Exception\ExpectationException,
     Behat\Mink\Exception\ResponseTextException,
     Behat\Mink\Exception\ElementHtmlException,
-    Behat\Mink\Exception\ElementTextException;
+    Behat\Mink\Exception\ElementTextException,
+    Behat\Mink\Exception\ElementAttributeException,
+    Behat\Mink\Exception\ElementAttributeNotFoundException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -449,6 +451,27 @@ class WebAssert
     }
 
     /**
+     * Checks that an attribute exists in an element.
+     *
+     * @param $selectorType
+     * @param $selector
+     * @param $attribute
+     * @return NodeElement|null
+     * @throws Exception\ElementAttributeNotFoundException
+     */
+    public function elementAttributeExists($selectorType, $selector, $attribute)
+    {
+        $element = $this->elementExists($selectorType, $selector);
+
+        if (!$element->hasAttribute($attribute)) {
+            $message = sprintf('The attribute "%s" was not found in the element matching %s "%s".', $attribute, $selectorType, $selector);
+            throw new ElementAttributeNotFoundException($message, $this->session, $element);
+        }
+
+        return $element;
+    }
+
+    /**
      * Checks that an attribute of a specific elements contains text.
      *
      * @param $selectorType
@@ -456,17 +479,17 @@ class WebAssert
      * @param $attribute
      * @param $text
      *
-     * @throws ElementTextException
+     * @throws ElementAttributeException
      */
     public function elementAttributeContains($selectorType, $selector, $attribute, $text)
     {
-        $element = $this->elementExists($selectorType, $selector);
+        $element = $this->elementAttributeExists($selectorType, $selector, $attribute);
         $actual  = $element->getAttribute($attribute);
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
             $message = sprintf('The text "%s" was not found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
-            throw new ElementTextException($message, $this->session, $element);
+            throw new ElementAttributeException($message, $this->session, $element);
         }
     }
 
@@ -478,17 +501,17 @@ class WebAssert
      * @param $attribute
      * @param $text
      *
-     * @throws ElementTextException
+     * @throws ElementAttributeException
      */
     public function elementAttributeNotContains($selectorType, $selector, $attribute, $text)
     {
-        $element = $this->elementExists($selectorType, $selector);
+        $element = $this->elementAttributeExists($selectorType, $selector, $attribute);
         $actual  = $element->getAttribute($attribute);
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
             $message = sprintf('The text "%s" was found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
-            throw new ElementTextException($message, $this->session, $element);
+            throw new ElementAttributeException($message, $this->session, $element);
         }
     }
 
