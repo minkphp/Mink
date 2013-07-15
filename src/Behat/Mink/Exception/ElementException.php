@@ -20,7 +20,7 @@ use Behat\Mink\Element\Element;
 class ElementException extends Exception
 {
     private $element;
-    
+
     /**
      * Initialises exception.
      *
@@ -30,26 +30,26 @@ class ElementException extends Exception
     public function __construct(Element $element, \Exception $exception)
     {
         $this->element = $element;
-        
+
         parent::__construct(sprintf("Exception thrown by %s\n%s",
             $element->getXpath(),
             $exception->getMessage()
         ));
     }
-    
+
     /**
      * Override default toString so we don't send a full backtrace in verbose mode.
-     * 
+     *
      * @return string
      */
     public function __toString()
     {
         return $this->getMessage();
     }
-    
+
     /**
      * Get the element that caused the exception
-     * 
+     *
      * @return Element
      */
     public function getElement()
