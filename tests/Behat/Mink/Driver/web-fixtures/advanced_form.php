@@ -26,8 +26,8 @@
             <span><input type="radio" name="sex" value="w" checked="checked" /> w</span>
         </label>
 
-        <input type="checkbox" name="mail_list" checked="checked" />
-        <input type="checkbox" name="agreement" />
+        <input type="checkbox" name="mail_list" checked="checked" value="on"/>
+        <input type="checkbox" name="agreement" value="yes"/>
 
         <input type="file" name="about" />
 
