@@ -47,6 +47,19 @@ class Session
     }
 
     /**
+     * Clones this session
+     *
+     * Clones the driver and freshens up references and uniqueId.
+     */
+    public function __clone() {
+      $this->driver = clone $this->driver;
+      $this->driver->setSession($this);
+      $this->selectorsHandler = clone $this->selectorsHandler;
+      $this->uniqueId         = uniqid('mink_session_');
+      $this->page = new DocumentElement($this);
+    }
+
+    /**
      * Checks whether session (driver) was started.
      *
      * @return Boolean
