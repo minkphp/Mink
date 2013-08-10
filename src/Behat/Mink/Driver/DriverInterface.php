@@ -27,6 +27,13 @@ interface DriverInterface
     public function setSession(Session $session);
 
     /**
+     * Gets driver's current session.
+     *
+     * @return Session The current session
+     */
+    public function getSession(Session $session);
+
+    /**
      * Starts driver.
      */
     public function start();
