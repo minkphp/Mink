@@ -607,6 +607,145 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testElementAttributeContains()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->exactly(2))
+            ->method('hasAttribute')
+            ->will($this->returnValue(true))
+        ;
+
+        $element
+            ->expects($this->exactly(2))
+            ->method('getAttribute')
+            ->with('name')
+            ->will($this->returnValue('foo'))
+        ;
+
+        $this->assertCorrectAssertion('elementAttributeContains', array('css', 'h2 > span', 'name', 'foo'));
+        $this->assertWrongAssertion(
+            'elementAttributeContains', array('css', 'h2 > span', 'name', 'bar'),
+            'Behat\\Mink\\Exception\\ElementAttributeException',
+            'The text "bar" was not found in the attribute "name" of the element matching css "h2 > span".'
+        );
+    }
+
+    public function testElementAttributeExists()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->at(0))
+            ->method('hasAttribute')
+            ->with('name')
+            ->will($this->returnValue(true))
+        ;
+
+        $element
+            ->expects($this->at(1))
+            ->method('hasAttribute')
+            ->with('name')
+            ->will($this->returnValue(false))
+        ;
+
+        $this->assertCorrectAssertion('elementAttributeExists', array('css', 'h2 > span', 'name'));
+        $this->assertWrongAssertion(
+            'elementAttributeExists', array('css', 'h2 > span', 'name'),
+            'Behat\\Mink\\Exception\\ElementAttributeNotFoundException',
+            'The attribute "name" was not found in the element matching css "h2 > span".'
+        );
+    }
+
+    public function testElementAttributeNotContains()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->exactly(2))
+            ->method('hasAttribute')
+            ->will($this->returnValue(true))
+        ;
+
+        $element
+            ->expects($this->exactly(2))
+            ->method('getAttribute')
+            ->with('name')
+            ->will($this->returnValue('foo'))
+        ;
+
+        $this->assertCorrectAssertion('elementAttributeNotContains', array('css', 'h2 > span', 'name', 'bar'));
+        $this->assertWrongAssertion(
+            'elementAttributeNotContains', array('css', 'h2 > span', 'name', 'foo'),
+            'Behat\\Mink\\Exception\\ElementAttributeException',
+            'The text "foo" was found in the attribute "name" of the element matching css "h2 > span".'
+        );
+    }
+
     public function testFieldExists()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
