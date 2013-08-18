@@ -361,7 +361,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
-        $this->assertRegExp('/\/basic_form\.php$/', $link->getAttribute('href'));
+        $this->assertRegExp('/basic_form\.php$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
@@ -371,7 +371,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $link = $page->findLink("Link with a ");
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/\/links\.php\?quoted$/', $link->getAttribute('href'));
+        $this->assertRegExp('/links\.php\?quoted$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/links.php?quoted'), $this->getSession()->getCurrentUrl());
