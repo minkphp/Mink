@@ -226,6 +226,16 @@ class NodeElement extends TraversableElement
     }
 
     /**
+    * Checks whether current node is selected if it's a option field.
+    *
+    * @return Boolean
+    */
+   public function isSelected()
+   {
+       return (Boolean) $this->getSession()->getDriver()->isSelected($this->getXpath());
+   }
+
+    /**
      * Attach file to current node if it's a file input.
      *
      * @param string $path path to file (local)

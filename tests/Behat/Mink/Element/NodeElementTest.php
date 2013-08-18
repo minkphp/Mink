@@ -3,6 +3,7 @@
 namespace Test\Behat\Mink\Element;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Session;
 
 require_once 'ElementTest.php';
 
@@ -11,6 +12,11 @@ require_once 'ElementTest.php';
  */
 class NodeElementTest extends ElementTest
 {
+    /**
+     * Session.
+     *
+     * @var Session
+     */
     private $session;
 
     protected function setUp()
@@ -69,7 +75,7 @@ class NodeElementTest extends ElementTest
     public function testHasClass()
     {
         $node = new NodeElement('input_tag', $this->session);
-        
+
         $this->session->getDriver()
             ->expects($this->exactly(6))
             ->method('getAttribute')
@@ -217,6 +223,20 @@ class NodeElementTest extends ElementTest
 
         $this->assertTrue($node->isChecked());
         $this->assertFalse($node->isChecked());
+    }
+
+    public function testIsSelected()
+    {
+        $node = new NodeElement('some_xpath', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->exactly(2))
+            ->method('isSelected')
+            ->with('some_xpath')
+            ->will($this->onConsecutiveCalls(true, false));
+
+        $this->assertTrue($node->isSelected());
+        $this->assertFalse($node->isSelected());
     }
 
     public function testFocus()

@@ -249,6 +249,15 @@ interface DriverInterface
     public function selectOption($xpath, $value, $multiple = false);
 
     /**
+     * Checks whether select option, located by it's XPath query, is selected.
+     *
+     * @param string $xpath
+     *
+     * @return Boolean
+     */
+    public function isSelected($xpath);
+
+    /**
      * Clicks button or link located by it's XPath query.
      *
      * @param string $xpath
