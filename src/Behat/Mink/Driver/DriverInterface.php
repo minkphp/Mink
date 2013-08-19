@@ -374,4 +374,30 @@ interface DriverInterface
      * @param string $name window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
+
+    /**
+     * Returns text of opened popup dialog window
+     *
+     * @return string
+     */
+    public function getDialogText();
+
+    /**
+     * Fills in text into prompt window
+     *
+     * @param string $text
+     */
+    public function setPromptText($text);
+
+    /**
+     * Accept opened popup dialog window
+     *
+     */
+    public function acceptDialog();
+
+    /**
+     * Dismisses opened popup dialog window
+     *
+     */
+    public function dismissDialog();
 }

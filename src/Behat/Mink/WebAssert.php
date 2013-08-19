@@ -645,6 +645,40 @@ class WebAssert
     }
 
     /**
+     * Checks that popup dialog window contains text
+     *
+     * @param string $text Text
+     *
+     * @throws ExpectationException
+     */
+    public function dialogContains($text)
+    {
+        if (false === strpos($this->session->getDialogText(), $text)) {
+            throw new ExpectationException(
+                "Popup dialog window does not contain '$text', but should.",
+                $this->session
+            );
+        }
+    }
+
+    /**
+     * Checks that popup dialog window does not contain text
+     *
+     * @param string $text Text
+     *
+     * @throws ExpectationException
+     */
+    public function dialogNotContains($text)
+    {
+        if (false !== strpos($this->session->getDialogText(), $text)) {
+            throw new ExpectationException(
+                "Popup dialog window contains '$text', but should not.",
+                $this->session
+            );
+        }
+    }
+
+    /**
      * Trims scriptname from the URL.
      *
      * @param string $path
