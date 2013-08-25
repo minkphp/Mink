@@ -303,4 +303,14 @@ abstract class CoreDriver implements DriverInterface
     {
         throw new UnsupportedDriverActionException('Window resizing is not supported by %s', $this);
     }
+
+    /**
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     */
+    public function submitForm($xpath)
+    {
+        throw new UnsupportedDriverActionException('Form submission is not supported by %s', $this);
+    }
 }
