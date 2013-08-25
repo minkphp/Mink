@@ -315,4 +315,12 @@ class NodeElement extends TraversableElement
     {
         $this->getSession()->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
+
+    /**
+     * Submits the form.
+     */
+    public function submit()
+    {
+        $this->getSession()->getDriver()->submitForm($this->getXpath());
+    }
 }
