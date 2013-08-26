@@ -374,4 +374,11 @@ interface DriverInterface
      * @param string $name window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
+
+    /**
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     */
+    public function submitForm($xpath);
 }

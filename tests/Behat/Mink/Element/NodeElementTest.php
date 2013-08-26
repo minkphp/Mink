@@ -69,7 +69,7 @@ class NodeElementTest extends ElementTest
     public function testHasClass()
     {
         $node = new NodeElement('input_tag', $this->session);
-        
+
         $this->session->getDriver()
             ->expects($this->exactly(6))
             ->method('getAttribute')
@@ -265,5 +265,17 @@ class NodeElementTest extends ElementTest
             ->with('some_tag1', 'some_tag3');
 
         $node->dragTo(new NodeElement('some_tag2', $this->session));
+    }
+
+    public function testSubmitForm()
+    {
+        $node = new NodeElement('some_xpath', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('submitForm')
+            ->with('some_xpath');
+
+        $node->submit();
     }
 }

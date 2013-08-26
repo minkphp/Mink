@@ -414,6 +414,18 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
+    public function testFormSubmit()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/basic_form.php'));
+
+        $page = $session->getPage();
+        $page->findField('first_name')->setValue('Konstantin');
+        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+
+        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+    }
+
     public function testBasicGetForm()
     {
         $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
