@@ -181,6 +181,18 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
+    * Checks whether select option, located by it's XPath query, is selected.
+    *
+    * @param string $xpath
+    *
+    * @return Boolean
+    */
+   public function isSelected($xpath)
+   {
+       throw new UnsupportedDriverActionException('Element selection check is not supported by %s', $this);
+   }
+
+    /**
      * Simulates a mouse over on the element.
      *
      * @param string $xpath
