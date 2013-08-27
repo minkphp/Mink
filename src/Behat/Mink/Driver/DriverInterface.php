@@ -396,6 +396,6 @@ interface DriverInterface
      *
      * @param string $xpath Xpath.
      */
-    public function submitForm($xpath);    
+    public function submitForm($xpath);
 
 }
