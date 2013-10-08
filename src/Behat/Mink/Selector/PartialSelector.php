@@ -15,9 +15,9 @@ namespace Behat\Mink\Selector;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class NamedSelector implements SelectorInterface
+class PartialSelector extends AbstractNamedSelector
 {
-    private $selectors = array(
+    protected $selectors = array(
         'fieldset' => <<<XPATH
 .//fieldset[(./@id = %locator% or .//legend[contains(normalize-space(string(.)), %locator%)])]
 XPATH
@@ -58,55 +58,4 @@ XPATH
 .//table[(./@id = %locator% or contains(.//caption, %locator%))]
 XPATH
     );
-
-    /**
-     * Registers new XPath selector with specified name.
-     *
-     * @param string $name  name for selector
-     * @param string $xpath xpath expression
-     */
-    public function registerNamedXpath($name, $xpath)
-    {
-        $this->selectors[$name] = $xpath;
-    }
-
-    /**
-     * Translates provided locator into XPath.
-     *
-     * @param string|array $locator selector name or array of (selector_name, locator)
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function translateToXPath($locator)
-    {
-        if (2 < count($locator)) {
-            throw new \InvalidArgumentException('NamedSelector expects array(name, locator) as argument');
-        }
-
-        if (2 == count($locator)) {
-            $selector   = $locator[0];
-            $locator    = $locator[1];
-        } else {
-            $selector   = (string) $locator;
-            $locator    = null;
-        }
-
-        if (!isset($this->selectors[$selector])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown named selector provided: "%s". Expected one of (%s)',
-                $selector,
-                implode(', ', array_keys($this->selectors))
-            ));
-        }
-
-        $xpath = $this->selectors[$selector];
-
-        if (null !== $locator) {
-            $xpath = strtr($xpath, array('%locator%' => $locator));
-        }
-
-        return $xpath;
-    }
 }

@@ -57,6 +57,16 @@ abstract class Element implements ElementInterface
     /**
      * Finds first element with specified selector.
      *
+     * Valid selector engines are named, xpath, css, partial and exact.
+     *
+     * 'named' is a pseudo selector engine which prefers an exact match but
+     * will return a partial match if no exact match is found.
+     *
+     * 'xpath' is a pseudo selector engine supported by SelectorsHandler.
+     *
+     * Full selector engines implement SelectorInterface and are instantiated
+     * by a SelectorsHandler.
+     *
      * @param string $selector selector engine name
      * @param string $locator  selector locator
      *
@@ -64,7 +74,14 @@ abstract class Element implements ElementInterface
      */
     public function find($selector, $locator)
     {
-        $items = $this->findAll($selector, $locator);
+        if ('named' === $selector) {
+            $items = $this->findAll('exact', $locator);
+            if (count($items) < 1) {
+                $items = $this->findAll('partial', $locator);
+            }
+        } else {
+            $items = $this->findAll($selector, $locator);
+        }
 
         return count($items) ? current($items) : null;
     }
