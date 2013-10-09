@@ -181,6 +181,18 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
+    * Checks whether select option, located by it's XPath query, is selected.
+    *
+    * @param string $xpath
+    *
+    * @return Boolean
+    */
+   public function isSelected($xpath)
+   {
+       throw new UnsupportedDriverActionException('Element selection check is not supported by %s', $this);
+   }
+
+    /**
      * Simulates a mouse over on the element.
      *
      * @param string $xpath
@@ -302,6 +314,16 @@ abstract class CoreDriver implements DriverInterface
     public function resizeWindow($width, $height, $name = null)
     {
         throw new UnsupportedDriverActionException('Window resizing is not supported by %s', $this);
+    }
+
+    /**
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     */
+    public function submitForm($xpath)
+    {
+        throw new UnsupportedDriverActionException('Form submission is not supported by %s', $this);
     }
     
     /**

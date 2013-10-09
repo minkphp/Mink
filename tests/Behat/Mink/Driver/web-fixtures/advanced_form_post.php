@@ -12,7 +12,7 @@
         $_POST['select_multiple_numbers'] = explode(',', $_POST['select_multiple_numbers'][0]);
     }
 
-    $_POST['agreement'] = (isset($_POST['agreement']) || '1' === $_POST['agreement'] || 'on' === $_POST['agreement']) ? 'on' : 'off';
+    $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
     echo str_replace('>', '', var_export($_POST, true)) . "\n";
     if (file_exists($_FILES['about']['tmp_name'])) {
         echo file_get_contents($_FILES['about']['tmp_name']);

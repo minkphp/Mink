@@ -103,7 +103,7 @@ abstract class TraversableElement extends Element
         if ($this->hasAttribute('class')) {
             return in_array($className, explode(' ', $this->getAttribute('class')));
         }
-        
+
         return false;
     }
 

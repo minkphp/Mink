@@ -20,6 +20,11 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         self::$mink = new Mink(array('sess' => new Session(static::getDriver())));
     }
 
+    /**
+     * Returns session.
+     *
+     * @return Session
+     */
     public function getSession()
     {
         return self::$mink->getSession('sess');
@@ -361,7 +366,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
-        $this->assertRegExp('/\/basic_form\.php$/', $link->getAttribute('href'));
+        $this->assertRegExp('/basic_form\.php$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/basic_form.php'), $this->getSession()->getCurrentUrl());
@@ -371,7 +376,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $link = $page->findLink("Link with a ");
 
         $this->assertNotNull($link);
-        $this->assertRegExp('/\/links\.php\?quoted$/', $link->getAttribute('href'));
+        $this->assertRegExp('/links\.php\?quoted$/', $link->getAttribute('href'));
         $link->click();
 
         $this->assertEquals($this->pathTo('/links.php?quoted'), $this->getSession()->getCurrentUrl());
@@ -414,6 +419,18 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
     }
 
+    public function testFormSubmit()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/basic_form.php'));
+
+        $page = $session->getPage();
+        $page->findField('first_name')->setValue('Konstantin');
+        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+
+        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+    }
+
     public function testBasicGetForm()
     {
         $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
@@ -444,8 +461,13 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('20', $select->getValue());
         $this->assertSame(array(), $multiSelect->getValue());
 
+        $option_value = $this->getSession()->getSelectorsHandler()->xpathLiteral('30');
+        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $option_value . ']');
+        $this->assertFalse($option->isSelected());
+
         $select->selectOption('thirty');
         $this->assertEquals('30', $select->getValue());
+        $this->assertTrue($option->isSelected());
 
         $multiSelect->selectOption('one', true);
 
