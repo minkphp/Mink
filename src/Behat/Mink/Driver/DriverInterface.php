@@ -385,17 +385,16 @@ interface DriverInterface
     public function resizeWindow($width, $height, $name = null);
 
     /**
-     * Submits the form.
-     *
-     * @param string $xpath Xpath.
-     */
-    public function submitForm($xpath);
-    
-     /**
      * Maximize the window if it is not maximized already
      *
      * @param string $name window name (null for the main window)
      */
     public function maximizeWindow($name = null);
 
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     */
+    public function submitForm($xpath);
+    
 }
