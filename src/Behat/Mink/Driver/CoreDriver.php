@@ -317,16 +317,6 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * Submits the form.
-     *
-     * @param string $xpath Xpath.
-     */
-    public function submitForm($xpath)
-    {
-        throw new UnsupportedDriverActionException('Form submission is not supported by %s', $this);
-    }
-    
-    /**
      * Maximize the window if it is not maximized already
      *
      * @param string  $name   window name (null for the main window)
@@ -334,5 +324,15 @@ abstract class CoreDriver implements DriverInterface
     public function maximizeWindow($name = null)
     {
         throw new UnsupportedDriverActionException('Window maximize is not supported by %s', $this);
+    }
+
+    /**
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     */
+    public function submitForm($xpath)
+    {
+        throw new UnsupportedDriverActionException('Form submission is not supported by %s', $this);
     }
 }

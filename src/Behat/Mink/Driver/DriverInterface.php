@@ -391,10 +391,11 @@ interface DriverInterface
      */
     public function maximizeWindow($name = null);
 
+     /**
      * Submits the form.
      *
      * @param string $xpath Xpath.
      */
     public function submitForm($xpath);
-    
+
 }
