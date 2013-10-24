@@ -569,7 +569,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'$/ui';
 
         if (!preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
@@ -590,7 +590,7 @@ class WebAssert
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
-        $regex  = '/^'.preg_quote($value, '/').'/ui';
+        $regex  = '/^'.preg_quote($value, '/').'$/ui';
 
         if (preg_match($regex, $actual)) {
             $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
