@@ -2,6 +2,8 @@
 
 namespace Tests\Behat\Mink\Driver;
 
+use Behat\Mink\Exception\UnsupportedDriverActionException;
+
 require_once 'GeneralDriverTest.php';
 
 abstract class JavascriptDriverTest extends GeneralDriverTest
@@ -192,5 +194,25 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
         $session->wait(2000, '$("#output_foo_select").text() != ""');
         $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
+    }
+
+    public function testWindowMaximize()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+        $session = $this->getSession();
+        $driver = $session->getDriver();
+
+        try {
+            $driver->maximizeWindow();
+            $driver->wait(1000, false);
+
+            $script = "
+            return Math.abs(screen.availHeight - window.outerHeight) <= 100;
+            ";
+
+            $this->assertTrue($session->evaluateScript($script));
+        } catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('Maximize not yet implemented on this driver');
+        }
     }
 }
