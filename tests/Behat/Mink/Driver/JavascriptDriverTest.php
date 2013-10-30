@@ -196,7 +196,8 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
     }
 
-    public function testWindowMaximize(){
+    public function testWindowMaximize()
+    {
         $this->getSession()->visit($this->pathTo('/index.php'));
         $session = $this->getSession();
         $driver = $session->getDriver();
