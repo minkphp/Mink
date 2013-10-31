@@ -372,6 +372,8 @@ interface DriverInterface
      *
      * @param integer $time      time in milliseconds
      * @param string  $condition JS condition
+     *
+     * @return boolean
      */
     public function wait($time, $condition);
 

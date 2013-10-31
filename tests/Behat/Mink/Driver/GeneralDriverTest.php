@@ -10,6 +10,12 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * Mink session manager.
+     *
+     * @var Mink
+     */
     private static $mink;
 
     /**

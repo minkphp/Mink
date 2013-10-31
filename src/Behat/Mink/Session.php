@@ -330,10 +330,12 @@ class Session
      *
      * @param integer $time      time in milliseconds
      * @param string  $condition JS condition
+     *
+     * @return boolean
      */
     public function wait($time, $condition = 'false')
     {
-        $this->driver->wait($time, $condition);
+        return $this->driver->wait($time, $condition);
     }
 
     /**
