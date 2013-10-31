@@ -66,7 +66,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         try {
             $windowName = $this->getSession()->getWindowName();
         }
-        catch (Exception $e) {
+        catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('The current driver does not support getWindowName function.');
             return;
         }
@@ -79,7 +79,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         try {
             $windowNames = $this->getSession()->getWindowNames();
         }
-        catch (Exception $e) {
+        catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('The current driver does not support getWindowNames function.');
             return;
         }
