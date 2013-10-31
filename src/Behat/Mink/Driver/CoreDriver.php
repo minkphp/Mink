@@ -149,6 +149,26 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
+     * Return the names of all open windows
+     *
+     * @return array    array of all open windows
+     */
+    public function getWindowNames()
+    {
+        throw new UnsupportedDriverActionException('Listing all window names is not supported by %s', $this);
+    }
+
+    /**
+     * Return the name of the currently active window
+     *
+     * @return string    the name of the current window
+     */
+    public function getWindowName()
+    {
+        throw new UnsupportedDriverActionException('Listing this window name is not supported by %s', $this);
+    }
+
+    /**
      * Double-clicks button or link located by it's XPath query.
      *
      * @param string $xpath

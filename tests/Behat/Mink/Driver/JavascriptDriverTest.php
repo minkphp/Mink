@@ -59,6 +59,38 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertSame('Main window div text', $el->getText());
     }
 
+    public function testGetWindowNames()
+    {
+        $this->getSession()->visit($this->pathTo('/window.php'));
+        $session = $this->getSession();
+        $page    = $session->getPage();
+
+        try {
+            $windowName = $this->getSession()->getWindowName();
+        }
+        catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('The current driver does not support getWindowName function.');
+            return;
+        }
+        
+        $this->assertNotNull($windowName);
+
+        $page->clickLink('Popup #1');
+        $page->clickLink('Popup #2');
+
+        try {
+            $windowNames = $this->getSession()->getWindowNames();
+        }
+        catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('The current driver does not support getWindowNames function.');
+            return;
+        }
+
+        $this->assertNotNull($windowNames[0]);
+        $this->assertNotNull($windowNames[1]);
+        $this->assertNotNull($windowNames[2]);
+    }
+
     public function testAriaRoles()
     {
         $this->getSession()->visit($this->pathTo('/aria_roles.php'));
