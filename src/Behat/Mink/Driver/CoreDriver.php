@@ -149,7 +149,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * Return the names of all open windows
+     * Return the names of all open windows.
      *
      * @return array    array of all open windows
      */
@@ -159,7 +159,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * Return the name of the currently active window
+     * Return the name of the currently active window.
      *
      * @return string    the name of the current window
      */
