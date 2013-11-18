@@ -398,7 +398,8 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testBasicForm()
     {
-        $this->getSession()->visit($this->pathTo('/basic_form.php'));
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/basic_form.php'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
@@ -420,9 +421,11 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $page->findButton('Save')->click();
 
-        $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
-        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
-        $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
+        if ( $session->wait(5000, 'document.getElementById("first") !== null') ) {
+            $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
+            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+            $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
+        }
     }
 
     public function testFormSubmit()
@@ -434,7 +437,9 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page->findField('first_name')->setValue('Konstantin');
         $page->find('xpath', 'descendant-or-self::form[1]')->submit();
 
-        $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        if ( $session->wait(5000, 'document.getElementById("first") !== null') ) {
+            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        };
     }
 
     public function testBasicGetForm()
