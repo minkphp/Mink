@@ -2,6 +2,7 @@
 
 namespace Tests\Behat\Mink\Driver;
 
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink,
     Behat\Mink\Session;
 
@@ -398,8 +399,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testBasicForm()
     {
-        $session = $this->getSession();
-        $session->visit($this->pathTo('/basic_form.php'));
+        $this->getSession()->visit($this->pathTo('/basic_form.php'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
@@ -421,7 +421,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $page->findButton('Save')->click();
 
-        if ( $session->wait(5000, 'document.getElementById("first") !== null') ) {
+        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
             $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
             $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
@@ -435,11 +435,29 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $page = $session->getPage();
         $page->findField('first_name')->setValue('Konstantin');
-        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
 
-        if ( $session->wait(5000, 'document.getElementById("first") !== null') ) {
+        try {
+            $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+        }
+        catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('Driver doesn\'t support form submission');
+        }
+
+        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
         };
+    }
+
+    protected function safePageWait($time, $condition)
+    {
+        try {
+            $ret = $this->getSession()->wait($time, $condition);
+        }
+        catch (UnsupportedDriverActionException $e) {
+            return true;
+        }
+
+        return $ret;
     }
 
     public function testBasicGetForm()
@@ -575,8 +593,9 @@ OUT
 
         $button->press();
 
-        $space = ' ';
-        $this->assertContains(<<<OUT
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+            $space = ' ';
+            $this->assertContains(<<<OUT
 array (
   'first_name' = 'Foo "item"',
   'last_name' = 'Bar',
@@ -588,8 +607,9 @@ array (
 )
 1 uploaded file
 OUT
-            , $page->getContent()
-        );
+                , $page->getContent()
+            );
+        }
     }
 
     /**
