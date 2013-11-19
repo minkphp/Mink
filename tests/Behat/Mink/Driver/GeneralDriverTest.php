@@ -493,12 +493,13 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $space = ' ';
         $this->assertContains(<<<OUT
-  'select_number' = '30',
+  'agreement' = 'off',
   'select_multiple_numbers' =$space
   array (
     0 = '1',
     1 = '3',
-  )
+  ),
+  'select_number' = '30',
 OUT
             , $page->getContent()
         );
@@ -578,12 +579,12 @@ OUT
         $space = ' ';
         $this->assertContains(<<<OUT
 array (
+  'agreement' = 'on',
+  'email' = 'ever.zet@gmail.com',
   'first_name' = 'Foo "item"',
   'last_name' = 'Bar',
-  'email' = 'ever.zet@gmail.com',
   'select_number' = '30',
   'sex' = 'm',
-  'agreement' = 'on',
   'submit' = 'Register',
 )
 1 uploaded file
@@ -617,14 +618,17 @@ OUT
         $button = $page->findButton('Login');
         $button->press();
 
-        $this->assertContains(<<<OUT
-  'submit' = 'Login',
-  'agreement' = 'off',
-)
-no file
-OUT
-            , $page->getContent()
+        $toSearch = array(
+            "'agreement' = 'off',",
+            "'submit' = 'Login',",
+            'no file',
         );
+
+        $pageContent = $page->getContent();
+
+        foreach ($toSearch as $searchString) {
+            $this->assertContains($searchString, $pageContent);
+        }
     }
 
     protected function pathTo($path)
