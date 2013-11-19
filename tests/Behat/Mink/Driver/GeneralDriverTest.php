@@ -438,8 +438,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         try {
             $page->find('xpath', 'descendant-or-self::form[1]')->submit();
-        }
-        catch (UnsupportedDriverActionException $e) {
+        } catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('Driver doesn\'t support form submission');
         }
 
@@ -452,8 +451,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $ret = $this->getSession()->wait($time, $condition);
-        }
-        catch (UnsupportedDriverActionException $e) {
+        } catch (UnsupportedDriverActionException $e) {
             return true;
         }
 
