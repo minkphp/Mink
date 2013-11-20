@@ -488,13 +488,8 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('20', $select->getValue());
         $this->assertSame(array(), $multiSelect->getValue());
 
-        $option_value = $this->getSession()->getSelectorsHandler()->xpathLiteral('30');
-        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $option_value . ']');
-        $this->assertFalse($option->isSelected());
-
         $select->selectOption('thirty');
         $this->assertEquals('30', $select->getValue());
-        $this->assertTrue($option->isSelected());
 
         $multiSelect->selectOption('one', true);
 
