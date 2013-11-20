@@ -258,22 +258,4 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             $this->markTestSkipped('Maximize not yet implemented on this driver');
         }
     }
-
-    public function testElementSelectedStateCheck()
-    {
-        $session = $this->getSession();
-        $session->visit($this->pathTo('/multiselect_form.php'));
-        $select = $session->getPage()->findField('select_number');
-
-        $option_value = $session->getSelectorsHandler()->xpathLiteral('30');
-        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $option_value . ']');
-
-        try {
-            $this->assertFalse($option->isSelected());
-            $select->selectOption('thirty');
-            $this->assertTrue($option->isSelected());
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('Element selection check is not supported by the driver');
-        }
-    }
 }
