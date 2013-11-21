@@ -516,22 +516,33 @@ OUT
         );
     }
 
-    public function testElementSelectedStateCheck()
+    /**
+     * @dataProvider testElementSelectedStateCheckDataProvider
+     */
+    public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.php'));
-        $select = $session->getPage()->findField('select_number');
+        $select = $session->getPage()->findField($selectName);
 
-        $option_value = $session->getSelectorsHandler()->xpathLiteral('30');
-        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $option_value . ']');
+        $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
+        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $optionValueEscaped . ']');
 
         try {
             $this->assertFalse($option->isSelected());
-            $select->selectOption('thirty');
+            $select->selectOption($optionText);
             $this->assertTrue($option->isSelected());
         } catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('Element selection check is not supported by the driver');
         }
+    }
+
+    public function testElementSelectedStateCheckDataProvider()
+    {
+    	return array(
+    	    array('select_number', '30', 'thirty'),
+    	    array('select_multiple_numbers[]', '2', 'two'),
+    	);
     }
 
     public function testAdvancedForm()
