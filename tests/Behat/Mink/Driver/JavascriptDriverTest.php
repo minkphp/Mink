@@ -72,7 +72,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             $this->markTestSkipped('The current driver does not support getWindowName function.');
             return;
         }
-        
+
         $this->assertNotNull($windowName);
 
         $page->clickLink('Popup #1');
