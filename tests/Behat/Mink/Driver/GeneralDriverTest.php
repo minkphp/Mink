@@ -693,6 +693,27 @@ OUT
         }
     }
 
+    /**
+     * @dataProvider booleanAttributeDataProvider
+     */
+    public function testBooleanAttribute($input_id)
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/boolean_attribute_page.html'));
+
+        $attributeValue = $session->getPage()->findById($input_id)->getAttribute('disabled');
+        $this->assertEquals('true', $attributeValue);
+    }
+
+    public function booleanAttributeDataProvider()
+    {
+        return array(
+            array('d1'),
+            array('d2'),
+            array('d3'),
+        );
+    }
+
     protected function pathTo($path)
     {
         return $_SERVER['WEB_FIXTURES_HOST'].$path;
