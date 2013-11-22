@@ -15,6 +15,13 @@
 <em>interesting</em>      text
         </div>
 
+        <div class="attribute-testing">
+            <input type="text" id="attr-elem[with-value]" with-value="some-value"/>
+            <input type="text" id="attr-elem[without-value]" without-value/>
+            <input type="text" id="attr-elem[with-empty-value]" with-empty-value=""/>
+            <input type="text" id="attr-elem[with-missing]"/>
+        </div>
+
         <div class="travers">
             <div class="sub">el1</div>
             <div class="sub">el2</div>

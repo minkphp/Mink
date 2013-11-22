@@ -291,6 +291,26 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('div', $element->getTagName());
     }
 
+    /**
+     * @dataProvider getAttributeDataProvider
+     */
+    public function testGetAttribute($attributeName, $attributeValue)
+    {
+        $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
+
+        $this->assertSame($attributeValue, $element->getAttribute($attributeName));
+    }
+
+    public function getAttributeDataProvider()
+    {
+    	return array(
+            array('with-value', 'some-value'),
+            array('without-value', ''),
+            array('with-empty-value', ''),
+            array('with-missing', null),
+    	);
+    }
+
     public function testVeryDeepElementsTraversing()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
