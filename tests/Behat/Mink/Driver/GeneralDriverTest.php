@@ -296,6 +296,8 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAttribute($attributeName, $attributeValue)
     {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
         $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
 
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
