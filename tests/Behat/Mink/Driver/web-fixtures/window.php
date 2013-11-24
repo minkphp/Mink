@@ -9,11 +9,11 @@ function newPopup(url, title) {
 }
 </script>
 
-<a href="javascript:newPopup('popup1.php', 'popup_1');">
+<a href="popup1.php" onclick="newPopup(this.href, 'popup_1'); return false;">
     Popup #1
 </a>
 
-<a href="javascript:newPopup('popup2.php', 'popup_2');">
+<a href="popup2.php" onclick="newPopup(this.href, 'popup_2'); return false;">
     Popup #2
 </a>
 
