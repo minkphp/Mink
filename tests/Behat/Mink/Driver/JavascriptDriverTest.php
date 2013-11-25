@@ -37,7 +37,10 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $page    = $session->getPage();
 
         $page->clickLink('Popup #1');
+        $session->switchToWindow(null);
+
         $page->clickLink('Popup #2');
+        $session->switchToWindow(null);
 
         $el = $page->find('css', '#text');
         $this->assertNotNull($el);
