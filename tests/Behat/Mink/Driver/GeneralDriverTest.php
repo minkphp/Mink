@@ -695,6 +695,32 @@ OUT
         }
     }
 
+    /**
+     * @dataProvider setBasicAuthDataProvider
+     */
+    public function testSetBasicAuth($user, $pass, $pageText)
+    {
+        $session = $this->getSession();
+
+        try {
+            $session->setBasicAuth($user, $pass);
+        } catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('This driver doesn\'t support basic authentication');
+        }
+
+        $session->visit($this->pathTo('/basic_auth.php'));
+
+        $this->assertContains($pageText, $session->getPage()->getContent());
+    }
+
+    public function setBasicAuthDataProvider()
+    {
+        return array(
+            array('mink-user', 'mink-password', 'is authenticated'),
+            array('', '', 'is not authenticated'),
+        );
+    }
+
     protected function pathTo($path)
     {
         return $_SERVER['WEB_FIXTURES_HOST'].$path;
