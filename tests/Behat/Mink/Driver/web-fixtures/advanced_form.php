@@ -29,6 +29,8 @@
         <input type="checkbox" name="mail_list" checked="checked" value="on"/>
         <input type="checkbox" name="agreement" value="yes"/>
 
+        <textarea name="notes">original notes</textarea>
+
         <input type="file" name="about" />
 
         <input type="submit" name="submit" value="Register" />
