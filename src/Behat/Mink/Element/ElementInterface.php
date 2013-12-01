@@ -59,7 +59,7 @@ interface ElementInterface
      * @param string $selector selector engine name
      * @param string $locator  selector locator
      *
-     * @return array
+     * @return NodeElement[]
      */
     public function findAll($selector, $locator);
 
