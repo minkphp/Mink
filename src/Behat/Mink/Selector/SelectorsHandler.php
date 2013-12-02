@@ -24,7 +24,7 @@ class SelectorsHandler
     /**
      * Initializes selectors handler.
      *
-     * @param array $selectors default selectors to register
+     * @param SelectorInterface[] $selectors default selectors to register
      */
     public function __construct(array $selectors = array())
     {

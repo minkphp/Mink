@@ -26,7 +26,7 @@ class Mink
     /**
      * Initializes manager.
      *
-     * @param array $sessions
+     * @param Session[] $sessions
      */
     public function __construct(array $sessions = array())
     {

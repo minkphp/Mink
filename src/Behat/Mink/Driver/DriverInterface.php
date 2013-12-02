@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Driver;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Session;
 
 /*
@@ -172,7 +173,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return array array of NodeElements
+     * @return NodeElement[]
      */
     public function find($xpath);
 
