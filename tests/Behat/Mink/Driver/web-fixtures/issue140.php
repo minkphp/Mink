@@ -1,7 +1,7 @@
 <?php
 
 if (!empty($_POST)) {
-    setcookie ("tc", $_POST['cookie_value']);
+    setcookie ("tc", $_POST['cookie_value'], null, '/');
 } else if (isset($_GET["show_value"])) {
     echo $_COOKIE["tc"];
     die();
