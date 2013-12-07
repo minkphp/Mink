@@ -857,7 +857,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'fieldValueEquals', array('username', ''),
             'Behat\\Mink\\Exception\\ExpectationException',
-            'The field "username" value is "234", but "23" expected.'
+            'The field "username" value is "234", but "" expected.'
         );
     }
 
