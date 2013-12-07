@@ -825,20 +825,20 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('findField')
             ->with('username')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getValue')
             ->will($this->returnValue(234))
         ;
@@ -848,6 +848,16 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             'fieldValueEquals', array('username', 235),
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "234", but "235" expected.'
+        );
+        $this->assertWrongAssertion(
+            'fieldValueEquals', array('username', 23),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "234", but "23" expected.'
+        );
+        $this->assertWrongAssertion(
+            'fieldValueEquals', array('username', ''),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "234", but "" expected.'
         );
     }
 
@@ -864,20 +874,20 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('findField')
             ->with('username')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getValue')
             ->will($this->returnValue(235))
         ;
@@ -888,6 +898,8 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "235", but it should not be.'
         );
+        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 23));
+        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', ''));
     }
 
     public function testCheckboxChecked()
