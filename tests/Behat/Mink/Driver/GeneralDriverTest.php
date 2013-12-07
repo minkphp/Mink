@@ -661,6 +661,34 @@ OUT
         }
     }
 
+    public function testCheckboxMultiple()
+    {
+        $this->getSession()->visit($this->pathTo('/multicheckbox_form.php'));
+
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('Multicheckbox Test', $page->find('css', 'h1')->getText());
+
+        $updateMail  = $page->find('css', '[name="mail_types[]"][value="update"]');
+        $spamMail    = $page->find('css', '[name="mail_types[]"][value="spam"]');
+
+        $this->assertNotNull($updateMail);
+        $this->assertNotNull($spamMail);
+
+        $this->assertTrue($updateMail->getValue());
+        $this->assertFalse($spamMail->getValue());
+
+        $this->assertTrue($updateMail->isChecked());
+        $this->assertFalse($spamMail->isChecked());
+
+        $updateMail->uncheck();
+        $this->assertFalse($updateMail->isChecked());
+        $this->assertFalse($spamMail->isChecked());
+
+        $spamMail->check();
+        $this->assertFalse($updateMail->isChecked());
+        $this->assertTrue($spamMail->isChecked());
+    }
+
     /**
      * Map remote file path.
      *
