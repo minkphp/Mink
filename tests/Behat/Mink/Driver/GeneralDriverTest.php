@@ -689,6 +689,56 @@ OUT
         $this->assertTrue($spamMail->isChecked());
     }
 
+    public function testMultiInput()
+    {
+        $this->getSession()->visit($this->pathTo('/multi_input_form.php'));
+        $page = $this->getSession()->getPage();
+        $this->assertEquals('Multi input Test', $page->find('css', 'h1')->getText());
+
+        $first = $page->findField('First');
+        $second = $page->findField('Second');
+        $third = $page->findField('Third');
+
+        $this->assertNotNull($first);
+        $this->assertNotNull($second);
+        $this->assertNotNull($third);
+
+        $this->assertEquals('tag1', $first->getValue());
+        $this->assertSame('tag2', $second->getValue());
+        $this->assertEquals('tag1', $third->getValue());
+
+        $first->setValue('tag2');
+        $this->assertEquals('tag2', $first->getValue());
+        $this->assertSame('tag2', $second->getValue());
+        $this->assertEquals('tag1', $third->getValue());
+
+        $second->setValue('one');
+
+        $this->assertEquals('tag2', $first->getValue());
+        $this->assertSame('one', $second->getValue());
+
+        $third->setValue('tag3');
+
+        $this->assertEquals('tag2', $first->getValue());
+        $this->assertSame('one', $second->getValue());
+        $this->assertEquals('tag3', $third->getValue());
+
+        $button = $page->findButton('Register');
+        $button->press();
+
+        $space = ' ';
+        $this->assertContains(<<<OUT
+  'tags' =$space
+  array (
+    0 = 'tag2',
+    1 = 'one',
+    2 = 'tag3',
+  ),
+OUT
+            , $page->getContent()
+        );
+    }
+
     /**
      * Map remote file path.
      *
