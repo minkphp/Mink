@@ -6,9 +6,6 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink,
     Behat\Mink\Session;
 
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
-
 abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
 
