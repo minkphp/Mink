@@ -1,28 +1,22 @@
-Contributing
-------------
+# Contributing
+Mink is an open source, community-driven project. If you'd like to contribute, feel free to do this, but remember to follow these few simple rules:
 
-Mink is an open source, community-driven project. If you'd like to contribute, feel free to do this, but remember to follow this few simple rules:
+## Submitting an issues
+- __Driver-related__ issues must be reported in the corresponding driver repository
+- A reproducible example is required for every bug report, otherwise it will most probably be __closed without warning__
+- If you are going to make a big, substantial change, let's discuss it first
 
-- Make your feature addition or bug fix,
-- __Always__ as base for your changes use `develop` branch (all new development happens here, `master` branch is for releases & hotfixes only),
-- Add tests for those changes (please look into `tests/` folder for some examples). This is important so we don't break it in a future version unintentionally,
-- Commit your code, but do not mess with `CHANGES.md`,
-- __Remember__: when you create Pull Request, always select `develop` branch as target, otherwise it will be closed.
+## Working with Pull Requests
+1. Create your feature addition or a bug fix branch based on `develop` branch (all new development happens here, `master` branch is for releases & hotfixes only) in your repository's fork.
+2. Make necessary changes, but __don't mix__ code reformatting with code changes on topic.
+3. Add tests for those changes (please look into `tests/` folder for some examples). This is important so we don't break it in a future version unintentionally.
+4. Commit your code, but do not mess with `CHANGES.md`.
+5. Squash your commits by topic to preserve a clean and readable log.
+6. Create Pull Request, but __remember__ always select `develop` branch as target, otherwise it will be closed.
 
-Running tests
--------------
-
+# Running tests
 Make sure that you don't break anything with your changes by running:
 
 ```bash
 $> phpunit
 ```
-
-Behat integration and translated languages
-------------------------------------------
-
-Behat integration altogether with translations have moved into separate
-project called `MinkExtension`. It's an extension to Behat 2.4. This will
-lead to much faster release cycles as `MinkExtension` doesn't have actual
-releases - any accepted PR about language translation or new step definitions
-will immediately go into live.
