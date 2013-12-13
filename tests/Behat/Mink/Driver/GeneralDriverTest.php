@@ -143,6 +143,46 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
     }
 
+    /**
+     * @dataProvider cookieWithPathsDataProvider
+     */
+    public function testCookieWithPaths($cookieRemovalMode)
+    {
+        // start clean
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: NO', $session->getPage()->getText());
+
+        // cookie from root path is accessible in sub-folder
+        $session->visit($this->pathTo('/cookie_page1.php'));
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: srv_var_is_set', $session->getPage()->getText());
+
+        // cookie from sub-folder overrides cookie from root path
+        $session->visit($this->pathTo('/sub-folder/cookie_page1.php'));
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
+        $this->assertContains('Previous cookie: srv_var_is_set_sub_folder', $session->getPage()->getText());
+
+        if ( $cookieRemovalMode == 'session_reset' ) {
+        	$session->reset();
+        }
+        elseif ( $cookieRemovalMode == 'cookie_delete' ) {
+        	$session->setCookie('srvr_cookie', null);
+        }
+
+        // cookie is removed from all paths
+        $session->reload();
+        $this->assertContains('Previous cookie: NO', $session->getPage()->getText());
+    }
+
+    public function cookieWithPathsDataProvider()
+    {
+        return array(
+            array('session_reset'),
+            array('cookie_delete'),
+        );
+    }
+
     public function testReset()
     {
         $this->getSession()->visit($this->pathTo('/cookie_page1.php'));
