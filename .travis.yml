@@ -9,8 +9,7 @@ env:
   - CSS_SELECTOR_VERSION='2.3.*@dev'
 
 before_script:
-  - curl http://getcomposer.org/installer | php
-  - php composer.phar require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION
-  - php composer.phar install --dev --prefer-source
+  - composer require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION
+  - composer install --dev --prefer-source
 
 script: phpunit -v
