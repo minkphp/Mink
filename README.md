@@ -1,5 +1,7 @@
 Mink
 ====
+[![Latest Stable Version](https://poser.pugx.org/behat/mink/v/stable.png)](https://packagist.org/packages/behat/mink)
+[![Total Downloads](https://poser.pugx.org/behat/mink/downloads.png)](https://packagist.org/packages/behat/mink)
 
 - [stable (master)](https://github.com/Behat/Mink) ([![Master Build
 Status](https://secure.travis-ci.org/Behat/Mink.png?branch=master)](http://travis-ci.org/Behat/Mink)) - staging branch. Last stable version.
