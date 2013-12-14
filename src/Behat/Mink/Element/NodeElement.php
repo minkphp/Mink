@@ -2,11 +2,9 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session,
-    Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Element\ElementInterface,
-    Behat\Mink\Exception\ElementException,
-    Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Session;
+use Behat\Mink\Exception\ElementException;
+use Behat\Mink\Exception\ElementNotFoundException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -82,6 +80,8 @@ class NodeElement extends TraversableElement
      * Sets node value.
      *
      * @param string $value
+     *
+     * @throws ElementException When an error occurred, while setting new element value.
      */
     public function setValue($value)
     {
@@ -215,30 +215,28 @@ class NodeElement extends TraversableElement
         ));
 
         if (null === $opt) {
-            throw new ElementNotFoundException(
-                $this->getSession(), 'select option', 'value|text', $option
-            );
+            throw new ElementNotFoundException($this->getSession(), 'select option', 'value|text', $option);
         }
 
-        $this->getSession()->getDriver()->selectOption(
-            $this->getXpath(), $opt->getValue(), $multiple
-        );
+        $this->getSession()->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
     }
 
     /**
-    * Checks whether current node is selected if it's a option field.
-    *
-    * @return Boolean
-    */
-   public function isSelected()
-   {
-       return (Boolean) $this->getSession()->getDriver()->isSelected($this->getXpath());
-   }
+     * Checks whether current node is selected if it's a option field.
+     *
+     * @return Boolean
+     */
+    public function isSelected()
+    {
+        return (Boolean) $this->getSession()->getDriver()->isSelected($this->getXpath());
+    }
 
     /**
      * Attach file to current node if it's a file input.
      *
      * @param string $path path to file (local)
+     *
+     * @throws ElementException When an error occurred, when attaching a file.
      */
     public function attachFile($path)
     {

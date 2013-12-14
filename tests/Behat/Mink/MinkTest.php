@@ -9,6 +9,11 @@ use Behat\Mink\Mink;
  */
 class MinkTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mink
+     */
+    private $mink;
+
     protected function setUp()
     {
         $this->mink = new Mink();

@@ -25,12 +25,8 @@ class ResponseTextException extends ExpectationException
     public function __toString()
     {
         try {
-            $pageText = $this->trimString($this->getSession()->getPage()->getText());
-            $string   = sprintf("%s\n\n%s%s",
-                $this->getMessage(),
-                $this->getResponseInfo(),
-                $this->pipeString($pageText."\n")
-            );
+            $pageText = $this->pipeString($this->trimString($this->getSession()->getPage()->getText()) . "\n");
+            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
         }

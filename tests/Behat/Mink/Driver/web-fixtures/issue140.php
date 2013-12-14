@@ -1,12 +1,11 @@
 <?php
-
 if (!empty($_POST)) {
-    setcookie ("tc", $_POST['cookie_value'], null, '/');
-} else if (isset($_GET["show_value"])) {
+    setcookie("tc", $_POST['cookie_value'], null, '/');
+} elseif (isset($_GET["show_value"])) {
     echo $_COOKIE["tc"];
     die();
-
-} ?>
+}
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -1,5 +1,5 @@
 <?php
-if ( !isset($cookieAtRootPath) ) {
+if (!isset($cookieAtRootPath)) {
     $cookieAtRootPath = true;
 }
 

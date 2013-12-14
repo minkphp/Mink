@@ -2,9 +2,9 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Selector\SelectorsHandler,
-    Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Selector\SelectorsHandler;
+use Behat\Mink\Element\DocumentElement;
 
 /*
  * This file is part of the Behat\Mink.
@@ -51,12 +51,13 @@ class Session
      *
      * Clones the driver and freshens up references and uniqueId.
      */
-    public function __clone() {
-      $this->driver = clone $this->driver;
-      $this->driver->setSession($this);
-      $this->selectorsHandler = clone $this->selectorsHandler;
-      $this->uniqueId         = uniqid('mink_session_');
-      $this->page = new DocumentElement($this);
+    public function __clone()
+    {
+        $this->driver = clone $this->driver;
+        $this->driver->setSession($this);
+        $this->selectorsHandler = clone $this->selectorsHandler;
+        $this->uniqueId = uniqid('mink_session_');
+        $this->page = new DocumentElement($this);
     }
 
     /**

@@ -2,15 +2,15 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\Element,
-    Behat\Mink\Element\NodeElement,
-    Behat\Mink\Exception\ElementNotFoundException,
-    Behat\Mink\Exception\ExpectationException,
-    Behat\Mink\Exception\ResponseTextException,
-    Behat\Mink\Exception\ElementHtmlException,
-    Behat\Mink\Exception\ElementTextException,
-    Behat\Mink\Exception\ElementAttributeException,
-    Behat\Mink\Exception\ElementAttributeNotFoundException;
+use Behat\Mink\Element\Element;
+use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\ResponseTextException;
+use Behat\Mink\Exception\ElementHtmlException;
+use Behat\Mink\Exception\ElementTextException;
+use Behat\Mink\Exception\ElementAttributeException;
+use Behat\Mink\Exception\ElementAttributeNotFoundException;
 
 /*
  * This file is part of the Behat\Mink.
@@ -98,15 +98,14 @@ class WebAssert
      * @param string $name   cookie name
      * @param string $value  cookie value
      *
-     * @throws Behat\Mink\Exception\ExpectationException
+     * @throws \Behat\Mink\Exception\ExpectationException
      */
     public function cookieEquals($name, $value)
     {
         $this->cookieExists($name);
         $actualValue = $this->session->getCookie($name);
         if ($actualValue != $value) {
-            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name,
-                $actualValue, $value);
+            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name, $actualValue, $value);
             throw new ExpectationException($message, $this->session);
         }
     }
@@ -116,7 +115,7 @@ class WebAssert
      *
      * @param string $name cookie name
      *
-     * @throws Behat\Mink\Exception\ExpectationException
+     * @throws \Behat\Mink\Exception\ExpectationException
      */
     public function cookieExists($name)
     {
@@ -647,7 +646,7 @@ class WebAssert
     /**
      * Trims scriptname from the URL.
      *
-     * @param string $path
+     * @param string $url
      *
      * @return string
      */
