@@ -2,16 +2,16 @@
 
 namespace Tests\Behat\Mink\Selector;
 
-use Behat\Mink\Selector\NamedSelector;
+use Behat\Mink\Selector\PartialSelector;
 
 /**
  * @group unittest
  */
-class NamedSelectorTest extends \PHPUnit_Framework_TestCase
+class PartialSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterXpath()
     {
-        $selector = new NamedSelector();
+        $selector = new PartialSelector();
 
         $selector->registerNamedXpath('some', 'my_xpath');
         $this->assertEquals('my_xpath', $selector->translateToXPath('some'));
