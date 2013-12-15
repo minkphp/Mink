@@ -49,12 +49,13 @@ abstract class TraversableElement extends Element
      * Finds link with specified locator.
      *
      * @param string $locator link id, title, text or image alt
+     * @param Boolean $exact  find first exact match (defaults to partial match)
      *
      * @return NodeElement|null
      */
-    public function findLink($locator)
+    public function findLink($locator, $exact = false)
     {
-        return $this->find('named', array(
+        return $this->find($exact ? 'exact' : 'named', array(
             'link', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
@@ -111,12 +112,13 @@ abstract class TraversableElement extends Element
      * Finds button (input[type=submit|image|button], button) with specified locator.
      *
      * @param string $locator button id, value or alt
+     * @param Boolean $exact  find first exact match (defaults to partial match)
      *
      * @return NodeElement|null
      */
-    public function findButton($locator)
+    public function findButton($locator, $exact = false)
     {
-        return $this->find('named', array(
+        return $this->find($exact ? 'exact' : 'named', array(
             'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
@@ -157,12 +159,13 @@ abstract class TraversableElement extends Element
      * Finds field (input, textarea, select) with specified locator.
      *
      * @param string $locator input id, name or label
+     * @param Boolean $exact  find first exact match (defaults to partial match)
      *
      * @return NodeElement|null
      */
-    public function findField($locator)
+    public function findField($locator, $exact = false)
     {
-        return $this->find('named', array(
+        return $this->find($exact ? 'exact' : 'named', array(
             'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }

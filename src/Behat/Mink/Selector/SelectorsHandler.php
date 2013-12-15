@@ -29,6 +29,7 @@ class SelectorsHandler
     public function __construct(array $selectors = array())
     {
         $this->registerSelector('named',    new NamedSelector());
+        $this->registerSelector('exact',    new ExactSelector());
         $this->registerSelector('css',      new CssSelector());
 
         foreach ($selectors as $name => $selector) {
