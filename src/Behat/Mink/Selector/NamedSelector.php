@@ -17,7 +17,7 @@ namespace Behat\Mink\Selector;
  */
 class NamedSelector implements SelectorInterface
 {
-    private $selectors = array(
+    protected $selectors = array(
         'fieldset' => <<<XPATH
 .//fieldset[(./@id = %locator% or .//legend[contains(normalize-space(string(.)), %locator%)])]
 XPATH
