@@ -3,6 +3,7 @@
 namespace Test\Behat\Mink\Element;
 
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Session;
 
 require_once 'ElementTest.php';
 
@@ -11,7 +12,18 @@ require_once 'ElementTest.php';
  */
 class DocumentElementTest extends ElementTest
 {
+    /**
+     * Session.
+     *
+     * @var Session
+     */
     private $session;
+
+    /**
+     * Page.
+     *
+     * @var DocumentElement
+     */
     private $document;
 
     protected function setUp()

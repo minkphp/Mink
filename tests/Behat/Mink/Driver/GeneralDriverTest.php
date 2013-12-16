@@ -2,9 +2,10 @@
 
 namespace Tests\Behat\Mink\Driver;
 
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Mink\Mink,
-    Behat\Mink\Session;
+use Behat\Mink\Mink;
+use Behat\Mink\Session;
 
 abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,6 +23,17 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$mink = new Mink(array('sess' => new Session(static::getDriver())));
+    }
+
+    /**
+     * Creates driver instance.
+     *
+     * @return DriverInterface
+     * @throws \RuntimeException
+     */
+    protected static function getDriver()
+    {
+        throw new \RuntimeException('Please implement "getDriver" method in your test case first');
     }
 
     /**
@@ -163,11 +175,10 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertContains('Previous cookie: srv_var_is_set_sub_folder', $session->getPage()->getText());
 
-        if ( $cookieRemovalMode == 'session_reset' ) {
-        	$session->reset();
-        }
-        elseif ( $cookieRemovalMode == 'cookie_delete' ) {
-        	$session->setCookie('srvr_cookie', null);
+        if ($cookieRemovalMode == 'session_reset') {
+            $session->reset();
+        } elseif ($cookieRemovalMode == 'cookie_delete') {
+            $session->setCookie('srvr_cookie', null);
         }
 
         // cookie is removed from all paths
@@ -226,9 +237,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $this->getSession()->reset();
         $this->getSession()->visit($this->pathTo('/print_cookies.php'));
-        $this->assertContains(
-            'array ( )', $this->getSession()->getPage()->getText()
-        );
+        $this->assertContains('array ( )', $this->getSession()->getPage()->getText());
     }
 
     public function testHttpOnlyCookieIsDeleted()
@@ -342,12 +351,12 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
     public function getAttributeDataProvider()
     {
-    	return array(
+        return array(
             array('with-value', 'some-value'),
             array('without-value', ''),
             array('with-empty-value', ''),
             array('with-missing', null),
-    	);
+        );
     }
 
     public function testVeryDeepElementsTraversing()
@@ -452,7 +461,8 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
     {
         $this->getSession()->visit($this->pathTo('/json.php'));
         $this->assertContains(
-            '{"key1":"val1","key2":234,"key3":[1,2,3]}', $this->getSession()->getPage()->getContent()
+            '{"key1":"val1","key2":234,"key3":[1,2,3]}',
+            $this->getSession()->getPage()->getContent()
         );
     }
 
@@ -562,7 +572,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $button->press();
 
         $space = ' ';
-        $this->assertContains(<<<OUT
+        $out = <<<OUT
   'agreement' = 'off',
   'select_multiple_numbers' =$space
   array (
@@ -570,9 +580,8 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
     1 = '3',
   ),
   'select_number' = '30',
-OUT
-            , $page->getContent()
-        );
+OUT;
+        $this->assertContains($out, $page->getContent());
     }
 
     /**
@@ -598,10 +607,10 @@ OUT
 
     public function testElementSelectedStateCheckDataProvider()
     {
-    	return array(
-    	    array('select_number', '30', 'thirty'),
-    	    array('select_multiple_numbers[]', '2', 'two'),
-    	);
+        return array(
+            array('select_number', '30', 'thirty'),
+            array('select_multiple_numbers[]', '2', 'two'),
+        );
     }
 
     public function testAdvancedForm()
@@ -682,8 +691,7 @@ OUT
         $button->press();
 
         if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
-            $space = ' ';
-            $this->assertContains(<<<OUT
+            $out = <<<OUT
 array (
   'agreement' = 'on',
   'email' = 'ever.zet@gmail.com',
@@ -695,9 +703,8 @@ array (
   'submit' = 'Register',
 )
 1 uploaded file
-OUT
-                , $page->getContent()
-            );
+OUT;
+            $this->assertContains($out, $page->getContent());
         }
     }
 
@@ -767,16 +774,15 @@ OUT
         $button->press();
 
         $space = ' ';
-        $this->assertContains(<<<OUT
+        $out = <<<OUT
   'tags' =$space
   array (
     0 = 'tag2',
     1 = 'one',
     2 = 'tag3',
   ),
-OUT
-            , $page->getContent()
-        );
+OUT;
+        $this->assertContains($out, $page->getContent());
     }
 
     /**
@@ -789,7 +795,7 @@ OUT
      */
     protected function mapRemoteFilePath($file)
     {
-        if ( !isset($_SERVER['TEST_MACHINE_BASE_PATH']) || !isset($_SERVER['DRIVER_MACHINE_BASE_PATH']) ) {
+        if (!isset($_SERVER['TEST_MACHINE_BASE_PATH']) || !isset($_SERVER['DRIVER_MACHINE_BASE_PATH'])) {
             return $file;
         }
 

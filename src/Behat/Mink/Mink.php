@@ -2,9 +2,6 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Driver\DriverInterface,
-    Behat\Mink\Selector\SelectorsHandler;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -21,6 +18,12 @@ use Behat\Mink\Driver\DriverInterface,
 class Mink
 {
     private $defaultSessionName;
+
+    /**
+     * Sessions.
+     *
+     * @var Session[]
+     */
     private $sessions = array();
 
     /**
@@ -152,7 +155,7 @@ class Mink
      */
     public function resetSessions()
     {
-        foreach ($this->sessions as $name => $session) {
+        foreach ($this->sessions as $session) {
             if ($session->isStarted()) {
                 $session->reset();
             }
@@ -164,7 +167,7 @@ class Mink
      */
     public function restartSessions()
     {
-        foreach ($this->sessions as $name => $session) {
+        foreach ($this->sessions as $session) {
             if ($session->isStarted()) {
                 $session->restart();
             }

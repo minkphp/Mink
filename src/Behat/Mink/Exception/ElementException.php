@@ -31,10 +31,7 @@ class ElementException extends Exception
     {
         $this->element = $element;
 
-        parent::__construct(sprintf("Exception thrown by %s\n%s",
-            $element->getXpath(),
-            $exception->getMessage()
-        ));
+        parent::__construct(sprintf("Exception thrown by %s\n%s", $element->getXpath(), $exception->getMessage()));
     }
 
     /**

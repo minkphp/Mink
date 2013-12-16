@@ -2,9 +2,6 @@
 
 namespace Behat\Mink\Exception;
 
-use Behat\Mink\Session,
-    Behat\Mink\Element\Element;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -28,12 +25,8 @@ class ElementAttributeException extends ElementHtmlException
     public function __toString()
     {
         try {
-            $pageText = $this->trimString($this->element->getAttribute());
-            $string   = sprintf("%s\n\n%s%s",
-                $this->getMessage(),
-                $this->getResponseInfo(),
-                $this->pipeString($pageText."\n")
-            );
+            $pageText = $this->pipeString($this->trimString($this->element->getAttribute()) . "\n");
+            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
         }

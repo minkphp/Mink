@@ -59,12 +59,8 @@ class ElementNotFoundException extends Exception
     public function __toString()
     {
         try {
-            $pageText = $this->trimBody($this->getSession()->getPage()->getContent());
-            $string   = sprintf("%s\n\n%s%s",
-                $this->getMessage(),
-                $this->getResponseInfo(),
-                $this->pipeString($pageText."\n")
-            );
+            $pageText = $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
+            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
         }

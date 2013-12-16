@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <?php
-        if ('POST' === $_SERVER['REQUEST_METHOD']) {
-            var_dump($_POST['some']);
-        }
-    ?>
+<?php
+if ('POST' === $_SERVER['REQUEST_METHOD']) {
+    var_dump($_POST['some']);
+}
+?>
 
     <form method="post" action="issue162.php">
         <label for=check1>
