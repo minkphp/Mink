@@ -10,6 +10,8 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session;
 
 /**
@@ -19,7 +21,22 @@ use Behat\Mink\Session;
  */
 abstract class Element implements ElementInterface
 {
+    /**
+     * @var Session
+     */
     private $session;
+
+    /**
+     * Driver.
+     *
+     * @var DriverInterface
+     */
+    private $driver;
+
+    /**
+     * @var SelectorsHandler
+     */
+    private $selectorsHandler;
 
     /**
      * Initialize element.
@@ -29,6 +46,10 @@ abstract class Element implements ElementInterface
     public function __construct(Session $session)
     {
         $this->session = $session;
+
+        // TODO: pass these in constructor instead of Session
+        $this->driver = $session->getDriver();
+        $this->selectorsHandler = $session->getSelectorsHandler();
     }
 
     /**
@@ -39,6 +60,26 @@ abstract class Element implements ElementInterface
     public function getSession()
     {
         return $this->session;
+    }
+
+    /**
+     * Returns element's driver.
+     *
+     * @return DriverInterface
+     */
+    protected function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * Returns selectors handler.
+     *
+     * @return SelectorsHandler
+     */
+    protected function getSelectorsHandler()
+    {
+        return $this->selectorsHandler;
     }
 
     /**
@@ -61,7 +102,7 @@ abstract class Element implements ElementInterface
      */
     public function isValid()
     {
-        return 1 === count($this->getSession()->getDriver()->find($this->getXpath()));
+        return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
     /**
@@ -140,7 +181,7 @@ abstract class Element implements ElementInterface
             return $items;
         }
 
-        $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
         $currentXpath = $this->getXpath();
         $expressions = array();
 
@@ -166,7 +207,7 @@ abstract class Element implements ElementInterface
 
         $xpath = implode(' | ', $expressions);
 
-        return $this->getSession()->getDriver()->find($xpath);
+        return $this->getDriver()->find($xpath);
     }
 
     /**
@@ -176,7 +217,7 @@ abstract class Element implements ElementInterface
      */
     public function getText()
     {
-        return $this->getSession()->getDriver()->getText($this->getXpath());
+        return $this->getDriver()->getText($this->getXpath());
     }
 
     /**
@@ -186,6 +227,6 @@ abstract class Element implements ElementInterface
      */
     public function getHtml()
     {
-        return $this->getSession()->getDriver()->getHtml($this->getXpath());
+        return $this->getDriver()->getHtml($this->getXpath());
     }
 }

@@ -28,7 +28,7 @@ abstract class TraversableElement extends Element
      */
     public function findById($id)
     {
-        $id = $this->getSession()->getSelectorsHandler()->xpathLiteral($id);
+        $id = $this->getSelectorsHandler()->xpathLiteral($id);
 
         return $this->find('xpath', "//*[@id=$id]");
     }
@@ -55,7 +55,7 @@ abstract class TraversableElement extends Element
     public function findLink($locator)
     {
         return $this->find('named', array(
-            'link', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'link', $this->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 
@@ -99,7 +99,7 @@ abstract class TraversableElement extends Element
     public function findButton($locator)
     {
         return $this->find('named', array(
-            'button', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'button', $this->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 
@@ -143,7 +143,7 @@ abstract class TraversableElement extends Element
     public function findField($locator)
     {
         return $this->find('named', array(
-            'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'field', $this->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 
@@ -240,7 +240,7 @@ abstract class TraversableElement extends Element
     public function hasSelect($locator)
     {
         return $this->has('named', array(
-            'select', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'select', $this->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 
@@ -274,7 +274,7 @@ abstract class TraversableElement extends Element
     public function hasTable($locator)
     {
         return $this->has('named', array(
-            'table', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+            'table', $this->getSelectorsHandler()->xpathLiteral($locator)
         ));
     }
 
