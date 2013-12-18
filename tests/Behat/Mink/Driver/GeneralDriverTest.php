@@ -488,6 +488,14 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Konstantin', $firstname->getValue());
         $this->assertEquals('Kudryashov', $lastname->getValue());
 
+        $page->findButton('Reset')->click();
+
+        $this->assertEquals('Firstname', $firstname->getValue());
+        $this->assertEquals('Lastname', $lastname->getValue());
+
+        $firstname->setValue('Konstantin');
+        $page->fillField('last_name', 'Kudryashov');
+
         $page->findButton('Save')->click();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
