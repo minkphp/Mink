@@ -63,7 +63,7 @@ class NodeElement extends TraversableElement
      */
     public function getTagName()
     {
-        return $this->getSession()->getDriver()->getTagName($this->getXpath());
+        return strtolower($this->getSession()->getDriver()->getTagName($this->getXpath()));
     }
 
     /**
