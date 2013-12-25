@@ -98,18 +98,6 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group issue162
-     * TODO: fix goutte behavior
-     */
-    public function _testIssue162()
-    {
-        $this->getSession()->visit($this->pathTo('/issue162.php'));
-
-        $this->getSession()->getPage()->uncheckField('Checkbox 1');
-        $this->getSession()->getPage()->pressButton('Submit');
-    }
-
-    /**
      * @group issue211
      */
     public function testIssue211()
