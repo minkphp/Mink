@@ -40,11 +40,6 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
         $selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
         $session = new Session($driver, $selectors);
 
-        $selectors
-            ->expects($this->any())
-            ->method('xpathLiteral')
-            ->will($this->returnArgument(0));
-
         return $session;
     }
 

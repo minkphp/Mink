@@ -211,7 +211,7 @@ class NodeElement extends TraversableElement
         }
 
         $opt = $this->find('named', array(
-            'option', $this->getSession()->getSelectorsHandler()->xpathLiteral($option)
+            'option', $option
         ));
 
         if (null === $opt) {

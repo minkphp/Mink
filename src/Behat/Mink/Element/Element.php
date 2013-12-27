@@ -73,16 +73,6 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns selectors handler.
-     *
-     * @return SelectorsHandler
-     */
-    protected function getSelectorsHandler()
-    {
-        return $this->selectorsHandler;
-    }
-
-    /**
      * Checks whether element with specified selector exists.
      *
      * @param string $selector selector engine name
@@ -120,7 +110,7 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
 
         // add parent xpath before element selector
         if (0 === strpos($xpath, '/')) {

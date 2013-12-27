@@ -128,7 +128,7 @@ class DocumentElementTest extends ElementTest
         $this->selectors
             ->expects($this->exactly(2))
             ->method('selectorToXpath')
-            ->with('xpath', $xpath)
+            ->with('named', array('id', 'some-item-2'))
             ->will($this->returnValue($xpath));
 
         $this->assertEquals('id2', $this->document->findById('some-item-2'));

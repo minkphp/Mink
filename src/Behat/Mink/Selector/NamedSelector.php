@@ -2,6 +2,8 @@
 
 namespace Behat\Mink\Selector;
 
+use Behat\Mink\Selector\Xpath\Escaper;
+
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -144,13 +146,19 @@ XPATH
 .//table
 [(%idMatch% or contains(.//caption, %locator%))]
 XPATH
+        ,'id' => <<<XPATH
+.//*[%idMatch%]
+XPATH
     );
+    private $xpathEscaper;
 
     /**
      * Creates selector instance.
      */
-    public function __construct()
+    public function __construct(Escaper $xpathEscaper = null)
     {
+        $this->xpathEscaper = $xpathEscaper ?: new Escaper();
+
         foreach ($this->replacements as $from => $to) {
             $this->replacements[$from] = strtr($to, $this->replacements);
         }
@@ -205,7 +213,7 @@ XPATH
         $xpath = $this->selectors[$selector];
 
         if (null !== $locator) {
-            $xpath = strtr($xpath, array('%locator%' => $locator));
+            $xpath = strtr($xpath, array('%locator%' => $this->xpathEscaper->xpathLiteral($locator)));
         }
 
         return $xpath;
