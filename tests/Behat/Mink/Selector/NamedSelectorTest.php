@@ -3,7 +3,6 @@
 namespace Tests\Behat\Mink\Selector;
 
 use Behat\Mink\Selector\NamedSelector;
-use Behat\Mink\Selector\SelectorsHandler;
 
 /**
  * @group unittest
@@ -41,10 +40,6 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTMLFile(__DIR__.'/fixtures/'.$fixtureFile);
-
-        // Escape the locator as Mink 1.x expects the caller of the NamedSelector to handle it
-        $selectorsHandler = new SelectorsHandler();
-        $locator = $selectorsHandler->xpathLiteral($locator);
 
         $namedSelector = $this->getSelector();
 
@@ -140,6 +135,8 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
             'option' => array('test.html', 'option', 'option-value', 2, 3),
 
             'table' => array('test.html', 'table', 'the-table', 2, 3),
+
+            'id' => array('test.html', 'id', 'bad-link-text', 1),
         );
     }
 

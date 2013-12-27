@@ -73,16 +73,6 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns selectors handler.
-     *
-     * @return SelectorsHandler
-     */
-    protected function getSelectorsHandler()
-    {
-        return $this->selectorsHandler;
-    }
-
-    /**
      * Checks whether element with specified selector exists.
      *
      * @param string       $selector selector engine name
@@ -181,7 +171,7 @@ abstract class Element implements ElementInterface
             return $items;
         }
 
-        $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
         $currentXpath = $this->getXpath();
         $expressions = array();
 

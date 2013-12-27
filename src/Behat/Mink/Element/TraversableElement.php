@@ -28,9 +28,7 @@ abstract class TraversableElement extends Element
      */
     public function findById($id)
     {
-        $id = $this->getSelectorsHandler()->xpathLiteral($id);
-
-        return $this->find('xpath', "//*[@id=$id]");
+        return $this->find('named', array('id', $id));
     }
 
     /**
@@ -55,7 +53,7 @@ abstract class TraversableElement extends Element
     public function findLink($locator)
     {
         return $this->find('named', array(
-            'link', $this->getSelectorsHandler()->xpathLiteral($locator)
+            'link', $locator
         ));
     }
 
@@ -99,7 +97,7 @@ abstract class TraversableElement extends Element
     public function findButton($locator)
     {
         return $this->find('named', array(
-            'button', $this->getSelectorsHandler()->xpathLiteral($locator)
+            'button', $locator
         ));
     }
 
@@ -143,7 +141,7 @@ abstract class TraversableElement extends Element
     public function findField($locator)
     {
         return $this->find('named', array(
-            'field', $this->getSelectorsHandler()->xpathLiteral($locator)
+            'field', $locator
         ));
     }
 
@@ -240,7 +238,7 @@ abstract class TraversableElement extends Element
     public function hasSelect($locator)
     {
         return $this->has('named', array(
-            'select', $this->getSelectorsHandler()->xpathLiteral($locator)
+            'select', $locator
         ));
     }
 
@@ -274,7 +272,7 @@ abstract class TraversableElement extends Element
     public function hasTable($locator)
     {
         return $this->has('named', array(
-            'table', $this->getSelectorsHandler()->xpathLiteral($locator)
+            'table', $locator
         ));
     }
 

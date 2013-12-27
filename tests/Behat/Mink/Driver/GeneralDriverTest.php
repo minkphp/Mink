@@ -646,8 +646,7 @@ OUT;
         $session->visit($this->pathTo('/multiselect_form.php'));
         $select = $session->getPage()->findField($selectName);
 
-        $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
-        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $optionValueEscaped . ']');
+        $option = $select->find('named', array('option', $optionValue));
         $this->assertNotNull($option);
 
         $this->assertFalse($option->isSelected());

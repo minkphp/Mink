@@ -105,37 +105,4 @@ class SelectorsHandler
 
         return $this->getSelector($selector)->translateToXPath($locator);
     }
-
-    /**
-     * Translates string to XPath literal.
-     *
-     * @param string $s
-     *
-     * @return string
-     */
-    public function xpathLiteral($s)
-    {
-        if (false === strpos($s, "'")) {
-            return sprintf("'%s'", $s);
-        }
-
-        if (false === strpos($s, '"')) {
-            return sprintf('"%s"', $s);
-        }
-
-        $string = $s;
-        $parts = array();
-        while (true) {
-            if (false !== $pos = strpos($string, "'")) {
-                $parts[] = sprintf("'%s'", substr($string, 0, $pos));
-                $parts[] = "\"'\"";
-                $string = substr($string, $pos + 1);
-            } else {
-                $parts[] = "'$string'";
-                break;
-            }
-        }
-
-        return sprintf("concat(%s)", implode($parts, ','));
-    }
 }
