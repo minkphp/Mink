@@ -8,8 +8,8 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterSelector()
     {
-        $selector   = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
-        $handler    = new SelectorsHandler();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
+        $handler = new SelectorsHandler();
 
         $this->assertFalse($handler->isSelectorRegistered('custom'));
 
@@ -54,8 +54,8 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelectorToXpath()
     {
-        $selector   = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
-        $handler    = new SelectorsHandler();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
+        $handler = new SelectorsHandler();
 
         $handler->registerSelector('custom_selector', $selector);
 
@@ -76,11 +76,5 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
         $handler = new SelectorsHandler();
 
         $this->assertEquals("'some simple string'", $handler->xpathLiteral('some simple string'));
-        $this->assertEquals("'some \"d-brackets\" string'", $handler->xpathLiteral('some "d-brackets" string'));
-        $this->assertEquals("\"some 's-brackets' string\"", $handler->xpathLiteral('some \'s-brackets\' string'));
-        $this->assertEquals(
-            'concat(\'some \',"\'",\'s-brackets\',"\'",\' and "d-brackets" string\')',
-            $handler->xpathLiteral('some \'s-brackets\' and "d-brackets" string')
-        );
     }
 }
