@@ -95,7 +95,7 @@ abstract class Element implements ElementInterface
     {
         $items = $this->findAll($selector, $locator);
 
-        return count($items) ? current($items) : null;
+        return count($items) ? $items[0] : null;
     }
 
     /**

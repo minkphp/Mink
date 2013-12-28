@@ -2,8 +2,6 @@
 
 namespace Behat\Mink\Tests\Driver;
 
-use Behat\Mink\Element\ElementFinder;
-use Behat\Mink\Element\NodeElement;
 use PHPUnit\Framework\TestCase;
 
 class CoreDriverTest extends TestCase
@@ -27,29 +25,19 @@ class CoreDriverTest extends TestCase
             ->setMethods(array('findElementXpaths'))
             ->getMockForAbstractClass();
 
-        $session = $this->getMockBuilder('Behat\Mink\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $session->method('getElementFinder')->willReturn($this->createMock(ElementFinder::class));
-
-        $driver->setSession($session);
-
         $driver->expects($this->once())
             ->method('findElementXpaths')
             ->with('xpath')
             ->willReturn(array('xpath1', 'xpath2'));
 
-        /** @var NodeElement[] $elements */
         $elements = $driver->find('xpath');
 
         $this->assertIsArray($elements);
 
         $this->assertCount(2, $elements);
-        $this->assertContainsOnlyInstancesOf('Behat\Mink\Element\NodeElement', $elements);
 
-        $this->assertSame('xpath1', $elements[0]->getXpath());
-        $this->assertSame('xpath2', $elements[1]->getXpath());
+        $this->assertSame('xpath1', $elements[0]);
+        $this->assertSame('xpath2', $elements[1]);
     }
 
     /**

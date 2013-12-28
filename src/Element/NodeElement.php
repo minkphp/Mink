@@ -30,7 +30,7 @@ class NodeElement extends TraversableElement
     /**
      * Initializes node element.
      *
-     * @param string          $xpath   element xpath
+     * @param string          $xpath         element xpath
      * @param DriverInterface $driver
      * @param ElementFinder   $elementFinder
      */
