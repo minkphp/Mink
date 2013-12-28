@@ -63,12 +63,6 @@ class ElementFinderTest extends TestCase
 
     public function testFound()
     {
-        $element1 = $this->createStub(NodeElement::class);
-        $element1->method('getXpath')->willReturn('element1');
-
-        $element2 = $this->createStub(NodeElement::class);
-        $element2->method('getXpath')->willReturn('element2');
-
         $this->selectorsHandler->expects($this->once())
             ->method('selectorToXpath')
             ->with('css', 'h3 > a')
@@ -82,7 +76,7 @@ class ElementFinderTest extends TestCase
         $this->driver->expects($this->once())
             ->method('find')
             ->with('full_xpath')
-            ->will($this->returnValue(array($element1, $element2)));
+            ->will($this->returnValue(array('element1', 'element2')));
 
         $results = $this->finder->findAll('css', 'h3 > a', 'parent_xpath');
 
@@ -94,12 +88,6 @@ class ElementFinderTest extends TestCase
 
     public function testNamedFound()
     {
-        $element1 = $this->createStub(NodeElement::class);
-        $element1->method('getXpath')->willReturn('element1');
-
-        $element2 = $this->createStub(NodeElement::class);
-        $element2->method('getXpath')->willReturn('element2');
-
         $this->selectorsHandler->expects($this->once())
             ->method('selectorToXpath')
             ->with('named_exact', 'test')
@@ -113,7 +101,7 @@ class ElementFinderTest extends TestCase
         $this->driver->expects($this->once())
             ->method('find')
             ->with('full_xpath')
-            ->will($this->returnValue(array($element1, $element2)));
+            ->will($this->returnValue(array('element1', 'element2')));
 
         $results = $this->finder->findAll('named', 'test', 'parent_xpath');
 
@@ -125,12 +113,6 @@ class ElementFinderTest extends TestCase
 
     public function testNamedPartialFallback()
     {
-        $element1 = $this->createStub(NodeElement::class);
-        $element1->method('getXpath')->willReturn('element1');
-
-        $element2 = $this->createStub(NodeElement::class);
-        $element2->method('getXpath')->willReturn('element2');
-
         $this->selectorsHandler->expects($this->exactly(2))
             ->method('selectorToXpath')
             ->will($this->returnValueMap(array(
@@ -149,7 +131,7 @@ class ElementFinderTest extends TestCase
             ->method('find')
             ->willReturnMap(array(
                 array('full_xpath', array()),
-                array('full_partial_xpath', array($element1, $element2)),
+                array('full_partial_xpath', array('element1', 'element2')),
             ));
 
         $results = $this->finder->findAll('named', 'test', 'parent_xpath');

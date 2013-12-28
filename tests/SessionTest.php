@@ -14,10 +14,6 @@ class SessionTest extends TestCase
      * @var DriverInterface&MockObject
      */
     private $driver;
-    /**
-     * @var SelectorsHandler
-     */
-    private $selectorsHandler;
 
     /**
      * Session.
@@ -32,8 +28,7 @@ class SessionTest extends TestCase
     protected function prepareSession(): void
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
-        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->session = new Session($this->driver);
     }
 
     public function testGetDriver()

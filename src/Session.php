@@ -12,8 +12,8 @@ namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\ElementFinder;
-use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Selector\SelectorsHandler;
 
 /**
  * Mink session.
@@ -30,18 +30,12 @@ class Session
      * @var DocumentElement
      */
     private $page;
-    /**
-     * @var ElementFinder
-     */
-    private $elementFinder;
 
     public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
     {
         $this->driver = $driver;
-        $this->elementFinder = new ElementFinder($driver, $selectorsHandler ?? new SelectorsHandler());
-        $this->page = new DocumentElement($driver, $this->elementFinder);
-
-        $driver->setSession($this);
+        $elementFinder = new ElementFinder($driver, $selectorsHandler ?? new SelectorsHandler());
+        $this->page = new DocumentElement($driver, $elementFinder);
     }
 
     /**
@@ -129,14 +123,6 @@ class Session
     public function getPage()
     {
         return $this->page;
-    }
-
-    /**
-     * @internal
-     */
-    public function getElementFinder(): ElementFinder
-    {
-        return $this->elementFinder;
     }
 
     /**

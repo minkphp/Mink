@@ -52,7 +52,7 @@ class NodeElementTest extends ElementTestCase
             ->expects($this->once())
             ->method('find')
             ->with($elementXpath)
-            ->willReturn(array($this->createStub(NodeElement::class)));
+            ->willReturn(array($elementXpath));
 
         $this->assertTrue($node->isValid());
     }
@@ -78,7 +78,7 @@ class NodeElementTest extends ElementTestCase
             ->expects($this->once())
             ->method('find')
             ->with('some xpath')
-            ->willReturn(array($this->createStub(NodeElement::class), $this->createStub(NodeElement::class)));
+            ->willReturn(array('some xpath', 'some other xpath'));
 
         $this->assertFalse($node->isValid(), 'more then 1 element found is invalid element');
     }
