@@ -2,9 +2,6 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Session;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -20,12 +17,6 @@ use Behat\Mink\Session;
  */
 interface DriverInterface
 {
-    /**
-     * Sets driver's current session.
-     *
-     * @param Session $session
-     */
-    public function setSession(Session $session);
 
     /**
      * Starts driver.
@@ -173,7 +164,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return NodeElement[]
+     * @return string[] An array of XPath queries for the found elements
      */
     public function find($xpath);
 

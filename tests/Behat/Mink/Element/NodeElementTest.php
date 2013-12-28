@@ -2,6 +2,7 @@
 
 namespace Test\Behat\Mink\Element;
 
+use Behat\Mink\Element\ElementFactory;
 use Behat\Mink\Element\NodeElement;
 
 require_once 'ElementTest.php';
@@ -11,9 +12,22 @@ require_once 'ElementTest.php';
  */
 class NodeElementTest extends ElementTest
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $elementFactory;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->elementFactory = $this->getMockBuilder('Behat\Mink\Element\ElementFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
     public function testGetXpath()
     {
-        $node = new NodeElement('some custom xpath', $this->driver, $this->selectors);
+        $node = new NodeElement('some custom xpath', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->assertEquals('some custom xpath', $node->getXpath());
         $this->assertNotEquals('not some custom xpath', $node->getXpath());
@@ -22,7 +36,7 @@ class NodeElementTest extends ElementTest
     public function testGetText()
     {
         $expected = 'val1';
-        $node = new NodeElement('text_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('text_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -35,7 +49,7 @@ class NodeElementTest extends ElementTest
 
     public function testHasAttribute()
     {
-        $node = new NodeElement('input_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('input_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->exactly(2))
@@ -50,7 +64,7 @@ class NodeElementTest extends ElementTest
     public function testGetAttribute()
     {
         $expected = 'http://...';
-        $node = new NodeElement('input_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('input_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -63,7 +77,7 @@ class NodeElementTest extends ElementTest
 
     public function testHasClass()
     {
-        $node = new NodeElement('input_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('input_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->exactly(6))
@@ -79,7 +93,7 @@ class NodeElementTest extends ElementTest
     public function testGetValue()
     {
         $expected = 'val1';
-        $node = new NodeElement('input_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('input_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -93,7 +107,7 @@ class NodeElementTest extends ElementTest
     public function testSetValue()
     {
         $expected = 'new_val';
-        $node = new NodeElement('input_tag', $this->driver, $this->selectors);
+        $node = new NodeElement('input_tag', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -105,7 +119,7 @@ class NodeElementTest extends ElementTest
 
     public function testClick()
     {
-        $node = new NodeElement('link_or_button', $this->driver, $this->selectors);
+        $node = new NodeElement('link_or_button', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -117,7 +131,7 @@ class NodeElementTest extends ElementTest
 
     public function testRightClick()
     {
-        $node = new NodeElement('elem', $this->driver, $this->selectors);
+        $node = new NodeElement('elem', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -129,7 +143,7 @@ class NodeElementTest extends ElementTest
 
     public function testDoubleClick()
     {
-        $node = new NodeElement('elem', $this->driver, $this->selectors);
+        $node = new NodeElement('elem', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -141,7 +155,7 @@ class NodeElementTest extends ElementTest
 
     public function testCheck()
     {
-        $node = new NodeElement('checkbox_or_radio', $this->driver, $this->selectors);
+        $node = new NodeElement('checkbox_or_radio', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -153,7 +167,7 @@ class NodeElementTest extends ElementTest
 
     public function testUncheck()
     {
-        $node = new NodeElement('checkbox_or_radio', $this->driver, $this->selectors);
+        $node = new NodeElement('checkbox_or_radio', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -165,7 +179,7 @@ class NodeElementTest extends ElementTest
 
     public function testSelectOption()
     {
-        $node = new NodeElement('select', $this->driver, $this->selectors);
+        $node = new NodeElement('select', $this->driver, $this->selectors, $this->elementFactory);
         $option = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
@@ -184,7 +198,13 @@ class NodeElementTest extends ElementTest
             ->expects($this->once())
             ->method('find')
             ->with('select/option')
-            ->will($this->returnValue(array($option)));
+            ->will($this->returnValue(array('found option')));
+
+        $this->elementFactory
+            ->expects($this->once())
+            ->method('createNodeElement')
+            ->with('found option', $this->driver, $this->selectors)
+            ->will($this->returnValue($option));
 
         $this->selectors
             ->expects($this->once())
@@ -202,7 +222,7 @@ class NodeElementTest extends ElementTest
 
     public function testGetTagName()
     {
-        $node = new NodeElement('html//h3', $this->driver, $this->selectors);
+        $node = new NodeElement('html//h3', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -215,7 +235,7 @@ class NodeElementTest extends ElementTest
 
     public function testIsVisible()
     {
-        $node = new NodeElement('some_xpath', $this->driver, $this->selectors);
+        $node = new NodeElement('some_xpath', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->exactly(2))
@@ -229,7 +249,7 @@ class NodeElementTest extends ElementTest
 
     public function testIsChecked()
     {
-        $node = new NodeElement('some_xpath', $this->driver, $this->selectors);
+        $node = new NodeElement('some_xpath', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->exactly(2))
@@ -243,7 +263,7 @@ class NodeElementTest extends ElementTest
 
     public function testIsSelected()
     {
-        $node = new NodeElement('some_xpath', $this->driver, $this->selectors);
+        $node = new NodeElement('some_xpath', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->exactly(2))
@@ -257,7 +277,7 @@ class NodeElementTest extends ElementTest
 
     public function testFocus()
     {
-        $node = new NodeElement('some-element', $this->driver, $this->selectors);
+        $node = new NodeElement('some-element', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -269,7 +289,7 @@ class NodeElementTest extends ElementTest
 
     public function testBlur()
     {
-        $node = new NodeElement('some-element', $this->driver, $this->selectors);
+        $node = new NodeElement('some-element', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -281,7 +301,7 @@ class NodeElementTest extends ElementTest
 
     public function testMouseOver()
     {
-        $node = new NodeElement('some-element', $this->driver, $this->selectors);
+        $node = new NodeElement('some-element', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
@@ -293,19 +313,19 @@ class NodeElementTest extends ElementTest
 
     public function dragTo()
     {
-        $node = new NodeElement('some_tag1', $this->driver, $this->selectors);
+        $node = new NodeElement('some_tag1', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
             ->method('triggerEvent')
             ->with('some_tag1', 'some_tag3');
 
-        $node->dragTo(new NodeElement('some_tag2', $this->driver, $this->selectors));
+        $node->dragTo(new NodeElement('some_tag2', $this->driver, $this->selectors, $this->elementFactory));
     }
 
     public function testSubmitForm()
     {
-        $node = new NodeElement('some_xpath', $this->driver, $this->selectors);
+        $node = new NodeElement('some_xpath', $this->driver, $this->selectors, $this->elementFactory);
 
         $this->driver
             ->expects($this->once())
