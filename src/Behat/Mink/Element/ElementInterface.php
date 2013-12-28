@@ -2,8 +2,6 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session;
-
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -25,13 +23,6 @@ interface ElementInterface
      * @return string
      */
     public function getXpath();
-
-    /**
-     * Returns element's session.
-     *
-     * @return Session
-     */
-    public function getSession();
 
     /**
      * Checks whether element with specified selector exists.
