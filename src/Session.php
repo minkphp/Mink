@@ -39,7 +39,7 @@ class Session
     {
         $this->driver = $driver;
         $this->elementFinder = new ElementFinder($driver, $selectorsHandler ?? new SelectorsHandler());
-        $this->page = new DocumentElement($this);
+        $this->page = new DocumentElement($driver, $this->elementFinder);
 
         $driver->setSession($this);
     }

@@ -294,7 +294,7 @@ abstract class CoreDriver implements DriverInterface
         $elements = array();
 
         foreach ($this->findElementXpaths($xpath) as $xpath) {
-            $elements[] = new NodeElement($xpath, $this->session);
+            $elements[] = new NodeElement($xpath, $this, $this->session->getElementFinder());
         }
 
         return $elements;

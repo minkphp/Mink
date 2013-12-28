@@ -20,7 +20,7 @@ class DocumentElementTest extends ElementTestCase
     protected function prepareSession(): void
     {
         parent::prepareSession();
-        $this->document = new DocumentElement($this->session);
+        $this->document = new DocumentElement($this->driver, $this->elementFinder);
     }
 
     public function testFindAll()
