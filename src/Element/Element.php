@@ -11,7 +11,6 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Driver\DriverInterface;
-use Behat\Mink\Session;
 
 /**
  * Base element.
@@ -32,15 +31,10 @@ abstract class Element implements ElementInterface
      */
     private $elementFinder;
 
-    /**
-     * Initialize element.
-     *
-     * @param Session $session
-     */
-    public function __construct(Session $session)
+    public function __construct(DriverInterface $driver, ElementFinder $elementFinder)
     {
-        $this->driver = $session->getDriver();
-        $this->elementFinder = $session->getElementFinder();
+        $this->driver = $driver;
+        $this->elementFinder = $elementFinder;
     }
 
     /**

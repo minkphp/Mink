@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Driver;
 
+use Behat\Mink\Element\ElementFinder;
 use Behat\Mink\Element\NodeElement;
 use PHPUnit\Framework\TestCase;
 
@@ -29,6 +30,8 @@ class CoreDriverTest extends TestCase
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $session->method('getElementFinder')->willReturn($this->createMock(ElementFinder::class));
 
         $driver->setSession($session);
 
