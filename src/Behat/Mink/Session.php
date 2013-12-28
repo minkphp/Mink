@@ -42,7 +42,7 @@ class Session
 
         $this->driver           = $driver;
         $this->selectorsHandler = $selectorsHandler;
-        $this->page             = new DocumentElement($this);
+        $this->page             = new DocumentElement($driver, $selectorsHandler);
         $this->uniqueId         = uniqid('mink_session_');
     }
 
@@ -57,7 +57,7 @@ class Session
         $this->driver->setSession($this);
         $this->selectorsHandler = clone $this->selectorsHandler;
         $this->uniqueId = uniqid('mink_session_');
-        $this->page = new DocumentElement($this);
+        $this->page = new DocumentElement($this->driver, $this->selectorsHandler);
     }
 
     /**
