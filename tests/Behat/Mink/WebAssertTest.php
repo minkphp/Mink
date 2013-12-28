@@ -14,6 +14,10 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
      */
     private $session;
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $driver;
+    /**
      * @var WebAssert
      */
     private $assert;
@@ -23,7 +27,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->driver  = $this->getMock('Behat\Mink\Driver\DriverInterface');
         $this->assert  = new WebAssert($this->session);
+
+        $this->session->expects($this->any())
+            ->method('getDriver')
+            ->will($this->returnValue($this->driver));
     }
 
     public function testAddressEquals()

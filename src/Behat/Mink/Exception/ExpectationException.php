@@ -19,6 +19,8 @@ use Behat\Mink\Session;
  */
 class ExpectationException extends Exception
 {
+    private $session;
+
     /**
      * Initializes exception.
      *
@@ -32,7 +34,19 @@ class ExpectationException extends Exception
             $message = $exception->getMessage();
         }
 
-        parent::__construct($message, $session);
+        $this->session = $session;
+
+        parent::__construct($message, $session->getDriver());
+    }
+
+    /**
+     * Returns exception session.
+     *
+     * @return Session
+     */
+    protected function getSession()
+    {
+        return $this->session;
     }
 
     /**

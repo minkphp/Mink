@@ -10,7 +10,7 @@
 
 namespace Behat\Mink\Exception;
 
-use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
 
 /**
  * Mink "element not found" exception.
@@ -22,12 +22,12 @@ class ElementNotFoundException extends Exception
     /**
      * Initializes exception.
      *
-     * @param Session $session  session instance
-     * @param string  $type     element type
-     * @param string  $selector element selector type
-     * @param string  $locator  element locator
+     * @param DriverInterface $driver   driver instance
+     * @param string          $type     element type
+     * @param string          $selector element selector type
+     * @param string          $locator  element locator
      */
-    public function __construct(Session $session, $type = null, $selector = null, $locator = null)
+    public function __construct(DriverInterface $driver, $type = null, $selector = null, $locator = null)
     {
         $message = '';
 
@@ -48,7 +48,7 @@ class ElementNotFoundException extends Exception
 
         $message .= 'not found.';
 
-        parent::__construct($message, $session);
+        parent::__construct($message, $driver);
     }
 
     /**
@@ -59,7 +59,7 @@ class ElementNotFoundException extends Exception
     public function __toString()
     {
         try {
-            $pageText = $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
+            $pageText = $this->pipeString($this->trimBody($this->getDriver()->getContent()) . "\n");
             $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();

@@ -205,7 +205,7 @@ class NodeElement extends TraversableElement
         $opt = $this->find('named', array('option', $option));
 
         if (null === $opt) {
-            throw new ElementNotFoundException($this->getSession(), 'select option', 'value|text', $option);
+            throw new ElementNotFoundException($this->getDriver(), 'select option', 'value|text', $option);
         }
 
         $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);

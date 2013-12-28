@@ -22,11 +22,6 @@ use Behat\Mink\Session;
 abstract class Element implements ElementInterface
 {
     /**
-     * @var Session
-     */
-    private $session;
-
-    /**
      * Driver.
      *
      * @var DriverInterface
@@ -45,21 +40,9 @@ abstract class Element implements ElementInterface
      */
     public function __construct(Session $session)
     {
-        $this->session = $session;
-
         // TODO: pass these in constructor instead of Session
         $this->driver = $session->getDriver();
         $this->selectorsHandler = $session->getSelectorsHandler();
-    }
-
-    /**
-     * Returns element session.
-     *
-     * @return Session
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 
     /**
