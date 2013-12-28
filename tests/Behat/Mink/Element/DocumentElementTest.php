@@ -21,7 +21,7 @@ class DocumentElementTest extends ElementTest
     protected function setUp()
     {
         parent::setUp();
-        $this->document = new DocumentElement($this->session);
+        $this->document = new DocumentElement($this->driver, $this->selectors);
     }
 
     public function testFindAll()
@@ -29,7 +29,7 @@ class DocumentElementTest extends ElementTest
         $xpath = 'h3[a]';
         $css = 'h3 > a';
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->returnValueMap(array(
@@ -51,7 +51,7 @@ class DocumentElementTest extends ElementTest
 
     public function testFind()
     {
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(3))
             ->method('find')
             ->with('//html/h3[a]')
@@ -122,7 +122,7 @@ class DocumentElementTest extends ElementTest
 
     public function testHasSelector()
     {
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('find')
             ->with('//html/some xpath')
@@ -400,7 +400,7 @@ class DocumentElementTest extends ElementTest
     public function testGetContent()
     {
         $expects = 'page content';
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($expects));
@@ -411,7 +411,7 @@ class DocumentElementTest extends ElementTest
     public function testGetText()
     {
         $expects = 'val1';
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getText')
             ->with('//html')
@@ -423,7 +423,7 @@ class DocumentElementTest extends ElementTest
     public function testGetHtml()
     {
         $expects = 'val1';
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getHtml')
             ->with('//html')

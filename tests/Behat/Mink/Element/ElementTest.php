@@ -2,7 +2,7 @@
 
 namespace Test\Behat\Mink\Element;
 
-use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Selector\SelectorsHandler;
 
 /**
@@ -11,11 +11,9 @@ use Behat\Mink\Selector\SelectorsHandler;
 abstract class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Session.
-     *
-     * @var Session
+     * @var DriverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $session;
+    protected $driver;
 
     /**
      * Selectors.
@@ -26,21 +24,8 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->session  = $this->getSessionWithMockedDriver();
-        $this->selectors = $this->session->getSelectorsHandler();
-    }
-
-    protected function getSessionWithMockedDriver()
-    {
-        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $driver
-            ->expects($this->once())
-            ->method('setSession');
-
-        $selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
-        $session = new Session($driver, $selectors);
-
-        return $session;
+        $this->driver  = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
+        $this->selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
     }
 
     protected function mockNamedFinder($xpath, array $results, $locator, $times = 2)
@@ -61,7 +46,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
 
         $returnValue = call_user_func_array(array($this, 'onConsecutiveCalls'), $processedResults);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly($times))
             ->method('find')
             ->with('//html' . $xpath)
