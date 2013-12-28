@@ -11,7 +11,6 @@
 namespace Behat\Mink\Driver;
 
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Mink\Session;
 
 /**
  * Core driver.
@@ -21,14 +20,6 @@ use Behat\Mink\Session;
  */
 abstract class CoreDriver implements DriverInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function setSession(Session $session)
-    {
-        throw new UnsupportedDriverActionException('Setting the session is not supported by %s', $this);
-    }
-
     /**
      * {@inheritdoc}
      */

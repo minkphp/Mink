@@ -27,15 +27,16 @@ class NodeElement extends TraversableElement
     /**
      * Initializes node element.
      *
-     * @param string           $xpath   element xpath
+     * @param string           $xpath element xpath
      * @param DriverInterface  $driver
      * @param SelectorsHandler $selectorsHandler
+     * @param ElementFactory   $elementFactory
      */
-    public function __construct($xpath, DriverInterface $driver, SelectorsHandler $selectorsHandler)
+    public function __construct($xpath, DriverInterface $driver, SelectorsHandler $selectorsHandler, ElementFactory $elementFactory)
     {
         $this->xpath = $xpath;
 
-        parent::__construct($driver, $selectorsHandler);
+        parent::__construct($driver, $selectorsHandler, $elementFactory);
     }
 
     /**
