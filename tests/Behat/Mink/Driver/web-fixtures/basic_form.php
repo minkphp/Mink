@@ -11,8 +11,8 @@
         <input name="first_name" value="Firstname" type="text" />
         <input id="lastn" name="last_name" value="Lastname" type="text" />
 
-        <input type="reset" value="Reset" />
-        <input type="submit" value="Save" />
+        <input type="reset" id="Reset" />
+        <input type="submit" id="Save" />
     </form>
 </body>
 </html>
