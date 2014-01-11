@@ -17,6 +17,10 @@
         </testsuite>
     </testsuites>
 
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
+
     <filter>
         <whitelist>
             <directory>./src/Behat/Mink/</directory>
