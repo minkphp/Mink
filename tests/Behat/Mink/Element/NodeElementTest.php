@@ -3,7 +3,6 @@
 namespace Test\Behat\Mink\Element;
 
 use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Session;
 
 require_once 'ElementTest.php';
 
@@ -12,17 +11,6 @@ require_once 'ElementTest.php';
  */
 class NodeElementTest extends ElementTest
 {
-    /**
-     * Session.
-     *
-     * @var Session
-     */
-    private $session;
-
-    protected function setUp()
-    {
-        $this->session = $this->getSessionWithMockedDriver();
-    }
 
     public function testGetXpath()
     {
@@ -34,15 +22,16 @@ class NodeElementTest extends ElementTest
 
     public function testGetText()
     {
+        $expected = 'val1';
         $node = new NodeElement('text_tag', $this->session);
 
         $this->session->getDriver()
             ->expects($this->once())
             ->method('getText')
             ->with('text_tag')
-            ->will($this->returnValue('val1'));
+            ->will($this->returnValue($expected));
 
-        $this->assertEquals('val1', $node->getText());
+        $this->assertEquals($expected, $node->getText());
     }
 
     public function testHasAttribute()
@@ -61,15 +50,16 @@ class NodeElementTest extends ElementTest
 
     public function testGetAttribute()
     {
+        $expected = 'http://...';
         $node = new NodeElement('input_tag', $this->session);
 
         $this->session->getDriver()
             ->expects($this->once())
             ->method('getAttribute')
             ->with('input_tag', 'href')
-            ->will($this->returnValue('http://...'));
+            ->will($this->returnValue($expected));
 
-        $this->assertEquals('http://...', $node->getAttribute('href'));
+        $this->assertEquals($expected, $node->getAttribute('href'));
     }
 
     public function testHasClass()
@@ -89,27 +79,29 @@ class NodeElementTest extends ElementTest
 
     public function testGetValue()
     {
+        $expected = 'val1';
         $node = new NodeElement('input_tag', $this->session);
 
         $this->session->getDriver()
             ->expects($this->once())
             ->method('getValue')
             ->with('input_tag')
-            ->will($this->returnValue('val1'));
+            ->will($this->returnValue($expected));
 
-        $this->assertEquals('val1', $node->getValue());
+        $this->assertEquals($expected, $node->getValue());
     }
 
     public function testSetValue()
     {
+        $expected = 'new_val';
         $node = new NodeElement('input_tag', $this->session);
 
         $this->session->getDriver()
             ->expects($this->once())
             ->method('setValue')
-            ->with('input_tag', 'new_val');
+            ->with('input_tag', $expected);
 
-        $node->setValue('new_val');
+        $node->setValue($expected);
     }
 
     public function testClick()
@@ -175,11 +167,36 @@ class NodeElementTest extends ElementTest
     public function testSelectOption()
     {
         $node = new NodeElement('select', $this->session);
+        $option = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $option
+            ->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue('item1'));
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getTagName')
+            ->with('select')
+            ->will($this->returnValue('select'));
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('find')
+            ->with('select/option')
+            ->will($this->returnValue(array($option)));
+
+        $this->selectors
+            ->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('named', array('option', 'item1'))
+            ->will($this->returnValue('option'));
 
         $this->session->getDriver()
             ->expects($this->once())
             ->method('selectOption')
-            ->with('select', 'item1');
+            ->with('select', 'item1', false);
 
         $node->selectOption('item1');
     }
