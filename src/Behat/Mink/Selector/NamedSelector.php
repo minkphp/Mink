@@ -17,47 +17,148 @@ namespace Behat\Mink\Selector;
  */
 class NamedSelector implements SelectorInterface
 {
+    private $replacements = array(
+        // simple replacements
+        '%tagTextMatch%' => 'contains(normalize-space(string(.)), %locator%)',
+        '%labelTextMatch%' => './@id = //label[%tagTextMatch%]/@for',
+        '%idMatch%' => './@id = %locator%',
+        '%valueMatch%' => 'contains(./@value, %locator%)',
+        '%idOrValueMatch%' => '(%idMatch% or %valueMatch%)',
+        '%idOrNameMatch%' => '(%idMatch% or ./@name = %locator%)',
+        '%placeholderMatch%' => './@placeholder = %locator%',
+        '%titleMatch%' => 'contains(./@title, %locator%)',
+        '%altMatch%' => 'contains(./@alt, %locator%)',
+
+        // complex replacements
+        '%fieldMatch%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
+        '%fieldFilter%' => 'self::input | self::textarea | self::select',
+        '%notFieldTypeFilter%' => "not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')",
+        '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
+        '%buttonTypeFilter%' => "./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'",
+        '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or contains(./@rel, %locator%))',
+        '%imgAltMatch%' => './/img[%altMatch%]',
+    );
+
     private $selectors = array(
         'fieldset' => <<<XPATH
-.//fieldset[(./@id = %locator% or .//legend[contains(normalize-space(string(.)), %locator%)])]
+.//fieldset
+[(%idMatch% or .//legend[%tagTextMatch%])]
 XPATH
+
         ,'field' => <<<XPATH
-.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')][(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//*[self::input | self::textarea | self::select][not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')]
+.//*
+[%fieldFilter%][%notFieldTypeFilter%][%fieldMatch%]
+|
+.//label[%tagTextMatch%]//.//*[%fieldFilter%][%notFieldTypeFilter%]
 XPATH
+
         ,'link' => <<<XPATH
-.//a[./@href][(((./@id = %locator% or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%) or contains(./@rel, %locator%)) or .//img[contains(./@alt, %locator%)])] | .//*[./@role = 'link'][((./@id = %locator% or contains(./@value, %locator%)) or contains(./@title, %locator%) or contains(normalize-space(string(.)), %locator%))]
+.//a
+[./@href][(%linkMatch% or %imgAltMatch%)]
+|
+.//*
+[./@role = 'link'][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
+
         ,'button' => <<<XPATH
-.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'][(((./@id = %locator% or ./@name = %locator%) or contains(./@value, %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//button[((((./@id = %locator% or ./@name = %locator%) or contains(./@value, %locator%)) or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//*[./@role = 'button'][(((./@id = %locator% or ./@name = %locator%) or contains(./@value, %locator%)) or contains(./@title, %locator%) or contains(normalize-space(string(.)), %locator%))]
+.//input
+[%buttonTypeFilter%][(%buttonMatch%)]
+|
+.//input
+[./@type = 'image'][%altMatch%]
+|
+.//button
+[(%buttonMatch% or %tagTextMatch%)]
+|
+.//input
+[./@type = 'image'][%altMatch%]
+|
+.//*
+[./@role = 'button'][(%buttonMatch% or %tagTextMatch%)]
 XPATH
+
         ,'link_or_button' => <<<XPATH
-.//a[./@href][(((./@id = %locator% or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%) or contains(./@rel, %locator%)) or .//img[contains(./@alt, %locator%)])] | .//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'][((./@id = %locator% or contains(./@value, %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//button[(((./@id = %locator% or contains(./@value, %locator%)) or contains(normalize-space(string(.)), %locator%)) or contains(./@title, %locator%))] | .//input[./@type = 'image'][contains(./@alt, %locator%)] | .//*[(./@role = 'button' or ./@role = 'link')][((./@id = %locator% or contains(./@value, %locator%)) or contains(./@title, %locator%) or contains(normalize-space(string(.)), %locator%))]
+.//a
+[./@href][(%linkMatch% or %imgAltMatch%)]
+|
+.//input
+[%buttonTypeFilter%][(%idOrValueMatch% or %titleMatch%)]
+|
+.//input
+[./@type = 'image'][%altMatch%]
+|
+.//button
+[(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+|
+.//input
+[./@type = 'image'][%altMatch%]
+|
+.//*
+[(./@role = 'button' or ./@role = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
+
         ,'content' => <<<XPATH
-./descendant-or-self::*[contains(normalize-space(.), %locator%)]
+./descendant-or-self::*
+[%tagTextMatch%]
 XPATH
+
         ,'select' => <<<XPATH
-.//select[(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//select
+.//select
+[%fieldMatch%]
+|
+.//label[%tagTextMatch%]//.//select
 XPATH
+
         ,'checkbox' => <<<XPATH
-.//input[./@type = 'checkbox'][(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//input[./@type = 'checkbox']
+.//input
+[./@type = 'checkbox'][%fieldMatch%]
+|
+.//label[%tagTextMatch%]//.//input[./@type = 'checkbox']
 XPATH
+
         ,'radio' => <<<XPATH
-.//input[./@type = 'radio'][(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//input[./@type = 'radio']
+.//input
+[./@type = 'radio'][%fieldMatch%]
+|
+.//label[%tagTextMatch%]//.//input[./@type = 'radio']
 XPATH
+
         ,'file' => <<<XPATH
-.//input[./@type = 'file'][(((./@id = %locator% or ./@name = %locator%) or ./@id = //label[contains(normalize-space(string(.)), %locator%)]/@for) or ./@placeholder = %locator%)] | .//label[contains(normalize-space(string(.)), %locator%)]//.//input[./@type = 'file']
+.//input
+[./@type = 'file'][%fieldMatch%]
+|
+.//label[%tagTextMatch%]//.//input[./@type = 'file']
 XPATH
+
         ,'optgroup' => <<<XPATH
-.//optgroup[contains(./@label, %locator%)]
+.//optgroup
+[contains(./@label, %locator%)]
 XPATH
+
         ,'option' => <<<XPATH
-.//option[(./@value = %locator% or contains(normalize-space(string(.)), %locator%))]
+.//option
+[(./@value = %locator% or %tagTextMatch%)]
 XPATH
+
         ,'table' => <<<XPATH
-.//table[(./@id = %locator% or contains(.//caption, %locator%))]
+.//table
+[(%idMatch% or contains(.//caption, %locator%))]
 XPATH
     );
+
+    /**
+     * Creates selector instance.
+     */
+    public function __construct()
+    {
+        foreach ($this->replacements as $from => $to) {
+            $this->replacements[$from] = strtr($to, $this->replacements);
+        }
+
+        foreach ($this->selectors as $alias => $selector) {
+            $this->selectors[$alias] = strtr($selector, $this->replacements);
+        }
+    }
 
     /**
      * Registers new XPath selector with specified name.
