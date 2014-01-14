@@ -82,9 +82,7 @@ class NamedSelectorTest extends \PHPUnit_Framework_TestCase
             'link_or_button (with-href)' => array('test.html', 'link_or_button', 'link-text', 5),
             'link_or_button (without-href) ignored' => array('test.html', 'link_or_button', 'bad-link-text', 0),
             'link_or_button* (role=link)' => array('test.html', 'link_or_button', 'link-role-text', 4),
-
-            // bug in selector: 17 instead of 25, because 8 buttons with `name` attribute were not matched
-            'link_or_button (input, name/value/title)' => array('test.html', 'link_or_button', 'button-text', 17),
+            'link_or_button (input, name/value/title)' => array('test.html', 'link_or_button', 'button-text', 25),
             'link_or_button (type=image, with-alt)' => array('test.html', 'link_or_button', 'button-alt-text', 1),
             'link_or_button (input type=submit, with-id)' => array('test.html', 'link_or_button', 'input-submit-button', 1),
             'link_or_button (input type=image, with-id)' => array('test.html', 'link_or_button', 'input-image-button', 1),
@@ -94,9 +92,7 @@ class NamedSelectorTest extends \PHPUnit_Framework_TestCase
             'link_or_button (button type=image, with-id)' => array('test.html', 'link_or_button', 'button-image-button', 1),
             'link_or_button (button type=button, with-id)' => array('test.html', 'link_or_button', 'button-button-button', 1),
             'link_or_button (button type=reset, with-id)' => array('test.html', 'link_or_button', 'button-reset-button', 1),
-
-            // bug in selector: 8 instead of 12, because 4 buttons with `name` attribute were not matched
-            'link_or_button* (role=button, name/value/title)' => array('test.html', 'link_or_button', 'button-role-text', 8),
+            'link_or_button* (role=button, name/value/title)' => array('test.html', 'link_or_button', 'button-role-text', 12),
             'link_or_button* (role=button type=submit, with-id)' => array('test.html', 'link_or_button', 'role-button-submit-button', 1),
             'link_or_button* (role=button type=image, with-id)' => array('test.html', 'link_or_button', 'role-button-image-button', 1),
             'link_or_button* (role=button type=button, with-id)' => array('test.html', 'link_or_button', 'role-button-button-button', 1),
