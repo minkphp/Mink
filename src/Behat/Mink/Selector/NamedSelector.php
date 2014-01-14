@@ -32,7 +32,7 @@ class NamedSelector implements SelectorInterface
         // complex replacements
         '%fieldMatch%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
         '%fieldFilter%' => 'self::input | self::textarea | self::select',
-        '%notFieldTypeFilter%' => "not(./@type = 'submit' or ./@type = 'image' or ./@type = 'hidden')",
+        '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or ./@type = 'hidden')",
         '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
         '%buttonTypeFilter%' => "./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'",
         '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or contains(./@rel, %locator%))',
@@ -70,9 +70,6 @@ XPATH
 .//button
 [(%buttonMatch% or %tagTextMatch%)]
 |
-.//input
-[./@type = 'image'][%altMatch%]
-|
 .//*
 [./@role = 'button'][(%buttonMatch% or %tagTextMatch%)]
 XPATH
@@ -89,9 +86,6 @@ XPATH
 |
 .//button
 [(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
-|
-.//input
-[./@type = 'image'][%altMatch%]
 |
 .//*
 [(./@role = 'button' or ./@role = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
