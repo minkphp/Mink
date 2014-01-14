@@ -91,16 +91,19 @@ XPATH
 [./@href][(%linkMatch% or %imgAltMatch%)]
 |
 .//input
-[%buttonTypeFilter%][(%idOrValueMatch% or %titleMatch%)]
+[%buttonTypeFilter%][(%buttonMatch%)]
 |
 .//input
 [./@type = 'image'][%altMatch%]
 |
 .//button
-[(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[(%buttonMatch% or %tagTextMatch%)]
 |
 .//*
-[(./@role = 'button' or ./@role = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[./@role = 'link'][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+|
+.//*
+[./@role = 'button'][(%buttonMatch% or %tagTextMatch%)]
 XPATH
 
         ,'content' => <<<XPATH
