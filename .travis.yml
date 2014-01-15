@@ -12,4 +12,8 @@ before_script:
   - composer require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION
   - composer install --dev --prefer-source
 
-script: phpunit -v
+script: phpunit -v --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
