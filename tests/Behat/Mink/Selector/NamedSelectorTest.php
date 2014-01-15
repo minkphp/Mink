@@ -62,6 +62,8 @@ class NamedSelectorTest extends \PHPUnit_Framework_TestCase
             'field (select, with-id)' => array('test.html', 'field', 'the-field-select', 1),
             'field (input type=submit, with-id) ignored' => array('test.html', 'field', 'the-field-submit-button', 0),
             'field (input type=image, with-id) ignored' => array('test.html', 'field', 'the-field-image-button', 0),
+            'field (input type=button, with-id) ignored' => array('test.html', 'field', 'the-field-button-button', 0),
+            'field (input type=reset, with-id) ignored' => array('test.html', 'field', 'the-field-reset-button', 0),
             'field (input type=hidden, with-id) ignored' => array('test.html', 'field', 'the-field-hidden', 0),
 
             'link (with-href)' => array('test.html', 'link', 'link-text', 5),

@@ -77,26 +77,36 @@
             <!-- don't match fields by `id` attribute -->
             <input type="submit" id="the-field-submit-button"/>
             <input type="image" id="the-field-image-button"/>
+            <input type="button" id="the-field-button-button"/>
+            <input type="reset" id="the-field-reset-button"/>
             <input type="hidden" id="the-field-hidden"/>
 
             <!-- don't match fields by `name` attribute -->
             <input type="submit" name="the-field"/>
             <input type="image" name="the-field"/>
+            <input type="button" name="the-field"/>
+            <input type="reset" name="the-field"/>
             <input type="hidden" name="the-field"/>
 
             <!-- don't match fields by `placeholder` attribute -->
             <input type="submit" placeholder="the-field"/>
             <input type="image" placeholder="the-field"/>
+            <input type="button" placeholder="the-field"/>
+            <input type="reset" placeholder="the-field"/>
             <input type="hidden" placeholder="the-field"/>
 
             <!-- don't match fields by associated label -->
             <label for="label-for-the-field-submit-button">the-field</label><input type="submit" id="label-for-the-field-submit-button"/>
             <label for="label-for-the-field-image-button">the-field</label><input type="image" id="label-for-the-field-image-button"/>
+            <label for="label-for-the-field-button-button">the-field</label><input type="button" id="label-for-the-field-button-button"/>
+            <label for="label-for-the-field-reset-button">the-field</label><input type="reset" id="label-for-the-field-reset-button"/>
             <label for="label-for-the-field-hidden">the-field</label><input type="hidden" id="label-for-the-field-hidden"/>
 
             <!-- don't match fields, surrounded by matching label -->
             <label>the-field<input type="submit"/></label>
             <label>the-field<input type="image"/></label>
+            <label>the-field<input type="button"/></label>
+            <label>the-field<input type="reset"/></label>
             <label>the-field<input type="hidden"/></label>
         </div>
 
