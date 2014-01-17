@@ -319,8 +319,31 @@ class NodeElementTest extends ElementTest
     public function testFindAllUnion()
     {
         $node = new NodeElement('some_xpath', $this->session);
-        $xpath = 'some_tag1 | some_tag2[@foo = "bar|"] | some_tag3[foo | bar]';
-        $expectedPrefixed = 'some_xpath/some_tag1 | some_xpath/some_tag2[@foo = "bar|"] | some_xpath/some_tag3[foo | bar]';
+        $xpath = "some_tag1 | some_tag2[@foo =\n 'bar|'']\n | some_tag3[foo | bar]";
+        $expectedPrefixed = "some_xpath/some_tag1 | some_xpath/some_tag2[@foo =\n 'bar|''] | some_xpath/some_tag3[foo | bar]";
+
+        $this->session->getDriver()
+            ->expects($this->exactly(1))
+            ->method('find')
+            ->will($this->returnValueMap(array(
+                array($expectedPrefixed, array(2, 3, 4)),
+            )));
+
+        $this->selectors
+            ->expects($this->exactly(1))
+            ->method('selectorToXpath')
+            ->will($this->returnValueMap(array(
+                array('xpath', $xpath, $xpath),
+            )));
+
+        $this->assertEquals(3, count($node->findAll('xpath', $xpath)));
+    }
+
+    public function testFindAllParentUnion()
+    {
+        $node = new NodeElement('some_xpath | another_xpath', $this->session);
+        $xpath = "some_tag1 | some_tag2";
+        $expectedPrefixed = "(some_xpath | another_xpath)/some_tag1 | (some_xpath | another_xpath)/some_tag2";
 
         $this->session->getDriver()
             ->expects($this->exactly(1))

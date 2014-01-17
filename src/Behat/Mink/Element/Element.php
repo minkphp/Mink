@@ -83,9 +83,16 @@ abstract class Element implements ElementInterface
         $currentXpath = $this->getXpath();
         $expressions = array();
 
-        // Split on union operator to ensure we prefix all expressions.
-        // Make sure we ignore operators in brackets.
-        foreach (preg_split('/\|(?![^\[]*\])/', $xpath) as $expression) {
+        // Regex to find union operators not inside brackets.
+        $pattern = '/\|(?![^\[]*\])/';
+
+        // If the parent current xpath contains a union we need to wrap it in parentheses.
+        if (preg_match($pattern, $currentXpath)) {
+            $currentXpath = '(' . $currentXpath . ')';
+        }
+
+        // Split any unions into individual expressions.
+        foreach (preg_split($pattern, $xpath) as $expression) {
             $expression = trim($expression);
             // add parent xpath before element selector
             if (0 === strpos($expression, '/')) {
