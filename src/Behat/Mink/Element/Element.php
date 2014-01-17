@@ -80,13 +80,23 @@ abstract class Element implements ElementInterface
     public function findAll($selector, $locator)
     {
         $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $currentXpath = $this->getXpath();
+        $expressions = array();
 
-        // add parent xpath before element selector
-        if (0 === strpos($xpath, '/')) {
-            $xpath = $this->getXpath().$xpath;
-        } else {
-            $xpath = $this->getXpath().'/'.$xpath;
+        // Split on union operator to ensure we prefix all expressions.
+        // Make sure we ignore operators in brackets.
+        foreach (preg_split('/\|(?![^\[]*\])/', $xpath) as $expression) {
+            $expression = trim($expression);
+            // add parent xpath before element selector
+            if (0 === strpos($expression, '/')) {
+                $expression = $currentXpath.$expression;
+            } else {
+                $expression = $currentXpath.'/'.$expression;
+            }
+            $expressions[] = $expression;
         }
+
+        $xpath = implode(' | ', $expressions);
 
         return $this->getSession()->getDriver()->find($xpath);
     }
