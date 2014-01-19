@@ -493,6 +493,37 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @dataProvider formSubmitWaysDataProvider
+     */
+    public function testFormSubmitWays($submitVia)
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/basic_form.php'));
+        $page = $session->getPage();
+
+        $firstname = $page->findField('first_name');
+        $firstname->setValue('Konstantin');
+
+        $page->findButton($submitVia)->click();
+
+        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        } else {
+            $this->fail('Form was never submitted');
+        }
+    }
+
+    public function formSubmitWaysDataProvider()
+    {
+        return array(
+            array('Save'),
+            array('input-type-image'),
+            array('button-without-type'),
+            array('button-type-submit'),
+        );
+    }
+
     public function testFormSubmit()
     {
         $session = $this->getSession();

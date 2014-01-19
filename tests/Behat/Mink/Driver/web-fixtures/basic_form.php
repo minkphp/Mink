@@ -12,7 +12,11 @@
         <input id="lastn" name="last_name" value="Lastname" type="text" />
 
         <input type="reset" id="Reset" />
+
         <input type="submit" id="Save" />
+        <input type="image" id="input-type-image"/>
+        <button>button-without-type</button>
+        <button type="submit">button-type-submit</button>
     </form>
 </body>
 </html>
