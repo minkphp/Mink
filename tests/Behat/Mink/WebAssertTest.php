@@ -142,6 +142,23 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testStatusCodeNotEquals()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getStatusCode')
+            ->will($this->returnValue(404))
+        ;
+
+        $this->assertCorrectAssertion('statusCodeNotEquals', array(200));
+        $this->assertWrongAssertion(
+            'statusCodeNotEquals',
+            array(404),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current response status code is 404, but should not be.'
+        );
+    }
+
     public function testPageTextContains()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
@@ -432,6 +449,33 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testElementExistsWithArrayLocator()
+    {
+        $container = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session->expects($this->never())
+            ->method('getPage')
+        ;
+
+        $container
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->with('named', array('element', 'Test'))
+            ->will($this->onConsecutiveCalls(1, null))
+        ;
+
+        $this->assertCorrectAssertion('elementExists', array('named', array('element', 'Test'), $container));
+        $this->assertWrongAssertion(
+            'elementExists',
+            array('named', array('element', 'Test'), $container),
+            'Behat\\Mink\\Exception\\ElementNotFoundException',
+            'Element with named "element Test" not found.'
+        );
+    }
+
     public function testElementNotExists()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
@@ -466,6 +510,45 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             array('css', 'h2 > span', $page),
             'Behat\\Mink\\Exception\\ExpectationException',
             'An element matching css "h2 > span" appears on this page, but it should not.'
+        );
+    }
+
+    /**
+     * @dataProvider getArrayLocatorFormats
+     */
+    public function testElementNotExistsArrayLocator($selector, $locator, $expectedMessage)
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->once())
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->once())
+            ->method('find')
+            ->with($selector, $locator)
+            ->will($this->returnValue(1))
+        ;
+
+        $this->assertWrongAssertion(
+            'elementNotExists',
+            array($selector, $locator),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            $expectedMessage
+        );
+    }
+
+    public function getArrayLocatorFormats()
+    {
+        return array(
+            'named' => array('named', array('button', 'Test'), 'An button matching locator "Test" appears on this page, but it should not.'),
+            'custom' => array('custom', array('test', 'foo'), 'An element matching custom "test foo" appears on this page, but it should not.'),
         );
     }
 

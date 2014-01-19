@@ -22,6 +22,23 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($selector, $handler->getSelector('custom'));
     }
 
+    public function testRegisterSelectorThroughConstructor()
+    {
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
+        $handler = new SelectorsHandler(array('custom' => $selector));
+
+        $this->assertTrue($handler->isSelectorRegistered('custom'));
+        $this->assertSame($selector, $handler->getSelector('custom'));
+    }
+
+    public function testRegisterDefaultSelectors()
+    {
+        $handler = new SelectorsHandler();
+
+        $this->assertTrue($handler->isSelectorRegistered('css'));
+        $this->assertTrue($handler->isSelectorRegistered('named'));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      */

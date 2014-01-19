@@ -77,6 +77,19 @@ class NodeElementTest extends ElementTest
         $this->assertFalse($node->hasClass('class3'));
     }
 
+    public function testHasClassWithoutArgument()
+    {
+        $node = new NodeElement('input_tag', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getAttribute')
+            ->with('input_tag', 'class')
+            ->will($this->returnValue(null));
+
+        $this->assertFalse($node->hasClass('class3'));
+    }
+
     public function testGetValue()
     {
         $expected = 'val1';
@@ -299,6 +312,34 @@ class NodeElementTest extends ElementTest
             ->expects($this->once())
             ->method('selectOption')
             ->with('select', 'item1', false);
+
+        $node->selectOption('item1');
+    }
+
+    /**
+     * @expectedException \Behat\Mink\Exception\ElementNotFoundException
+     */
+    public function testSelectOptionNotFound()
+    {
+        $node = new NodeElement('select', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getTagName')
+            ->with('select')
+            ->will($this->returnValue('select'));
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('find')
+            ->with('select/option')
+            ->will($this->returnValue(array()));
+
+        $this->selectors
+            ->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('named', array('option', 'item1'))
+            ->will($this->returnValue('option'));
 
         $node->selectOption('item1');
     }

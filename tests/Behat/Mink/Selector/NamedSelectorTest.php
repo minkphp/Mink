@@ -23,6 +23,16 @@ class NamedSelectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testInvalidLocator()
+    {
+        $namedSelector = new NamedSelector();
+
+        $namedSelector->translateToXPath(array('foo', 'bar', 'baz'));
+    }
+
+    /**
      * @dataProvider getSelectorTests
      */
     public function testSelectors($fixtureFile, $selector, $locator, $expectedCount)

@@ -34,6 +34,13 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->mink->hasSession('js'));
     }
 
+    public function testRegisterSessionThroughConstructor()
+    {
+        $mink = new Mink(array('my' => $this->getSessionMock()));
+
+        $this->assertTrue($mink->hasSession('my'));
+    }
+
     public function testSessionAutostop()
     {
         $session1 = $this->getSessionMock();
