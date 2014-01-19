@@ -173,6 +173,66 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->mink->getSession('not_registered');
     }
 
+    public function testAssertSession()
+    {
+        $session = $this->getSessionMock();
+
+        $this->mink->registerSession('my', $session);
+
+        $this->assertInstanceOf('Behat\Mink\WebAssert', $this->mink->assertSession('my'));
+    }
+
+    public function testAssertSessionNotRegistered()
+    {
+        $session = $this->getSessionMock();
+
+        $this->assertInstanceOf('Behat\Mink\WebAssert', $this->mink->assertSession($session));
+    }
+
+    public function testResetSessions()
+    {
+        $session1 = $this->getSessionMock();
+        $session1->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(false));
+        $session1->expects($this->never())
+            ->method('reset');
+
+        $session2 = $this->getSessionMock();
+        $session2->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(true));
+        $session2->expects($this->once())
+            ->method('reset');
+
+        $this->mink->registerSession('not started', $session1);
+        $this->mink->registerSession('started', $session2);
+
+        $this->mink->resetSessions();
+    }
+
+    public function testRestartSessions()
+    {
+        $session1 = $this->getSessionMock();
+        $session1->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(false));
+        $session1->expects($this->never())
+            ->method('restart');
+
+        $session2 = $this->getSessionMock();
+        $session2->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(true));
+        $session2->expects($this->once())
+            ->method('restart');
+
+        $this->mink->registerSession('not started', $session1);
+        $this->mink->registerSession('started', $session2);
+
+        $this->mink->restartSessions();
+    }
+
     private function getSessionMock()
     {
         return $this->getMockBuilder('Behat\Mink\Session')
