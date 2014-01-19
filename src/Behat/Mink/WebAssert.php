@@ -318,11 +318,12 @@ class WebAssert
         $nodes = $container->findAll($selectorType, $selector);
 
         if (intval($count) !== count($nodes)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('%d elements matching %s "%s" found on the page, but should be %d.', count($nodes), $selectorType, $selector, $count);
+            $message = sprintf(
+                '%d %s found on the page, but should be %d.',
+                count($nodes),
+                $this->getMatchingElementRepresentation($selectorType, $selector, count($nodes) !== 1),
+                $count
+            );
             throw new ExpectationException($message, $this->session);
         }
     }
@@ -369,11 +370,10 @@ class WebAssert
         $node = $container->find($selectorType, $selector);
 
         if (null !== $node) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('An element matching %s "%s" appears on this page, but it should not.', $selectorType, $selector);
+            $message = sprintf(
+                'An %s appears on this page, but it should not.',
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ExpectationException($message, $this->session);
         }
     }
@@ -394,11 +394,11 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The text "%s" was not found in the text of the element matching %s "%s".', $text, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was not found in the text of the %s.',
+                $text,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementTextException($message, $this->session, $element);
         }
     }
@@ -419,11 +419,11 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The text "%s" appears in the text of the element matching %s "%s", but it should not.', $text, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" appears in the text of the %s, but it should not.',
+                $text,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementTextException($message, $this->session, $element);
         }
     }
@@ -444,11 +444,11 @@ class WebAssert
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The string "%s" was not found in the HTML of the element matching %s "%s".', $html, $selectorType, $selector);
+            $message = sprintf(
+                'The string "%s" was not found in the HTML of the %s.',
+                $html,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementHtmlException($message, $this->session, $element);
         }
     }
@@ -469,11 +469,11 @@ class WebAssert
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The string "%s" appears in the HTML of the element matching %s "%s", but it should not.', $html, $selectorType, $selector);
+            $message = sprintf(
+                'The string "%s" appears in the HTML of the %s, but it should not.',
+                $html,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementHtmlException($message, $this->session, $element);
         }
     }
@@ -494,11 +494,11 @@ class WebAssert
         $element = $this->elementExists($selectorType, $selector);
 
         if (!$element->hasAttribute($attribute)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The attribute "%s" was not found in the element matching %s "%s".', $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The attribute "%s" was not found in the %s.',
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeNotFoundException($message, $this->session, $element);
         }
 
@@ -522,11 +522,12 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The text "%s" was not found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was not found in the attribute "%s" of the %s.',
+                $text,
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeException($message, $this->session, $element);
         }
     }
@@ -548,11 +549,12 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            if (is_array($selector)) {
-                $selector = implode(' ', $selector);
-            }
-
-            $message = sprintf('The text "%s" was found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was found in the attribute "%s" of the %s.',
+                $text,
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeException($message, $this->session, $element);
         }
     }
@@ -699,5 +701,27 @@ class WebAssert
         $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
 
         return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
+    }
+
+    /**
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param boolean      $plural
+     *
+     * @return string
+     */
+    private function getMatchingElementRepresentation($selectorType, $selector, $plural = false)
+    {
+        $pluralization = $plural ? 's' : '';
+
+        if ('named' === $selectorType && is_array($selector) && 2 === count($selector)) {
+            return sprintf('%s%s matching locator "%s"', $selector[0], $pluralization, $selector[1]);
+        }
+
+        if (is_array($selector)) {
+            $selector = implode(' ', $selector);
+        }
+
+        return sprintf('element%s matching %s "%s"', $pluralization, $selectorType, $selector);
     }
 }
