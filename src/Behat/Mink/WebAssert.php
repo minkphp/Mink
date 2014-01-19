@@ -2,8 +2,9 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\Element;
+use Behat\Mink\Element\ElementInterface;
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\TraversableElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Exception\ResponseTextException;
@@ -304,14 +305,14 @@ class WebAssert
     /**
      * Checks that there is specified number of specific elements on the page.
      *
-     * @param string       $selectorType element selector type (css, xpath)
-     * @param string|array $selector     element selector
-     * @param integer      $count        expected count
-     * @param Element      $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param integer          $count        expected count
+     * @param ElementInterface $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementsCount($selectorType, $selector, $count, Element $container = null)
+    public function elementsCount($selectorType, $selector, $count, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $nodes = $container->findAll($selectorType, $selector);
@@ -329,15 +330,15 @@ class WebAssert
     /**
      * Checks that specific element exists on the current page.
      *
-     * @param string       $selectorType element selector type (css, xpath)
-     * @param string|array $selector     element selector
-     * @param Element      $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param ElementInterface $container    document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function elementExists($selectorType, $selector, Element $container = null)
+    public function elementExists($selectorType, $selector, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
@@ -356,13 +357,13 @@ class WebAssert
     /**
      * Checks that specific element does not exists on the current page.
      *
-     * @param string       $selectorType element selector type (css, xpath)
-     * @param string|array $selector     element selector
-     * @param Element      $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param ElementInterface $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementNotExists($selectorType, $selector, Element $container = null)
+    public function elementNotExists($selectorType, $selector, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
@@ -559,14 +560,14 @@ class WebAssert
     /**
      * Checks that specific field exists on the current page.
      *
-     * @param string  $field     field id|name|label|value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function fieldExists($field, Element $container = null)
+    public function fieldExists($field, TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -581,12 +582,12 @@ class WebAssert
     /**
      * Checks that specific field does not exists on the current page.
      *
-     * @param string  $field     field id|name|label|value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldNotExists($field, Element $container = null)
+    public function fieldNotExists($field, TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -600,13 +601,13 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string  $field     field id|name|label|value
-     * @param string  $value     field value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param string             $value     field value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldValueEquals($field, $value, Element $container = null)
+    public function fieldValueEquals($field, $value, TraversableElement $container = null)
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
@@ -621,13 +622,13 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string  $field     field id|name|label|value
-     * @param string  $value     field value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param string             $value     field value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldValueNotEquals($field, $value, Element $container = null)
+    public function fieldValueNotEquals($field, $value, TraversableElement $container = null)
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
@@ -642,12 +643,12 @@ class WebAssert
     /**
      * Checks that specific checkbox is checked.
      *
-     * @param string  $field     field id|name|label|value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function checkboxChecked($field, Element $container = null)
+    public function checkboxChecked($field, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
@@ -660,12 +661,12 @@ class WebAssert
     /**
      * Checks that specific checkbox is unchecked.
      *
-     * @param string  $field     field id|name|label|value
-     * @param Element $container document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function checkboxNotChecked($field, Element $container = null)
+    public function checkboxNotChecked($field, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
