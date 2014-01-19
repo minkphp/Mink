@@ -348,6 +348,6 @@ class Session
      */
     public function resizeWindow($width, $height, $name = null)
     {
-        return $this->driver->resizeWindow($width, $height, $name);
+        $this->driver->resizeWindow($width, $height, $name);
     }
 }

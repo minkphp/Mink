@@ -22,6 +22,21 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($selector, $handler->getSelector('custom'));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testXpathSelectorThrowsExceptionForArrayLocator()
+    {
+        $handler = new SelectorsHandler();
+        $handler->selectorToXpath('xpath', array('some_xpath'));
+    }
+
+    public function testXpathSelectorIsReturnedAsIs()
+    {
+        $handler = new SelectorsHandler();
+        $this->assertEquals('some_xpath', $handler->selectorToXpath('xpath', 'some_xpath'));
+    }
+
     public function testSelectorToXpath()
     {
         $selector   = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();

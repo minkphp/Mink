@@ -104,6 +104,21 @@ class NodeElementTest extends ElementTest
         $node->setValue($expected);
     }
 
+    public function testSetValueWrapsException()
+    {
+        $node = new NodeElement('link_or_button', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('setValue')
+            ->with('link_or_button', 'new_val')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by link_or_button\nAn error happened in the driver");
+        $node->setValue('new_val');
+    }
+
     public function testClick()
     {
         $node = new NodeElement('link_or_button', $this->session);
@@ -116,6 +131,33 @@ class NodeElementTest extends ElementTest
         $node->click();
     }
 
+    public function testClickWrapsException()
+    {
+        $node = new NodeElement('link_or_button', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('click')
+            ->with('link_or_button')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by link_or_button\nAn error happened in the driver");
+        $node->click();
+    }
+
+    public function testPress()
+    {
+        $node = new NodeElement('link_or_button', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('click')
+            ->with('link_or_button');
+
+        $node->press();
+    }
+
     public function testRightClick()
     {
         $node = new NodeElement('elem', $this->session);
@@ -125,6 +167,21 @@ class NodeElementTest extends ElementTest
             ->method('rightClick')
             ->with('elem');
 
+        $node->rightClick();
+    }
+
+    public function testRightClickWrapsException()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('rightClick')
+            ->with('elem')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
         $node->rightClick();
     }
 
@@ -140,6 +197,21 @@ class NodeElementTest extends ElementTest
         $node->doubleClick();
     }
 
+    public function testDoubleClickWrapsException()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('doubleClick')
+            ->with('elem')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
+        $node->doubleClick();
+    }
+
     public function testCheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
@@ -152,6 +224,21 @@ class NodeElementTest extends ElementTest
         $node->check();
     }
 
+    public function testCheckWrapsException()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('check')
+            ->with('elem')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
+        $node->check();
+    }
+
     public function testUncheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
@@ -161,6 +248,21 @@ class NodeElementTest extends ElementTest
             ->method('uncheck')
             ->with('checkbox_or_radio');
 
+        $node->uncheck();
+    }
+
+    public function testUncheckWrapsException()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('uncheck')
+            ->with('elem')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
         $node->uncheck();
     }
 
@@ -201,6 +303,24 @@ class NodeElementTest extends ElementTest
         $node->selectOption('item1');
     }
 
+    public function testSelectOptionOtherTag()
+    {
+        $node = new NodeElement('div', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getTagName')
+            ->with('div')
+            ->will($this->returnValue('div'));
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('selectOption')
+            ->with('div', 'item1', false);
+
+        $node->selectOption('item1');
+    }
+
     public function testGetTagName()
     {
         $node = new NodeElement('html//h3', $this->session);
@@ -212,6 +332,55 @@ class NodeElementTest extends ElementTest
             ->will($this->returnValue('h3'));
 
         $this->assertEquals('h3', $node->getTagName());
+    }
+
+    public function testGetParent()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $parent = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('find')
+            ->with('elem/..')
+            ->will($this->returnValue(array($parent)));
+
+        $this->selectors
+            ->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('xpath', '..')
+            ->will($this->returnValue('..'));
+
+        $this->assertSame($parent, $node->getParent());
+    }
+
+    public function testAttachFile()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('attachFile')
+            ->with('elem', 'path');
+
+        $node->attachFile('path');
+    }
+
+    public function testAttachFileWrapsException()
+    {
+        $node = new NodeElement('elem', $this->session);
+        $exception = new \Exception('An error happened in the driver');
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('attachFile')
+            ->with('elem', 'path')
+            ->will($this->throwException($exception));
+
+        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
+        $node->attachFile('path');
     }
 
     public function testIsVisible()
@@ -292,16 +461,57 @@ class NodeElementTest extends ElementTest
         $node->mouseOver();
     }
 
-    public function dragTo()
+    public function testDragTo()
     {
         $node = new NodeElement('some_tag1', $this->session);
 
+        $target = $this->getMock('Behat\Mink\Element\ElementInterface');
+        $target->expects($this->any())
+            ->method('getXPath')
+            ->will($this->returnValue('some_tag2'));
+
         $this->session->getDriver()
             ->expects($this->once())
-            ->method('triggerEvent')
-            ->with('some_tag1', 'some_tag3');
+            ->method('dragTo')
+            ->with('some_tag1', 'some_tag2');
 
-        $node->dragTo(new NodeElement('some_tag2', $this->session));
+        $node->dragTo($target);
+    }
+
+    public function testKeyPress()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('keyPress')
+            ->with('elem', 'key');
+
+        $node->keyPress('key');
+    }
+
+    public function testKeyDown()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('keyDown')
+            ->with('elem', 'key');
+
+        $node->keyDown('key');
+    }
+
+    public function testKeyUp()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('keyUp')
+            ->with('elem', 'key');
+
+        $node->keyUp('key');
     }
 
     public function testSubmitForm()
