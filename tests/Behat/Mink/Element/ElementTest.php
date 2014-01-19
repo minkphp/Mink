@@ -54,7 +54,17 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
             $results = array($results, array());
         }
 
-        $returnValue = call_user_func_array(array($this, 'onConsecutiveCalls'), $results);
+        // In case of empty results, a second call will be done using the partial selector
+        $processedResults = array();
+        foreach ($results as $result) {
+            $processedResults[] = $result;
+            if (empty($result)) {
+                $processedResults[] = $result;
+                $times++;
+            }
+        }
+
+        $returnValue = call_user_func_array(array($this, 'onConsecutiveCalls'), $processedResults);
 
         $this->session->getDriver()
             ->expects($this->exactly($times))
@@ -65,7 +75,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
         $this->selectors
             ->expects($this->exactly($times))
             ->method('selectorToXpath')
-            ->with('named', $locator)
+            ->with($this->logicalOr('exact', 'partial'), $locator)
             ->will($this->returnValue($xpath));
     }
 }
