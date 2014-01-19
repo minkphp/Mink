@@ -7,14 +7,7 @@ matrix:
     - php: hhvm
   fast_finish: true
 
-env:
-  - CSS_SELECTOR_VERSION='2.0.*'
-  - CSS_SELECTOR_VERSION='2.1.*'
-  - CSS_SELECTOR_VERSION='2.2.*'
-  - CSS_SELECTOR_VERSION='2.3.*@dev'
-
 before_script:
-  - composer require --no-update symfony/css-selector=$CSS_SELECTOR_VERSION
   - composer install --dev --prefer-source
 
 script: phpunit -v --coverage-clover=coverage.clover
