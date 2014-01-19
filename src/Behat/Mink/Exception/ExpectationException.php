@@ -26,9 +26,13 @@ class ExpectationException extends Exception
      * @param Session    $session   session instance
      * @param \Exception $exception expectation exception
      */
-    public function __construct($message = null, Session $session, \Exception $exception = null)
+    public function __construct($message, Session $session, \Exception $exception = null)
     {
-        parent::__construct($message ?: $exception->getMessage(), $session);
+        if (!$message && null !== $exception) {
+            $message = $exception->getMessage();
+        }
+
+        parent::__construct($message, $session);
     }
 
     /**
