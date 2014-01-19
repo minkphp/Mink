@@ -11,7 +11,6 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Driver\DriverInterface;
-use Behat\Mink\Selector\SelectorsHandler;
 
 /**
  * Base element.
@@ -28,27 +27,20 @@ abstract class Element implements ElementInterface
     private $driver;
 
     /**
-     * @var SelectorsHandler
+     * @var ElementFinder
      */
-    private $selectorsHandler;
-
-    /**
-     * @var ElementFactory
-     */
-    private $elementFactory;
+    private $elementFinder;
 
     /**
      * Initialize element.
      *
      * @param DriverInterface  $driver
-     * @param SelectorsHandler $selectorsHandler
-     * @param ElementFactory   $elementFactory
+     * @param ElementFinder    $elementFinder
      */
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, ElementFactory $elementFactory)
+    public function __construct(DriverInterface $driver, ElementFinder $elementFinder)
     {
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler;
-        $this->elementFactory = $elementFactory;
+        $this->elementFinder = $elementFinder;
     }
 
     /**
@@ -151,48 +143,7 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        if ('named' === $selector) {
-            $items = $this->findAll('named_exact', $locator);
-            if (empty($items)) {
-                $items = $this->findAll('named_partial', $locator);
-            }
-
-            return $items;
-        }
-
-        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
-        $currentXpath = $this->getXpath();
-        $expressions = array();
-
-        // Regex to find union operators not inside brackets.
-        $pattern = '/\|(?![^\[]*\])/';
-
-        // If the parent current xpath contains a union we need to wrap it in parentheses.
-        if (preg_match($pattern, $currentXpath)) {
-            $currentXpath = '(' . $currentXpath . ')';
-        }
-
-        // Split any unions into individual expressions.
-        foreach (preg_split($pattern, $xpath) as $expression) {
-            $expression = trim($expression);
-            // add parent xpath before element selector
-            if (0 === strpos($expression, '/')) {
-                $expression = $currentXpath.$expression;
-            } else {
-                $expression = $currentXpath.'/'.$expression;
-            }
-            $expressions[] = $expression;
-        }
-
-        $xpath = implode(' | ', $expressions);
-
-        $elements = array();
-
-        foreach ($this->getDriver()->find($xpath) as $elementXpath) {
-            $elements[] = $this->elementFactory->createNodeElement($elementXpath, $this->driver, $this->selectorsHandler);
-        }
-
-        return $elements;
+        return $this->elementFinder->findAll($selector, $locator, $this->getXpath());
     }
 
     /**

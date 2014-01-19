@@ -12,11 +12,6 @@ require_once 'ElementTest.php';
 class DocumentElementTest extends ElementTest
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $elementFactory;
-
-    /**
      * Page.
      *
      * @var DocumentElement
@@ -26,54 +21,32 @@ class DocumentElementTest extends ElementTest
     protected function setUp()
     {
         parent::setUp();
-        $this->elementFactory = $this->getMockBuilder('Behat\Mink\Element\ElementFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->document = new DocumentElement($this->driver, $this->selectors, $this->elementFactory);
+        $this->document = new DocumentElement($this->driver, $this->elementFinder);
     }
 
     public function testFindAll()
     {
         $xpath = 'h3[a]';
         $css = 'h3 > a';
-        $otherCss = 'p';
 
-        $this->driver
-            ->expects($this->exactly(3))
-            ->method('find')
-            ->will($this->returnValueMap(array(
-                array('//html/' . $xpath, array(2, 3, 4)),
-                array('//html/' . $css, array(1, 2)),
-                array('//html/' . $otherCss, array()),
-            )));
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(5))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
 
-        $this->selectors
-            ->expects($this->exactly(3))
-            ->method('selectorToXpath')
+        $this->elementFinder
+            ->expects($this->exactly(2))
+            ->method('findAll')
             ->will($this->returnValueMap(array(
-                array('xpath', $xpath, $xpath),
-                array('css', $css, $css),
-                array('css', $otherCss, $otherCss),
+                array('xpath', $xpath, '//html', array($node, $node)),
+                array('css', $css, '//html', array()),
             )));
 
-        $this->assertEquals(3, count($this->document->findAll('xpath', $xpath)));
-        $this->assertEquals(2, count($this->document->findAll('css', $css)));
-        $this->assertCount(0, $this->document->findAll('css', $otherCss));
+        $this->assertEquals(array($node, $node), $this->document->findAll('xpath', $xpath));
+        $this->assertCount(0, $this->document->findAll('css', $css));
     }
 
     public function testFind()
     {
-        $this->driver
-            ->expects($this->exactly(3))
-            ->method('find')
-            ->with('//html/h3[a]')
-            ->will($this->onConsecutiveCalls(array(2, 3, 4), array(1, 2), array()));
         $node1 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
@@ -86,21 +59,18 @@ class DocumentElementTest extends ElementTest
         $node4 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(5))
-            ->method('createNodeElement')
-            ->will($this->onConsecutiveCalls($node2, $node3, $node4, $node1, $node2));
 
         $xpath = 'h3[a]';
         $css = 'h3 > a';
 
-        $this->selectors
+        $this->elementFinder
             ->expects($this->exactly(3))
-            ->method('selectorToXpath')
-            ->will($this->returnValueMap(array(
-                array('xpath', $xpath, $xpath),
-                array('xpath', $xpath, $xpath),
-                array('css', $css, $xpath),
-            )));
+            ->method('findAll')
+            ->will($this->onConsecutiveCalls(
+                array($node2, $node3, $node4),
+                array($node1, $node2),
+                array()
+            ));
 
         $this->assertSame($node2, $this->document->find('xpath', $xpath));
         $this->assertSame($node1, $this->document->find('css', $css));
@@ -109,12 +79,6 @@ class DocumentElementTest extends ElementTest
 
     public function testFindField()
     {
-        $this->mockNamedFinder(
-            '//field',
-            array('field1', 'field2', 'field3'),
-            array('field', 'some field')
-        );
-
         $node1 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
@@ -124,9 +88,11 @@ class DocumentElementTest extends ElementTest
         $node3 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->onConsecutiveCalls($node1, $node2, $node3));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node1, $node2, $node3), array()));
 
         $this->assertSame($node1, $this->document->findField('some field'));
         $this->assertNull($this->document->findField('some field'));
@@ -134,12 +100,6 @@ class DocumentElementTest extends ElementTest
 
     public function testFindLink()
     {
-        $this->mockNamedFinder(
-            '//link',
-            array('link1', 'link2', 'link3'),
-            array('link', 'some link')
-        );
-
         $node1 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
@@ -149,9 +109,11 @@ class DocumentElementTest extends ElementTest
         $node3 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->onConsecutiveCalls($node1, $node2, $node3));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('link', 'some link'), '//html')
+            ->will($this->onConsecutiveCalls(array($node1, $node2, $node3), array()));
 
         $this->assertSame($node1, $this->document->findLink('some link'));
         $this->assertNull($this->document->findLink('some link'));
@@ -159,12 +121,6 @@ class DocumentElementTest extends ElementTest
 
     public function testFindButton()
     {
-        $this->mockNamedFinder(
-            '//button',
-            array('button1', 'button2', 'button3'),
-            array('button', 'some button')
-        );
-
         $node1 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
@@ -174,9 +130,11 @@ class DocumentElementTest extends ElementTest
         $node3 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->onConsecutiveCalls($node1, $node2, $node3));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('button', 'some button'), '//html')
+            ->will($this->onConsecutiveCalls(array($node1, $node2, $node3), array()));
 
         $this->assertEquals($node1, $this->document->findButton('some button'));
         $this->assertNull($this->document->findButton('some button'));
@@ -184,19 +142,17 @@ class DocumentElementTest extends ElementTest
 
     public function testFindById()
     {
-        $xpath = '//*[@id=some-item-2]';
-
-        $this->mockNamedFinder($xpath, array(array('id2', 'id3'), array()), array('id', 'some-item-2'));
-
         $node2 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
         $node3 = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(2))
-            ->method('createNodeElement')
-            ->will($this->onConsecutiveCalls($node2, $node3));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('id', 'some-item-2'), '//html')
+            ->will($this->onConsecutiveCalls(array($node2, $node3), array()));
 
         $this->assertSame($node2, $this->document->findById('some-item-2'));
         $this->assertEquals(null, $this->document->findById('some-item-2'));
@@ -204,23 +160,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasSelector()
     {
-        $this->driver
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->with('//html/some xpath')
-            ->will($this->onConsecutiveCalls(array('id2', 'id3'), array()));
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(2))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
 
-        $this->selectors
-            ->expects($this->exactly(2))
-            ->method('selectorToXpath')
-            ->with('xpath', 'some xpath')
-            ->will($this->returnValue('some xpath'));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('xpath', 'some xpath', '//html')
+            ->will($this->onConsecutiveCalls(array($node, $node), array()));
 
         $this->assertTrue($this->document->has('xpath', 'some xpath'));
         $this->assertFalse($this->document->has('xpath', 'some xpath'));
@@ -228,18 +175,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasContent()
     {
-        $this->mockNamedFinder(
-            '//some content',
-            array('item1', 'item2'),
-            array('content', 'some content')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(2))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('content', 'some content'), '//html')
+            ->will($this->onConsecutiveCalls(array($node, $node), array()));
 
         $this->assertTrue($this->document->hasContent('some content'));
         $this->assertFalse($this->document->hasContent('some content'));
@@ -247,18 +190,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasLink()
     {
-        $this->mockNamedFinder(
-            '//link',
-            array('link1', 'link2', 'link3'),
-            array('link', 'some link')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('link', 'some link'), '//html')
+            ->will($this->onConsecutiveCalls(array($node, $node), array()));
 
         $this->assertTrue($this->document->hasLink('some link'));
         $this->assertFalse($this->document->hasLink('some link'));
@@ -266,18 +205,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasButton()
     {
-        $this->mockNamedFinder(
-            '//button',
-            array('button1', 'button2', 'button3'),
-            array('button', 'some button')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('button', 'some button'), '//html')
+            ->will($this->onConsecutiveCalls(array($node, $node), array()));
 
         $this->assertTrue($this->document->hasButton('some button'));
         $this->assertFalse($this->document->hasButton('some button'));
@@ -285,18 +220,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasField()
     {
-        $this->mockNamedFinder(
-            '//field',
-            array('field1', 'field2', 'field3'),
-            array('field', 'some field')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->elementFactory->expects($this->exactly(3))
-            ->method('createNodeElement')
-            ->will($this->returnValue($node));
+
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node, $node), array()));
 
         $this->assertTrue($this->document->hasField('some field'));
         $this->assertFalse($this->document->hasField('some field'));
@@ -312,17 +243,10 @@ class DocumentElementTest extends ElementTest
             ->method('isChecked')
             ->will($this->onConsecutiveCalls(true, false));
 
-        $this->mockNamedFinder(
-            '//field',
-            array(array('field'), array(), array('field')),
-            array('field', 'some checkbox'),
-            3
-        );
-
-        $this->elementFactory->expects($this->exactly(2))
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($checkbox));
+        $this->elementFinder->expects($this->exactly(3))
+            ->method('findAll')
+            ->with('named', array('field', 'some checkbox'), '//html')
+            ->will($this->onConsecutiveCalls(array($checkbox), array(), array($checkbox)));
 
         $this->assertTrue($this->document->hasCheckedField('some checkbox'));
         $this->assertFalse($this->document->hasCheckedField('some checkbox'));
@@ -339,17 +263,10 @@ class DocumentElementTest extends ElementTest
             ->method('isChecked')
             ->will($this->onConsecutiveCalls(true, false));
 
-        $this->mockNamedFinder(
-            '//field',
-            array(array('field'), array(), array('field')),
-            array('field', 'some checkbox'),
-            3
-        );
-
-        $this->elementFactory->expects($this->exactly(2))
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($checkbox));
+        $this->elementFinder->expects($this->exactly(3))
+            ->method('findAll')
+            ->with('named', array('field', 'some checkbox'), '//html')
+            ->will($this->onConsecutiveCalls(array($checkbox), array(), array($checkbox)));
 
         $this->assertFalse($this->document->hasUncheckedField('some checkbox'));
         $this->assertFalse($this->document->hasUncheckedField('some checkbox'));
@@ -358,20 +275,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasSelect()
     {
-        $this->mockNamedFinder(
-            '//select',
-            array('select'),
-            array('select', 'some select field')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('select', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('select', 'some select field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->assertTrue($this->document->hasSelect('some select field'));
         $this->assertFalse($this->document->hasSelect('some select field'));
@@ -379,20 +290,14 @@ class DocumentElementTest extends ElementTest
 
     public function testHasTable()
     {
-        $this->mockNamedFinder(
-            '//table',
-            array('table'),
-            array('table', 'some table')
-        );
-
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('table', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('table', 'some table'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->assertTrue($this->document->hasTable('some table'));
         $this->assertFalse($this->document->hasTable('some table'));
@@ -407,16 +312,10 @@ class DocumentElementTest extends ElementTest
             ->expects($this->once())
             ->method('click');
 
-        $this->mockNamedFinder(
-            '//link',
-            array('field'),
-            array('link', 'some link')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('link', 'some link'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->clickLink('some link');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -432,16 +331,10 @@ class DocumentElementTest extends ElementTest
             ->expects($this->once())
             ->method('press');
 
-        $this->mockNamedFinder(
-            '//button',
-            array('field'),
-            array('button', 'some button')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('button', 'some button'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->pressButton('some button');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -458,16 +351,10 @@ class DocumentElementTest extends ElementTest
             ->method('setValue')
             ->with('some val');
 
-        $this->mockNamedFinder(
-            '//field',
-            array('field'),
-            array('field', 'some field')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->fillField('some field', 'some val');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -483,16 +370,10 @@ class DocumentElementTest extends ElementTest
             ->expects($this->once())
             ->method('check');
 
-        $this->mockNamedFinder(
-            '//field',
-            array('field'),
-            array('field', 'some field')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->checkField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -508,16 +389,10 @@ class DocumentElementTest extends ElementTest
             ->expects($this->once())
             ->method('uncheck');
 
-        $this->mockNamedFinder(
-            '//field',
-            array('field'),
-            array('field', 'some field')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->uncheckField('some field');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -534,16 +409,10 @@ class DocumentElementTest extends ElementTest
             ->method('selectOption')
             ->with('option2');
 
-        $this->mockNamedFinder(
-            '//field',
-            array('field'),
-            array('field', 'some field')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->selectFieldOption('some field', 'option2');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
@@ -560,16 +429,10 @@ class DocumentElementTest extends ElementTest
             ->method('attachFile')
             ->with('/path/to/file');
 
-        $this->mockNamedFinder(
-            '//field',
-            array('field'),
-            array('field', 'some field')
-        );
-
-        $this->elementFactory->expects($this->once())
-            ->method('createNodeElement')
-            ->with('field', $this->driver, $this->selectors)
-            ->will($this->returnValue($node));
+        $this->elementFinder->expects($this->exactly(2))
+            ->method('findAll')
+            ->with('named', array('field', 'some field'), '//html')
+            ->will($this->onConsecutiveCalls(array($node), array()));
 
         $this->document->attachFileToField('some field', '/path/to/file');
         $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
