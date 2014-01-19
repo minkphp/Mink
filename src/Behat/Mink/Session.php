@@ -232,8 +232,8 @@ class Session
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending
-     *   on driver (e.g., image/png, image/jpeg)
+     * @return string screenshot of MIME type image/* depending
+     *                on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot()
     {
@@ -243,7 +243,7 @@ class Session
     /**
      * Return the names of all open windows
      *
-     * @return array    Array of all open window's names.
+     * @return array Array of all open window's names.
      */
     public function getWindowNames()
     {
@@ -253,7 +253,7 @@ class Session
     /**
      * Return the name of the currently active window
      *
-     * @return string    The name of the current window.
+     * @return string The name of the current window.
      */
     public function getWindowName()
     {
@@ -342,9 +342,9 @@ class Session
     /**
      * Set the dimensions of the window.
      *
-     * @param integer $width set the window width, measured in pixels
+     * @param integer $width  set the window width, measured in pixels
      * @param integer $height set the window height, measured in pixels
-     * @param string $name window name (null for the main window)
+     * @param string  $name   window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null)
     {

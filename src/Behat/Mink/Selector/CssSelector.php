@@ -22,12 +22,16 @@ class CssSelector implements SelectorInterface
     /**
      * Translates CSS into XPath.
      *
-     * @param string $locator current selector locator
+     * @param string|array $locator current selector locator
      *
      * @return string
      */
     public function translateToXPath($locator)
     {
+        if (!is_string($locator)) {
+            throw new \InvalidArgumentException('The CssSelector expects to get a string as locator');
+        }
+
         return CSS::toXPath($locator);
     }
 }

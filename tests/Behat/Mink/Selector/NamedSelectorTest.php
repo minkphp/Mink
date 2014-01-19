@@ -52,7 +52,6 @@ class NamedSelectorTest extends \PHPUnit_Framework_TestCase
         $fieldCount += 4; // fields with `type=file` attribute
 
         // Fixture file,  selector name,  locator,  expected number of matched elements
-
         return array(
             'fieldset' => array('test.html', 'fieldset', 'fieldset-text', 2),
 

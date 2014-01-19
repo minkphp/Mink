@@ -173,8 +173,6 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->mink->getSession('not_registered');
     }
 
-
-
     private function getSessionMock()
     {
         return $this->getMockBuilder('Behat\Mink\Session')

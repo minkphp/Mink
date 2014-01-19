@@ -72,6 +72,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             $windowName = $this->getSession()->getWindowName();
         } catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('The current driver does not support getWindowName function.');
+
             return;
         }
 
@@ -84,6 +85,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             $windowNames = $this->getSession()->getWindowNames();
         } catch (UnsupportedDriverActionException $e) {
             $this->markTestSkipped('The current driver does not support getWindowNames function.');
+
             return;
         }
 
@@ -251,6 +253,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             $driver->wait(1000, false);
 
             $script = "
+
             return Math.abs(screen.availHeight - window.outerHeight) <= 100;
             ";
 

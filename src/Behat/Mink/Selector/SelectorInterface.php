@@ -20,7 +20,7 @@ interface SelectorInterface
     /**
      * Translates provided locator into XPath.
      *
-     * @param string $locator current selector locator
+     * @param string|array $locator current selector locator
      *
      * @return string
      */
