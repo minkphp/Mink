@@ -117,6 +117,22 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Checks whether an element has a named CSS class
+     *
+     * @param string $className Name of the class
+     *
+     * @return boolean
+     */
+    public function hasClass($className)
+    {
+        if ($this->hasAttribute('class')) {
+            return in_array($className, explode(' ', $this->getAttribute('class')));
+        }
+
+        return false;
+    }
+
+    /**
      * Clicks current node.
      */
     public function click()
