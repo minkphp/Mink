@@ -80,13 +80,30 @@ abstract class Element implements ElementInterface
     public function findAll($selector, $locator)
     {
         $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $currentXpath = $this->getXpath();
+        $expressions = array();
 
-        // add parent xpath before element selector
-        if (0 === strpos($xpath, '/')) {
-            $xpath = $this->getXpath().$xpath;
-        } else {
-            $xpath = $this->getXpath().'/'.$xpath;
+        // Regex to find union operators not inside brackets.
+        $pattern = '/\|(?![^\[]*\])/';
+
+        // If the parent current xpath contains a union we need to wrap it in parentheses.
+        if (preg_match($pattern, $currentXpath)) {
+            $currentXpath = '(' . $currentXpath . ')';
         }
+
+        // Split any unions into individual expressions.
+        foreach (preg_split($pattern, $xpath) as $expression) {
+            $expression = trim($expression);
+            // add parent xpath before element selector
+            if (0 === strpos($expression, '/')) {
+                $expression = $currentXpath.$expression;
+            } else {
+                $expression = $currentXpath.'/'.$expression;
+            }
+            $expressions[] = $expression;
+        }
+
+        $xpath = implode(' | ', $expressions);
 
         return $this->getSession()->getDriver()->find($xpath);
     }
