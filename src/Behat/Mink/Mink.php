@@ -132,6 +132,7 @@ class Mink
     public function isSessionStarted($name = null)
     {
         $session = $this->locateSession($name);
+
         return $session->isStarted();
     }
 
@@ -147,6 +148,7 @@ class Mink
         if (!($session instanceof Session)) {
             $session = $this->getSession($session);
         }
+
         return new WebAssert($session);
     }
 
@@ -208,6 +210,7 @@ class Mink
         }
 
         $session = $this->sessions[$name];
+
         return $session;
     }
 }

@@ -35,7 +35,7 @@ class ElementHtmlException extends ExpectationException
      * @param Element    $element   element
      * @param \Exception $exception expectation exception
      */
-    public function __construct($message = null, Session $session, Element $element, \Exception $exception = null)
+    public function __construct($message, Session $session, Element $element, \Exception $exception = null)
     {
         $this->element = $element;
 

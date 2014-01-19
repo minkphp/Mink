@@ -112,6 +112,7 @@ abstract class CoreDriver implements DriverInterface
      * Returns last response headers.
      *
      * @return array
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getResponseHeaders()
@@ -138,6 +139,7 @@ abstract class CoreDriver implements DriverInterface
      * @param string $name
      *
      * @return string|null
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getCookie($name)
@@ -149,6 +151,7 @@ abstract class CoreDriver implements DriverInterface
      * Returns last response status code.
      *
      * @return integer
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getStatusCode()
@@ -160,6 +163,7 @@ abstract class CoreDriver implements DriverInterface
      * Capture a screenshot of the current window.
      *
      * @return string screenshot of MIME type image/* depending on driver (e.g., image/png, image/jpeg)
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getScreenshot()
@@ -170,7 +174,8 @@ abstract class CoreDriver implements DriverInterface
     /**
      * Return the names of all open windows.
      *
-     * @return array    array of all open windows
+     * @return array array of all open windows
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getWindowNames()
@@ -181,7 +186,8 @@ abstract class CoreDriver implements DriverInterface
     /**
      * Return the name of the currently active window.
      *
-     * @return string    the name of the current window
+     * @return string the name of the current window
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function getWindowName()
@@ -219,6 +225,7 @@ abstract class CoreDriver implements DriverInterface
      * @param string $xpath
      *
      * @return Boolean
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function isVisible($xpath)
@@ -232,6 +239,7 @@ abstract class CoreDriver implements DriverInterface
      * @param string $xpath
      *
      * @return Boolean
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function isSelected($xpath)
@@ -348,6 +356,7 @@ abstract class CoreDriver implements DriverInterface
      * @param string $script
      *
      * @return mixed
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function evaluateScript($script)
@@ -362,6 +371,7 @@ abstract class CoreDriver implements DriverInterface
      * @param string  $condition JS condition
      *
      * @return boolean
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
     public function wait($time, $condition)

@@ -117,9 +117,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->driver
             ->expects($this->once())
             ->method('wait')
-            ->with(1000, 'function() {}');
+            ->with(1000, 'function () {}');
 
-        $this->session->wait(1000, 'function() {}');
+        $this->session->wait(1000, 'function () {}');
     }
 
     /**

@@ -44,8 +44,8 @@ abstract class Element implements ElementInterface
     /**
      * Checks whether element with specified selector exists.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return Boolean
      */
@@ -57,8 +57,8 @@ abstract class Element implements ElementInterface
     /**
      * Finds first element with specified selector.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return NodeElement|null
      */
@@ -72,8 +72,8 @@ abstract class Element implements ElementInterface
     /**
      * Finds all elements with specified selector.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return NodeElement[]
      */
@@ -111,7 +111,7 @@ abstract class Element implements ElementInterface
     /**
      * Returns element text (inside tag).
      *
-     * @return string|null
+     * @return string
      */
     public function getText()
     {
@@ -121,7 +121,7 @@ abstract class Element implements ElementInterface
     /**
      * Returns element html.
      *
-     * @return string|null
+     * @return string
      */
     public function getHtml()
     {

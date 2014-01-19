@@ -2,6 +2,9 @@
 
 namespace Behat\Mink\Exception;
 
+use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Session;
+
 /*
  * This file is part of the Behat\Mink.
  * (c) Konstantin Kudryashov <ever.zet@gmail.com>
@@ -17,6 +20,19 @@ namespace Behat\Mink\Exception;
  */
 class ElementAttributeException extends ElementHtmlException
 {
+    /**
+     * Initializes exception.
+     *
+     * @param string      $message   optional message
+     * @param Session     $session   session instance
+     * @param NodeElement $element   element
+     * @param \Exception  $exception expectation exception
+     */
+    public function __construct($message, Session $session, NodeElement $element, \Exception $exception = null)
+    {
+        parent::__construct($message, $session, $element, $exception);
+    }
+
     /**
      * Returns exception message with additional context info.
      *

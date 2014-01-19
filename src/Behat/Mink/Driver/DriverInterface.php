@@ -149,22 +149,22 @@ interface DriverInterface
     /**
      * Capture a screenshot of the current window.
      *
-     * @return  string  screenshot of MIME type image/* depending
-     *   on driver (e.g., image/png, image/jpeg)
+     * @return string screenshot of MIME type image/* depending
+     *                on driver (e.g., image/png, image/jpeg)
      */
     public function getScreenshot();
 
     /**
      * Return the names of all open windows.
      *
-     * @return array    array of all open windows
+     * @return array array of all open windows
      */
     public function getWindowNames();
 
     /**
      * Return the name of the currently active window.
      *
-     * @return string    the name of the current window
+     * @return string the name of the current window
      */
     public function getWindowName();
 
@@ -395,9 +395,9 @@ interface DriverInterface
     /**
      * Set the dimensions of the window.
      *
-     * @param integer $width set the window width, measured in pixels
+     * @param integer $width  set the window width, measured in pixels
      * @param integer $height set the window height, measured in pixels
-     * @param string $name window name (null for the main window)
+     * @param string  $name   window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null);
 

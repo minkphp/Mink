@@ -36,8 +36,8 @@ interface ElementInterface
     /**
      * Checks whether element with specified selector exists.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return Boolean
      */
@@ -46,8 +46,8 @@ interface ElementInterface
     /**
      * Finds first element with specified selector.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return NodeElement|null
      */
@@ -56,8 +56,8 @@ interface ElementInterface
     /**
      * Finds all elements with specified selector.
      *
-     * @param string $selector selector engine name
-     * @param string $locator  selector locator
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
      *
      * @return NodeElement[]
      */
@@ -66,14 +66,14 @@ interface ElementInterface
     /**
      * Returns element text (inside tag).
      *
-     * @return string|null
+     * @return string
      */
     public function getText();
 
     /**
      * Returns element html.
      *
-     * @return string|null
+     * @return string
      */
     public function getHtml();
 }

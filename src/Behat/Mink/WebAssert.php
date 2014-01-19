@@ -2,8 +2,9 @@
 
 namespace Behat\Mink;
 
-use Behat\Mink\Element\Element;
+use Behat\Mink\Element\ElementInterface;
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\TraversableElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Exception\ResponseTextException;
@@ -95,8 +96,8 @@ class WebAssert
     /**
      * Checks that specified cookie exists and its value equals to a given one
      *
-     * @param string $name   cookie name
-     * @param string $value  cookie value
+     * @param string $name  cookie name
+     * @param string $value cookie value
      *
      * @throws \Behat\Mink\Exception\ExpectationException
      */
@@ -304,20 +305,25 @@ class WebAssert
     /**
      * Checks that there is specified number of specific elements on the page.
      *
-     * @param string  $selectorType element selector type (css, xpath)
-     * @param string  $selector     element selector
-     * @param integer $count        expected count
-     * @param Element $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param integer          $count        expected count
+     * @param ElementInterface $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementsCount($selectorType, $selector, $count, Element $container = null)
+    public function elementsCount($selectorType, $selector, $count, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $nodes = $container->findAll($selectorType, $selector);
 
         if (intval($count) !== count($nodes)) {
-            $message = sprintf('%d elements matching %s "%s" found on the page, but should be %d.', count($nodes), $selectorType, $selector, $count);
+            $message = sprintf(
+                '%d %s found on the page, but should be %d.',
+                count($nodes),
+                $this->getMatchingElementRepresentation($selectorType, $selector, count($nodes) !== 1),
+                $count
+            );
             throw new ExpectationException($message, $this->session);
         }
     }
@@ -325,20 +331,24 @@ class WebAssert
     /**
      * Checks that specific element exists on the current page.
      *
-     * @param string  $selectorType element selector type (css, xpath)
-     * @param string  $selector     element selector
-     * @param Element $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param ElementInterface $container    document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function elementExists($selectorType, $selector, Element $container = null)
+    public function elementExists($selectorType, $selector, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
 
         if (null === $node) {
+            if (is_array($selector)) {
+                $selector = implode(' ', $selector);
+            }
+
             throw new ElementNotFoundException($this->session, 'element', $selectorType, $selector);
         }
 
@@ -348,19 +358,22 @@ class WebAssert
     /**
      * Checks that specific element does not exists on the current page.
      *
-     * @param string  $selectorType element selector type (css, xpath)
-     * @param string  $selector     element selector
-     * @param Element $container    document to check against
+     * @param string           $selectorType element selector type (css, xpath)
+     * @param string|array     $selector     element selector
+     * @param ElementInterface $container    document to check against
      *
      * @throws ExpectationException
      */
-    public function elementNotExists($selectorType, $selector, Element $container = null)
+    public function elementNotExists($selectorType, $selector, ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
 
         if (null !== $node) {
-            $message = sprintf('An element matching %s "%s" appears on this page, but it should not.', $selectorType, $selector);
+            $message = sprintf(
+                'An %s appears on this page, but it should not.',
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ExpectationException($message, $this->session);
         }
     }
@@ -368,9 +381,9 @@ class WebAssert
     /**
      * Checks that specific element contains text.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
-     * @param string $text         expected text
+     * @param string       $selectorType element selector type (css, xpath)
+     * @param string|array $selector     element selector
+     * @param string       $text         expected text
      *
      * @throws ElementTextException
      */
@@ -381,7 +394,11 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" was not found in the text of the element matching %s "%s".', $text, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was not found in the text of the %s.',
+                $text,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementTextException($message, $this->session, $element);
         }
     }
@@ -389,9 +406,9 @@ class WebAssert
     /**
      * Checks that specific element does not contains text.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
-     * @param string $text         expected text
+     * @param string       $selectorType element selector type (css, xpath)
+     * @param string|array $selector     element selector
+     * @param string       $text         expected text
      *
      * @throws ElementTextException
      */
@@ -402,7 +419,11 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" appears in the text of the element matching %s "%s", but it should not.', $text, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" appears in the text of the %s, but it should not.',
+                $text,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementTextException($message, $this->session, $element);
         }
     }
@@ -410,9 +431,9 @@ class WebAssert
     /**
      * Checks that specific element contains HTML.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
-     * @param string $html         expected text
+     * @param string       $selectorType element selector type (css, xpath)
+     * @param string|array $selector     element selector
+     * @param string       $html         expected text
      *
      * @throws ElementHtmlException
      */
@@ -423,7 +444,11 @@ class WebAssert
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            $message = sprintf('The string "%s" was not found in the HTML of the element matching %s "%s".', $html, $selectorType, $selector);
+            $message = sprintf(
+                'The string "%s" was not found in the HTML of the %s.',
+                $html,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementHtmlException($message, $this->session, $element);
         }
     }
@@ -431,9 +456,9 @@ class WebAssert
     /**
      * Checks that specific element does not contains HTML.
      *
-     * @param string $selectorType element selector type (css, xpath)
-     * @param string $selector     element selector
-     * @param string $html         expected text
+     * @param string       $selectorType element selector type (css, xpath)
+     * @param string|array $selector     element selector
+     * @param string       $html         expected text
      *
      * @throws ElementHtmlException
      */
@@ -444,7 +469,11 @@ class WebAssert
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            $message = sprintf('The string "%s" appears in the HTML of the element matching %s "%s", but it should not.', $html, $selectorType, $selector);
+            $message = sprintf(
+                'The string "%s" appears in the HTML of the %s, but it should not.',
+                $html,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementHtmlException($message, $this->session, $element);
         }
     }
@@ -452,10 +481,12 @@ class WebAssert
     /**
      * Checks that an attribute exists in an element.
      *
-     * @param $selectorType
-     * @param $selector
-     * @param $attribute
-     * @return NodeElement|null
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param string       $attribute
+     *
+     * @return NodeElement
+     *
      * @throws Exception\ElementAttributeNotFoundException
      */
     public function elementAttributeExists($selectorType, $selector, $attribute)
@@ -463,7 +494,11 @@ class WebAssert
         $element = $this->elementExists($selectorType, $selector);
 
         if (!$element->hasAttribute($attribute)) {
-            $message = sprintf('The attribute "%s" was not found in the element matching %s "%s".', $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The attribute "%s" was not found in the %s.',
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeNotFoundException($message, $this->session, $element);
         }
 
@@ -473,10 +508,10 @@ class WebAssert
     /**
      * Checks that an attribute of a specific elements contains text.
      *
-     * @param $selectorType
-     * @param $selector
-     * @param $attribute
-     * @param $text
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param string       $attribute
+     * @param string       $text
      *
      * @throws ElementAttributeException
      */
@@ -487,7 +522,12 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (!preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" was not found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was not found in the attribute "%s" of the %s.',
+                $text,
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeException($message, $this->session, $element);
         }
     }
@@ -495,10 +535,10 @@ class WebAssert
     /**
      * Checks that an attribute of a specific elements does not contain text.
      *
-     * @param $selectorType
-     * @param $selector
-     * @param $attribute
-     * @param $text
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param string       $attribute
+     * @param string       $text
      *
      * @throws ElementAttributeException
      */
@@ -509,7 +549,12 @@ class WebAssert
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
         if (preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" was found in the attribute "%s" of the element matching %s "%s".', $text, $attribute, $selectorType, $selector);
+            $message = sprintf(
+                'The text "%s" was found in the attribute "%s" of the %s.',
+                $text,
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
             throw new ElementAttributeException($message, $this->session, $element);
         }
     }
@@ -517,14 +562,14 @@ class WebAssert
     /**
      * Checks that specific field exists on the current page.
      *
-     * @param string $field field id|name|label|value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @return NodeElement
      *
      * @throws ElementNotFoundException
      */
-    public function fieldExists($field, Element $container = null)
+    public function fieldExists($field, TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -539,12 +584,12 @@ class WebAssert
     /**
      * Checks that specific field does not exists on the current page.
      *
-     * @param string $field field id|name|label|value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldNotExists($field, Element $container = null)
+    public function fieldNotExists($field, TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -558,13 +603,13 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string $field field id|name|label|value
-     * @param string $value field value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param string             $value     field value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldValueEquals($field, $value, Element $container = null)
+    public function fieldValueEquals($field, $value, TraversableElement $container = null)
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
@@ -579,13 +624,13 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string $field field id|name|label|value
-     * @param string $value field value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param string             $value     field value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function fieldValueNotEquals($field, $value, Element $container = null)
+    public function fieldValueNotEquals($field, $value, TraversableElement $container = null)
     {
         $node   = $this->fieldExists($field, $container);
         $actual = $node->getValue();
@@ -600,12 +645,12 @@ class WebAssert
     /**
      * Checks that specific checkbox is checked.
      *
-     * @param string $field field id|name|label|value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function checkboxChecked($field, Element $container = null)
+    public function checkboxChecked($field, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
@@ -618,12 +663,12 @@ class WebAssert
     /**
      * Checks that specific checkbox is unchecked.
      *
-     * @param string $field field id|name|label|value
-     * @param Element $container    document to check against
+     * @param string             $field     field id|name|label|value
+     * @param TraversableElement $container document to check against
      *
      * @throws ExpectationException
      */
-    public function checkboxNotChecked($field, Element $container = null)
+    public function checkboxNotChecked($field, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
@@ -654,6 +699,29 @@ class WebAssert
     {
         $parts = parse_url($url);
         $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
+
         return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
+    }
+
+    /**
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param boolean      $plural
+     *
+     * @return string
+     */
+    private function getMatchingElementRepresentation($selectorType, $selector, $plural = false)
+    {
+        $pluralization = $plural ? 's' : '';
+
+        if ('named' === $selectorType && is_array($selector) && 2 === count($selector)) {
+            return sprintf('%s%s matching locator "%s"', $selector[0], $pluralization, $selector[1]);
+        }
+
+        if (is_array($selector)) {
+            $selector = implode(' ', $selector);
+        }
+
+        return sprintf('element%s matching %s "%s"', $pluralization, $selectorType, $selector);
     }
 }

@@ -254,7 +254,6 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testResponseContains()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
