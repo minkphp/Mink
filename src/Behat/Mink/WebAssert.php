@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the Mink package.
+ * (c) Konstantin Kudryashov <ever.zet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Behat\Mink;
 
 use Behat\Mink\Element\ElementInterface;
@@ -12,14 +20,6 @@ use Behat\Mink\Exception\ElementHtmlException;
 use Behat\Mink\Exception\ElementTextException;
 use Behat\Mink\Exception\ElementAttributeException;
 use Behat\Mink\Exception\ElementAttributeNotFoundException;
-
-/*
- * This file is part of the Behat\Mink.
- * (c) Konstantin Kudryashov <ever.zet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 /**
  * Mink web assertions tool.
