@@ -876,6 +876,24 @@ OUT;
         );
     }
 
+    public function testHtmlDecodingNotPerformed()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/html_decoding.html'));
+        $page = $session->getPage();
+
+        $span = $page->find('css', 'span');
+        $input = $page->find('css', 'input');
+
+        $expectedHtml = '<span custom-attr="&amp;">some text</span>';
+        $this->assertContains($expectedHtml, $page->getHtml(), '.innerHTML is returned as-is');
+        $this->assertContains($expectedHtml, $page->getContent(), '.outerHTML is returned as-is');
+
+        $this->assertEquals('&', $span->getAttribute('custom-attr'), '.getAttribute value is decoded');
+        $this->assertEquals('&', $input->getAttribute('value'), '.getAttribute value is decoded');
+        $this->assertEquals('&', $input->getValue(), 'node value is decoded');
+    }
+
     protected function pathTo($path)
     {
         return $_SERVER['WEB_FIXTURES_HOST'].$path;
