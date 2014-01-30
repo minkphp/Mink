@@ -905,6 +905,29 @@ OUT;
         }
     }
 
+    public function testHtml5FormOutside()
+    {
+        $this->getSession()->visit($this->pathTo('/html5_form.html'));
+        $page = $this->getSession()->getPage();
+
+        $field = $page->findField('other_field');
+
+        $this->assertNotNull($field);
+
+        $field->setValue('hello');
+
+        $page->pressButton('Submit separate form');
+
+        if ($this->safePageWait(5000, 'document.getElementsByTagName("title") !== null')) {
+            $out = <<<OUT
+  'other_field' = 'hello',
+OUT;
+            $this->assertContains($out, $page->getContent());
+            $this->assertNotContains('first_name', $page->getContent());
+        }
+
+    }
+
     /**
      * @dataProvider setBasicAuthDataProvider
      */
