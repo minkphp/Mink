@@ -1,2 +1,2 @@
 <?php
-require_once '../' . basename(__FILE__);
+require_once __DIR__ . '/../' . basename(__FILE__);

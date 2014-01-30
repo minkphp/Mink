@@ -2,7 +2,7 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-require_once 'GeneralDriverTest.php';
+require_once __DIR__ . '/GeneralDriverTest.php';
 
 /**
  * @deprecated Extend GeneralDriverTest directly instead

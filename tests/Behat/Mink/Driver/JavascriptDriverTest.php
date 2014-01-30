@@ -4,7 +4,7 @@ namespace Tests\Behat\Mink\Driver;
 
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 
-require_once 'GeneralDriverTest.php';
+require_once __DIR__ . '/GeneralDriverTest.php';
 
 abstract class JavascriptDriverTest extends GeneralDriverTest
 {
