@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches-ignore:
+      - '2-architecture-changes'
   pull_request:
 
 defaults:
