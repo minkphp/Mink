@@ -148,6 +148,20 @@ abstract class TraversableElement extends Element
     }
 
     /**
+     * Finds first visible field (input, textarea, select) with specified locator.
+     *
+     * @param string $locator input id, name or label
+     *
+     * @return NodeElement|null
+     */
+    public function findFirstVisisbleField($locator)
+    {
+        return $this->findFirstVisible('named', array(
+            'field', $this->getSession()->getSelectorsHandler()->xpathLiteral($locator)
+        ));
+    }
+
+    /**
      * Fills in field (input, textarea, select) with specified locator.
      *
      * @param string $locator input id, name or label
@@ -157,8 +171,7 @@ abstract class TraversableElement extends Element
      */
     public function fillField($locator, $value)
     {
-        $field = $this->findField($locator);
-
+        $field = $this->findFirstVisisbleField($locator);
         if (null === $field) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $locator);
         }
@@ -203,7 +216,7 @@ abstract class TraversableElement extends Element
      */
     public function checkField($locator)
     {
-        $field = $this->findField($locator);
+        $field = $this->findFirstVisisbleField($locator);
 
         if (null === $field) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $locator);
@@ -221,7 +234,7 @@ abstract class TraversableElement extends Element
      */
     public function uncheckField($locator)
     {
-        $field = $this->findField($locator);
+        $field = $this->findFirstVisisbleField($locator);
 
         if (null === $field) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $locator);
@@ -255,7 +268,7 @@ abstract class TraversableElement extends Element
      */
     public function selectFieldOption($locator, $value, $multiple = false)
     {
-        $field = $this->findField($locator);
+        $field = $this->findFirstVisisbleField($locator);
 
         if (null === $field) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $locator);
@@ -288,7 +301,7 @@ abstract class TraversableElement extends Element
      */
     public function attachFileToField($locator, $path)
     {
-        $field = $this->findField($locator);
+        $field = $this->findFirstVisisbleField($locator);
 
         if (null === $field) {
             throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $locator);
