@@ -1035,6 +1035,15 @@ OUT;
         $this->assertEquals('&', $input->getValue(), 'node value is decoded');
     }
 
+    public function testGetContentReturnsHTMLFromServer()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/html_decoding.html'));
+
+        $webFixtureContent = file_get_contents(__DIR__ . '/web-fixtures/html_decoding.html');
+        $this->assertEquals($webFixtureContent, $session->getPage()->getContent());
+    }
+
     public function testStatuses()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
