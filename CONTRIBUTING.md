@@ -7,12 +7,12 @@ Mink is an open source, community-driven project. If you'd like to contribute, f
 - If you are going to make a big, substantial change, let's discuss it first
 
 ## Working with Pull Requests
-1. Create your feature addition or a bug fix branch based on `develop` branch (all new development happens here, `master` branch is for releases & hotfixes only) in your repository's fork.
+1. Create your feature addition or a bug fix branch based on `master` branch in your repository's fork.
 2. Make necessary changes, but __don't mix__ code reformatting with code changes on topic.
 3. Add tests for those changes (please look into `tests/` folder for some examples). This is important so we don't break it in a future version unintentionally.
 4. Commit your code, but do not mess with `CHANGES.md`.
 5. Squash your commits by topic to preserve a clean and readable log.
-6. Create Pull Request, but __remember__ always select `develop` branch as target, otherwise it will be closed.
+6. Create Pull Request.
 
 # Running tests
 Make sure that you don't break anything with your changes by running:
