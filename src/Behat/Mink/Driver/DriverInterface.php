@@ -461,6 +461,9 @@ interface DriverInterface
     /**
      * Evaluates JS script.
      *
+     * The "return" keyword is optional in the script passed as argument. Driver implementation
+     * must accept the expression both with and without the keyword.
+     *
      * @param string $script
      *
      * @return mixed
