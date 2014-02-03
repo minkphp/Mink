@@ -2,22 +2,22 @@
 
 namespace Tests\Behat\Mink\Selector;
 
-use Behat\Mink\Selector\ExactSelector;
+use Behat\Mink\Selector\PartialNamedSelector;
 
 require_once __DIR__ . '/NamedSelectorTest.php';
 
 /**
  * @group unittest
  */
-class ExactSelectorTest extends NamedSelectorTest
+class PartialNamedSelectorTest extends NamedSelectorTest
 {
     protected function getSelector()
     {
-        return new ExactSelector();
+        return new PartialNamedSelector();
     }
 
     protected function allowPartialMatch()
     {
-        return false;
+        return true;
     }
 }

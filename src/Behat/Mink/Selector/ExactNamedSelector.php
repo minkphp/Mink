@@ -13,7 +13,7 @@ namespace Behat\Mink\Selector;
 /**
  * Exact match selector engine. Like the Named selector engine but ignores partial matches.
  */
-class ExactSelector extends NamedSelector
+class ExactNamedSelector extends NamedSelector
 {
     public function __construct()
     {

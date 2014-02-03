@@ -15,7 +15,7 @@ namespace Behat\Mink\Selector;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class PartialSelector extends NamedSelector
+class PartialNamedSelector extends NamedSelector
 {
     public function __construct()
     {

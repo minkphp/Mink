@@ -26,8 +26,8 @@ class SelectorsHandler
      */
     public function __construct(array $selectors = array())
     {
-        $this->registerSelector('partial', new PartialSelector());
-        $this->registerSelector('exact', new ExactSelector());
+        $this->registerSelector('named_partial', new PartialNamedSelector());
+        $this->registerSelector('named_exact', new ExactNamedSelector());
         $this->registerSelector('css', new CssSelector());
 
         foreach ($selectors as $name => $selector) {

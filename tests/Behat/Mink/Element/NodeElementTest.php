@@ -305,7 +305,7 @@ class NodeElementTest extends ElementTest
         $this->selectors
             ->expects($this->once())
             ->method('selectorToXpath')
-            ->with('exact', array('option', 'item1'))
+            ->with('named_exact', array('option', 'item1'))
             ->will($this->returnValue('option'));
 
         $this->session->getDriver()
@@ -338,7 +338,7 @@ class NodeElementTest extends ElementTest
         $this->selectors
             ->expects($this->exactly(2))
             ->method('selectorToXpath')
-            ->with($this->logicalOr('exact', 'partial'), array('option', 'item1'))
+            ->with($this->logicalOr('named_exact', 'named_partial'), array('option', 'item1'))
             ->will($this->returnValue('option'));
 
         $node->selectOption('item1');

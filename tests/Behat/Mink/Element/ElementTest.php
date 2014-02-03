@@ -75,7 +75,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
         $this->selectors
             ->expects($this->exactly($times))
             ->method('selectorToXpath')
-            ->with($this->logicalOr('exact', 'partial'), $locator)
+            ->with($this->logicalOr('named_exact', 'named_partial'), $locator)
             ->will($this->returnValue($xpath));
     }
 }
