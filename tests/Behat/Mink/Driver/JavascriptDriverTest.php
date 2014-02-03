@@ -242,6 +242,28 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
     }
 
+    /**
+     * @dataProvider provideEvaluatedScript
+     */
+    public function testEvaluateJavascript($script)
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $this->assertSame(2, $this->getSession()->evaluateScript($script));
+    }
+
+    public function provideEvaluatedScript()
+    {
+        return array(
+            array('1 + 1'),
+            array('1 + 1;'),
+            array('return 1 + 1'),
+            array('return 1 + 1;'),
+            array('(function () {return 1+1;})()'),
+            array('return function () { return 1+1;}()'),
+        );
+    }
+
     public function testWindowMaximize()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
