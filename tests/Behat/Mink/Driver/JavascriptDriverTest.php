@@ -103,7 +103,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertTrue($found);
     }
 
-    public function testMouseEvents()
+    public function testClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
@@ -113,18 +113,63 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
         $clicker->click();
         $this->assertEquals('single clicked', $clicker->getText());
+    }
+
+    public function testDoubleClick()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+
+        $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->doubleClick();
         $this->assertEquals('double clicked', $clicker->getText());
+    }
+
+    public function testRightClick()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+
+        $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->rightClick();
         $this->assertEquals('right clicked', $clicker->getText());
+    }
+
+    public function testFocus()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+
+        $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->focus();
         $this->assertEquals('focused', $clicker->getText());
+    }
+
+    public function testBlur()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+
+        $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->blur();
         $this->assertEquals('blured', $clicker->getText());
+    }
+
+    public function testMouseOver()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.php'));
+
+        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+
+        $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->mouseOver();
         $this->assertEquals('mouse overed', $clicker->getText());
