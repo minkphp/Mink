@@ -7,6 +7,13 @@
     <div id="test-for-link-selector">
         <!-- match links with `href` attribute -->
         <a href="#" id="link-text"></a>
+        <a href="#">link-text</a>
+        <a href="#" title="link-text"></a>
+        <a href="#" rel="link-text"></a>
+        <a href="#">
+            <img src="#" alt="link-text"/>
+        </a>
+        <!-- partial match -->
         <a href="#">some link-text</a>
         <a href="#" title="some link-text"></a>
         <a href="#" rel="some link-text"></a>
@@ -16,15 +23,19 @@
 
         <!-- don't match links without `href` attribute -->
         <a id="bad-link-text"></a>
-        <a>some bad-link-text</a>
-        <a title="some bad-link-text"></a>
-        <a rel="some bad-link-text"></a>
+        <a>bad-link-text</a>
+        <a title="bad-link-text"></a>
+        <a rel="bad-link-text"></a>
         <a>
-            <img src="#" alt="some bad-link-text"/>
+            <img src="#" alt="bad-link-text"/>
         </a>
 
         <!-- match links with `role=link` attribute -->
         <span role="link" id="link-role-text"></span>
+        <span role="link" value="link-role-text"></span>
+        <span role="link" title="link-role-text"></span>
+        <span role="link">link-role-text</span>
+        <!-- partial match -->
         <span role="link" value="some link-role-text"></span>
         <span role="link" title="some link-role-text"></span>
         <span role="link">some link-role-text</span>
@@ -35,15 +46,23 @@
         <fieldset id="fieldset-text"></fieldset>
 
         <fieldset>
+            <legend>fieldset-text</legend>
+        </fieldset>
+        <!-- partial match -->
+        <fieldset>
             <legend>fieldset-text sample</legend>
         </fieldset>
 
         <!-- don't match fieldsets -->
-        <fieldset>fieldset-text sample</fieldset>
+        <fieldset>fieldset-text</fieldset>
         <fieldset></fieldset>
     </div>
 
     <div id="test-for-content-selector">
+        content-text
+    </div>
+    <!-- partial match -->
+    <div id="test-for-partial-content-selector">
         some content-text
     </div>
 
@@ -133,6 +152,15 @@
             <button type="reset" name="button-text"></button>
 
             <!-- match buttons by `value` attribute -->
+            <input type="submit" value="button-text"/>
+            <input type="image" value="button-text"/>
+            <input type="button" value="button-text"/>
+            <input type="reset" value="button-text"/>
+            <button type="submit" value="button-text"></button>
+            <button type="image" value="button-text"></button>
+            <button type="button" value="button-text"></button>
+            <button type="reset" value="button-text"></button>
+            <!-- Partial match -->
             <input type="submit" value="some button-text"/>
             <input type="image" value="some button-text"/>
             <input type="button" value="some button-text"/>
@@ -143,6 +171,15 @@
             <button type="reset" value="some button-text"></button>
 
             <!-- match buttons by `title` attribute -->
+            <input type="submit" title="button-text"/>
+            <input type="image" title="button-text"/>
+            <input type="button" title="button-text"/>
+            <input type="reset" title="button-text"/>
+            <button type="submit" title="button-text"></button>
+            <button type="image" title="button-text"></button>
+            <button type="button" title="button-text"></button>
+            <button type="reset" title="button-text"></button>
+            <!-- partial match -->
             <input type="submit" title="some button-text"/>
             <input type="image" title="some button-text"/>
             <input type="button" title="some button-text"/>
@@ -153,12 +190,19 @@
             <button type="reset" title="some button-text"></button>
 
             <!-- match some buttons by `alt` attribute -->
+            <input type="submit" alt="button-alt-text"/>
+            <input type="image" alt="button-alt-text"/>
+            <input type="button" alt="button-alt-text"/>
+            <input type="reset" alt="button-alt-text"/>
+            <!-- partial match -->
             <input type="submit" alt="some button-alt-text"/>
             <input type="image" alt="some button-alt-text"/>
             <input type="button" alt="some button-alt-text"/>
             <input type="reset" alt="some button-alt-text"/>
 
             <!-- match by `button` text -->
+            <button>button-text</button>
+            <!-- partial match -->
             <button>some button-text</button>
 
             <!-- match buttons with `role=button` & `id` attribute -->
@@ -174,12 +218,22 @@
             <span role="button" type="reset" name="button-role-text"></span>
 
             <!-- match buttons with `role=button` & `value` attribute -->
+            <span role="button" type="submit" value="button-role-text"></span>
+            <span role="button" type="image" value="button-role-text"></span>
+            <span role="button" type="button" value="button-role-text"></span>
+            <span role="button" type="reset" value="button-role-text"></span>
+            <!-- partial match -->
             <span role="button" type="submit" value="some button-role-text"></span>
             <span role="button" type="image" value="some button-role-text"></span>
             <span role="button" type="button" value="some button-role-text"></span>
             <span role="button" type="reset" value="some button-role-text"></span>
 
             <!-- match buttons with `role=button` & `title` attribute -->
+            <span role="button" type="submit" title="button-role-text"></span>
+            <span role="button" type="image" title="button-role-text"></span>
+            <span role="button" type="button" title="button-role-text"></span>
+            <span role="button" type="reset" title="button-role-text"></span>
+            <!-- partial match -->
             <span role="button" type="submit" title="some button-role-text"></span>
             <span role="button" type="image" title="some button-role-text"></span>
             <span role="button" type="button" title="some button-role-text"></span>
@@ -213,10 +267,14 @@
         <div id="test-for-select-related-stuff">
             <!-- match select stuff -->
             <select name="the-select-stuff-test">
-                <optgroup label="some group-label">
+                <optgroup label="group-label">
                     <option value="option-value"></option>
                 </optgroup>
-                <option value="">some option-value</option>
+                <option value="">option-value</option>
+                <!-- partial match -->
+                <optgroup label="some group-label">
+                    <option value="">some option-value</option>
+                </optgroup>
             </select>
 
             <!-- don't match select stuff -->
@@ -230,6 +288,10 @@
     <div id="test-for-table-selector">
         <!-- match tables -->
         <table id="the-table"></table>
+        <table>
+            <caption>the-table</caption>
+        </table>
+        <!-- partial match -->
         <table>
             <caption>some the-table</caption>
         </table>

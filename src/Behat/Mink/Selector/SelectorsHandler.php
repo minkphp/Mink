@@ -26,7 +26,8 @@ class SelectorsHandler
      */
     public function __construct(array $selectors = array())
     {
-        $this->registerSelector('named', new NamedSelector());
+        $this->registerSelector('named_partial', new PartialNamedSelector());
+        $this->registerSelector('named_exact', new ExactNamedSelector());
         $this->registerSelector('css', new CssSelector());
 
         foreach ($selectors as $name => $selector) {
@@ -68,6 +69,15 @@ class SelectorsHandler
      */
     public function getSelector($name)
     {
+        if ('named' === $name) {
+            trigger_error(
+                'Using the "named" selector directly from the handler is deprecated as of 1.6 and will be removed in 2.0.'
+                .' Use the "named_partial" or use the "named" selector through the Element API instead.',
+                E_USER_DEPRECATED
+            );
+            $name = 'named_partial';
+        }
+
         if (!$this->isSelectorRegistered($name)) {
             throw new \InvalidArgumentException("Selector \"$name\" is not registered.");
         }

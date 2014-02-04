@@ -36,7 +36,8 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
         $handler = new SelectorsHandler();
 
         $this->assertTrue($handler->isSelectorRegistered('css'));
-        $this->assertTrue($handler->isSelectorRegistered('named'));
+        $this->assertTrue($handler->isSelectorRegistered('named_exact'));
+        $this->assertTrue($handler->isSelectorRegistered('named_partial'));
     }
 
     /**

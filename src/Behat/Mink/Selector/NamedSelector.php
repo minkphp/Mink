@@ -28,6 +28,8 @@ class NamedSelector implements SelectorInterface
         '%placeholderMatch%' => './@placeholder = %locator%',
         '%titleMatch%' => 'contains(./@title, %locator%)',
         '%altMatch%' => 'contains(./@alt, %locator%)',
+        '%relMatch%' => 'contains(./@rel, %locator%)',
+        '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
 
         // complex replacements
         '%fieldMatch%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
@@ -35,7 +37,7 @@ class NamedSelector implements SelectorInterface
         '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or ./@type = 'hidden')",
         '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
         '%buttonTypeFilter%' => "./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'",
-        '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or contains(./@rel, %locator%))',
+        '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or %relMatch%)',
         '%imgAltMatch%' => './/img[%altMatch%]',
     );
 
@@ -126,7 +128,7 @@ XPATH
 
         ,'optgroup' => <<<XPATH
 .//optgroup
-[contains(./@label, %locator%)]
+[%labelAttributeMatch%]
 XPATH
 
         ,'option' => <<<XPATH
@@ -136,7 +138,7 @@ XPATH
 
         ,'table' => <<<XPATH
 .//table
-[(%idMatch% or contains(.//caption, %locator%))]
+[(%idMatch% or .//caption[%tagTextMatch%])]
 XPATH
     );
 
@@ -203,5 +205,18 @@ XPATH
         }
 
         return $xpath;
+    }
+
+    /**
+     * Registers a replacement in the list of replacements
+     *
+     * This method must be called in the constructor before calling the parent constructor.
+     *
+     * @param string $from
+     * @param string $to
+     */
+    protected function registerReplacement($from, $to)
+    {
+        $this->replacements[$from] = $to;
     }
 }
