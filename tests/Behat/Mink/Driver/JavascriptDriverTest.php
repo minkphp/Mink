@@ -175,7 +175,10 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('mouse overed', $clicker->getText());
     }
 
-    public function testKeyboardEvents()
+    /**
+     * @dataProvider provideKeyboardEventsModifiers
+     */
+    public function testKeyboardEvents($modifier, $eventProperties)
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
@@ -184,23 +187,25 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $input3 = $this->getSession()->getPage()->find('css', '.elements input.input.third');
         $event  = $this->getSession()->getPage()->find('css', '.elements .text-event');
 
-        $input1->keyDown('u');
-        $this->assertEquals('key downed:0', $event->getText());
+        $input1->keyDown('u', $modifier);
+        $this->assertEquals('key downed:' . $eventProperties, $event->getText());
 
-        $input1->keyDown('u', 'alt');
-        $this->assertEquals('key downed:1', $event->getText());
+        $input2->keyPress('r', $modifier);
+        $this->assertEquals('key pressed:114 / ' . $eventProperties, $event->getText());
 
-        $input2->keyPress('r');
-        $this->assertEquals('key pressed:114 / 0', $event->getText());
+        $input3->keyUp(78, $modifier);
+        $this->assertEquals('key upped:78 / ' . $eventProperties, $event->getText());
+    }
 
-        $input2->keyPress('r', 'alt');
-        $this->assertEquals('key pressed:114 / 1', $event->getText());
-
-        $input3->keyUp(78);
-        $this->assertEquals('key upped:78 / 0', $event->getText());
-
-        $input3->keyUp(78, 'alt');
-        $this->assertEquals('key upped:78 / 1', $event->getText());
+    public function provideKeyboardEventsModifiers()
+    {
+        return array(
+            'none' => array(null, '0 / 0 / 0 / 0'),
+            'alt' => array('alt', '1 / 0 / 0 / 0'),
+            'ctrl' => array('ctrl', '0 / 1 / 0 / 1'), // jQuery considers ctrl as being a metaKey in the normalized event
+            'shift' => array('shift', '0 / 0 / 1 / 0'),
+            'meta' => array('meta', '0 / 0 / 0 / 1'),
+        );
     }
 
     public function testWait()

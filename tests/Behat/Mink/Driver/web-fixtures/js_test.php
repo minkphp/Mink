@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<!DOCTYPE html>
+<html>
 <head>
     <title>JS elements test</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
@@ -67,15 +67,15 @@
             });
 
             $('.elements input.input.first').keydown(function(ev) {
-                $('.text-event').text('key downed:' + ev.altKey * 1);
+                $('.text-event').text('key downed:' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $('.elements input.input.second').keypress(function(ev) {
-                $('.text-event').text('key pressed:' + ev.which + ' / ' + ev.altKey * 1);
+                $('.text-event').text('key pressed:' + ev.which + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $('.elements input.input.third').keyup(function(ev) {
-                $('.text-event').text('key upped:' + ev.which + ' / ' + ev.altKey * 1);
+                $('.text-event').text('key upped:' + ev.which + ' / ' + ev.altKey * 1 + ' / ' + ev.ctrlKey * 1 + ' / ' + ev.shiftKey * 1 + ' / ' + ev.metaKey * 1);
             });
 
             $( "#draggable" ).draggable();
