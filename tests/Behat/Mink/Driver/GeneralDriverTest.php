@@ -51,6 +51,15 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         self::$mink->resetSessions();
     }
 
+    protected function onNotSuccessfulTest(\Exception $e)
+    {
+        if ($e instanceof UnsupportedDriverActionException) {
+            $this->markTestSkipped($e->getMessage());
+        }
+
+        parent::onNotSuccessfulTest($e);
+    }
+
     public function testRedirect()
     {
         $this->getSession()->visit($this->pathTo('/redirector.php'));
@@ -532,11 +541,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $session->getPage();
         $page->findField('first_name')->setValue('Konstantin');
 
-        try {
-            $page->find('xpath', 'descendant-or-self::form[1]')->submit();
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('Driver doesn\'t support form submission');
-        }
+        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
             $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
@@ -623,13 +628,9 @@ OUT;
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
         $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $optionValueEscaped . ']');
 
-        try {
-            $this->assertFalse($option->isSelected());
-            $select->selectOption($optionText);
-            $this->assertTrue($option->isSelected());
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('Element selection check is not supported by the driver');
-        }
+        $this->assertFalse($option->isSelected());
+        $select->selectOption($optionText);
+        $this->assertTrue($option->isSelected());
     }
 
     public function testElementSelectedStateCheckDataProvider()
@@ -818,7 +819,6 @@ OUT;
      * @param string $file File path.
      *
      * @return string
-     * @access protected
      */
     protected function mapRemoteFilePath($file)
     {
@@ -935,11 +935,7 @@ OUT;
     {
         $session = $this->getSession();
 
-        try {
-            $session->setBasicAuth($user, $pass);
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('This driver doesn\'t support basic authentication');
-        }
+        $session->setBasicAuth($user, $pass);
 
         $session->visit($this->pathTo('/basic_auth.php'));
 
@@ -976,11 +972,7 @@ OUT;
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
-        try {
-            $this->assertEquals(200, $this->getSession()->getStatusCode());
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('This driver does not support checking the status code');
-        }
+        $this->assertEquals(200, $this->getSession()->getStatusCode());
         $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
 
         $this->getSession()->visit($this->pathTo('/404.php'));
@@ -992,11 +984,7 @@ OUT;
 
     public function testHeaders()
     {
-        try {
-            $this->getSession()->setRequestHeader('Accept-Language', 'fr');
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('This driver does not support setting request header');
-        }
+        $this->getSession()->setRequestHeader('Accept-Language', 'fr');
         $this->getSession()->visit($this->pathTo('/headers.php'));
 
         $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());

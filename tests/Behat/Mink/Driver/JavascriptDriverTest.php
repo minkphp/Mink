@@ -2,8 +2,6 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Exception\UnsupportedDriverActionException;
-
 require_once __DIR__ . '/GeneralDriverTest.php';
 
 abstract class JavascriptDriverTest extends GeneralDriverTest
@@ -68,26 +66,14 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $session = $this->getSession();
         $page    = $session->getPage();
 
-        try {
-            $windowName = $this->getSession()->getWindowName();
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('The current driver does not support getWindowName function.');
-
-            return;
-        }
+        $windowName = $this->getSession()->getWindowName();
 
         $this->assertNotNull($windowName);
 
         $page->clickLink('Popup #1');
         $page->clickLink('Popup #2');
 
-        try {
-            $windowNames = $this->getSession()->getWindowNames();
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('The current driver does not support getWindowNames function.');
-
-            return;
-        }
+        $windowNames = $this->getSession()->getWindowNames();
 
         $this->assertNotNull($windowNames[0]);
         $this->assertNotNull($windowNames[1]);
@@ -249,11 +235,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
-        try {
-            $this->assertSame(2, $this->getSession()->evaluateScript($script));
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('evaluateScript is not yet implemented in this driver');
-        }
+        $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }
 
     public function provideEvaluatedScript()
@@ -276,18 +258,14 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $session = $this->getSession();
         $driver = $session->getDriver();
 
-        try {
-            $driver->maximizeWindow();
-            $driver->wait(1000, false);
+        $driver->maximizeWindow();
+        $driver->wait(1000, false);
 
-            $script = "
+        $script = "
 
-            return Math.abs(screen.availHeight - window.outerHeight) <= 100;
-            ";
+        return Math.abs(screen.availHeight - window.outerHeight) <= 100;
+        ";
 
-            $this->assertTrue($session->evaluateScript($script));
-        } catch (UnsupportedDriverActionException $e) {
-            $this->markTestSkipped('Maximize not yet implemented on this driver');
-        }
+        $this->assertTrue($session->evaluateScript($script));
     }
 }
