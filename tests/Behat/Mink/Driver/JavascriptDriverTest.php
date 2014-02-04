@@ -249,7 +249,11 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
 
-        $this->assertSame(2, $this->getSession()->evaluateScript($script));
+        try {
+            $this->assertSame(2, $this->getSession()->evaluateScript($script));
+        } catch (UnsupportedDriverActionException $e) {
+            $this->markTestSkipped('evaluateScript is not yet implemented in this driver');
+        }
     }
 
     public function provideEvaluatedScript()
