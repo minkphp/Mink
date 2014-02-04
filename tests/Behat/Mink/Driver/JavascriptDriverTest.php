@@ -259,8 +259,10 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
             array('1 + 1;'),
             array('return 1 + 1'),
             array('return 1 + 1;'),
+            array('function () {return 1+1;}()'),
             array('(function () {return 1+1;})()'),
             array('return function () { return 1+1;}()'),
+            array('return (function () {return 1+1;})()'),
         );
     }
 
