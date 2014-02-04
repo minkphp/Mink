@@ -112,6 +112,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->click();
+        $this->waitBeforeCheckingMouseEvent('click');
         $this->assertEquals('single clicked', $clicker->getText());
     }
 
@@ -124,6 +125,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->doubleClick();
+        $this->waitBeforeCheckingMouseEvent('doubleClick');
         $this->assertEquals('double clicked', $clicker->getText());
     }
 
@@ -136,6 +138,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->rightClick();
+        $this->waitBeforeCheckingMouseEvent('rightClick');
         $this->assertEquals('right clicked', $clicker->getText());
     }
 
@@ -148,6 +151,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->focus();
+        $this->waitBeforeCheckingMouseEvent('focus');
         $this->assertEquals('focused', $clicker->getText());
     }
 
@@ -160,6 +164,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->blur();
+        $this->waitBeforeCheckingMouseEvent('blur');
         $this->assertEquals('blured', $clicker->getText());
     }
 
@@ -172,7 +177,19 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->mouseOver();
+        $this->waitBeforeCheckingMouseEvent('mouseOver');
         $this->assertEquals('mouse overed', $clicker->getText());
+    }
+
+    /**
+     * Some drivers will need to wait a bit before checking the effect of a mouse event
+     * because of an asynchronous implementation. Overwriting this method give them a chance to do so.
+     *
+     * @param string $action The action being performed
+     */
+    protected function waitBeforeCheckingMouseEvent($action)
+    {
+        // Do nothing by default
     }
 
     /**
