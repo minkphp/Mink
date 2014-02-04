@@ -85,11 +85,7 @@ class NodeElement extends TraversableElement
      */
     public function setValue($value)
     {
-        try {
-            $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
     }
 
     /**
@@ -137,11 +133,7 @@ class NodeElement extends TraversableElement
      */
     public function click()
     {
-        try {
-            $this->getSession()->getDriver()->click($this->getXpath());
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->click($this->getXpath());
     }
 
     /**
@@ -157,11 +149,7 @@ class NodeElement extends TraversableElement
      */
     public function doubleClick()
     {
-        try {
-            $this->getSession()->getDriver()->doubleClick($this->getXpath());
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->doubleClick($this->getXpath());
     }
 
     /**
@@ -169,11 +157,7 @@ class NodeElement extends TraversableElement
      */
     public function rightClick()
     {
-        try {
-            $this->getSession()->getDriver()->rightClick($this->getXpath());
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->rightClick($this->getXpath());
     }
 
     /**
@@ -181,11 +165,7 @@ class NodeElement extends TraversableElement
      */
     public function check()
     {
-        try {
-            $this->getSession()->getDriver()->check($this->getXpath());
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->check($this->getXpath());
     }
 
     /**
@@ -193,11 +173,7 @@ class NodeElement extends TraversableElement
      */
     public function uncheck()
     {
-        try {
-            $this->getSession()->getDriver()->uncheck($this->getXpath());
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->uncheck($this->getXpath());
     }
 
     /**
@@ -256,11 +232,7 @@ class NodeElement extends TraversableElement
      */
     public function attachFile($path)
     {
-        try {
-            $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
-        } catch (\Exception $exception) {
-            throw new ElementException($this, $exception);
-        }
+        $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
     }
 
     /**

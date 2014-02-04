@@ -117,21 +117,6 @@ class NodeElementTest extends ElementTest
         $node->setValue($expected);
     }
 
-    public function testSetValueWrapsException()
-    {
-        $node = new NodeElement('link_or_button', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('setValue')
-            ->with('link_or_button', 'new_val')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by link_or_button\nAn error happened in the driver");
-        $node->setValue('new_val');
-    }
-
     public function testClick()
     {
         $node = new NodeElement('link_or_button', $this->session);
@@ -141,21 +126,6 @@ class NodeElementTest extends ElementTest
             ->method('click')
             ->with('link_or_button');
 
-        $node->click();
-    }
-
-    public function testClickWrapsException()
-    {
-        $node = new NodeElement('link_or_button', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('click')
-            ->with('link_or_button')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by link_or_button\nAn error happened in the driver");
         $node->click();
     }
 
@@ -183,21 +153,6 @@ class NodeElementTest extends ElementTest
         $node->rightClick();
     }
 
-    public function testRightClickWrapsException()
-    {
-        $node = new NodeElement('elem', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('rightClick')
-            ->with('elem')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
-        $node->rightClick();
-    }
-
     public function testDoubleClick()
     {
         $node = new NodeElement('elem', $this->session);
@@ -207,21 +162,6 @@ class NodeElementTest extends ElementTest
             ->method('doubleClick')
             ->with('elem');
 
-        $node->doubleClick();
-    }
-
-    public function testDoubleClickWrapsException()
-    {
-        $node = new NodeElement('elem', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('doubleClick')
-            ->with('elem')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
         $node->doubleClick();
     }
 
@@ -237,21 +177,6 @@ class NodeElementTest extends ElementTest
         $node->check();
     }
 
-    public function testCheckWrapsException()
-    {
-        $node = new NodeElement('elem', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('check')
-            ->with('elem')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
-        $node->check();
-    }
-
     public function testUncheck()
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
@@ -261,21 +186,6 @@ class NodeElementTest extends ElementTest
             ->method('uncheck')
             ->with('checkbox_or_radio');
 
-        $node->uncheck();
-    }
-
-    public function testUncheckWrapsException()
-    {
-        $node = new NodeElement('elem', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('uncheck')
-            ->with('elem')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
         $node->uncheck();
     }
 
@@ -406,21 +316,6 @@ class NodeElementTest extends ElementTest
             ->method('attachFile')
             ->with('elem', 'path');
 
-        $node->attachFile('path');
-    }
-
-    public function testAttachFileWrapsException()
-    {
-        $node = new NodeElement('elem', $this->session);
-        $exception = new \Exception('An error happened in the driver');
-
-        $this->session->getDriver()
-            ->expects($this->once())
-            ->method('attachFile')
-            ->with('elem', 'path')
-            ->will($this->throwException($exception));
-
-        $this->setExpectedException('Behat\Mink\Exception\ElementException', "Exception thrown by elem\nAn error happened in the driver");
         $node->attachFile('path');
     }
 
