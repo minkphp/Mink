@@ -355,10 +355,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $driver->maximizeWindow();
         $driver->wait(1000, false);
 
-        $script = "
-
-        return Math.abs(screen.availHeight - window.outerHeight) <= 100;
-        ";
+        $script = "return Math.abs(screen.availHeight - window.outerHeight) <= 100;";
 
         $this->assertTrue($session->evaluateScript($script));
     }
