@@ -296,6 +296,33 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     }
 
     /**
+     * @dataProvider provideExecutedScript
+     */
+    public function testExecuteScript($script)
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $this->getSession()->executeScript($script);
+
+        sleep(1);
+
+        $heading = $this->getSession()->getPage()->find('css', 'h1');
+        $this->assertEquals('Hello world', $heading->getText());
+    }
+
+    public function provideExecutedScript()
+    {
+        return array(
+            array('document.querySelector("h1").textContent = "Hello world"'),
+            array('document.querySelector("h1").textContent = "Hello world";'),
+            array('function () {document.querySelector("h1").textContent = "Hello world";}()'),
+            array('function () {document.querySelector("h1").textContent = "Hello world";}();'),
+            array('(function () {document.querySelector("h1").textContent = "Hello world";})()'),
+            array('(function () {document.querySelector("h1").textContent = "Hello world";})();'),
+        );
+    }
+
+    /**
      * @dataProvider provideEvaluatedScript
      */
     public function testEvaluateJavascript($script)
