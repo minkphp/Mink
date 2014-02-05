@@ -253,7 +253,7 @@ interface DriverInterface
      * @param string $xpath
      * @param string $name
      *
-     * @return mixed
+     * @return string|null
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
@@ -409,9 +409,9 @@ interface DriverInterface
     /**
      * Presses specific keyboard key.
      *
-     * @param string $xpath
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string         $xpath
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
@@ -420,9 +420,9 @@ interface DriverInterface
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string $xpath
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string         $xpath
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */
@@ -431,9 +431,9 @@ interface DriverInterface
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string $xpath
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string         $xpath
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      */

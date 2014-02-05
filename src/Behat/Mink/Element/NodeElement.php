@@ -109,7 +109,7 @@ class NodeElement extends TraversableElement
      *
      * @param string $name
      *
-     * @return mixed|null
+     * @return string|null
      */
     public function getAttribute($name)
     {
@@ -310,8 +310,8 @@ class NodeElement extends TraversableElement
     /**
      * Presses specific keyboard key.
      *
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyPress($char, $modifier = null)
     {
@@ -321,8 +321,8 @@ class NodeElement extends TraversableElement
     /**
      * Pressed down specific keyboard key.
      *
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyDown($char, $modifier = null)
     {
@@ -332,8 +332,8 @@ class NodeElement extends TraversableElement
     /**
      * Pressed up specific keyboard key.
      *
-     * @param mixed  $char     could be either char ('b') or char-code (98)
-     * @param string $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string|integer $char     could be either char ('b') or char-code (98)
+     * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      */
     public function keyUp($char, $modifier = null)
     {
