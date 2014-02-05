@@ -990,6 +990,16 @@ OUT;
         $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());
     }
 
+    public function testScreenshot()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $screenShot = $this->getSession()->getScreenshot();
+
+        $this->assertInternalType('string', $screenShot);
+        $this->assertFalse(base64_decode($screenShot, true), 'The returned screenshot should not be base64-encoded');
+    }
+
     protected function pathTo($path)
     {
         return $_SERVER['WEB_FIXTURES_HOST'].$path;
