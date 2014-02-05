@@ -3,10 +3,14 @@
     <head>
         <title>Issue 378</title>
         <style type="text/css">
-            #parent {
+            #parent, #reset {
                 height:100px;
                 width:200px;
                 border:2px solid black;
+            }
+            
+            #reset:hover {
+                background-color: red;
             }
 
             #child {
@@ -23,5 +27,6 @@
         <div id="parent">
             <div id="child">I've been hovered</div>
         </div>
+        <div id="reset"></div>
     </body>
 </html>
