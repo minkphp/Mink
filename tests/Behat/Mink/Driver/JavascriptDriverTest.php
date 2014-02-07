@@ -99,7 +99,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $found = $this->getSession()->wait(5000, '$("#draggable:visible").length == 1');
+        $found = $this->getSession()->wait(5000, '$("#draggable").length == 1');
         $this->assertTrue($found);
     }
 
