@@ -103,12 +103,13 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertTrue($found);
     }
 
+    /**
+     * @group mouse-events
+     */
     public function testClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
-
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->click();
@@ -116,12 +117,13 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('single clicked', $clicker->getText());
     }
 
+    /**
+     * @group mouse-events
+     */
     public function testDoubleClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
-
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->doubleClick();
@@ -129,12 +131,13 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('double clicked', $clicker->getText());
     }
 
+    /**
+     * @group mouse-events
+     */
     public function testRightClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
-
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->rightClick();
@@ -142,43 +145,47 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $this->assertEquals('right clicked', $clicker->getText());
     }
 
+    /**
+     * @group mouse-events
+     */
     public function testFocus()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
+        $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
-        $this->assertEquals('not clicked', $clicker->getText());
-
-        $clicker->focus();
+        $focusBlurDetector->focus();
         $this->waitBeforeCheckingMouseEvent('focus');
-        $this->assertEquals('focused', $clicker->getText());
+        $this->assertEquals('focused', $focusBlurDetector->getValue());
     }
 
+    /**
+     * @group mouse-events
+     * @depends testFocus
+     */
     public function testBlur()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
+        $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
-        $this->assertEquals('not clicked', $clicker->getText());
-
-        $clicker->blur();
+        $focusBlurDetector->blur();
         $this->waitBeforeCheckingMouseEvent('blur');
-        $this->assertEquals('blured', $clicker->getText());
+        $this->assertEquals('blured', $focusBlurDetector->getValue());
     }
 
+    /**
+     * @group mouse-events
+     */
     public function testMouseOver()
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $mouseOverDetector = $this->getSession()->getPage()->find('css', '.elements div#mouseover-detector');
+        $this->assertEquals('no mouse action detected', $mouseOverDetector->getText());
 
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-
-        $this->assertEquals('not clicked', $clicker->getText());
-
-        $clicker->mouseOver();
+        $mouseOverDetector->mouseOver();
         $this->waitBeforeCheckingMouseEvent('mouseOver');
-        $this->assertEquals('mouse overed', $clicker->getText());
+        $this->assertEquals('mouse overed', $mouseOverDetector->getText());
     }
 
     /**

@@ -23,7 +23,9 @@
 <body>
     <div class="elements">
         <div id="clicker">not clicked</div>
+        <div id="mouseover-detector">no mouse action detected</div>
         <div id="invisible" style="display: none">invisible man</div>
+        <input id="focus-blur-detector" type="text" value="no action detected"/>
         <input class="input first" type="text" value="" />
         <input class="input second" type="text" value="" />
         <input class="input third" type="text" value="" />
@@ -54,15 +56,15 @@
                 $(this).text('right clicked');
             });
 
-            $('#clicker').focus(function() {
-                $(this).text('focused');
+            $('#focus-blur-detector').focus(function() {
+                $(this).val('focused');
             });
 
-            $('#clicker').blur(function() {
-                $(this).text('blured');
+            $('#focus-blur-detector').blur(function() {
+                $(this).val('blured');
             });
 
-            $('#clicker').mouseover(function() {
+            $('#mouseover-detector').mouseover(function() {
                 $(this).text('mouse overed');
             });
 
