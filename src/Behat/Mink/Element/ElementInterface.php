@@ -44,6 +44,13 @@ interface ElementInterface
     public function has($selector, $locator);
 
     /**
+     * Checks if an element is still valid.
+     *
+     * @return boolean
+     */
+    public function isValid();
+
+    /**
      * Finds first element with specified selector.
      *
      * @param string       $selector selector engine name

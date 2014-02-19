@@ -34,6 +34,34 @@ class NodeElementTest extends ElementTest
         $this->assertEquals($expected, $node->getText());
     }
 
+    public function testElementIsValid()
+    {
+        $elementXpath = 'some xpath';
+        $node = new NodeElement($elementXpath, $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('find')
+            ->with($elementXpath)
+            ->will($this->returnValue(array($elementXpath)));
+
+        $this->assertTrue($node->isValid());
+    }
+
+    public function testElementIsNotValid()
+    {
+        $node = new NodeElement('some xpath', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->with('some xpath')
+            ->will($this->onConsecutiveCalls(array(), array('xpath1', 'xpath2')));
+
+        $this->assertFalse($node->isValid(), 'no elements found is invalid element');
+        $this->assertFalse($node->isValid(), 'more then 1 element found is invalid element');
+    }
+
     public function testHasAttribute()
     {
         $node = new NodeElement('input_tag', $this->session);
