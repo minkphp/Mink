@@ -55,6 +55,16 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * Checks if an element is still valid.
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return 1 === count($this->getSession()->getDriver()->find($this->getXpath()));
+    }
+
+    /**
      * Finds first element with specified selector.
      *
      * @param string       $selector selector engine name
