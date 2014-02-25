@@ -125,6 +125,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $session->getPage();
 
         $field = $page->findById('poney-button');
+        $this->assertNotNull($field);
         $this->assertEquals('poney', $field->getValue());
     }
 
@@ -314,7 +315,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($page->find('xpath', '//div/strong[2]')->hasAttribute('class'));
 
         $strongs = $page->findAll('css', 'div#core > strong');
-        $this->assertEquals(3, count($strongs));
+        $this->assertCount(3, $strongs);
         $this->assertEquals('Lorem', $strongs[0]->getText());
         $this->assertEquals('pariatur', $strongs[2]->getText());
 
@@ -343,6 +344,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
 
+        $this->assertNotNull($element);
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
@@ -403,11 +405,11 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $traversDiv = $this->getSession()->getPage()->findAll('css', 'div.travers');
 
-        $this->assertEquals(1, count($traversDiv));
+        $this->assertCount(1, $traversDiv);
         $traversDiv = $traversDiv[0];
 
         $subDivs = $traversDiv->findAll('css', 'div.sub');
-        $this->assertEquals(3, count($subDivs));
+        $this->assertCount(3, $subDivs);
 
         $this->assertTrue($subDivs[2]->hasLink('some deep url'));
         $this->assertFalse($subDivs[2]->hasLink('come deep url'));
@@ -429,6 +431,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('Redirect me to');
 
+        $this->assertNotNull($link);
         $this->assertRegExp('/redirector\.php$/', $link->getAttribute('href'));
         $link->click();
 
@@ -438,6 +441,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $this->getSession()->getPage();
         $link = $page->findLink('basic form image');
 
+        $this->assertNotNull($link);
         $this->assertRegExp('/basic_form\.php$/', $link->getAttribute('href'));
         $link->click();
 
@@ -512,6 +516,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $page = $session->getPage();
 
         $firstname = $page->findField('first_name');
+        $this->assertNotNull($firstname);
         $firstname->setValue('Konstantin');
 
         $page->findButton($submitVia)->click();
@@ -567,6 +572,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Basic Get Form Page', $page->find('css', 'h1')->getText());
 
         $search = $page->findField('q');
+        $this->assertNotNull($search);
         $search->setValue('some#query');
         $page->pressButton('Find');
 
@@ -601,6 +607,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('1', '3'), $multiSelect->getValue());
 
         $button = $page->findButton('Register');
+        $this->assertNotNull($button);
         $button->press();
 
         $space = ' ';
@@ -627,6 +634,7 @@ OUT;
 
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
         $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $optionValueEscaped . ']');
+        $this->assertNotNull($option);
 
         $this->assertFalse($option->isSelected());
         $select->selectOption($optionText);
@@ -708,6 +716,7 @@ OUT;
         $about->attachFile($this->mapRemoteFilePath(__DIR__ . '/web-fixtures/some_file.txt'));
 
         $button = $page->findButton('Register');
+        $this->assertNotNull($button);
 
         $page->fillField('first_name', 'Foo "item"');
         $page->fillField('last_name', 'Bar');
@@ -799,6 +808,7 @@ OUT;
         $this->assertEquals('tag3', $third->getValue());
 
         $button = $page->findButton('Register');
+        $this->assertNotNull($button);
         $button->press();
 
         $space = ' ';
@@ -835,6 +845,7 @@ OUT;
         $page = $this->getSession()->getPage();
 
         $button = $page->findButton('Login');
+        $this->assertNotNull($button);
         $button->press();
 
         $toSearch = array(
@@ -958,6 +969,9 @@ OUT;
 
         $span = $page->find('css', 'span');
         $input = $page->find('css', 'input');
+
+        $this->assertNotNull($span);
+        $this->assertNotNull($input);
 
         $expectedHtml = '<span custom-attr="&amp;">some text</span>';
         $this->assertContains($expectedHtml, $page->getHtml(), '.innerHTML is returned as-is');

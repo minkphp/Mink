@@ -110,6 +110,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+        $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->click();
@@ -123,6 +124,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+        $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->doubleClick();
@@ -136,6 +138,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
+        $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->rightClick();
@@ -149,6 +152,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
+        $this->assertNotNull($focusBlurDetector);
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
         $focusBlurDetector->focus();
@@ -163,6 +167,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
+        $this->assertNotNull($focusBlurDetector);
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
         $focusBlurDetector->blur();
@@ -176,6 +181,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
         $mouseOverDetector = $this->getSession()->getPage()->find('css', '.elements div#mouseover-detector');
+        $this->assertNotNull($mouseOverDetector);
         $this->assertEquals('no mouse action detected', $mouseOverDetector->getText());
 
         $mouseOverDetector->mouseOver();
@@ -193,6 +199,11 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $input2 = $this->getSession()->getPage()->find('css', '.elements input.input.second');
         $input3 = $this->getSession()->getPage()->find('css', '.elements input.input.third');
         $event  = $this->getSession()->getPage()->find('css', '.elements .text-event');
+
+        $this->assertNotNull($input1);
+        $this->assertNotNull($input2);
+        $this->assertNotNull($input3);
+        $this->assertNotNull($event);
 
         $input1->keyDown('u', $modifier);
         $this->assertEquals('key downed:' . $eventProperties, $event->getText());
@@ -219,11 +230,14 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
     {
         $this->getSession()->visit($this->pathTo('/js_test.php'));
 
-        $this->getSession()->getPage()->findById('waitable')->click();
+        $waitable = $this->getSession()->getPage()->findById('waitable');
+        $this->assertNotNull($waitable);
+
+        $waitable->click();
         $this->getSession()->wait(3000, '$("#waitable").has("div").length > 0');
         $this->assertEquals('arrived', $this->getSession()->getPage()->find('css', '#waitable > div')->getText());
 
-        $this->getSession()->getPage()->findById('waitable')->click();
+        $waitable->click();
         $this->getSession()->wait(3000, 'false');
         $this->assertEquals('timeout', $this->getSession()->getPage()->find('css', '#waitable > div')->getText());
     }
@@ -235,6 +249,9 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         $clicker   = $this->getSession()->getPage()->find('css', '.elements div#clicker');
         $invisible = $this->getSession()->getPage()->find('css', '#invisible');
 
+        $this->assertNotNull($clicker);
+        $this->assertNotNull($invisible);
+
         $this->assertFalse($invisible->isVisible());
         $this->assertTrue($clicker->isVisible());
     }
@@ -245,6 +262,9 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
 
         $draggable = $this->getSession()->getPage()->find('css', '#draggable');
         $droppable = $this->getSession()->getPage()->find('css', '#droppable');
+
+        $this->assertNotNull($draggable);
+        $this->assertNotNull($droppable);
 
         $draggable->dragTo($droppable);
         $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());
@@ -297,6 +317,7 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         sleep(1);
 
         $heading = $this->getSession()->getPage()->find('css', 'h1');
+        $this->assertNotNull($heading);
         $this->assertEquals('Hello world', $heading->getText());
     }
 
