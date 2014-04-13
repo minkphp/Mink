@@ -62,6 +62,53 @@ class NodeElementTest extends ElementTest
         $this->assertFalse($node->isValid(), 'more then 1 element found is invalid element');
     }
 
+    public function testWaitForSuccess()
+    {
+        $callCounter = 0;
+        $node = new NodeElement('some xpath', $this->session);
+
+        $result = $node->waitFor(5000, function ($givenNode) use (&$callCounter) {
+            $callCounter++;
+
+            if (1 === $callCounter) {
+                return null;
+            } elseif (2 === $callCounter) {
+                return false;
+            } elseif (3 === $callCounter) {
+                return array();
+            }
+
+            return $givenNode;
+        });
+
+        $this->assertEquals(4, $callCounter, '->waitFor() tries to locate element several times before failing');
+        $this->assertSame($node, $result, '->waitFor() returns node found in callback');
+    }
+
+    public function testWaitForTimeout()
+    {
+        $node = new NodeElement('some xpath', $this->session);
+
+        $expectedTimeout = 2;
+        $startTime = microtime(true);
+        $result = $node->waitFor($expectedTimeout * 1000, function ($givenNode) {
+            return null;
+        });
+        $endTime = microtime(true);
+
+        $this->assertNull($result, '->waitFor() returns whatever callback gives');
+        $this->assertEquals($expectedTimeout, round($endTime - $startTime));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testWaitForFailure()
+    {
+        $node = new NodeElement('some xpath', $this->session);
+        $node->waitFor(5000, 'not a callable');
+    }
+
     public function testHasAttribute()
     {
         $node = new NodeElement('input_tag', $this->session);

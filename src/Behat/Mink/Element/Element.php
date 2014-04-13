@@ -65,6 +65,38 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * Waits for an element(-s) to appear and returns it.
+     *
+     * @param int      $timeout  Maximal allowed waiting time in milliseconds.
+     * @param callable $callback Callback, which result is both used as waiting condition and returned.
+     *                           Will receive reference to `this element` as first argument.
+     *
+     * @return mixed
+     * @throws \InvalidArgumentException When invalid callback given.
+     */
+    public function waitFor($timeout, $callback)
+    {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException('Given callback is not a valid callable');
+        }
+
+        $start = microtime(true);
+        $end = $start + $timeout / 1000.0;
+
+        do {
+            $result = call_user_func($callback, $this);
+
+            if ($result) {
+                break;
+            }
+
+            usleep(100000);
+        } while (microtime(true) < $end);
+
+        return $result;
+    }
+
+    /**
      * Finds first element with specified selector.
      *
      * @param string       $selector selector engine name
