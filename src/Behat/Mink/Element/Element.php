@@ -112,6 +112,25 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * Finds first visible element with specified selector.
+     *
+     * @param string       $selector selector engine name
+     * @param string|array $locator  selector locator
+     *
+     * @return NodeElement|null
+     */
+    public function findFirstVisible($selector, $locator)
+    {
+        $items = $this->findAll($selector, $locator);
+
+        foreach ($items as $item) {
+            if ($item->isVisible()) {
+                return $item;
+            }
+        }
+    }
+
+    /**
      * Finds all elements with specified selector.
      *
      * Valid selector engines are named, xpath, css, named_partial and named_exact.
