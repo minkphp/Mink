@@ -408,7 +408,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * @inheritdoc}
      */
-    public function wait($time, $condition)
+    public function wait($timeout, $condition)
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
