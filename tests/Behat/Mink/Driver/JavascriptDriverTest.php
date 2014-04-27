@@ -357,6 +357,19 @@ abstract class JavascriptDriverTest extends GeneralDriverTest
         );
     }
 
+    public function testResizeWindow()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+        $session = $this->getSession();
+
+        $session->resizeWindow(400, 300);
+        $session->wait(1000, false);
+
+        $script = "return Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;";
+
+        $this->assertTrue($session->evaluateScript($script));
+    }
+
     public function testWindowMaximize()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
