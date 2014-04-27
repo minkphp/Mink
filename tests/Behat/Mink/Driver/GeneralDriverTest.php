@@ -981,6 +981,23 @@ OUT;
         );
     }
 
+    public function testResetBasicAuth()
+    {
+        $session = $this->getSession();
+
+        $session->setBasicAuth('mink-user', 'mink-password');
+
+        $session->visit($this->pathTo('/basic_auth.php'));
+
+        $this->assertContains('is authenticated', $session->getPage()->getContent());
+
+        $session->setBasicAuth(false);
+
+        $session->visit($this->pathTo('/headers.php'));
+
+        $this->assertNotContains('PHP_AUTH_USER', $session->getPage()->getContent());
+    }
+
     public function testHtmlDecodingNotPerformed()
     {
         $session = $this->getSession();
