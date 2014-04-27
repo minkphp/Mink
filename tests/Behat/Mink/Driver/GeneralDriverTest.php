@@ -1047,6 +1047,20 @@ OUT;
         $this->assertNotContains('[HTTP_X_MINK_TEST] => test', $session->getPage()->getContent(), 'The custom header should not be sent after resetting', true);
     }
 
+    public function testResponseHeaders()
+    {
+        $this->getSession()->visit($this->pathTo('/response_headers.php'));
+
+        $headers = $this->getSession()->getResponseHeaders();
+
+        $lowercasedHeaders = array();
+        foreach ($headers as $name => $value) {
+            $lowercasedHeaders[str_replace('_', '-', strtolower($name))] = $value;
+        }
+
+        $this->assertArrayHasKey('x-mink-test', $lowercasedHeaders);
+    }
+
     public function testScreenshot()
     {
         if (!extension_loaded('gd')) {
