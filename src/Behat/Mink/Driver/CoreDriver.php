@@ -22,7 +22,7 @@ use Behat\Mink\Session;
 abstract class CoreDriver implements DriverInterface
 {
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function setSession(Session $session)
     {
@@ -30,7 +30,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function start()
     {
@@ -38,7 +38,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function isStarted()
     {
@@ -46,7 +46,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function stop()
     {
@@ -54,7 +54,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function reset()
     {
@@ -62,7 +62,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function visit($url)
     {
@@ -70,7 +70,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getCurrentUrl()
     {
@@ -78,7 +78,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getContent()
     {
@@ -86,7 +86,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function find($xpath)
     {
@@ -94,7 +94,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getTagName($xpath)
     {
@@ -102,7 +102,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getText($xpath)
     {
@@ -110,7 +110,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getHtml($xpath)
     {
@@ -118,7 +118,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getAttribute($xpath, $name)
     {
@@ -126,7 +126,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getValue($xpath)
     {
@@ -134,7 +134,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function setValue($xpath, $value)
     {
@@ -142,7 +142,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function check($xpath)
     {
@@ -150,7 +150,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function uncheck($xpath)
     {
@@ -158,7 +158,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function isChecked($xpath)
     {
@@ -166,7 +166,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function selectOption($xpath, $value, $multiple = false)
     {
@@ -174,7 +174,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function click($xpath)
     {
@@ -182,7 +182,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function attachFile($xpath, $path)
     {
@@ -190,7 +190,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function reload()
     {
@@ -198,7 +198,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function forward()
     {
@@ -206,7 +206,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function back()
     {
@@ -214,7 +214,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function setBasicAuth($user, $password)
     {
@@ -222,7 +222,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function switchToWindow($name = null)
     {
@@ -230,7 +230,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function switchToIFrame($name = null)
     {
@@ -238,7 +238,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function setRequestHeader($name, $value)
     {
@@ -246,7 +246,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getResponseHeaders()
     {
@@ -254,7 +254,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function setCookie($name, $value = null)
     {
@@ -262,7 +262,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getCookie($name)
     {
@@ -270,7 +270,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getStatusCode()
     {
@@ -278,7 +278,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getScreenshot()
     {
@@ -286,7 +286,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getWindowNames()
     {
@@ -294,7 +294,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function getWindowName()
     {
@@ -302,7 +302,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function doubleClick($xpath)
     {
@@ -310,7 +310,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function rightClick($xpath)
     {
@@ -318,7 +318,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function isVisible($xpath)
     {
@@ -326,7 +326,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function isSelected($xpath)
     {
@@ -334,7 +334,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function mouseOver($xpath)
     {
@@ -342,7 +342,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function focus($xpath)
     {
@@ -350,7 +350,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function blur($xpath)
     {
@@ -358,7 +358,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function keyPress($xpath, $char, $modifier = null)
     {
@@ -366,7 +366,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
@@ -374,7 +374,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
@@ -382,7 +382,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function dragTo($sourceXpath, $destinationXpath)
     {
@@ -390,7 +390,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function executeScript($script)
     {
@@ -398,7 +398,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function evaluateScript($script)
     {
@@ -406,7 +406,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function wait($timeout, $condition)
     {
@@ -414,7 +414,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function resizeWindow($width, $height, $name = null)
     {
@@ -422,7 +422,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function maximizeWindow($name = null)
     {
@@ -430,7 +430,7 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @inheritdoc}
+     * {@inheritdoc}
      */
     public function submitForm($xpath)
     {
