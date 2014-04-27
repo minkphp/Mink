@@ -1011,6 +1011,22 @@ OUT;
         $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());
     }
 
+    public function testResetHeaders()
+    {
+        $session = $this->getSession();
+
+        $session->setRequestHeader('X-Mink-Test', 'test');
+        $session->visit($this->pathTo('/headers.php'));
+
+        $this->assertContains('[HTTP_X_MINK_TEST] => test', $session->getPage()->getContent(), 'The custom header should be sent', true);
+
+        $session->reset();
+
+        $session->visit($this->pathTo('/headers.php'));
+
+        $this->assertNotContains('[HTTP_X_MINK_TEST] => test', $session->getPage()->getContent(), 'The custom header should not be sent after resetting', true);
+    }
+
     public function testScreenshot()
     {
         if (!extension_loaded('gd')) {
