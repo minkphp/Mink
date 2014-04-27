@@ -861,6 +861,26 @@ OUT;
         }
     }
 
+    public function testSubmitEmptyTextarea()
+    {
+        $this->getSession()->visit($this->pathTo('/empty_textarea.php'));
+        $page = $this->getSession()->getPage();
+
+        $page->pressButton('Save');
+
+        $toSearch = array(
+            "'textarea' = '',",
+            "'submit' = 'Save',",
+            'no file',
+        );
+
+        $pageContent = $page->getContent();
+
+        foreach ($toSearch as $searchString) {
+            $this->assertContains($searchString, $pageContent);
+        }
+    }
+
     public function testHtml5FormInputAttribute()
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
