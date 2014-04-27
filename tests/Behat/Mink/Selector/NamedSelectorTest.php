@@ -58,7 +58,7 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 
     public function getSelectorTests()
     {
-        $fieldCount = 12; // fields without `type` attribute
+        $fieldCount = 8; // fields without `type` attribute
         $fieldCount += 4; // fields with `type=checkbox` attribute
         $fieldCount += 4; // fields with `type=radio` attribute
         $fieldCount += 4; // fields with `type=file` attribute
@@ -123,16 +123,16 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
             // 3 matches, because matches every HTML node in path: html > body > div
             'content' => array('test.html', 'content', 'content-text', 1, 4),
 
-            'select (name/placeholder/label)' => array('test.html', 'select', 'the-field', 4),
+            'select (name/label)' => array('test.html', 'select', 'the-field', 3),
             'select (with-id)' => array('test.html', 'select', 'the-field-select', 1),
 
-            'checkbox (name/placeholder/label)' => array('test.html', 'checkbox', 'the-field', 4),
+            'checkbox (name/label)' => array('test.html', 'checkbox', 'the-field', 3),
             'checkbox (with-id)' => array('test.html', 'checkbox', 'the-field-checkbox', 1),
 
-            'radio (name/placeholder/label)' => array('test.html', 'radio', 'the-field', 4),
+            'radio (name/label)' => array('test.html', 'radio', 'the-field', 3),
             'radio (with-id)' => array('test.html', 'radio', 'the-field-radio', 1),
 
-            'file (name/placeholder/label)' => array('test.html', 'file', 'the-field', 4),
+            'file (name/label)' => array('test.html', 'file', 'the-field', 3),
             'file (with-id)' => array('test.html', 'file', 'the-field-file', 1),
 
             'optgroup' => array('test.html', 'optgroup', 'group-label', 1, 2),

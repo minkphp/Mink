@@ -32,8 +32,11 @@ class NamedSelector implements SelectorInterface
         '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
 
         // complex replacements
-        '%fieldMatch%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
-        '%fieldFilter%' => 'self::input | self::textarea | self::select',
+        '%inputTypeWithoutPlaceholderFilter%' => "./@type = 'radio' or ./@type = 'checkbox' or ./@type = 'file'",
+        '%fieldFilterWithPlaceholder%' => 'self::input[not(%inputTypeWithoutPlaceholderFilter%)] | self::textarea',
+        '%fieldMatchWithPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
+        '%fieldMatchWithoutPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch%)',
+        '%fieldFilterWithoutPlaceholder%' => 'self::input[%inputTypeWithoutPlaceholderFilter%] | self::select',
         '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or ./@type = 'hidden')",
         '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
         '%buttonTypeFilter%' => "./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'",
@@ -49,9 +52,14 @@ XPATH
 
         ,'field' => <<<XPATH
 .//*
-[%fieldFilter%][%notFieldTypeFilter%][%fieldMatch%]
+[%fieldFilterWithPlaceholder%][%notFieldTypeFilter%][%fieldMatchWithPlaceholder%]
 |
-.//label[%tagTextMatch%]//.//*[%fieldFilter%][%notFieldTypeFilter%]
+.//label[%tagTextMatch%]//.//*[%fieldFilterWithPlaceholder%][%notFieldTypeFilter%]
+|
+.//*
+[%fieldFilterWithoutPlaceholder%][%notFieldTypeFilter%][%fieldMatchWithoutPlaceholder%]
+|
+.//label[%tagTextMatch%]//.//*[%fieldFilterWithoutPlaceholder%][%notFieldTypeFilter%]
 XPATH
 
         ,'link' => <<<XPATH
@@ -100,28 +108,28 @@ XPATH
 
         ,'select' => <<<XPATH
 .//select
-[%fieldMatch%]
+[%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//select
 XPATH
 
         ,'checkbox' => <<<XPATH
 .//input
-[./@type = 'checkbox'][%fieldMatch%]
+[./@type = 'checkbox'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[./@type = 'checkbox']
 XPATH
 
         ,'radio' => <<<XPATH
 .//input
-[./@type = 'radio'][%fieldMatch%]
+[./@type = 'radio'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[./@type = 'radio']
 XPATH
 
         ,'file' => <<<XPATH
 .//input
-[./@type = 'file'][%fieldMatch%]
+[./@type = 'file'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[./@type = 'file']
 XPATH
