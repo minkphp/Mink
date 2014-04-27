@@ -24,7 +24,6 @@ class Session
     private $driver;
     private $page;
     private $selectorsHandler;
-    private $uniqueId;
 
     /**
      * Initializes session.
@@ -43,7 +42,6 @@ class Session
         $this->driver           = $driver;
         $this->page             = new DocumentElement($this);
         $this->selectorsHandler = $selectorsHandler;
-        $this->uniqueId         = uniqid('mink_session_');
     }
 
     /**
@@ -97,17 +95,6 @@ class Session
     public function getDriver()
     {
         return $this->driver;
-    }
-
-    /**
-     * Returns session unique id.
-     *
-     * @return string
-     * @access public
-     */
-    public function getUniqueId()
-    {
-        return $this->uniqueId;
     }
 
     /**

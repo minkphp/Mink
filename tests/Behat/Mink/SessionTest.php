@@ -273,15 +273,4 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->session->resizeWindow(800, 600, 'test');
     }
-
-    /**
-     * Testing that 2 sessions created with same parameters have different IDs.
-     */
-    public function testUniqueId()
-    {
-        $session  = new Session($this->driver, $this->selectorsHandler);
-
-        $this->assertNotEquals($session->getUniqueId(), $this->session->getUniqueId());
-
-    }
 }
