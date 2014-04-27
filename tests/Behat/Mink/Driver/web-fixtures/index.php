@@ -44,6 +44,7 @@
                     <input type="text" id="user-name" name="username" />
                 </label>
             </div>
+            <input type="submit" />
         </form>
     </footer>
 </body>
