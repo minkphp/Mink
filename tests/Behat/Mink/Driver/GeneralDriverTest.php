@@ -9,7 +9,6 @@ use Behat\Mink\Session;
 
 abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Mink session manager.
      *
@@ -180,7 +179,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         }
 
         // cookie is removed from all paths
-        $session->reload();
+        $session->visit($this->pathTo('/sub-folder/cookie_page2.php'));
         $this->assertContains('Previous cookie: NO', $session->getPage()->getText());
     }
 
@@ -992,6 +991,23 @@ OUT;
         $this->assertContains('is authenticated', $session->getPage()->getContent());
 
         $session->setBasicAuth(false);
+
+        $session->visit($this->pathTo('/headers.php'));
+
+        $this->assertNotContains('PHP_AUTH_USER', $session->getPage()->getContent());
+    }
+
+    public function testResetWithBasicAuth()
+    {
+        $session = $this->getSession();
+
+        $session->setBasicAuth('mink-user', 'mink-password');
+
+        $session->visit($this->pathTo('/basic_auth.php'));
+
+        $this->assertContains('is authenticated', $session->getPage()->getContent());
+
+        $session->reset();
 
         $session->visit($this->pathTo('/headers.php'));
 
