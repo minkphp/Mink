@@ -31,6 +31,22 @@ interface DriverInterface
 
     /**
      * Starts driver.
+     *
+     * Once started, the driver should be ready to visit a page.
+     *
+     * Calling any action before visiting a page is an undefined behavior.
+     * The only supported method calls on a fresh driver are
+     * - visit()
+     * - setRequestHeader()
+     * - setBasicAuth()
+     * - reset()
+     * - stop()
+     *
+     * Calling start on a started driver is an undefined behavior. Driver
+     * implementations are free to handle it silently or to fail with an
+     * exception.
+     *
+     * @throws DriverException When the driver cannot be started
      */
     public function start();
 
@@ -43,11 +59,39 @@ interface DriverInterface
 
     /**
      * Stops driver.
+     *
+     * Once stopped, the driver should be started again before using it again.
+     *
+     * Calling any action on a stopped driver is an undefined behavior.
+     * The only supported method call after stopping a driver is starting it again.
+     *
+     * Calling stop on a stopped driver is an undefined behavior. Driver
+     * implementations are free to handle it silently or to fail with an
+     * exception.
+     *
+     * @throws DriverException When the driver cannot be closed
      */
     public function stop();
 
     /**
-     * Resets driver.
+     * Resets driver state.
+     *
+     * This should reset cookies, request headers and basic authentication.
+     * When possible, the history should be reset as well, but this is not enforced
+     * as some implementations may not be able to reset it without restarting the
+     * driver entirely. Consumers requiring a clean history should restart the driver
+     * to enforce it.
+     *
+     * Once reset, the driver should be ready to visit a page.
+     * Calling any action before visiting a page is an undefined behavior.
+     * The only supported method calls on a fresh driver are
+     * - visit()
+     * - setRequestHeader()
+     * - setBasicAuth()
+     * - reset()
+     * - stop()
+     *
+     * Calling reset on a stopped driver is an undefined behavior.
      */
     public function reset();
 

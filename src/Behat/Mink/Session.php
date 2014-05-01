@@ -56,6 +56,14 @@ class Session
 
     /**
      * Starts session driver.
+     *
+     * Calling any action before visiting a page is an undefined behavior.
+     * The only supported method calls on a fresh driver are
+     * - visit()
+     * - setRequestHeader()
+     * - setBasicAuth()
+     * - reset()
+     * - stop()
      */
     public function start()
     {
@@ -80,7 +88,15 @@ class Session
     }
 
     /**
-     * Reset session driver.
+     * Reset session driver state.
+     *
+     * Calling any action before visiting a page is an undefined behavior.
+     * The only supported method calls on a fresh driver are
+     * - visit()
+     * - setRequestHeader()
+     * - setBasicAuth()
+     * - reset()
+     * - stop()
      */
     public function reset()
     {
