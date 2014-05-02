@@ -349,7 +349,7 @@ class WebAssert
                 $selector = implode(' ', $selector);
             }
 
-            throw new ElementNotFoundException($this->session, 'element', $selectorType, $selector);
+            throw new ElementNotFoundException($this->session->getDriver(), 'element', $selectorType, $selector);
         }
 
         return $node;
@@ -575,7 +575,7 @@ class WebAssert
         $node = $container->findField($field);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->session, 'form field', 'id|name|label|value', $field);
+            throw new ElementNotFoundException($this->session->getDriver(), 'form field', 'id|name|label|value', $field);
         }
 
         return $node;

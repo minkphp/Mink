@@ -10,10 +10,8 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Mink\Session;
 
 /**
  * Driver interface.
@@ -22,13 +20,6 @@ use Behat\Mink\Session;
  */
 interface DriverInterface
 {
-    /**
-     * Sets driver's current session.
-     *
-     * @param Session $session
-     */
-    public function setSession(Session $session);
-
     /**
      * Starts driver.
      *
@@ -270,7 +261,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return NodeElement[]
+     * @return string[] An array of XPath queries for the found elements
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done

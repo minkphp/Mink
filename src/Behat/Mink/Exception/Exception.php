@@ -10,7 +10,7 @@
 
 namespace Behat\Mink\Exception;
 
-use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
 
 /**
  * Mink base exception class.
@@ -19,31 +19,29 @@ use Behat\Mink\Session;
  */
 abstract class Exception extends \Exception
 {
-    private $session;
+    private $driver;
 
     /**
      * Initializes Mink exception.
      *
-     * @param string     $message
-     * @param Session    $session
-     * @param integer    $code
-     * @param \Exception $previous
+     * @param string          $message
+     * @param DriverInterface $driver
+     * @param integer         $code
+     * @param \Exception      $previous
      */
-    public function __construct($message, Session $session = null, $code = 0, \Exception $previous = null)
+    public function __construct($message, DriverInterface $driver = null, $code = 0, \Exception $previous = null)
     {
-        $this->session = $session;
+        $this->driver = $driver;
 
         parent::__construct($message, $code, $previous);
     }
 
     /**
-     * Returns exception session.
-     *
-     * @return Session
+     * @return DriverInterface
      */
-    protected function getSession()
+    protected function getDriver()
     {
-        return $this->session;
+        return $this->driver;
     }
 
     /**
@@ -100,13 +98,13 @@ abstract class Exception extends \Exception
      */
     protected function getResponseInfo()
     {
-        $driver = basename(str_replace('\\', '/', get_class($this->session->getDriver())));
+        $driver = basename(str_replace('\\', '/', get_class($this->driver)));
 
         $info = '+--[ ';
         if (!in_array($driver, array('SahiDriver', 'SeleniumDriver', 'Selenium2Driver'))) {
-            $info .= 'HTTP/1.1 '.$this->session->getStatusCode().' | ';
+            $info .= 'HTTP/1.1 '.$this->driver->getStatusCode().' | ';
         }
-        $info .= $this->session->getCurrentUrl().' | '.$driver." ]\n|\n";
+        $info .= $this->driver->getCurrentUrl().' | '.$driver." ]\n|\n";
 
         return $info;
     }

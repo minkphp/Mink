@@ -10,7 +10,7 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
 
 /**
  * Base element.
@@ -19,26 +19,38 @@ use Behat\Mink\Session;
  */
 abstract class Element implements ElementInterface
 {
-    private $session;
+    /**
+     * Driver.
+     *
+     * @var DriverInterface
+     */
+    private $driver;
+
+    /**
+     * @var ElementFinder
+     */
+    private $elementFinder;
 
     /**
      * Initialize element.
      *
-     * @param Session $session
+     * @param DriverInterface  $driver
+     * @param ElementFinder    $elementFinder
      */
-    public function __construct(Session $session)
+    public function __construct(DriverInterface $driver, ElementFinder $elementFinder)
     {
-        $this->session = $session;
+        $this->driver = $driver;
+        $this->elementFinder = $elementFinder;
     }
 
     /**
-     * Returns element session.
+     * Returns element's driver.
      *
-     * @return Session
+     * @return DriverInterface
      */
-    public function getSession()
+    protected function getDriver()
     {
-        return $this->session;
+        return $this->driver;
     }
 
     /**
@@ -61,7 +73,7 @@ abstract class Element implements ElementInterface
      */
     public function isValid()
     {
-        return 1 === count($this->getSession()->getDriver()->find($this->getXpath()));
+        return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
     /**
@@ -108,7 +120,7 @@ abstract class Element implements ElementInterface
     {
         $items = $this->findAll($selector, $locator);
 
-        return count($items) ? current($items) : null;
+        return count($items) ? $items[0] : null;
     }
 
     /**
@@ -131,42 +143,7 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        if ('named' === $selector) {
-            $items = $this->findAll('named_exact', $locator);
-            if (empty($items)) {
-                $items = $this->findAll('named_partial', $locator);
-            }
-
-            return $items;
-        }
-
-        $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
-        $currentXpath = $this->getXpath();
-        $expressions = array();
-
-        // Regex to find union operators not inside brackets.
-        $pattern = '/\|(?![^\[]*\])/';
-
-        // If the parent current xpath contains a union we need to wrap it in parentheses.
-        if (preg_match($pattern, $currentXpath)) {
-            $currentXpath = '(' . $currentXpath . ')';
-        }
-
-        // Split any unions into individual expressions.
-        foreach (preg_split($pattern, $xpath) as $expression) {
-            $expression = trim($expression);
-            // add parent xpath before element selector
-            if (0 === strpos($expression, '/')) {
-                $expression = $currentXpath.$expression;
-            } else {
-                $expression = $currentXpath.'/'.$expression;
-            }
-            $expressions[] = $expression;
-        }
-
-        $xpath = implode(' | ', $expressions);
-
-        return $this->getSession()->getDriver()->find($xpath);
+        return $this->elementFinder->findAll($selector, $locator, $this->getXpath());
     }
 
     /**
@@ -176,7 +153,7 @@ abstract class Element implements ElementInterface
      */
     public function getText()
     {
-        return $this->getSession()->getDriver()->getText($this->getXpath());
+        return $this->getDriver()->getText($this->getXpath());
     }
 
     /**
@@ -186,6 +163,6 @@ abstract class Element implements ElementInterface
      */
     public function getHtml()
     {
-        return $this->getSession()->getDriver()->getHtml($this->getXpath());
+        return $this->getDriver()->getHtml($this->getXpath());
     }
 }

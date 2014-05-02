@@ -10,8 +10,6 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session;
-
 /**
  * Element interface.
  *
@@ -25,13 +23,6 @@ interface ElementInterface
      * @return string
      */
     public function getXpath();
-
-    /**
-     * Returns element's session.
-     *
-     * @return Session
-     */
-    public function getSession();
 
     /**
      * Checks whether element with specified selector exists.
