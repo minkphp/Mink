@@ -446,4 +446,16 @@ class DocumentElementTest extends ElementTest
 
         $this->assertEquals($expects, $this->document->getHtml());
     }
+
+    public function testGetOuterHtml()
+    {
+        $expects = 'val1';
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getOuterHtml')
+            ->with('//html')
+            ->will($this->returnValue($expects));
+
+        $this->assertEquals($expects, $this->document->getOuterHtml());
+    }
 }

@@ -302,7 +302,7 @@ interface DriverInterface
     public function getText($xpath);
 
     /**
-     * Returns element's html by it's XPath query.
+     * Returns element's inner html by it's XPath query.
      *
      * @param string $xpath
      *
@@ -312,6 +312,18 @@ interface DriverInterface
      * @throws DriverException                  When the operation cannot be done
      */
     public function getHtml($xpath);
+
+    /**
+     * Returns element's outer html by it's XPath query.
+     *
+     * @param string $xpath
+     *
+     * @return string
+     *
+     * @throws UnsupportedDriverActionException When operation not supported by the driver
+     * @throws DriverException                  When the operation cannot be done
+     */
+    public function getOuterHtml($xpath);
 
     /**
      * Returns element's attribute by it's XPath query.

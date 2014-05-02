@@ -90,7 +90,7 @@ interface ElementInterface
     public function getText();
 
     /**
-     * Returns element html.
+     * Returns element inner html.
      *
      * @return string
      */

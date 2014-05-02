@@ -34,6 +34,20 @@ class NodeElementTest extends ElementTest
         $this->assertEquals($expected, $node->getText());
     }
 
+    public function testGetOuterHtml()
+    {
+        $expected = 'val1';
+        $node = new NodeElement('text_tag', $this->session);
+
+        $this->session->getDriver()
+            ->expects($this->once())
+            ->method('getOuterHtml')
+            ->with('text_tag')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->getOuterHtml());
+    }
+
     public function testElementIsValid()
     {
         $elementXpath = 'some xpath';
