@@ -552,6 +552,21 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         };
     }
 
+    public function testFormSubmitWithoutButton()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/form_without_button.html'));
+
+        $page = $session->getPage();
+        $page->findField('first_name')->setValue('Konstantin');
+
+        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+
+        if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
+            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+        };
+    }
+
     protected function safePageWait($time, $condition)
     {
         try {
