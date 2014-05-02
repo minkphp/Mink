@@ -11,7 +11,6 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Session;
-use Behat\Mink\Exception\ElementException;
 use Behat\Mink\Exception\ElementNotFoundException;
 
 /**
@@ -80,8 +79,6 @@ class NodeElement extends TraversableElement
      * Sets node value.
      *
      * @param string $value
-     *
-     * @throws ElementException When an error occurred, while setting new element value.
      */
     public function setValue($value)
     {
@@ -227,8 +224,6 @@ class NodeElement extends TraversableElement
      * Attach file to current node if it's a file input.
      *
      * @param string $path path to file (local)
-     *
-     * @throws ElementException When an error occurred, when attaching a file.
      */
     public function attachFile($path)
     {

@@ -13,7 +13,7 @@ namespace Behat\Mink\Exception;
 use Behat\Mink\Session;
 
 /**
- * Mink "element not found" exception.
+ * Exception thrown when an expected element is not found.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

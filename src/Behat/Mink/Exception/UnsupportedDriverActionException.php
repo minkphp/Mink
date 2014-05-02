@@ -13,7 +13,7 @@ namespace Behat\Mink\Exception;
 use Behat\Mink\Driver\DriverInterface;
 
 /**
- * Mink "element not found" exception.
+ * Exception thrown by drivers when they don't support the requested action.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

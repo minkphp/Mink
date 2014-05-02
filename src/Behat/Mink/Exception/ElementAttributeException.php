@@ -14,7 +14,7 @@ use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Session;
 
 /**
- * Mink's element attribute exception.
+ * Exception thrown when an expectation on an attribute of the element fails.
  *
  * @author Benjamin Grandfond <benjamin.grandfond@gmail.com>
  */

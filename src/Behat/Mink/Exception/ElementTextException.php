@@ -11,7 +11,7 @@
 namespace Behat\Mink\Exception;
 
 /**
- * Mink's element text exception.
+ * Exception thrown when an expectation on the text of an element fails.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

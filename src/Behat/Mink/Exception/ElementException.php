@@ -15,6 +15,8 @@ use Behat\Mink\Element\Element;
 /**
  * A standard way for elements to re-throw exceptions
  *
+ * @deprecated This exception class is not used anymore in Mink 1.6 and will be removed in 2.0
+ *
  * @author Chris Worfolk <xmeltrut@gmail.com>
  */
 class ElementException extends Exception

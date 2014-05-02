@@ -2,9 +2,6 @@
 
 namespace Tests\Behat\Mink\Driver;
 
-use Behat\Mink\Exception\ElementException;
-use Behat\Mink\Element\Element;
-
 require_once __DIR__ . '/JavascriptDriverTest.php';
 
 abstract class CssDriverTest extends JavascriptDriverTest

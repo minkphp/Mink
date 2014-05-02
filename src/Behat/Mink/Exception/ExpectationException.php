@@ -13,7 +13,9 @@ namespace Behat\Mink\Exception;
 use Behat\Mink\Session;
 
 /**
- * Mink's expectation exception.
+ * Exception thrown for failed expectations.
+ *
+ * Some specialized child classes are available to customize the error rendering.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
