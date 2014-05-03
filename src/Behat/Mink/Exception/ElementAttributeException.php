@@ -33,20 +33,8 @@ class ElementAttributeException extends ElementHtmlException
         parent::__construct($message, $session, $element, $exception);
     }
 
-    /**
-     * Returns exception message with additional context info.
-     *
-     * @return string
-     */
-    public function __toString()
+    protected function getContext()
     {
-        try {
-            $pageText = $this->pipeString($this->trimString($this->element->getAttribute()) . "\n");
-            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
-        } catch (\Exception $e) {
-            return $this->getMessage();
-        }
-
-        return $string;
+        return $this->element->getAttribute();
     }
 }

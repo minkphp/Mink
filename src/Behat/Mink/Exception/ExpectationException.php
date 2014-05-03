@@ -45,12 +45,22 @@ class ExpectationException extends Exception
     public function __toString()
     {
         try {
-            $pageText = $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
+            $pageText = $this->pipeString($this->trimString($this->getContext()) . "\n");
             $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
         }
 
         return $string;
+    }
+
+    /**
+     * Gets the context rendered for this exception
+     *
+     * @return string
+     */
+    protected function getContext()
+    {
+        return $this->trimBody($this->getSession()->getPage()->getContent());
     }
 }
