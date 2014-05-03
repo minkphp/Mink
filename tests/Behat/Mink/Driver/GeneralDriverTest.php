@@ -334,6 +334,24 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('div', $element->getTagName());
     }
 
+    public function testOuterHtml()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $page = $this->getSession()->getPage();
+        $element = $page->find('css', '.travers');
+
+        $this->assertNotNull($element);
+
+        $this->assertEquals(
+            "<div class=\"travers\">\n            <div class=\"sub\">el1</div>\n".
+            "            <div class=\"sub\">el2</div>\n            <div class=\"sub\">\n".
+            "                <a href=\"some_url\">some <strong>deep</strong> url</a>\n".
+            "            </div>\n        </div>",
+            $element->getOuterHtml()
+        );
+    }
+
     /**
      * @dataProvider getAttributeDataProvider
      */

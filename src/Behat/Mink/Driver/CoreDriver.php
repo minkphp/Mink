@@ -114,7 +114,15 @@ abstract class CoreDriver implements DriverInterface
      */
     public function getHtml($xpath)
     {
-        throw new UnsupportedDriverActionException('Getting the element HTML is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Getting the element inner HTML is not supported by %s', $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOuterHtml($xpath)
+    {
+        throw new UnsupportedDriverActionException('Getting the element outer HTML is not supported by %s', $this);
     }
 
     /**

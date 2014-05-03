@@ -170,9 +170,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns element text (inside tag).
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getText()
     {
@@ -180,12 +178,20 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Returns element html.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getHtml()
     {
         return $this->getSession()->getDriver()->getHtml($this->getXpath());
+    }
+
+    /**
+     * Returns element outer html.
+     *
+     * @return string
+     */
+    public function getOuterHtml()
+    {
+        return $this->getSession()->getDriver()->getOuterHtml($this->getXpath());
     }
 }
