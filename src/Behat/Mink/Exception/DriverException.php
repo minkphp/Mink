@@ -11,7 +11,7 @@
 namespace Behat\Mink\Exception;
 
 /**
- * Mink driver exception.
+ * Exception thrown by drivers when they fail to perform an action.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

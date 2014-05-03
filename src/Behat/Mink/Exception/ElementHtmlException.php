@@ -14,7 +14,7 @@ use Behat\Mink\Session;
 use Behat\Mink\Element\Element;
 
 /**
- * Mink's element HTML exception.
+ * Exception thrown when an expectation on the HTML of an element fails.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

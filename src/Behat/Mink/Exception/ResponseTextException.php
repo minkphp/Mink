@@ -11,7 +11,7 @@
 namespace Behat\Mink\Exception;
 
 /**
- * Mink response's text exception.
+ * Exception thrown when an expectation on the response text fails.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */

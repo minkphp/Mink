@@ -11,7 +11,7 @@
 namespace Behat\Mink\Exception;
 
 /**
- * Mink "attribute element not found" exception.
+ * Exception thrown when an expected attribute is not found.
  *
  * @author Benjamin Grandfond <benjamin.grandfond@gmail.com>
  */
