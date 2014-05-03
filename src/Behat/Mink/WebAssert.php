@@ -10,6 +10,7 @@
 
 namespace Behat\Mink;
 
+use Behat\Mink\Element\Element;
 use Behat\Mink\Element\ElementInterface;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Element\TraversableElement;
@@ -50,10 +51,7 @@ class WebAssert
         $expected = $this->cleanUrl($page);
         $actual   = $this->getCurrentUrlPath();
 
-        if ($actual !== $expected) {
-            $message = sprintf('Current page is "%s", but "%s" expected.', $actual, $expected);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert($actual === $expected, sprintf('Current page is "%s", but "%s" expected.', $actual, $expected));
     }
 
     /**
@@ -68,10 +66,7 @@ class WebAssert
         $expected = $this->cleanUrl($page);
         $actual   = $this->getCurrentUrlPath();
 
-        if ($actual === $expected) {
-            $message = sprintf('Current page is "%s", but should not be.', $actual);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert($actual !== $expected, sprintf('Current page is "%s", but should not be.', $actual));
     }
 
     /**
@@ -84,11 +79,9 @@ class WebAssert
     public function addressMatches($regex)
     {
         $actual = $this->getCurrentUrlPath();
+        $message = sprintf('Current page "%s" does not match the regex "%s".', $actual, $regex);
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('Current page "%s" does not match the regex "%s".', $actual, $regex);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(preg_match($regex, $actual), $message);
     }
 
     /**
@@ -97,16 +90,16 @@ class WebAssert
      * @param string $name  cookie name
      * @param string $value cookie value
      *
-     * @throws \Behat\Mink\Exception\ExpectationException
+     * @throws ExpectationException
      */
     public function cookieEquals($name, $value)
     {
         $this->cookieExists($name);
+
         $actualValue = $this->session->getCookie($name);
-        if ($actualValue != $value) {
-            $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name, $actualValue, $value);
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf('Cookie "%s" value is "%s", but should be "%s".', $name, $actualValue, $value);
+
+        $this->assert($actualValue == $value, $message);
     }
 
     /**
@@ -114,14 +107,12 @@ class WebAssert
      *
      * @param string $name cookie name
      *
-     * @throws \Behat\Mink\Exception\ExpectationException
+     * @throws ExpectationException
      */
     public function cookieExists($name)
     {
-        if ($this->session->getCookie($name) === null) {
-            $message = sprintf('Cookie "%s" is not set, but should be.', $name);
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf('Cookie "%s" is not set, but should be.', $name);
+        $this->assert($this->session->getCookie($name) !== null, $message);
     }
 
     /**
@@ -134,11 +125,9 @@ class WebAssert
     public function statusCodeEquals($code)
     {
         $actual = $this->session->getStatusCode();
+        $message = sprintf('Current response status code is %d, but %d expected.', $actual, $code);
 
-        if (intval($code) !== intval($actual)) {
-            $message = sprintf('Current response status code is %d, but %d expected.', $actual, $code);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(intval($code) === intval($actual), $message);
     }
 
     /**
@@ -151,11 +140,9 @@ class WebAssert
     public function statusCodeNotEquals($code)
     {
         $actual = $this->session->getStatusCode();
+        $message = sprintf('Current response status code is %d, but should not be.', $actual);
 
-        if (intval($code) === intval($actual)) {
-            $message = sprintf('Current response status code is %d, but should not be.', $actual);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(intval($code) !== intval($actual), $message);
     }
 
     /**
@@ -170,11 +157,9 @@ class WebAssert
         $actual = $this->session->getPage()->getText();
         $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
+        $message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
-            throw new ResponseTextException($message, $this->session);
-        }
+        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -189,11 +174,9 @@ class WebAssert
         $actual = $this->session->getPage()->getText();
         $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
+        $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
-            throw new ResponseTextException($message, $this->session);
-        }
+        $this->assertResponseText(!preg_match($regex, $actual), $message);
     }
 
     /**
@@ -206,11 +189,9 @@ class WebAssert
     public function pageTextMatches($regex)
     {
         $actual = $this->session->getPage()->getText();
+        $message = sprintf('The pattern %s was not found anywhere in the text of the current page.', $regex);
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('The pattern %s was not found anywhere in the text of the current page.', $regex);
-            throw new ResponseTextException($message, $this->session);
-        }
+        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -223,11 +204,9 @@ class WebAssert
     public function pageTextNotMatches($regex)
     {
         $actual = $this->session->getPage()->getText();
+        $message = sprintf('The pattern %s was found in the text of the current page, but it should not.', $regex);
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf('The pattern %s was found in the text of the current page, but it should not.', $regex);
-            throw new ResponseTextException($message, $this->session);
-        }
+        $this->assertResponseText(!preg_match($regex, $actual), $message);
     }
 
     /**
@@ -241,11 +220,9 @@ class WebAssert
     {
         $actual = $this->session->getPage()->getContent();
         $regex  = '/'.preg_quote($text, '/').'/ui';
+        $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text);
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -259,11 +236,9 @@ class WebAssert
     {
         $actual = $this->session->getPage()->getContent();
         $regex  = '/'.preg_quote($text, '/').'/ui';
+        $message = sprintf('The string "%s" appears in the HTML response of this page, but it should not.', $text);
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf('The string "%s" appears in the HTML response of this page, but it should not.', $text);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(!preg_match($regex, $actual), $message);
     }
 
     /**
@@ -276,11 +251,9 @@ class WebAssert
     public function responseMatches($regex)
     {
         $actual = $this->session->getPage()->getContent();
+        $message = sprintf('The pattern %s was not found anywhere in the HTML response of the page.', $regex);
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('The pattern %s was not found anywhere in the HTML response of the page.', $regex);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -293,11 +266,9 @@ class WebAssert
     public function responseNotMatches($regex)
     {
         $actual = $this->session->getPage()->getContent();
+        $message = sprintf('The pattern %s was found in the HTML response of the page, but it should not.', $regex);
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf('The pattern %s was found in the HTML response of the page, but it should not.', $regex);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(!preg_match($regex, $actual), $message);
     }
 
     /**
@@ -315,15 +286,14 @@ class WebAssert
         $container = $container ?: $this->session->getPage();
         $nodes = $container->findAll($selectorType, $selector);
 
-        if (intval($count) !== count($nodes)) {
-            $message = sprintf(
-                '%d %s found on the page, but should be %d.',
-                count($nodes),
-                $this->getMatchingElementRepresentation($selectorType, $selector, count($nodes) !== 1),
-                $count
-            );
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf(
+            '%d %s found on the page, but should be %d.',
+            count($nodes),
+            $this->getMatchingElementRepresentation($selectorType, $selector, count($nodes) !== 1),
+            $count
+        );
+
+        $this->assert(intval($count) === count($nodes), $message);
     }
 
     /**
@@ -367,13 +337,12 @@ class WebAssert
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
 
-        if (null !== $node) {
-            $message = sprintf(
-                'An %s appears on this page, but it should not.',
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf(
+            'An %s appears on this page, but it should not.',
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assert(null === $node, $message);
     }
 
     /**
@@ -391,14 +360,13 @@ class WebAssert
         $actual  = $element->getText();
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The text "%s" was not found in the text of the %s.',
-                $text,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementTextException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The text "%s" was not found in the text of the %s.',
+            $text,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElementText((bool) preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -416,14 +384,13 @@ class WebAssert
         $actual  = $element->getText();
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The text "%s" appears in the text of the %s, but it should not.',
-                $text,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementTextException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The text "%s" appears in the text of the %s, but it should not.',
+            $text,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElementText(!preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -441,14 +408,13 @@ class WebAssert
         $actual  = $element->getHtml();
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The string "%s" was not found in the HTML of the %s.',
-                $html,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementHtmlException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The string "%s" was not found in the HTML of the %s.',
+            $html,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElement((bool) preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -466,14 +432,13 @@ class WebAssert
         $actual  = $element->getHtml();
         $regex   = '/'.preg_quote($html, '/').'/ui';
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The string "%s" appears in the HTML of the %s, but it should not.',
-                $html,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementHtmlException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The string "%s" appears in the HTML of the %s, but it should not.',
+            $html,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElement(!preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -491,14 +456,13 @@ class WebAssert
     {
         $element = $this->elementExists($selectorType, $selector);
 
-        if (!$element->hasAttribute($attribute)) {
-            $message = sprintf(
-                'The attribute "%s" was not found in the %s.',
-                $attribute,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementHtmlException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The attribute "%s" was not found in the %s.',
+            $attribute,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElement($element->hasAttribute($attribute), $message, $element);
 
         return $element;
     }
@@ -519,15 +483,14 @@ class WebAssert
         $actual  = $element->getAttribute($attribute);
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The text "%s" was not found in the attribute "%s" of the %s.',
-                $text,
-                $attribute,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementHtmlException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The text "%s" was not found in the attribute "%s" of the %s.',
+            $text,
+            $attribute,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElement((bool) preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -546,15 +509,14 @@ class WebAssert
         $actual  = $element->getAttribute($attribute);
         $regex   = '/'.preg_quote($text, '/').'/ui';
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf(
-                'The text "%s" was found in the attribute "%s" of the %s.',
-                $text,
-                $attribute,
-                $this->getMatchingElementRepresentation($selectorType, $selector)
-            );
-            throw new ElementHtmlException($message, $this->session, $element);
-        }
+        $message = sprintf(
+            'The text "%s" was found in the attribute "%s" of the %s.',
+            $text,
+            $attribute,
+            $this->getMatchingElementRepresentation($selectorType, $selector)
+        );
+
+        $this->assertElement(!preg_match($regex, $actual), $message, $element);
     }
 
     /**
@@ -592,10 +554,7 @@ class WebAssert
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
 
-        if (null !== $node) {
-            $message = sprintf('A field "%s" appears on this page, but it should not.', $field);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(null === $node, sprintf('A field "%s" appears on this page, but it should not.', $field));
     }
 
     /**
@@ -613,10 +572,9 @@ class WebAssert
         $actual = $node->getValue();
         $regex  = '/^'.preg_quote($value, '/').'$/ui';
 
-        if (!preg_match($regex, $actual)) {
-            $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
+
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -634,10 +592,9 @@ class WebAssert
         $actual = $node->getValue();
         $regex  = '/^'.preg_quote($value, '/').'$/ui';
 
-        if (preg_match($regex, $actual)) {
-            $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
-            throw new ExpectationException($message, $this->session);
-        }
+        $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
+
+        $this->assert(!preg_match($regex, $actual), $message);
     }
 
     /**
@@ -652,10 +609,7 @@ class WebAssert
     {
         $node = $this->fieldExists($field, $container);
 
-        if (!$node->isChecked()) {
-            $message = sprintf('Checkbox "%s" is not checked, but it should be.', $field);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert($node->isChecked(), sprintf('Checkbox "%s" is not checked, but it should be.', $field));
     }
 
     /**
@@ -670,10 +624,7 @@ class WebAssert
     {
         $node = $this->fieldExists($field, $container);
 
-        if ($node->isChecked()) {
-            $message = sprintf('Checkbox "%s" is checked, but it should not be.', $field);
-            throw new ExpectationException($message, $this->session);
-        }
+        $this->assert(!$node->isChecked(), sprintf('Checkbox "%s" is checked, but it should not be.', $field));
     }
 
     /**
@@ -699,6 +650,76 @@ class WebAssert
         $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
 
         return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
+    }
+
+    /**
+     * Asserts a condition.
+     *
+     * @param bool   $condition
+     * @param string $message   Failure message
+     *
+     * @throws ExpectationException when the condition is not fulfilled
+     */
+    private function assert($condition, $message)
+    {
+        if ($condition) {
+            return;
+        }
+
+        throw new ExpectationException($message, $this->session);
+    }
+
+    /**
+     * Asserts a condition involving the response text.
+     *
+     * @param bool   $condition
+     * @param string $message   Failure message
+     *
+     * @throws ResponseTextException when the condition is not fulfilled
+     */
+    private function assertResponseText($condition, $message)
+    {
+        if ($condition) {
+            return;
+        }
+
+        throw new ResponseTextException($message, $this->session);
+    }
+
+    /**
+     * Asserts a condition on an element.
+     *
+     * @param bool    $condition
+     * @param string  $message   Failure message
+     * @param Element $element
+     *
+     * @throws ElementHtmlException when the condition is not fulfilled
+     */
+    private function assertElement($condition, $message, Element $element)
+    {
+        if ($condition) {
+            return;
+        }
+
+        throw new ElementHtmlException($message, $this->session, $element);
+    }
+
+    /**
+     * Asserts a condition involving the text of an element.
+     *
+     * @param bool    $condition
+     * @param string  $message   Failure message
+     * @param Element $element
+     *
+     * @throws ElementTextException when the condition is not fulfilled
+     */
+    private function assertElementText($condition, $message, Element $element)
+    {
+        if ($condition) {
+            return;
+        }
+
+        throw new ElementTextException($message, $this->session, $element);
     }
 
     /**
