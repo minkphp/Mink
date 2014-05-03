@@ -754,7 +754,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'elementAttributeContains',
             array('css', 'h2 > span', 'name', 'bar'),
-            'Behat\\Mink\\Exception\\ElementAttributeException',
+            'Behat\\Mink\\Exception\\ElementHtmlException',
             'The text "bar" was not found in the attribute "name" of the element matching css "h2 > span".'
         );
     }
@@ -802,7 +802,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'elementAttributeExists',
             array('css', 'h2 > span', 'name'),
-            'Behat\\Mink\\Exception\\ElementAttributeNotFoundException',
+            'Behat\\Mink\\Exception\\ElementHtmlException',
             'The attribute "name" was not found in the element matching css "h2 > span".'
         );
     }
@@ -849,7 +849,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertWrongAssertion(
             'elementAttributeNotContains',
             array('css', 'h2 > span', 'name', 'foo'),
-            'Behat\\Mink\\Exception\\ElementAttributeException',
+            'Behat\\Mink\\Exception\\ElementHtmlException',
             'The text "foo" was found in the attribute "name" of the element matching css "h2 > span".'
         );
     }

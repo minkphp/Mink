@@ -18,8 +18,6 @@ use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Exception\ResponseTextException;
 use Behat\Mink\Exception\ElementHtmlException;
 use Behat\Mink\Exception\ElementTextException;
-use Behat\Mink\Exception\ElementAttributeException;
-use Behat\Mink\Exception\ElementAttributeNotFoundException;
 
 /**
  * Mink web assertions tool.
@@ -487,7 +485,7 @@ class WebAssert
      *
      * @return NodeElement
      *
-     * @throws Exception\ElementAttributeNotFoundException
+     * @throws ElementHtmlException
      */
     public function elementAttributeExists($selectorType, $selector, $attribute)
     {
@@ -499,7 +497,7 @@ class WebAssert
                 $attribute,
                 $this->getMatchingElementRepresentation($selectorType, $selector)
             );
-            throw new ElementAttributeNotFoundException($message, $this->session, $element);
+            throw new ElementHtmlException($message, $this->session, $element);
         }
 
         return $element;
@@ -513,7 +511,7 @@ class WebAssert
      * @param string       $attribute
      * @param string       $text
      *
-     * @throws ElementAttributeException
+     * @throws ElementHtmlException
      */
     public function elementAttributeContains($selectorType, $selector, $attribute, $text)
     {
@@ -528,7 +526,7 @@ class WebAssert
                 $attribute,
                 $this->getMatchingElementRepresentation($selectorType, $selector)
             );
-            throw new ElementAttributeException($message, $this->session, $element);
+            throw new ElementHtmlException($message, $this->session, $element);
         }
     }
 
@@ -540,7 +538,7 @@ class WebAssert
      * @param string       $attribute
      * @param string       $text
      *
-     * @throws ElementAttributeException
+     * @throws ElementHtmlException
      */
     public function elementAttributeNotContains($selectorType, $selector, $attribute, $text)
     {
@@ -555,7 +553,7 @@ class WebAssert
                 $attribute,
                 $this->getMatchingElementRepresentation($selectorType, $selector)
             );
-            throw new ElementAttributeException($message, $this->session, $element);
+            throw new ElementHtmlException($message, $this->session, $element);
         }
     }
 

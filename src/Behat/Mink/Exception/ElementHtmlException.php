@@ -42,20 +42,8 @@ class ElementHtmlException extends ExpectationException
         parent::__construct($message, $session, $exception);
     }
 
-    /**
-     * Returns exception message with additional context info.
-     *
-     * @return string
-     */
-    public function __toString()
+    protected function getContext()
     {
-        try {
-            $pageText = $this->pipeString($this->trimString($this->element->getHtml()) . "\n");
-            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
-        } catch (\Exception $e) {
-            return $this->getMessage();
-        }
-
-        return $string;
+        return $this->element->getOuterHtml();
     }
 }

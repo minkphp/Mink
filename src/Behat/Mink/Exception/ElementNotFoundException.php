@@ -17,7 +17,7 @@ use Behat\Mink\Session;
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class ElementNotFoundException extends Exception
+class ElementNotFoundException extends ExpectationException
 {
     /**
      * Initializes exception.
@@ -43,28 +43,11 @@ class ElementNotFoundException extends Exception
             } else {
                 $selector = 'with '.$selector;
             }
-            $message .= ' '.$selector.' "' . $locator . '" ';
+            $message .= ' '.$selector.' "' . $locator . '"';
         }
 
-        $message .= 'not found.';
+        $message .= ' not found.';
 
         parent::__construct($message, $session);
-    }
-
-    /**
-     * Returns exception message with additional context info.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        try {
-            $pageText = $this->pipeString($this->trimBody($this->getSession()->getPage()->getContent()) . "\n");
-            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
-        } catch (\Exception $e) {
-            return $this->getMessage();
-        }
-
-        return $string;
     }
 }
