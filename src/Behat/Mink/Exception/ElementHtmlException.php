@@ -44,10 +44,6 @@ class ElementHtmlException extends ExpectationException
 
     protected function getContext()
     {
-        try {
-            return $this->element->getOuterHtml();
-        } catch (UnsupportedDriverActionException $e) {
-            return $this->element->getHtml();
-        }
+        return $this->element->getOuterHtml();
     }
 }
