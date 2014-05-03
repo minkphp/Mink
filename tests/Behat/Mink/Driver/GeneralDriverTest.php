@@ -1268,6 +1268,14 @@ OUT;
         $this->getSession()->getDriver()->getHtml('//html/.//invalid');
     }
 
+    public function testGetOuterHtmlNotFoundElement()
+    {
+        $this->getSession()->visit($this->pathTo('/index.php'));
+
+        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->getSession()->getDriver()->getOuterHtml('//html/.//invalid');
+    }
+
     public function testGetValueNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.php'));
