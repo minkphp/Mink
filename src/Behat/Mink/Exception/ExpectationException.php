@@ -133,8 +133,10 @@ class ExpectationException extends Exception
         $driver = basename(str_replace('\\', '/', get_class($this->session->getDriver())));
 
         $info = '+--[ ';
-        if (!in_array($driver, array('SahiDriver', 'SeleniumDriver', 'Selenium2Driver'))) {
+        try {
             $info .= 'HTTP/1.1 '.$this->session->getStatusCode().' | ';
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore the status code when not supported
         }
         $info .= $this->session->getCurrentUrl().' | '.$driver." ]\n|\n";
 
