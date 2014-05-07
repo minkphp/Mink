@@ -374,11 +374,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $this->getSession()->visit($this->pathTo('/contenteditable.html'));
 
-        $page = $this->getSession()->getPage();
-
-        $this->assertEquals('ContentEditable Attribute Test', $page->find('css', 'h1')->getText());
-
-        $element = $page->find('css', '#changeMe');
+        $element = $this->getSession()->getPage()->find('css', '#changeMe');
         $element->setValue($newString);
 
         $this->assertEquals($newString, $element->getHtml());
