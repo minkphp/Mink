@@ -376,7 +376,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
 
         $page = $this->getSession()->getPage();
 
-        $this->assertEquals('HTML5 form attribute test', $page->find('css', 'h1')->getText());
+        $this->assertEquals('ContentEditable Attribute Test', $page->find('css', 'h1')->getText());
 
         $element = $page->find('css', '#changeMe');
         $element->setValue($newString);
