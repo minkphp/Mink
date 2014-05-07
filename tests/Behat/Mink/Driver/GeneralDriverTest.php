@@ -370,7 +370,7 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
      */
     public function testContentEditable()
     {
-        $newString = "New Content";
+        $newString = 'New Content';
 
         $this->getSession()->visit($this->pathTo('/contenteditable.html'));
 
