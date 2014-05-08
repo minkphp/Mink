@@ -148,6 +148,9 @@ XPATH
 .//table
 [(%idMatch% or .//caption[%tagTextMatch%])]
 XPATH
+        ,'id' => <<<XPATH
+.//*[%idMatch%]
+XPATH
     );
 
     /**
