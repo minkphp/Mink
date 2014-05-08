@@ -119,17 +119,7 @@ class DocumentElementTest extends ElementTest
     {
         $xpath = '//*[@id=some-item-2]';
 
-        $this->session->getDriver()
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->with('//html' . $xpath)
-            ->will($this->onConsecutiveCalls(array('id2', 'id3'), array()));
-
-        $this->selectors
-            ->expects($this->exactly(2))
-            ->method('selectorToXpath')
-            ->with('xpath', $xpath)
-            ->will($this->returnValue($xpath));
+        $this->mockNamedFinder($xpath, array(array('id2', 'id3'), array()), array('id', 'some-item-2'));
 
         $this->assertEquals('id2', $this->document->findById('some-item-2'));
         $this->assertEquals(null, $this->document->findById('some-item-2'));

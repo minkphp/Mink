@@ -30,7 +30,7 @@ abstract class TraversableElement extends Element
     {
         $id = $this->getSession()->getSelectorsHandler()->xpathLiteral($id);
 
-        return $this->find('xpath', "//*[@id=$id]");
+        return $this->find('named', array('id', $id));
     }
 
     /**
