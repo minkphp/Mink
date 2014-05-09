@@ -365,6 +365,21 @@ abstract class GeneralDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));
     }
 
+    /**
+     * Test that setValue() works with contenteditable attribute
+     */
+    public function testContentEditable()
+    {
+        $newString = 'New Content';
+
+        $this->getSession()->visit($this->pathTo('/contenteditable.html'));
+
+        $element = $this->getSession()->getPage()->find('css', '#changeMe');
+        $element->setValue($newString);
+
+        $this->assertEquals($newString, $element->getHtml());
+    }
+
     public function getAttributeDataProvider()
     {
         return array(
