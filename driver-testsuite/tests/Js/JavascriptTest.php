@@ -8,19 +8,19 @@ class JavascriptTest extends TestCase
 {
     public function testAriaRoles()
     {
-        $this->getSession()->visit($this->pathTo('/aria_roles.php'));
+        $this->getSession()->visit($this->pathTo('/aria_roles.html'));
 
         $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === false');
         $this->getSession()->getPage()->pressButton('Toggle');
         $this->getSession()->wait(5000, '$("#hidden-element").is(":visible") === true');
 
         $this->getSession()->getPage()->clickLink('Go to Index');
-        $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/index.html'), $this->getSession()->getCurrentUrl());
     }
 
     public function testDragDrop()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
 
         $draggable = $this->getSession()->getPage()->find('css', '#draggable');
         $droppable = $this->getSession()->getPage()->find('css', '#droppable');
@@ -49,7 +49,7 @@ class JavascriptTest extends TestCase
     // test accentuated char in button
     public function testIssue225()
     {
-        $this->getSession()->visit($this->pathTo('/issue225.php'));
+        $this->getSession()->visit($this->pathTo('/issue225.html'));
         $this->getSession()->getPage()->pressButton('Créer un compte');
         $this->getSession()->wait(5000, '$("#panel").text() != ""');
 

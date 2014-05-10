@@ -8,7 +8,7 @@ class VisibilityTest extends TestCase
 {
     public function testVisibility()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
 
         $clicker   = $this->getSession()->getPage()->find('css', '.elements div#clicker');
         $invisible = $this->getSession()->getPage()->find('css', '#invisible');

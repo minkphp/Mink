@@ -8,7 +8,7 @@ class WindowTest extends TestCase
 {
     public function testWindow()
     {
-        $this->getSession()->visit($this->pathTo('/window.php'));
+        $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
         $page    = $session->getPage();
 
@@ -40,7 +40,7 @@ class WindowTest extends TestCase
 
     public function testGetWindowNames()
     {
-        $this->getSession()->visit($this->pathTo('/window.php'));
+        $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
         $page    = $session->getPage();
 
@@ -60,7 +60,7 @@ class WindowTest extends TestCase
 
     public function testResizeWindow()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
 
         $session->resizeWindow(400, 300);
@@ -73,7 +73,7 @@ class WindowTest extends TestCase
 
     public function testWindowMaximize()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
         $driver = $session->getDriver();
 

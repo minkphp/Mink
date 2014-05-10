@@ -11,7 +11,7 @@ class JavascriptEvaluationTest extends TestCase
      */
     public function testWaitReturnValue()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
 
         $found = $this->getSession()->wait(5000, '$("#draggable").length == 1');
         $this->assertTrue($found);
@@ -19,7 +19,7 @@ class JavascriptEvaluationTest extends TestCase
 
     public function testWait()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
 
         $waitable = $this->getSession()->getPage()->findById('waitable');
         $this->assertNotNull($waitable);
@@ -38,7 +38,7 @@ class JavascriptEvaluationTest extends TestCase
      */
     public function testExecuteScript($script)
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->getSession()->executeScript($script);
 
@@ -66,7 +66,7 @@ class JavascriptEvaluationTest extends TestCase
      */
     public function testEvaluateJavascript($script)
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->assertSame(2, $this->getSession()->evaluateScript($script));
     }

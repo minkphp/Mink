@@ -15,7 +15,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testCheckInvalidElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->getSession()->getPage()->findById('user-name');
 
         $this->assertNotNull($element);
@@ -26,7 +26,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testCheckNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->check('//html/.//invalid');
@@ -34,7 +34,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testUncheckInvalidElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->getSession()->getPage()->findById('user-name');
 
         $this->assertNotNull($element);
@@ -45,7 +45,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testUncheckNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->uncheck('//html/.//invalid');
@@ -53,7 +53,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testSelectOptionInvalidElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->getSession()->getPage()->findById('user-name');
 
         $this->assertNotNull($element);
@@ -64,7 +64,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testSelectOptionNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->selectOption('//html/.//invalid', 'test');
@@ -72,7 +72,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testAttachFileInvalidElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->getSession()->getPage()->findById('user-name');
 
         $this->assertNotNull($element);
@@ -83,7 +83,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testAttachFileNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->attachFile('//html/.//invalid', __FILE__);
@@ -91,7 +91,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testSubmitFormInvalidElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
         $element = $this->getSession()->getPage()->findById('core');
 
         $this->assertNotNull($element);
@@ -102,7 +102,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testSubmitFormNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->submitForm('//html/.//invalid');
@@ -110,7 +110,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetTagNameNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getTagName('//html/.//invalid');
@@ -118,7 +118,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetTextNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getText('//html/.//invalid');
@@ -126,7 +126,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetHtmlNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getHtml('//html/.//invalid');
@@ -134,7 +134,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetOuterHtmlNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getOuterHtml('//html/.//invalid');
@@ -142,7 +142,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetValueNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getValue('//html/.//invalid');
@@ -150,7 +150,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testSetValueNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->setValue('//html/.//invalid', 'test');
@@ -158,7 +158,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testIsSelectedNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->isSelected('//html/.//invalid');
@@ -166,7 +166,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testIsCheckedNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->isChecked('//html/.//invalid');
@@ -174,7 +174,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testIsVisibleNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->isVisible('//html/.//invalid');
@@ -182,7 +182,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testClickNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->click('//html/.//invalid');
@@ -190,7 +190,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testDoubleClickNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->doubleClick('//html/.//invalid');
@@ -198,7 +198,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testRightClickNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->rightClick('//html/.//invalid');
@@ -206,7 +206,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testGetAttributeNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->getAttribute('//html/.//invalid', 'id');
@@ -214,7 +214,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testMouseOverFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->mouseOver('//html/.//invalid');
@@ -222,7 +222,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testFocusFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->focus('//html/.//invalid');
@@ -230,7 +230,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testBlurFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->blur('//html/.//invalid');
@@ -238,7 +238,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testKeyPressNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->keyPress('//html/.//invalid', 'a');
@@ -246,7 +246,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testKeyDownNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->keyDown('//html/.//invalid', 'a');
@@ -254,7 +254,7 @@ class ErrorHandlingTest extends TestCase
 
     public function testKeyUpNotFoundElement()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->setExpectedException('Behat\Mink\Exception\DriverException');
         $this->getSession()->getDriver()->keyUp('//html/.//invalid', 'a');

@@ -12,7 +12,7 @@ class TraversingTest extends TestCase
      */
     public function testIssue211()
     {
-        $this->getSession()->visit($this->pathTo('/issue211.php'));
+        $this->getSession()->visit($this->pathTo('/issue211.html'));
         $field = $this->getSession()->getPage()->findField('Téléphone');
 
         $this->assertNotNull($field);
@@ -20,7 +20,7 @@ class TraversingTest extends TestCase
 
     public function testElementsTraversing()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $page = $this->getSession()->getPage();
 
@@ -62,7 +62,7 @@ class TraversingTest extends TestCase
 
     public function testVeryDeepElementsTraversing()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $page = $this->getSession()->getPage();
 
@@ -103,7 +103,7 @@ class TraversingTest extends TestCase
 
     public function testDeepTraversing()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $traversDiv = $this->getSession()->getPage()->findAll('css', 'div.travers');
 

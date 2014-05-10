@@ -12,7 +12,7 @@ class ScreenshotTest extends TestCase
             $this->markTestSkipped('Testing screenshots requires the GD extension');
         }
 
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $screenShot = $this->getSession()->getScreenshot();
 

@@ -12,7 +12,7 @@ class FormTest extends TestCase
      */
     public function testIssue131()
     {
-        $this->getSession()->visit($this->pathTo('/issue131.php'));
+        $this->getSession()->visit($this->pathTo('/issue131.html'));
         $page = $this->getSession()->getPage();
 
         $page->selectFieldOption('foobar', 'Gimme some accentués characters');
@@ -25,7 +25,7 @@ class FormTest extends TestCase
     {
         $session = $this->getSession();
 
-        $session->visit($this->pathTo('/issue212.php'));
+        $session->visit($this->pathTo('/issue212.html'));
         $page = $session->getPage();
 
         $field = $page->findById('poney-button');
@@ -35,7 +35,7 @@ class FormTest extends TestCase
 
     public function testBasicForm()
     {
-        $this->getSession()->visit($this->pathTo('/basic_form.php'));
+        $this->getSession()->visit($this->pathTo('/basic_form.html'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
@@ -78,7 +78,7 @@ class FormTest extends TestCase
     public function testFormSubmitWays($submitVia)
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/basic_form.php'));
+        $session->visit($this->pathTo('/basic_form.html'));
         $page = $session->getPage();
 
         $firstname = $page->findField('first_name');
@@ -107,7 +107,7 @@ class FormTest extends TestCase
     public function testFormSubmit()
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/basic_form.php'));
+        $session->visit($this->pathTo('/basic_form.html'));
 
         $page = $session->getPage();
         $page->findField('first_name')->setValue('Konstantin');
@@ -152,7 +152,7 @@ class FormTest extends TestCase
 
     public function testMultiselect()
     {
-        $this->getSession()->visit($this->pathTo('/multiselect_form.php'));
+        $this->getSession()->visit($this->pathTo('/multiselect_form.html'));
         $page = $this->getSession()->getPage();
         $this->assertEquals('Multiselect Test', $page->find('css', 'h1')->getText());
 
@@ -199,7 +199,7 @@ OUT;
     public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/multiselect_form.php'));
+        $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $session->getPage()->findField($selectName);
 
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
@@ -221,7 +221,7 @@ OUT;
 
     public function testAdvancedForm()
     {
-        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
 
         $page->fillField('first_name', 'ever');
@@ -231,7 +231,7 @@ OUT;
 
         $this->assertContains('no file', $page->getContent());
 
-        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
@@ -317,7 +317,7 @@ OUT;
 
     public function testCheckboxMultiple()
     {
-        $this->getSession()->visit($this->pathTo('/multicheckbox_form.php'));
+        $this->getSession()->visit($this->pathTo('/multicheckbox_form.html'));
 
         $page = $this->getSession()->getPage();
         $this->assertEquals('Multicheckbox Test', $page->find('css', 'h1')->getText());
@@ -345,7 +345,7 @@ OUT;
 
     public function testMultiInput()
     {
-        $this->getSession()->visit($this->pathTo('/multi_input_form.php'));
+        $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
         $page = $this->getSession()->getPage();
         $this->assertEquals('Multi input Test', $page->find('css', 'h1')->getText());
 
@@ -395,7 +395,7 @@ OUT;
 
     public function testAdvancedFormSecondSubmit()
     {
-        $this->getSession()->visit($this->pathTo('/advanced_form.php'));
+        $this->getSession()->visit($this->pathTo('/advanced_form.html'));
         $page = $this->getSession()->getPage();
 
         $button = $page->findButton('Login');
@@ -417,7 +417,7 @@ OUT;
 
     public function testSubmitEmptyTextarea()
     {
-        $this->getSession()->visit($this->pathTo('/empty_textarea.php'));
+        $this->getSession()->visit($this->pathTo('/empty_textarea.html'));
         $page = $this->getSession()->getPage();
 
         $page->pressButton('Save');
@@ -441,7 +441,7 @@ OUT;
     public function testSetValueXPathEscaping()
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/advanced_form.php'));
+        $session->visit($this->pathTo('/advanced_form.html'));
         $page = $session->getPage();
 
         $sex = $page->find('xpath', '//*[@name = "sex"]' . "\n|\n" . '//*[@id = "sex"]');

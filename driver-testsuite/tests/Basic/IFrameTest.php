@@ -8,7 +8,7 @@ class IFrameTest extends TestCase
 {
     public function testIFrame()
     {
-        $this->getSession()->visit($this->pathTo('/iframe.php'));
+        $this->getSession()->visit($this->pathTo('/iframe.html'));
         $page = $this->getSession()->getPage();
 
         $el = $page->find('css', '#text');
