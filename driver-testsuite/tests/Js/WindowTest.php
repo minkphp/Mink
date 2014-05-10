@@ -64,7 +64,7 @@ class WindowTest extends TestCase
         $session = $this->getSession();
 
         $session->resizeWindow(400, 300);
-        $session->wait(1000, false);
+        $session->wait(1000, 'false');
 
         $script = "return Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;";
 
@@ -78,7 +78,7 @@ class WindowTest extends TestCase
         $driver = $session->getDriver();
 
         $driver->maximizeWindow();
-        $driver->wait(1000, false);
+        $driver->wait(1000, 'false');
 
         $script = "return Math.abs(screen.availHeight - window.outerHeight) <= 100;";
 

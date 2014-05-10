@@ -81,7 +81,7 @@ class WebAssert
         $actual = $this->getCurrentUrlPath();
         $message = sprintf('Current page "%s" does not match the regex "%s".', $actual, $regex);
 
-        $this->assert(preg_match($regex, $actual), $message);
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
