@@ -34,16 +34,11 @@ class Session
      * @var ElementFinder
      */
     private $elementFinder;
-    /**
-     * @var SelectorsHandler
-     */
-    private $selectorsHandler;
 
     public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
     {
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
-        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler);
+        $this->elementFinder = new ElementFinder($driver, $selectorsHandler ?? new SelectorsHandler());
         $this->page = new DocumentElement($this);
 
         $driver->setSession($this);
@@ -142,20 +137,6 @@ class Session
     public function getElementFinder(): ElementFinder
     {
         return $this->elementFinder;
-    }
-
-    /**
-     * Returns selectors handler.
-     *
-     * @return SelectorsHandler
-     *
-     * @deprecated since 1.11
-     */
-    public function getSelectorsHandler()
-    {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->selectorsHandler;
     }
 
     /**

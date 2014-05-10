@@ -23,14 +23,6 @@ class DocumentElementTest extends ElementTestCase
         $this->document = new DocumentElement($this->session);
     }
 
-    /**
-     * @group legacy
-     */
-    public function testGetSession()
-    {
-        $this->assertEquals($this->session, $this->document->getSession());
-    }
-
     public function testFindAll()
     {
         $node1 = $this->createStub(NodeElement::class);
