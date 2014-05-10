@@ -272,21 +272,6 @@ XPATH
 
     private function escapeLocator(string $locator): string
     {
-        // If the locator looks like an escaped one, don't escape it again for BC reasons.
-        if (
-            preg_match('/^\'[^\']*+\'$/', $locator)
-            || (false !== strpos($locator, '\'') && preg_match('/^"[^"]*+"$/', $locator))
-            || ((8 < $length = strlen($locator)) && 'concat(' === substr($locator, 0, 7) && ')' === $locator[$length - 1])
-        ) {
-            @trigger_error(
-                'Passing an escaped locator to the named selector is deprecated as of 1.7 and will be removed in 2.0.'
-                .' Pass the raw value instead.',
-                E_USER_DEPRECATED
-            );
-
-            return $locator;
-        }
-
         return $this->xpathEscaper->escapeLiteral($locator);
     }
 }

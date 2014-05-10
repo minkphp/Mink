@@ -46,24 +46,6 @@ class SessionTest extends TestCase
         $this->assertInstanceOf('Behat\Mink\Element\DocumentElement', $this->session->getPage());
     }
 
-    /**
-     * @group legacy
-     */
-    public function testGetSelectorsHandler()
-    {
-        $this->assertSame($this->selectorsHandler, $this->session->getSelectorsHandler());
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testInstantiateWithoutOptionalDeps()
-    {
-        $session = new Session($this->driver);
-
-        $this->assertInstanceOf('Behat\Mink\Selector\SelectorsHandler', $session->getSelectorsHandler());
-    }
-
     public function testIsStarted()
     {
         $this->driver->expects($this->once())
