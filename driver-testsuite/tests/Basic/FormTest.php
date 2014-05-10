@@ -203,7 +203,7 @@ OUT;
         $select = $session->getPage()->findField($selectName);
 
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
-        $option = $select->find('xpath', 'descendant-or-self::option[@value = ' . $optionValueEscaped . ']');
+        $option = $select->find('named', array('option', $optionValueEscaped));
         $this->assertNotNull($option);
 
         $this->assertFalse($option->isSelected());
