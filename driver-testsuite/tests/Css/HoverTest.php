@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Behat\Mink\Driver;
+namespace Behat\Mink\Tests\Driver\Css;
 
-require_once __DIR__ . '/JavascriptDriverTest.php';
+use Behat\Mink\Tests\Driver\TestCase;
 
-abstract class CssDriverTest extends JavascriptDriverTest
+class HoverTest extends TestCase
 {
-
     /**
      * @group mouse-events
      */
