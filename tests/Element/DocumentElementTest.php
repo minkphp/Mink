@@ -1,14 +1,9 @@
 <?php
 
-namespace Test\Behat\Mink\Element;
+namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\DocumentElement;
 
-require_once 'ElementTest.php';
-
-/**
- * @group unittest
- */
 class DocumentElementTest extends ElementTest
 {
     /**

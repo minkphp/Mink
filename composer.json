@@ -32,6 +32,12 @@
         }
     },
 
+    "autoload-dev": {
+        "psr-4": {
+            "Behat\\Mink\\Tests\\": "tests"
+        }
+    },
+
     "extra": {
         "branch-alias": {
             "dev-master": "1.6.x-dev"

@@ -1,12 +1,9 @@
 <?php
 
-namespace Tests\Behat\Mink;
+namespace Behat\Mink\Tests;
 
 use Behat\Mink\Session;
 
-/**
- * @group unittest
- */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**

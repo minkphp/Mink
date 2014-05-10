@@ -1,10 +1,7 @@
 <?php
 
-namespace Tests\Behat\Mink\Driver;
+namespace Behat\Mink\Tests\Driver;
 
-/**
- * @group unittest
- */
 class CoreDriverTest extends \PHPUnit_Framework_TestCase
 {
     /**

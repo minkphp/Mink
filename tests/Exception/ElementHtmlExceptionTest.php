@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Behat\Mink\Exception;
+namespace Behat\Mink\Tests\Exception;
 
-use Behat\Mink\Exception\ElementTextException;
+use Behat\Mink\Exception\ElementHtmlException;
 
-class ElementTextExceptionTest extends \PHPUnit_Framework_TestCase
+class ElementHtmlExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testExceptionToString()
     {
@@ -23,22 +23,24 @@ class ElementTextExceptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('http://localhost/test'));
 
         $element->expects($this->any())
-            ->method('getText')
-            ->will($this->returnValue("Hello world\nTest\n"));
+            ->method('getOuterHtml')
+            ->will($this->returnValue("<div>\n    <h1>Hello world</h1>\n    <p>Test</p>\n</div>"));
 
         $expected = <<<'TXT'
-Text error
+Html error
 
 +--[ HTTP/1.1 200 | http://localhost/test | %s ]
 |
-|  Hello world
-|  Test
+|  <div>
+|      <h1>Hello world</h1>
+|      <p>Test</p>
+|  </div>
 |
 TXT;
 
         $expected = sprintf($expected.'  ', get_class($driver));
 
-        $exception = new ElementTextException('Text error', $session, $element);
+        $exception = new ElementHtmlException('Html error', $session, $element);
 
         $this->assertEquals($expected, $exception->__toString());
     }

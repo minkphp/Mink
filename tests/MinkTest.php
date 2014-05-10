@@ -1,12 +1,9 @@
 <?php
 
-namespace Tests\Behat\Mink;
+namespace Behat\Mink\Tests;
 
 use Behat\Mink\Mink;
 
-/**
- * @group unittest
- */
 class MinkTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -1,12 +1,9 @@
 <?php
 
-namespace Tests\Behat\Mink\Selector;
+namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\CssSelector;
 
-/**
- * @group unittest
- */
 class CssSelectorTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

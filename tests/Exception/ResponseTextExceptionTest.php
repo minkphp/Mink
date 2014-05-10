@@ -1,18 +1,11 @@
 <?php
 
-namespace Tests\Behat\Mink\Exception;
+namespace Behat\Mink\Tests\Exception;
 
-use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\ResponseTextException;
 
-class ExpectationExceptionTest extends \PHPUnit_Framework_TestCase
+class ResponseTextExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEmptyMessageAndPreviousException()
-    {
-        $exception = new ExpectationException('', $this->getSessionMock(), new \Exception('Something failed'));
-
-        $this->assertEquals('Something failed', $exception->getMessage());
-    }
-
     public function testExceptionToString()
     {
         $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
@@ -33,38 +26,24 @@ class ExpectationExceptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('http://localhost/test'));
 
         $page->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue("<html><head>\n<title>Hello</title>\n</head>\n<body>\n<h1>Hello world</h1>\n<p>Test</p>\n</body></html>"));
+            ->method('getText')
+            ->will($this->returnValue("Hello world\nTest\n"));
 
         $expected = <<<'TXT'
-Expectation failure
+Text error
 
 +--[ HTTP/1.1 200 | http://localhost/test | %s ]
 |
-|  <body>
-|  <h1>Hello world</h1>
-|  <p>Test</p>
-|  </body>
+|  Hello world
+|  Test
 |
 TXT;
 
         $expected = sprintf($expected.'  ', get_class($driver));
 
-        $exception = new ExpectationException('Expectation failure', $session);
+        $exception = new ResponseTextException('Text error', $session);
 
         $this->assertEquals($expected, $exception->__toString());
-    }
-
-    public function testExceptionWhileRenderingString()
-    {
-        $session = $this->getSessionMock();
-        $session->expects($this->any())
-            ->method('getPage')
-            ->will($this->throwException(new \Exception('Broken page')));
-
-        $exception = new ExpectationException('Expectation failure', $session);
-
-        $this->assertEquals('Expectation failure', $exception->__toString());
     }
 
     private function getSessionMock()

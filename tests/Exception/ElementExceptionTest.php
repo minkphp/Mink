@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Behat\Mink\Exception;
+namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementException;
 
