@@ -11,6 +11,7 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session;
 
@@ -47,7 +48,6 @@ abstract class Element implements ElementInterface
     {
         $this->session = $session;
 
-        // TODO: pass these in constructor instead of Session
         $this->driver = $session->getDriver();
         $this->selectorsHandler = $session->getSelectorsHandler();
     }
@@ -56,6 +56,8 @@ abstract class Element implements ElementInterface
      * Returns element session.
      *
      * @return Session
+     *
+     * @deprecated Accessing the session from the element is deprecated as of 1.6 and will be impossible in 2.0.
      */
     public function getSession()
     {
@@ -234,5 +236,22 @@ abstract class Element implements ElementInterface
     public function getOuterHtml()
     {
         return $this->getDriver()->getOuterHtml($this->getXpath());
+    }
+
+    /**
+     * Builds an ElementNotFoundException
+     *
+     * This is an helper to build the ElementNotFoundException without
+     * needing to use the deprecated getSession accessor in child classes.
+     *
+     * @param string      $type
+     * @param string|null $selector
+     * @param string|null $locator
+     *
+     * @return ElementNotFoundException
+     */
+    protected function elementNotFound($type, $selector = null, $locator = null)
+    {
+        return new ElementNotFoundException($this->session, $type, $selector, $locator);
     }
 }
