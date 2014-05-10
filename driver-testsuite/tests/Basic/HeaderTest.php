@@ -27,6 +27,15 @@ class HeaderTest extends TestCase
         $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());
     }
 
+    public function testSetUserAgent()
+    {
+        $session = $this->getSession();
+
+        $session->setRequestHeader('user-agent', 'foo bar');
+        $session->visit($this->pathTo('/headers.php'));
+        $this->assertContains('[HTTP_USER_AGENT] => foo bar', $session->getPage()->getContent());
+    }
+
     public function testResetHeaders()
     {
         $session = $this->getSession();
