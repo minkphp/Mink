@@ -8,7 +8,7 @@ class ContentTest extends TestCase
 {
     public function testOuterHtml()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $page = $this->getSession()->getPage();
         $element = $page->find('css', '.travers');
@@ -29,7 +29,7 @@ class ContentTest extends TestCase
      */
     public function testGetAttribute($attributeName, $attributeValue)
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
 

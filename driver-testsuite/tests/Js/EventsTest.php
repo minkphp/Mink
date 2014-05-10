@@ -11,7 +11,7 @@ class EventsTest extends TestCase
      */
     public function testClick()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
         $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
@@ -25,7 +25,7 @@ class EventsTest extends TestCase
      */
     public function testDoubleClick()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
         $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
@@ -39,7 +39,7 @@ class EventsTest extends TestCase
      */
     public function testRightClick()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
         $this->assertNotNull($clicker);
         $this->assertEquals('not clicked', $clicker->getText());
@@ -53,7 +53,7 @@ class EventsTest extends TestCase
      */
     public function testFocus()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
         $this->assertNotNull($focusBlurDetector);
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
@@ -68,7 +68,7 @@ class EventsTest extends TestCase
      */
     public function testBlur()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
         $this->assertNotNull($focusBlurDetector);
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
@@ -82,7 +82,7 @@ class EventsTest extends TestCase
      */
     public function testMouseOver()
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
         $mouseOverDetector = $this->getSession()->getPage()->find('css', '.elements div#mouseover-detector');
         $this->assertNotNull($mouseOverDetector);
         $this->assertEquals('no mouse action detected', $mouseOverDetector->getText());
@@ -96,7 +96,7 @@ class EventsTest extends TestCase
      */
     public function testKeyboardEvents($modifier, $eventProperties)
     {
-        $this->getSession()->visit($this->pathTo('/js_test.php'));
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
 
         $input1 = $this->getSession()->getPage()->find('css', '.elements input.input.first');
         $input2 = $this->getSession()->getPage()->find('css', '.elements input.input.second');

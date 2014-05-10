@@ -8,10 +8,10 @@ class StatusCodeTest extends TestCase
 {
     public function testStatuses()
     {
-        $this->getSession()->visit($this->pathTo('/index.php'));
+        $this->getSession()->visit($this->pathTo('/index.html'));
 
         $this->assertEquals(200, $this->getSession()->getStatusCode());
-        $this->assertEquals($this->pathTo('/index.php'), $this->getSession()->getCurrentUrl());
+        $this->assertEquals($this->pathTo('/index.html'), $this->getSession()->getCurrentUrl());
 
         $this->getSession()->visit($this->pathTo('/404.php'));
 

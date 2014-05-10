@@ -14,7 +14,7 @@ class ChangeEventTest extends TestCase
     public function testIssue255()
     {
         $session = $this->getSession();
-        $session->visit($this->pathTo('/issue255.php'));
+        $session->visit($this->pathTo('/issue255.html'));
 
         $session->getPage()->selectFieldOption('foo_select', 'Option 3');
 
