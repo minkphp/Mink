@@ -544,8 +544,16 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     public function getArrayLocatorFormats()
     {
         return array(
-            'named' => array('named', array('button', 'Test'), 'An button matching locator "Test" appears on this page, but it should not.'),
-            'custom' => array('custom', array('test', 'foo'), 'An element matching custom "test foo" appears on this page, but it should not.'),
+            'named' => array(
+                'named',
+                array('button', 'Test'),
+                'An button matching locator "Test" appears on this page, but it should not.',
+            ),
+            'custom' => array(
+                'custom',
+                array('test', 'foo'),
+                'An element matching custom "test foo" appears on this page, but it should not.',
+            ),
         );
     }
 

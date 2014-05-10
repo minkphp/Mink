@@ -11,7 +11,10 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
     {
         $refl = new \ReflectionClass('Behat\Mink\Driver\CoreDriver');
 
-        $this->assertFalse($refl->getMethod($method->getName())->isAbstract(), sprintf('CoreDriver should implement a dummy %s method', $method->getName()));
+        $this->assertFalse(
+            $refl->getMethod($method->getName())->isAbstract(),
+            sprintf('CoreDriver should implement a dummy %s method', $method->getName())
+        );
 
         $driver = $this->getMockForAbstractClass('Behat\Mink\Driver\CoreDriver');
 

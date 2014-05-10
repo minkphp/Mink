@@ -32,9 +32,10 @@ class ExpectationExceptionTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentUrl')
             ->will($this->returnValue('http://localhost/test'));
 
+        $html = "<html><head><title>Hello</title></head>\n<body>\n<h1>Hello world</h1>\n<p>Test</p>\n</body></html>";
         $page->expects($this->any())
             ->method('getContent')
-            ->will($this->returnValue("<html><head>\n<title>Hello</title>\n</head>\n<body>\n<h1>Hello world</h1>\n<p>Test</p>\n</body></html>"));
+            ->will($this->returnValue($html));
 
         $expected = <<<'TXT'
 Expectation failure

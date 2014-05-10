@@ -549,13 +549,13 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_xpath', $this->session);
         $xpath = "some_tag1 | some_tag2[@foo =\n 'bar|'']\n | some_tag3[foo | bar]";
-        $expectedPrefixed = "some_xpath/some_tag1 | some_xpath/some_tag2[@foo =\n 'bar|''] | some_xpath/some_tag3[foo | bar]";
+        $expected = "some_xpath/some_tag1 | some_xpath/some_tag2[@foo =\n 'bar|''] | some_xpath/some_tag3[foo | bar]";
 
         $this->driver
             ->expects($this->exactly(1))
             ->method('find')
             ->will($this->returnValueMap(array(
-                array($expectedPrefixed, array(2, 3, 4)),
+                array($expected, array(2, 3, 4)),
             )));
 
         $this->selectors

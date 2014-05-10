@@ -10,7 +10,11 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/500.php'));
 
-        $this->assertContains('Sorry, a server error happened', $this->getSession()->getPage()->getContent(), 'Drivers allow loading pages with a 500 status code');
+        $this->assertContains(
+            'Sorry, a server error happened',
+            $this->getSession()->getPage()->getContent(),
+            'Drivers allow loading pages with a 500 status code'
+        );
     }
 
     public function testCheckInvalidElement()

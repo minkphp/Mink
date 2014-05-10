@@ -733,7 +733,9 @@ class WebAssert
     {
         $pluralization = $plural ? 's' : '';
 
-        if (in_array($selectorType, array('named', 'named_exact', 'named_partial')) && is_array($selector) && 2 === count($selector)) {
+        if (in_array($selectorType, array('named', 'named_exact', 'named_partial'))
+            && is_array($selector) && 2 === count($selector)
+        ) {
             return sprintf('%s%s matching locator "%s"', $selector[0], $pluralization, $selector[1]);
         }
 

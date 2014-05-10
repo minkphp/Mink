@@ -34,7 +34,9 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
     {
-        $expectedCount = $this->allowPartialMatch() && null !== $expectedPartialCount ? $expectedPartialCount : $expectedExactCount;
+        $expectedCount = $this->allowPartialMatch() && null !== $expectedPartialCount
+            ? $expectedPartialCount
+            : $expectedExactCount;
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadHTMLFile(__DIR__.'/fixtures/'.$fixtureFile);

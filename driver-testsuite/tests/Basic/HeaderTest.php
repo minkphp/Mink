@@ -43,13 +43,22 @@ class HeaderTest extends TestCase
         $session->setRequestHeader('X-Mink-Test', 'test');
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertContains('[HTTP_X_MINK_TEST] => test', $session->getPage()->getContent(), 'The custom header should be sent', true);
+        $this->assertContains(
+            '[HTTP_X_MINK_TEST] => test',
+            $session->getPage()->getContent(),
+            'The custom header should be sent',
+            true
+        );
 
         $session->reset();
-
         $session->visit($this->pathTo('/headers.php'));
 
-        $this->assertNotContains('[HTTP_X_MINK_TEST] => test', $session->getPage()->getContent(), 'The custom header should not be sent after resetting', true);
+        $this->assertNotContains(
+            '[HTTP_X_MINK_TEST] => test',
+            $session->getPage()->getContent(),
+            'The custom header should not be sent after resetting',
+            true
+        );
     }
 
     public function testResponseHeaders()

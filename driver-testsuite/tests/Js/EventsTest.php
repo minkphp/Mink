@@ -123,7 +123,8 @@ class EventsTest extends TestCase
         return array(
             'none' => array(null, '0 / 0 / 0 / 0'),
             'alt' => array('alt', '1 / 0 / 0 / 0'),
-            'ctrl' => array('ctrl', '0 / 1 / 0 / 1'), // jQuery considers ctrl as being a metaKey in the normalized event
+             // jQuery considers ctrl as being a metaKey in the normalized event
+            'ctrl' => array('ctrl', '0 / 1 / 0 / 1'),
             'shift' => array('shift', '0 / 0 / 1 / 0'),
             'meta' => array('meta', '0 / 0 / 0 / 1'),
         );
