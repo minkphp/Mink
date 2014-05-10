@@ -1,13 +1,10 @@
 <?php
 
-namespace Tests\Behat\Mink\Selector;
+namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\SelectorsHandler;
 
-/**
- * @group unittest
- */
 abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterXpath()

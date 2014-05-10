@@ -1,17 +1,11 @@
 <?php
 
-namespace Test\Behat\Mink\Element;
+namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\NodeElement;
 
-require_once 'ElementTest.php';
-
-/**
- * @group unittest
- */
 class NodeElementTest extends ElementTest
 {
-
     public function testGetXpath()
     {
         $node = new NodeElement('some custom xpath', $this->session);

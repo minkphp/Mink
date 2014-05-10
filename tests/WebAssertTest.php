@@ -1,12 +1,9 @@
 <?php
 
-namespace Tests\Behat\Mink;
+namespace Behat\Mink\Tests;
 
 use Behat\Mink\WebAssert;
 
-/**
- * @group unittest
- */
 class WebAssertTest extends \PHPUnit_Framework_TestCase
 {
     /**

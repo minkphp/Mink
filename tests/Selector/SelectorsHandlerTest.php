@@ -1,12 +1,9 @@
 <?php
 
-namespace Tests\Behat\Mink\Selector;
+namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\SelectorsHandler;
 
-/**
- * @group unittest
- */
 class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterSelector()

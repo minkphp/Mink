@@ -1,13 +1,10 @@
 <?php
 
-namespace Test\Behat\Mink\Element;
+namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Session;
 use Behat\Mink\Selector\SelectorsHandler;
 
-/**
- * @group unittest
- */
 abstract class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
