@@ -22,6 +22,15 @@ class ChangeEventTest extends TestCase
         $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
     }
 
+    public function testIssue178()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue178.html'));
+
+        $session->getPage()->findById('source')->setValue('foo');
+        $this->assertEquals('foo', $session->getPage()->findById('target')->getText());
+    }
+
     /**
      * @dataProvider setValueChangeEventDataProvider
      * @group change-event-detector
