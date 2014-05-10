@@ -19,7 +19,7 @@ class NodeElementTest extends ElementTest
         $expected = 'val1';
         $node = new NodeElement('text_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getText')
             ->with('text_tag')
@@ -33,7 +33,7 @@ class NodeElementTest extends ElementTest
         $expected = 'val1';
         $node = new NodeElement('text_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getOuterHtml')
             ->with('text_tag')
@@ -47,7 +47,7 @@ class NodeElementTest extends ElementTest
         $elementXpath = 'some xpath';
         $node = new NodeElement($elementXpath, $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('find')
             ->with($elementXpath)
@@ -60,7 +60,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some xpath', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('find')
             ->with('some xpath')
@@ -99,7 +99,7 @@ class NodeElementTest extends ElementTest
 
         $expectedTimeout = 2;
         $startTime = microtime(true);
-        $result = $node->waitFor($expectedTimeout * 1000, function ($givenNode) {
+        $result = $node->waitFor($expectedTimeout * 1000, function () {
             return null;
         });
         $endTime = microtime(true);
@@ -121,7 +121,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('getAttribute')
             ->with('input_tag', 'href')
@@ -136,7 +136,7 @@ class NodeElementTest extends ElementTest
         $expected = 'http://...';
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getAttribute')
             ->with('input_tag', 'href')
@@ -149,7 +149,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(6))
             ->method('getAttribute')
             ->with('input_tag', 'class')
@@ -164,7 +164,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getAttribute')
             ->with('input_tag', 'class')
@@ -178,7 +178,7 @@ class NodeElementTest extends ElementTest
         $expected = 'val1';
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getValue')
             ->with('input_tag')
@@ -192,7 +192,7 @@ class NodeElementTest extends ElementTest
         $expected = 'new_val';
         $node = new NodeElement('input_tag', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('setValue')
             ->with('input_tag', $expected);
@@ -204,7 +204,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('link_or_button', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('click')
             ->with('link_or_button');
@@ -216,7 +216,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('link_or_button', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('click')
             ->with('link_or_button');
@@ -228,7 +228,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('rightClick')
             ->with('elem');
@@ -240,7 +240,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('doubleClick')
             ->with('elem');
@@ -252,7 +252,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('check')
             ->with('checkbox_or_radio');
@@ -264,7 +264,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('checkbox_or_radio', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('uncheck')
             ->with('checkbox_or_radio');
@@ -283,13 +283,13 @@ class NodeElementTest extends ElementTest
             ->method('getValue')
             ->will($this->returnValue('item1'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getTagName')
             ->with('select')
             ->will($this->returnValue('select'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('find')
             ->with('select/option')
@@ -301,7 +301,7 @@ class NodeElementTest extends ElementTest
             ->with('named_exact', array('option', 'item1'))
             ->will($this->returnValue('option'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('selectOption')
             ->with('select', 'item1', false);
@@ -316,13 +316,13 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('select', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getTagName')
             ->with('select')
             ->will($this->returnValue('select'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('find')
             ->with('select/option')
@@ -341,13 +341,13 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('div', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getTagName')
             ->with('div')
             ->will($this->returnValue('div'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('selectOption')
             ->with('div', 'item1', false);
@@ -359,7 +359,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('html//h3', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('getTagName')
             ->with('html//h3')
@@ -375,7 +375,7 @@ class NodeElementTest extends ElementTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('find')
             ->with('elem/..')
@@ -394,7 +394,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('attachFile')
             ->with('elem', 'path');
@@ -406,7 +406,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_xpath', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('isVisible')
             ->with('some_xpath')
@@ -420,7 +420,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_xpath', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('isChecked')
             ->with('some_xpath')
@@ -434,7 +434,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_xpath', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(2))
             ->method('isSelected')
             ->with('some_xpath')
@@ -448,7 +448,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some-element', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('focus')
             ->with('some-element');
@@ -460,7 +460,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some-element', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('blur')
             ->with('some-element');
@@ -472,7 +472,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some-element', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('mouseOver')
             ->with('some-element');
@@ -489,7 +489,7 @@ class NodeElementTest extends ElementTest
             ->method('getXPath')
             ->will($this->returnValue('some_tag2'));
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('dragTo')
             ->with('some_tag1', 'some_tag2');
@@ -501,7 +501,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('keyPress')
             ->with('elem', 'key');
@@ -513,7 +513,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('keyDown')
             ->with('elem', 'key');
@@ -525,7 +525,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('elem', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('keyUp')
             ->with('elem', 'key');
@@ -537,7 +537,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_xpath', $this->session);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->once())
             ->method('submitForm')
             ->with('some_xpath');
@@ -551,7 +551,7 @@ class NodeElementTest extends ElementTest
         $xpath = "some_tag1 | some_tag2[@foo =\n 'bar|'']\n | some_tag3[foo | bar]";
         $expectedPrefixed = "some_xpath/some_tag1 | some_xpath/some_tag2[@foo =\n 'bar|''] | some_xpath/some_tag3[foo | bar]";
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(1))
             ->method('find')
             ->will($this->returnValueMap(array(
@@ -574,7 +574,7 @@ class NodeElementTest extends ElementTest
         $xpath = "some_tag1 | some_tag2";
         $expectedPrefixed = "(some_xpath | another_xpath)/some_tag1 | (some_xpath | another_xpath)/some_tag2";
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly(1))
             ->method('find')
             ->will($this->returnValueMap(array(

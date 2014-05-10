@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Element;
 
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Session;
 use Behat\Mink\Selector\SelectorsHandler;
 
@@ -15,6 +16,11 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
     protected $session;
 
     /**
+     * @var DriverInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $driver;
+
+    /**
      * Selectors.
      *
      * @var SelectorsHandler|\PHPUnit_Framework_MockObject_MockObject
@@ -23,26 +29,18 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->session  = $this->getSessionWithMockedDriver();
-        $this->selectors = $this->session->getSelectorsHandler();
-    }
-
-    protected function getSessionWithMockedDriver()
-    {
-        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $driver
+        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
+        $this->driver
             ->expects($this->once())
             ->method('setSession');
 
-        $selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
-        $session = new Session($driver, $selectors);
+        $this->selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
+        $this->session = new Session($this->driver, $this->selectors);
 
-        $selectors
+        $this->selectors
             ->expects($this->any())
             ->method('xpathLiteral')
             ->will($this->returnArgument(0));
-
-        return $session;
     }
 
     protected function mockNamedFinder($xpath, array $results, $locator, $times = 2)
@@ -63,7 +61,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
 
         $returnValue = call_user_func_array(array($this, 'onConsecutiveCalls'), $processedResults);
 
-        $this->session->getDriver()
+        $this->driver
             ->expects($this->exactly($times))
             ->method('find')
             ->with('//html' . $xpath)
