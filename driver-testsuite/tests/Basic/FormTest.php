@@ -434,4 +434,20 @@ OUT;
             $this->assertContains($searchString, $pageContent);
         }
     }
+
+    /**
+     * @see https://github.com/Behat/MinkSahiDriver/issues/32
+     */
+    public function testSetValueXPathEscaping()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/advanced_form.php'));
+        $page = $session->getPage();
+
+        $sex = $page->find('xpath', '//*[@name = "sex"]' . "\n|\n" . '//*[@id = "sex"]');
+        $this->assertNotNull($sex, 'xpath with line ending works');
+
+        $sex->setValue('m');
+        $this->assertEquals('m', $sex->getValue(), 'no double xpath escaping during radio button value change');
+    }
 }
