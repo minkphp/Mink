@@ -84,3 +84,10 @@ class Config extends AbstractConfig
 
 Some other methods are available in the AbstractConfig which can be overwritten to adapt the testsuite to
 the needs of the driver (skipping some tests for instance).
+
+Adding Driver-specific Tests
+----------------------------
+
+When adding extra test cases specific to the driver, either use your own namespace or put them in the
+``Behat\Mink\Tests\Driver\Custom`` subnamespace to ensure that you will not create conflicts with test cases
+added in the driver testsuite in the future.
