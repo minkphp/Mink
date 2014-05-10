@@ -30,6 +30,8 @@ interface ElementInterface
      * Returns element's session.
      *
      * @return Session
+     *
+     * @deprecated Accessing the session from the element is deprecated as of 1.6 and will be impossible in 2.0.
      */
     public function getSession();
 

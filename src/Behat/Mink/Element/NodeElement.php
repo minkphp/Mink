@@ -62,7 +62,7 @@ class NodeElement extends TraversableElement
      */
     public function getTagName()
     {
-        return strtolower($this->getSession()->getDriver()->getTagName($this->getXpath()));
+        return strtolower($this->getDriver()->getTagName($this->getXpath()));
     }
 
     /**
@@ -72,7 +72,7 @@ class NodeElement extends TraversableElement
      */
     public function getValue()
     {
-        return $this->getSession()->getDriver()->getValue($this->getXpath());
+        return $this->getDriver()->getValue($this->getXpath());
     }
 
     /**
@@ -82,7 +82,7 @@ class NodeElement extends TraversableElement
      */
     public function setValue($value)
     {
-        $this->getSession()->getDriver()->setValue($this->getXpath(), $value);
+        $this->getDriver()->setValue($this->getXpath(), $value);
     }
 
     /**
@@ -94,7 +94,7 @@ class NodeElement extends TraversableElement
      */
     public function hasAttribute($name)
     {
-        return null !== $this->getSession()->getDriver()->getAttribute($this->getXpath(), $name);
+        return null !== $this->getDriver()->getAttribute($this->getXpath(), $name);
     }
 
     /**
@@ -106,7 +106,7 @@ class NodeElement extends TraversableElement
      */
     public function getAttribute($name)
     {
-        return $this->getSession()->getDriver()->getAttribute($this->getXpath(), $name);
+        return $this->getDriver()->getAttribute($this->getXpath(), $name);
     }
 
     /**
@@ -130,7 +130,7 @@ class NodeElement extends TraversableElement
      */
     public function click()
     {
-        $this->getSession()->getDriver()->click($this->getXpath());
+        $this->getDriver()->click($this->getXpath());
     }
 
     /**
@@ -146,7 +146,7 @@ class NodeElement extends TraversableElement
      */
     public function doubleClick()
     {
-        $this->getSession()->getDriver()->doubleClick($this->getXpath());
+        $this->getDriver()->doubleClick($this->getXpath());
     }
 
     /**
@@ -154,7 +154,7 @@ class NodeElement extends TraversableElement
      */
     public function rightClick()
     {
-        $this->getSession()->getDriver()->rightClick($this->getXpath());
+        $this->getDriver()->rightClick($this->getXpath());
     }
 
     /**
@@ -162,7 +162,7 @@ class NodeElement extends TraversableElement
      */
     public function check()
     {
-        $this->getSession()->getDriver()->check($this->getXpath());
+        $this->getDriver()->check($this->getXpath());
     }
 
     /**
@@ -170,7 +170,7 @@ class NodeElement extends TraversableElement
      */
     public function uncheck()
     {
-        $this->getSession()->getDriver()->uncheck($this->getXpath());
+        $this->getDriver()->uncheck($this->getXpath());
     }
 
     /**
@@ -180,7 +180,7 @@ class NodeElement extends TraversableElement
      */
     public function isChecked()
     {
-        return (Boolean) $this->getSession()->getDriver()->isChecked($this->getXpath());
+        return (Boolean) $this->getDriver()->isChecked($this->getXpath());
     }
 
     /**
@@ -194,20 +194,20 @@ class NodeElement extends TraversableElement
     public function selectOption($option, $multiple = false)
     {
         if ('select' !== $this->getTagName()) {
-            $this->getSession()->getDriver()->selectOption($this->getXpath(), $option, $multiple);
+            $this->getDriver()->selectOption($this->getXpath(), $option, $multiple);
 
             return;
         }
 
         $opt = $this->find('named', array(
-            'option', $this->getSession()->getSelectorsHandler()->xpathLiteral($option)
+            'option', $this->getSelectorsHandler()->xpathLiteral($option)
         ));
 
         if (null === $opt) {
-            throw new ElementNotFoundException($this->getSession(), 'select option', 'value|text', $option);
+            throw $this->elementNotFound('select option', 'value|text', $option);
         }
 
-        $this->getSession()->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
+        $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
     }
 
     /**
@@ -217,7 +217,7 @@ class NodeElement extends TraversableElement
      */
     public function isSelected()
     {
-        return (Boolean) $this->getSession()->getDriver()->isSelected($this->getXpath());
+        return (Boolean) $this->getDriver()->isSelected($this->getXpath());
     }
 
     /**
@@ -227,7 +227,7 @@ class NodeElement extends TraversableElement
      */
     public function attachFile($path)
     {
-        $this->getSession()->getDriver()->attachFile($this->getXpath(), $path);
+        $this->getDriver()->attachFile($this->getXpath(), $path);
     }
 
     /**
@@ -237,7 +237,7 @@ class NodeElement extends TraversableElement
      */
     public function isVisible()
     {
-        return (Boolean) $this->getSession()->getDriver()->isVisible($this->getXpath());
+        return (Boolean) $this->getDriver()->isVisible($this->getXpath());
     }
 
     /**
@@ -245,7 +245,7 @@ class NodeElement extends TraversableElement
      */
     public function mouseOver()
     {
-        $this->getSession()->getDriver()->mouseOver($this->getXpath());
+        $this->getDriver()->mouseOver($this->getXpath());
     }
 
     /**
@@ -255,7 +255,7 @@ class NodeElement extends TraversableElement
      */
     public function dragTo(ElementInterface $destination)
     {
-        $this->getSession()->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
+        $this->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
     }
 
     /**
@@ -263,7 +263,7 @@ class NodeElement extends TraversableElement
      */
     public function focus()
     {
-        $this->getSession()->getDriver()->focus($this->getXpath());
+        $this->getDriver()->focus($this->getXpath());
     }
 
     /**
@@ -271,7 +271,7 @@ class NodeElement extends TraversableElement
      */
     public function blur()
     {
-        $this->getSession()->getDriver()->blur($this->getXpath());
+        $this->getDriver()->blur($this->getXpath());
     }
 
     /**
@@ -282,7 +282,7 @@ class NodeElement extends TraversableElement
      */
     public function keyPress($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->keyPress($this->getXpath(), $char, $modifier);
+        $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
     }
 
     /**
@@ -293,7 +293,7 @@ class NodeElement extends TraversableElement
      */
     public function keyDown($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->keyDown($this->getXpath(), $char, $modifier);
+        $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
     }
 
     /**
@@ -304,7 +304,7 @@ class NodeElement extends TraversableElement
      */
     public function keyUp($char, $modifier = null)
     {
-        $this->getSession()->getDriver()->keyUp($this->getXpath(), $char, $modifier);
+        $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
 
     /**
@@ -312,6 +312,6 @@ class NodeElement extends TraversableElement
      */
     public function submit()
     {
-        $this->getSession()->getDriver()->submitForm($this->getXpath());
+        $this->getDriver()->submitForm($this->getXpath());
     }
 }

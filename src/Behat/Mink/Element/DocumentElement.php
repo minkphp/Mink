@@ -34,7 +34,7 @@ class DocumentElement extends TraversableElement
      */
     public function getContent()
     {
-        return trim($this->getSession()->getDriver()->getContent());
+        return trim($this->getDriver()->getContent());
     }
 
     /**
@@ -47,7 +47,7 @@ class DocumentElement extends TraversableElement
     public function hasContent($content)
     {
         return $this->has('named', array(
-            'content', $this->getSession()->getSelectorsHandler()->xpathLiteral($content)
+            'content', $this->getSelectorsHandler()->xpathLiteral($content)
         ));
     }
 }

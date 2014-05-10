@@ -10,6 +10,9 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session;
 
 /**
@@ -19,7 +22,22 @@ use Behat\Mink\Session;
  */
 abstract class Element implements ElementInterface
 {
+    /**
+     * @var Session
+     */
     private $session;
+
+    /**
+     * Driver.
+     *
+     * @var DriverInterface
+     */
+    private $driver;
+
+    /**
+     * @var SelectorsHandler
+     */
+    private $selectorsHandler;
 
     /**
      * Initialize element.
@@ -29,16 +47,41 @@ abstract class Element implements ElementInterface
     public function __construct(Session $session)
     {
         $this->session = $session;
+
+        $this->driver = $session->getDriver();
+        $this->selectorsHandler = $session->getSelectorsHandler();
     }
 
     /**
      * Returns element session.
      *
      * @return Session
+     *
+     * @deprecated Accessing the session from the element is deprecated as of 1.6 and will be impossible in 2.0.
      */
     public function getSession()
     {
         return $this->session;
+    }
+
+    /**
+     * Returns element's driver.
+     *
+     * @return DriverInterface
+     */
+    protected function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * Returns selectors handler.
+     *
+     * @return SelectorsHandler
+     */
+    protected function getSelectorsHandler()
+    {
+        return $this->selectorsHandler;
     }
 
     /**
@@ -61,7 +104,7 @@ abstract class Element implements ElementInterface
      */
     public function isValid()
     {
-        return 1 === count($this->getSession()->getDriver()->find($this->getXpath()));
+        return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
     /**
@@ -140,7 +183,7 @@ abstract class Element implements ElementInterface
             return $items;
         }
 
-        $xpath = $this->getSession()->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
         $currentXpath = $this->getXpath();
         $expressions = array();
 
@@ -166,7 +209,7 @@ abstract class Element implements ElementInterface
 
         $xpath = implode(' | ', $expressions);
 
-        return $this->getSession()->getDriver()->find($xpath);
+        return $this->getDriver()->find($xpath);
     }
 
     /**
@@ -174,7 +217,7 @@ abstract class Element implements ElementInterface
      */
     public function getText()
     {
-        return $this->getSession()->getDriver()->getText($this->getXpath());
+        return $this->getDriver()->getText($this->getXpath());
     }
 
     /**
@@ -182,7 +225,7 @@ abstract class Element implements ElementInterface
      */
     public function getHtml()
     {
-        return $this->getSession()->getDriver()->getHtml($this->getXpath());
+        return $this->getDriver()->getHtml($this->getXpath());
     }
 
     /**
@@ -192,6 +235,23 @@ abstract class Element implements ElementInterface
      */
     public function getOuterHtml()
     {
-        return $this->getSession()->getDriver()->getOuterHtml($this->getXpath());
+        return $this->getDriver()->getOuterHtml($this->getXpath());
+    }
+
+    /**
+     * Builds an ElementNotFoundException
+     *
+     * This is an helper to build the ElementNotFoundException without
+     * needing to use the deprecated getSession accessor in child classes.
+     *
+     * @param string      $type
+     * @param string|null $selector
+     * @param string|null $locator
+     *
+     * @return ElementNotFoundException
+     */
+    protected function elementNotFound($type, $selector = null, $locator = null)
+    {
+        return new ElementNotFoundException($this->session, $type, $selector, $locator);
     }
 }

@@ -40,8 +40,8 @@ class Session
         }
 
         $this->driver           = $driver;
-        $this->page             = new DocumentElement($this);
         $this->selectorsHandler = $selectorsHandler;
+        $this->page             = new DocumentElement($this);
     }
 
     /**
