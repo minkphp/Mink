@@ -13,6 +13,7 @@ namespace Behat\Mink\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Selector\SelectorsHandler;
+use Behat\Mink\Selector\Xpath\Manipulator;
 use Behat\Mink\Session;
 
 /**
@@ -40,12 +41,18 @@ abstract class Element implements ElementInterface
     private $selectorsHandler;
 
     /**
+     * @var Manipulator
+     */
+    private $xpathManipulator;
+
+    /**
      * Initialize element.
      *
      * @param Session $session
      */
     public function __construct(Session $session)
     {
+        $this->xpathManipulator = new Manipulator();
         $this->session = $session;
 
         $this->driver = $session->getDriver();
@@ -184,30 +191,7 @@ abstract class Element implements ElementInterface
         }
 
         $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
-        $currentXpath = $this->getXpath();
-        $expressions = array();
-
-        // Regex to find union operators not inside brackets.
-        $pattern = '/\|(?![^\[]*\])/';
-
-        // If the parent current xpath contains a union we need to wrap it in parentheses.
-        if (preg_match($pattern, $currentXpath)) {
-            $currentXpath = '(' . $currentXpath . ')';
-        }
-
-        // Split any unions into individual expressions.
-        foreach (preg_split($pattern, $xpath) as $expression) {
-            $expression = trim($expression);
-            // add parent xpath before element selector
-            if (0 === strpos($expression, '/')) {
-                $expression = $currentXpath.$expression;
-            } else {
-                $expression = $currentXpath.'/'.$expression;
-            }
-            $expressions[] = $expression;
-        }
-
-        $xpath = implode(' | ', $expressions);
+        $xpath = $this->xpathManipulator->prepend($xpath, $this->getXpath());
 
         return $this->getDriver()->find($xpath);
     }

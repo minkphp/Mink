@@ -10,6 +10,8 @@
 
 namespace Behat\Mink\Selector;
 
+use Behat\Mink\Selector\Xpath\Escaper;
+
 /**
  * Selectors handler.
  *
@@ -18,6 +20,7 @@ namespace Behat\Mink\Selector;
 class SelectorsHandler
 {
     private $selectors;
+    private $escaper;
 
     /**
      * Initializes selectors handler.
@@ -26,6 +29,8 @@ class SelectorsHandler
      */
     public function __construct(array $selectors = array())
     {
+        $this->escaper = new Escaper();
+
         $this->registerSelector('named_partial', new PartialNamedSelector());
         $this->registerSelector('named_exact', new ExactNamedSelector());
         $this->registerSelector('css', new CssSelector());
@@ -115,27 +120,6 @@ class SelectorsHandler
      */
     public function xpathLiteral($s)
     {
-        if (false === strpos($s, "'")) {
-            return sprintf("'%s'", $s);
-        }
-
-        if (false === strpos($s, '"')) {
-            return sprintf('"%s"', $s);
-        }
-
-        $string = $s;
-        $parts = array();
-        while (true) {
-            if (false !== $pos = strpos($string, "'")) {
-                $parts[] = sprintf("'%s'", substr($string, 0, $pos));
-                $parts[] = "\"'\"";
-                $string = substr($string, $pos + 1);
-            } else {
-                $parts[] = "'$string'";
-                break;
-            }
-        }
-
-        return sprintf("concat(%s)", implode($parts, ','));
+        return $this->escaper->xpathLiteral($s);
     }
 }
