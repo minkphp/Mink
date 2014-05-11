@@ -93,6 +93,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function mapRemoteFilePath($file)
     {
+        $realPath = realpath($file);
+
+        if (false !== $realPath) {
+            $file = $realPath;
+        }
+
         return self::getConfig()->mapRemoteFilePath($file);
     }
 
