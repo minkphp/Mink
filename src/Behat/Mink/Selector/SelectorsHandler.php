@@ -120,6 +120,6 @@ class SelectorsHandler
      */
     public function xpathLiteral($s)
     {
-        return $this->escaper->xpathLiteral($s);
+        return $this->escaper->escapeLiteral($s);
     }
 }

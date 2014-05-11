@@ -11,20 +11,20 @@
 namespace Behat\Mink\Selector\Xpath;
 
 /**
- * Selectors handler.
+ * XPath escaper.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Escaper
 {
     /**
-     * Translates string to XPath literal.
+     * Escapes the string as a XPath literal.
      *
      * @param string $s
      *
      * @return string
      */
-    public function xpathLiteral($s)
+    public function escapeLiteral($s)
     {
         if (false === strpos($s, "'")) {
             return sprintf("'%s'", $s);

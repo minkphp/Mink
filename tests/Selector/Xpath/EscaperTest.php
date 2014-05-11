@@ -13,7 +13,7 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
     {
         $escaper = new Escaper();
 
-        $this->assertEquals($expected, $escaper->xpathLiteral($string));
+        $this->assertEquals($expected, $escaper->escapeLiteral($string));
     }
 
     public function getXpathLiterals()

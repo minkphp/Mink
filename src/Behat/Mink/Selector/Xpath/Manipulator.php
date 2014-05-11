@@ -10,6 +10,12 @@
 
 namespace Behat\Mink\Selector\Xpath;
 
+/**
+ * XPath manipulation utility.
+ *
+ * @author Graham Bates
+ * @author Christophe Coevoet <stof@notk.org>
+ */
 class Manipulator
 {
     /**
