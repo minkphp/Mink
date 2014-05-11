@@ -1,10 +1,10 @@
 <?php
 
-namespace Behat\Mink\Tests\Driver\Basic;
+namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
-class FormTest extends TestCase
+class GeneralTest extends TestCase
 {
     /**
      * test accentuated option
