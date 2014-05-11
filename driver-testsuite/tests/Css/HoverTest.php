@@ -69,15 +69,6 @@ class HoverTest extends TestCase
         $this->assertActionSquareHeight(200);
     }
 
-    public function tearDown()
-    {
-        if ('testRightClickHover' === $this->getName(false)) {
-            $this->getSession()->getPage()->findById('action-square')->click();
-        }
-
-        parent::tearDown();
-    }
-
     private function assertActionSquareHeight($expected)
     {
         $this->assertEquals(
