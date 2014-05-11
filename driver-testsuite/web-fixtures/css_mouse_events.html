@@ -25,5 +25,12 @@
             <div id="reset-square">reset</div>
             <div id="action-square">mouse action</div>
         </div>
+        <script>
+            $('#action-square').bind('contextmenu', function (e) {
+                // Prevent opening the context menu on right click as the browser might consider the
+                // mouse is in the context menu rather than hovering the element
+                e.preventDefault();
+            });
+        </script>
     </body>
 </html>
