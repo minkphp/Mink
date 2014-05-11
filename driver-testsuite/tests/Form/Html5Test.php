@@ -1,6 +1,6 @@
 <?php
 
-namespace Behat\Mink\Tests\Driver\Basic;
+namespace Behat\Mink\Tests\Driver\Form;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
