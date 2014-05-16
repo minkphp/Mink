@@ -20,7 +20,7 @@ use Behat\Mink\Exception\ElementNotFoundException;
 abstract class TraversableElement extends Element
 {
     /**
-     * Finds element by it's id.
+     * Finds element by its id.
      *
      * @param string $id element id
      *
@@ -34,7 +34,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a link with specified locator.
+     * Checks whether element has a link with specified locator.
      *
      * @param string $locator link id, title, text or image alt
      *
@@ -78,7 +78,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a button (input[type=submit|image|button|reset], button) with specified locator.
+     * Checks whether element has a button (input[type=submit|image|button|reset], button) with specified locator.
      *
      * @param string $locator button id, value or alt
      *
@@ -122,7 +122,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a field (input, textarea, select) with specified locator.
+     * Checks whether element has a field (input, textarea, select) with specified locator.
      *
      * @param string $locator input id, name or label
      *
@@ -154,6 +154,8 @@ abstract class TraversableElement extends Element
      * @param string $value   value
      *
      * @throws ElementNotFoundException
+     *
+     * @see NodeElement::setValue
      */
     public function fillField($locator, $value)
     {
@@ -167,11 +169,13 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a checkbox with specified locator, which is checked.
+     * Checks whether element has a checkbox with specified locator, which is checked.
      *
      * @param string $locator input id, name or label
      *
      * @return Boolean
+     *
+     * @see NodeElement::isChecked
      */
     public function hasCheckedField($locator)
     {
@@ -181,11 +185,13 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a checkbox with specified locator, which is unchecked.
+     * Checks whether element has a checkbox with specified locator, which is unchecked.
      *
      * @param string $locator input id, name or label
      *
      * @return Boolean
+     *
+     * @see NodeElement::isChecked
      */
     public function hasUncheckedField($locator)
     {
@@ -231,7 +237,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a select field with specified locator.
+     * Checks whether element has a select field with specified locator.
      *
      * @param string $locator select id, name or label
      *
@@ -252,6 +258,8 @@ abstract class TraversableElement extends Element
      * @param Boolean $multiple select multiple options
      *
      * @throws ElementNotFoundException
+     *
+     * @see NodeElement::selectOption
      */
     public function selectFieldOption($locator, $value, $multiple = false)
     {
@@ -265,7 +273,7 @@ abstract class TraversableElement extends Element
     }
 
     /**
-     * Checks whether document has a table with specified locator.
+     * Checks whether element has a table with specified locator.
      *
      * @param string $locator table id or caption
      *
@@ -285,6 +293,8 @@ abstract class TraversableElement extends Element
      * @param string $path    path to file
      *
      * @throws ElementNotFoundException
+     *
+     * @see NodeElement::attachFile
      */
     public function attachFileToField($locator, $path)
     {

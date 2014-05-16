@@ -347,6 +347,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::getValue
      */
     public function getValue($xpath);
 
@@ -358,6 +360,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::setValue
      */
     public function setValue($xpath, $value);
 
@@ -368,6 +372,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::check
      */
     public function check($xpath);
 
@@ -378,11 +384,13 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::uncheck
      */
     public function uncheck($xpath);
 
     /**
-     * Checks whether checkbox checked located by it's XPath query.
+     * Checks whether checkbox or radio button located by it's XPath query is checked.
      *
      * @param string $xpath
      *
@@ -390,11 +398,13 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::isChecked
      */
     public function isChecked($xpath);
 
     /**
-     * Selects option from select field located by it's XPath query.
+     * Selects option from select field or value in radio group located by it's XPath query.
      *
      * @param string  $xpath
      * @param string  $value
@@ -402,6 +412,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::selectOption
      */
     public function selectOption($xpath, $value, $multiple = false);
 
@@ -414,6 +426,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::isSelected
      */
     public function isSelected($xpath);
 
@@ -455,6 +469,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::attachFile
      */
     public function attachFile($xpath, $path);
 
@@ -560,7 +576,7 @@ interface DriverInterface
     /**
      * Evaluates JS script.
      *
-     * The "return" keyword is optional in the script passed as argument. Driver implementation
+     * The "return" keyword is optional in the script passed as argument. Driver implementations
      * must accept the expression both with and without the keyword.
      *
      * @param string $script
@@ -608,12 +624,14 @@ interface DriverInterface
     public function maximizeWindow($name = null);
 
      /**
-     * Submits the form.
-     *
-     * @param string $xpath Xpath.
+      * Submits the form.
+      *
+      * @param string $xpath Xpath.
       *
       * @throws UnsupportedDriverActionException When operation not supported by the driver
       * @throws DriverException                  When the operation cannot be done
-     */
+      *
+      * @see \Behat\Mink\Element\NodeElement::submitForm
+      */
     public function submitForm($xpath);
 }

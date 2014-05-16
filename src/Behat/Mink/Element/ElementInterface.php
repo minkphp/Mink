@@ -36,17 +36,19 @@ interface ElementInterface
     public function getSession();
 
     /**
-     * Checks whether element with specified selector exists.
+     * Checks whether element with specified selector exists inside the current element.
      *
      * @param string       $selector selector engine name
      * @param string|array $locator  selector locator
      *
      * @return Boolean
+     *
+     * @see ElementInterface::findAll for the supported selectors
      */
     public function has($selector, $locator);
 
     /**
-     * Checks if an element is still valid.
+     * Checks if an element still exists in the DOM.
      *
      * @return boolean
      */
@@ -65,22 +67,34 @@ interface ElementInterface
     public function waitFor($timeout, $callback);
 
     /**
-     * Finds first element with specified selector.
+     * Finds first element with specified selector inside the current element.
      *
      * @param string       $selector selector engine name
      * @param string|array $locator  selector locator
      *
      * @return NodeElement|null
+     *
+     * @see ElementInterface::findAll for the supported selectors
      */
     public function find($selector, $locator);
 
     /**
-     * Finds all elements with specified selector.
+     * Finds all elements with specified selector inside the current element.
+     *
+     * Valid selector engines are named, xpath, css, named_partial and named_exact.
+     *
+     * 'named' is a pseudo selector engine which prefers an exact match but
+     * will return a partial match if no exact match is found.
+     * 'xpath' is a pseudo selector engine supported by SelectorsHandler.
+     *
+     * More selector engines can be registered in the SelectorsHandler.
      *
      * @param string       $selector selector engine name
      * @param string|array $locator  selector locator
      *
      * @return NodeElement[]
+     *
+     * @see NamedSelector for the locators supported by the named selectors
      */
     public function findAll($selector, $locator);
 
