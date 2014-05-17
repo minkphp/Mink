@@ -116,6 +116,9 @@ OUT;
         $session->getPage()->selectFieldOption('options-without-values', 'Two');
         $this->assertEquals('Two', $session->getPage()->findById('options-without-values')->getValue());
 
+        $this->assertTrue($session->getPage()->findById('two')->isSelected());
+        $this->assertFalse($session->getPage()->findById('one')->isSelected());
+
         $session->getPage()->selectFieldOption('options-with-values', 'two');
         $this->assertEquals('two', $session->getPage()->findById('options-with-values')->getValue());
     }
