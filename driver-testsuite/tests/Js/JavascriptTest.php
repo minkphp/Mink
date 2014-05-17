@@ -32,20 +32,6 @@ class JavascriptTest extends TestCase
         $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());
     }
 
-    // TODO reevaluate this test as it is passing only for Selenium2Driver
-    // test select option without value
-    public function testIssue193()
-    {
-        $session = $this->getSession();
-        $session->visit($this->pathTo('/issue193.html'));
-
-        $session->getPage()->selectFieldOption('options-without-values', 'Two');
-        $this->assertEquals('Two', $session->getPage()->findById('options-without-values')->getValue());
-
-        $session->getPage()->selectFieldOption('options-with-values', 'two');
-        $this->assertEquals('two', $session->getPage()->findById('options-with-values')->getValue());
-    }
-
     // test accentuated char in button
     public function testIssue225()
     {
