@@ -14,12 +14,15 @@ class SelectTest extends TestCase
 
         $select      = $page->findField('select_number');
         $multiSelect = $page->findField('select_multiple_numbers[]');
+        $secondMultiSelect = $page->findField('select_multiple_values[]');
 
         $this->assertNotNull($select);
         $this->assertNotNull($multiSelect);
+        $this->assertNotNull($secondMultiSelect);
 
         $this->assertEquals('20', $select->getValue());
         $this->assertSame(array(), $multiSelect->getValue());
+        $this->assertSame(array('2', '3'), $secondMultiSelect->getValue());
 
         $select->selectOption('thirty');
         $this->assertEquals('30', $select->getValue());
@@ -32,6 +35,9 @@ class SelectTest extends TestCase
 
         $this->assertEquals(array('1', '3'), $multiSelect->getValue());
 
+        $secondMultiSelect->selectOption('two');
+        $this->assertSame(array('2'), $secondMultiSelect->getValue());
+
         $button = $page->findButton('Register');
         $this->assertNotNull($button);
         $button->press();
@@ -43,6 +49,10 @@ class SelectTest extends TestCase
   array (
     0 = '1',
     1 = '3',
+  ),
+  'select_multiple_values' =$space
+  array (
+    0 = '2',
   ),
   'select_number' = '30',
 OUT;
