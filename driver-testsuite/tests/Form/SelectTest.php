@@ -106,6 +106,21 @@ OUT;
     }
 
     /**
+     * @see https://github.com/Behat/Mink/issues/193
+     */
+    public function testOptionWithoutValue()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/issue193.html'));
+
+        $session->getPage()->selectFieldOption('options-without-values', 'Two');
+        $this->assertEquals('Two', $session->getPage()->findById('options-without-values')->getValue());
+
+        $session->getPage()->selectFieldOption('options-with-values', 'two');
+        $this->assertEquals('two', $session->getPage()->findById('options-with-values')->getValue());
+    }
+
+    /**
      * @see https://github.com/Behat/Mink/issues/131
      */
     public function testAccentuatedOption()
