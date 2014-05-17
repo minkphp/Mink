@@ -85,6 +85,25 @@ OUT;
         );
     }
 
+    public function testSetValueSingleSelect()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $select = $session->getPage()->findField('select_number');
+
+        $select->setValue('10');
+        $this->assertEquals('10', $select->getValue());
+    }
+
+    public function testSetValueMultiSelect()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $select = $session->getPage()->findField('select_multiple_values[]');
+
+        $select->setValue(array('1', '2'));
+        $this->assertEquals(array('1', '2'), $select->getValue());
+    }
 
     /**
      * @see https://github.com/Behat/Mink/issues/131
