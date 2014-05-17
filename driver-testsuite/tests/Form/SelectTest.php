@@ -67,6 +67,7 @@ OUT;
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $session->getPage()->findField($selectName);
+        $this->assertNotNull($select);
 
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
         $option = $select->find('named', array('option', $optionValueEscaped));
@@ -90,6 +91,7 @@ OUT;
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $session->getPage()->findField('select_number');
+        $this->assertNotNull($select);
 
         $select->setValue('10');
         $this->assertEquals('10', $select->getValue());
@@ -100,6 +102,7 @@ OUT;
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $session->getPage()->findField('select_multiple_values[]');
+        $this->assertNotNull($select);
 
         $select->setValue(array('1', '2'));
         $this->assertEquals(array('1', '2'), $select->getValue());
