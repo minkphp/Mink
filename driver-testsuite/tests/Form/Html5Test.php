@@ -35,6 +35,30 @@ OUT;
         }
     }
 
+    public function testHtml5FormRadioAttribute()
+    {
+        $this->getSession()->visit($this->pathTo('html5_radio.html'));
+        $page = $this->getSession()->getPage();
+
+        $radio = $page->findById('sex_f');
+        $otherRadio = $page->findById('sex_invalid');
+
+        $this->assertEquals('f', $radio->getValue());
+        $this->assertEquals('invalid', $otherRadio->getValue());
+
+        $radio->selectOption('m');
+
+        $this->assertEquals('m', $radio->getValue());
+        $this->assertEquals('invalid', $otherRadio->getValue());
+
+        $page->pressButton('Submit in form');
+
+        $out = <<<OUT
+  'sex' = 'm',
+OUT;
+        $this->assertContains($out, $page->getContent());
+    }
+
     public function testHtml5FormButtonAttribute()
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
