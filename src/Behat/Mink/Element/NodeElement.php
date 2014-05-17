@@ -58,6 +58,8 @@ class NodeElement extends TraversableElement
     /**
      * Returns current node tag name.
      *
+     * The value is always returned in lowercase to allow an easy comparison.
+     *
      * @return string
      */
     public function getTagName()
@@ -66,7 +68,19 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Returns element value.
+     * Returns the value of the form field.
+     *
+     * For checkbox fields, the value is a boolean indicating whether the checkbox is checked.
+     * For radio buttons, the value is the value of the selected button in the radio group
+     *      or null if no button is selected.
+     * For single select boxes, the value is the value of the selected option.
+     * For multiple select boxes, the value is an array of selected option values.
+     * for file inputs, the return value is undefined given that browsers don't allow accessing
+     *      the value of file inputs for security reasons. Some drivers may allow accessing the
+     *      path of the file set in the field, but this is not required if it cannot be implemened.
+     * For textarea elements and all textual fields, the value is the content of the field.
+     *
+     * Calling this method on other elements than form fields is not allowed.
      *
      * @return mixed
      */
@@ -76,9 +90,13 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Sets node value.
+     * Sets the value of the form field.
+     *
+     * Calling this method on other elements than form fields is not allowed.
      *
      * @param string $value
+     *
+     * @see NodeElement::getValue for the format of the value for each type of field
      */
     public function setValue($value)
     {
@@ -174,7 +192,9 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Checks whether current node is checked if it's a checkbox field.
+     * Checks whether current node is checked if it's a checkbox or radio field.
+     *
+     * Calling this method on any other elements is not allowed.
      *
      * @return Boolean
      */
@@ -184,12 +204,19 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Selects current node specified option if it's a select field.
+     * Selects specified option for select field or specified radio button in the group
+     *
+     * If the current node is a select box, this selects the option found by its value or
+     * its text.
+     * If the current node is a radio button, this selects the radio button with the given
+     * value in the radio button group of the current node.
+     *
+     * Calling this method on any other elements is not allowed.
      *
      * @param string  $option
-     * @param Boolean $multiple
+     * @param Boolean $multiple whether the option should be added to the selection for multiple selects
      *
-     * @throws ElementNotFoundException
+     * @throws ElementNotFoundException when the option is not found in the select box
      */
     public function selectOption($option, $multiple = false)
     {
@@ -213,6 +240,8 @@ class NodeElement extends TraversableElement
     /**
      * Checks whether current node is selected if it's a option field.
      *
+     * Calling this method on any other elements is not allowed.
+     *
      * @return Boolean
      */
     public function isSelected()
@@ -222,6 +251,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Attach file to current node if it's a file input.
+     *
+     * Calling this method on any other elements than file input is not allowed.
      *
      * @param string $path path to file (local)
      */
@@ -309,6 +340,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Submits the form.
+     *
+     * Calling this method on anything else than form elements is not allowed.
      */
     public function submit()
     {

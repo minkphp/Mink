@@ -92,12 +92,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Checks whether element with specified selector exists.
-     *
-     * @param string       $selector selector engine name
-     * @param string|array $locator  selector locator
-     *
-     * @return Boolean
+     * {@inheritdoc}
      */
     public function has($selector, $locator)
     {
@@ -105,9 +100,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Checks if an element is still valid.
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValid()
     {
@@ -115,14 +108,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Waits for an element(-s) to appear and returns it.
-     *
-     * @param int      $timeout  Maximal allowed waiting time in milliseconds.
-     * @param callable $callback Callback, which result is both used as waiting condition and returned.
-     *                           Will receive reference to `this element` as first argument.
-     *
-     * @return mixed
-     * @throws \InvalidArgumentException When invalid callback given.
+     * {@inheritdoc}
      */
     public function waitFor($timeout, $callback)
     {
@@ -147,12 +133,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Finds first element with specified selector.
-     *
-     * @param string       $selector selector engine name
-     * @param string|array $locator  selector locator
-     *
-     * @return NodeElement|null
+     * {@inheritdoc}
      */
     public function find($selector, $locator)
     {
@@ -162,22 +143,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Finds all elements with specified selector.
-     *
-     * Valid selector engines are named, xpath, css, named_partial and named_exact.
-     *
-     * 'named' is a pseudo selector engine which prefers an exact match but
-     * will return a partial match if no exact match is found.
-     *
-     * 'xpath' is a pseudo selector engine supported by SelectorsHandler.
-     *
-     * Full selector engines implement SelectorInterface and are instantiated
-     * by a SelectorsHandler.
-     *
-     * @param string       $selector selector engine name
-     * @param string|array $locator  selector locator
-     *
-     * @return NodeElement[]
+     * {@inheritdoc}
      */
     public function findAll($selector, $locator)
     {
