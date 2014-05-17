@@ -343,7 +343,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return mixed
+     * @return string|bool|array
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -355,8 +355,8 @@ interface DriverInterface
     /**
      * Sets element's value by it's XPath query.
      *
-     * @param string $xpath
-     * @param string $value
+     * @param string            $xpath
+     * @param string|bool|array $value
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done

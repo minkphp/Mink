@@ -84,7 +84,7 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on other elements than form fields or option elements is not allowed.
      *
-     * @return mixed
+     * @return string|bool|array
      */
     public function getValue()
     {
@@ -96,7 +96,7 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on other elements than form fields is not allowed.
      *
-     * @param string $value
+     * @param string|bool|array $value
      *
      * @see NodeElement::getValue for the format of the value for each type of field
      */
