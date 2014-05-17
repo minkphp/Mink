@@ -5,6 +5,7 @@ namespace Behat\Mink\Tests\Driver;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\Mink;
 use Behat\Mink\Session;
+use Behat\Mink\WebAssert;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -82,6 +83,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected function getSession()
     {
         return self::$mink->getSession('sess');
+    }
+
+    /**
+     * Returns assert session.
+     *
+     * @return WebAssert
+     */
+    protected function getAssertSession()
+    {
+        return self::$mink->assertSession('sess');
     }
 
     /**
