@@ -105,6 +105,32 @@ OUT;
             $this->assertContains($out, $page->getContent());
             $this->assertNotContains('first_name', $page->getContent());
         }
+    }
 
+    public function testHtml5Types()
+    {
+        $this->getSession()->visit($this->pathTo('html5_types.html'));
+        $page = $this->getSession()->getPage();
+
+        $page->fillField('url', 'http://mink.behat.org/');
+        $page->fillField('email', 'mink@example.org');
+        $page->fillField('number', '6');
+        $page->fillField('search', 'mink');
+        $page->fillField('date', '2014-05-19');
+        $page->fillField('color', '#ff00aa');
+
+        $page->pressButton('Submit');
+
+        $out = <<<OUT
+  'color' = '#ff00aa',
+  'date' = '2014-05-19',
+  'email' = 'mink@example.org',
+  'number' = '6',
+  'search' = 'mink',
+  'submit_button' = 'Submit',
+  'url' = 'http://mink.behat.org/',
+OUT;
+
+        $this->assertContains($out, $page->getContent());
     }
 }
