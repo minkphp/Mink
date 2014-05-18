@@ -46,13 +46,22 @@ class Manipulator
         // Split any unions into individual expressions.
         foreach (preg_split(self::UNION_PATTERN, $xpath) as $expression) {
             $expression = trim($expression);
+            $parenthesis = '';
+
+            // If the union is inside some braces, we need to preserve the opening braces and apply
+            // the prefix only inside it.
+            if (preg_match('/^[\(\s*]+/', $expression, $matches)) {
+                $parenthesis = $matches[0];
+                $expression = substr($expression, strlen($parenthesis));
+            }
+
             // add prefix before element selector
             if (0 === strpos($expression, '/')) {
                 $expression = $prefix . $expression;
             } else {
                 $expression = $prefix . '/' . $expression;
             }
-            $expressions[] = $expression;
+            $expressions[] = $parenthesis . $expression;
         }
 
         return implode(' | ', $expressions);

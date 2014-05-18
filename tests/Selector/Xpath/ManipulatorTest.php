@@ -34,6 +34,16 @@ class ManipulatorTest extends \PHPUnit_Framework_TestCase
                 'some_tag1 | some_tag2',
                 'some_xpath/some_tag1 | some_xpath/some_tag2',
             ),
+            'wrapped union' => array(
+                'some_xpath',
+                '(some_tag1 | some_tag2)/some_child',
+                '(some_xpath/some_tag1 | some_xpath/some_tag2)/some_child',
+            ),
+            'multiple wrapped union' => array(
+                'some_xpath',
+                '( ( some_tag1 | some_tag2)/some_child | some_tag3)/leaf',
+                '( ( some_xpath/some_tag1 | some_xpath/some_tag2)/some_child | some_xpath/some_tag3)/leaf',
+            ),
             'parent union' => array(
                 'some_xpath | another_xpath',
                 'some_tag1 | some_tag2',
