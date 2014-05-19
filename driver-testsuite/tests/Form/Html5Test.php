@@ -10,12 +10,10 @@ class Html5Test extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
+        $webAssert = $this->getAssertSession();
 
-        $firstName = $page->findField('first_name');
-        $lastName = $page->findField('last_name');
-
-        $this->assertNotNull($firstName);
-        $this->assertNotNull($lastName);
+        $firstName = $webAssert->fieldExists('first_name');
+        $lastName = $webAssert->fieldExists('last_name');
 
         $this->assertEquals('not set', $lastName->getValue());
         $firstName->setValue('John');
@@ -63,12 +61,10 @@ OUT;
     {
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
+        $webAssert = $this->getAssertSession();
 
-        $firstName = $page->findField('first_name');
-        $lastName = $page->findField('last_name');
-
-        $this->assertNotNull($firstName);
-        $this->assertNotNull($lastName);
+        $firstName = $webAssert->fieldExists('first_name');
+        $lastName = $webAssert->fieldExists('last_name');
 
         $firstName->setValue('John');
         $lastName->setValue('Doe');
@@ -90,11 +86,7 @@ OUT;
         $this->getSession()->visit($this->pathTo('/html5_form.html'));
         $page = $this->getSession()->getPage();
 
-        $field = $page->findField('other_field');
-
-        $this->assertNotNull($field);
-
-        $field->setValue('hello');
+        $page->fillField('other_field', 'hello');
 
         $page->pressButton('Submit separate form');
 

@@ -23,14 +23,12 @@ class GeneralTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/basic_form.html'));
 
+        $webAssert = $this->getAssertSession();
         $page = $this->getSession()->getPage();
-        $this->assertEquals('Basic Form Page', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Basic Form Page', $webAssert->elementExists('css', 'h1')->getText());
 
-        $firstname  = $page->findField('first_name');
-        $lastname   = $page->findField('lastn');
-
-        $this->assertNotNull($firstname);
-        $this->assertNotNull($lastname);
+        $firstname  = $webAssert->fieldExists('first_name');
+        $lastname   = $webAssert->fieldExists('lastn');
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -52,9 +50,9 @@ class GeneralTest extends TestCase
         $page->findButton('Save')->click();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Anket for Konstantin', $page->find('css', 'h1')->getText());
-            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
-            $this->assertEquals('Lastname: Kudryashov', $page->find('css', '#last')->getText());
+            $this->assertEquals('Anket for Konstantin', $webAssert->elementExists('css', 'h1')->getText());
+            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
+            $this->assertEquals('Lastname: Kudryashov', $webAssert->elementExists('css', '#last')->getText());
         }
     }
 
@@ -66,15 +64,15 @@ class GeneralTest extends TestCase
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
         $page = $session->getPage();
+        $webAssert = $this->getAssertSession();
 
-        $firstname = $page->findField('first_name');
-        $this->assertNotNull($firstname);
+        $firstname = $webAssert->fieldExists('first_name');
         $firstname->setValue('Konstantin');
 
         $page->findButton($submitVia)->click();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         } else {
             $this->fail('Form was never submitted');
         }
@@ -95,13 +93,13 @@ class GeneralTest extends TestCase
         $session = $this->getSession();
         $session->visit($this->pathTo('/basic_form.html'));
 
-        $page = $session->getPage();
-        $page->findField('first_name')->setValue('Konstantin');
+        $webAssert = $this->getAssertSession();
+        $webAssert->fieldExists('first_name')->setValue('Konstantin');
 
-        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+        $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         };
     }
 
@@ -110,29 +108,29 @@ class GeneralTest extends TestCase
         $session = $this->getSession();
         $session->visit($this->pathTo('/form_without_button.html'));
 
-        $page = $session->getPage();
-        $page->findField('first_name')->setValue('Konstantin');
+        $webAssert = $this->getAssertSession();
+        $webAssert->fieldExists('first_name')->setValue('Konstantin');
 
-        $page->find('xpath', 'descendant-or-self::form[1]')->submit();
+        $webAssert->elementExists('xpath', 'descendant-or-self::form[1]')->submit();
 
         if ($this->safePageWait(5000, 'document.getElementById("first") !== null')) {
-            $this->assertEquals('Firstname: Konstantin', $page->find('css', '#first')->getText());
+            $this->assertEquals('Firstname: Konstantin', $webAssert->elementExists('css', '#first')->getText());
         };
     }
 
     public function testBasicGetForm()
     {
         $this->getSession()->visit($this->pathTo('/basic_get_form.php'));
+        $webAssert = $this->getAssertSession();
 
         $page = $this->getSession()->getPage();
-        $this->assertEquals('Basic Get Form Page', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Basic Get Form Page', $webAssert->elementExists('css', 'h1')->getText());
 
-        $search = $page->findField('q');
-        $this->assertNotNull($search);
+        $search = $webAssert->fieldExists('q');
         $search->setValue('some#query');
         $page->pressButton('Find');
 
-        $this->assertNotNull($div = $page->find('css', 'div'));
+        $div = $webAssert->elementExists('css', 'div');
         $this->assertEquals('some#query', $div->getText());
     }
 
@@ -150,27 +148,19 @@ class GeneralTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/advanced_form.html'));
 
+        $webAssert = $this->getAssertSession();
         $page = $this->getSession()->getPage();
-        $this->assertEquals('ADvanced Form Page', $page->find('css', 'h1')->getText());
+        $this->assertEquals('ADvanced Form Page', $webAssert->elementExists('css', 'h1')->getText());
 
-        $firstname   = $page->findField('first_name');
-        $lastname    = $page->findField('lastn');
-        $email       = $page->findField('Your email:');
-        $select      = $page->findField('select_number');
-        $sex         = $page->findField('sex');
-        $maillist    = $page->findField('mail_list');
-        $agreement   = $page->findField('agreement');
-        $notes       = $page->findField('notes');
-        $about       = $page->findField('about');
-
-        $this->assertNotNull($firstname);
-        $this->assertNotNull($lastname);
-        $this->assertNotNull($email);
-        $this->assertNotNull($select);
-        $this->assertNotNull($sex);
-        $this->assertNotNull($maillist);
-        $this->assertNotNull($agreement);
-        $this->assertNotNull($notes);
+        $firstname   = $webAssert->fieldExists('first_name');
+        $lastname    = $webAssert->fieldExists('lastn');
+        $email       = $webAssert->fieldExists('Your email:');
+        $select      = $webAssert->fieldExists('select_number');
+        $sex         = $webAssert->fieldExists('sex');
+        $maillist    = $webAssert->fieldExists('mail_list');
+        $agreement   = $webAssert->fieldExists('agreement');
+        $notes       = $webAssert->fieldExists('notes');
+        $about       = $webAssert->fieldExists('about');
 
         $this->assertEquals('Firstname', $firstname->getValue());
         $this->assertEquals('Lastname', $lastname->getValue());
@@ -236,15 +226,12 @@ OUT;
     {
         $this->getSession()->visit($this->pathTo('/multi_input_form.html'));
         $page = $this->getSession()->getPage();
-        $this->assertEquals('Multi input Test', $page->find('css', 'h1')->getText());
+        $webAssert = $this->getAssertSession();
+        $this->assertEquals('Multi input Test', $webAssert->elementExists('css', 'h1')->getText());
 
-        $first = $page->findField('First');
-        $second = $page->findField('Second');
-        $third = $page->findField('Third');
-
-        $this->assertNotNull($first);
-        $this->assertNotNull($second);
-        $this->assertNotNull($third);
+        $first = $webAssert->fieldExists('First');
+        $second = $webAssert->fieldExists('Second');
+        $third = $webAssert->fieldExists('Third');
 
         $this->assertEquals('tag1', $first->getValue());
         $this->assertSame('tag2', $second->getValue());

@@ -44,8 +44,7 @@ class JavascriptEvaluationTest extends TestCase
 
         sleep(1);
 
-        $heading = $this->getSession()->getPage()->find('css', 'h1');
-        $this->assertNotNull($heading);
+        $heading = $this->getAssertSession()->elementExists('css', 'h1');
         $this->assertEquals('Hello world', $heading->getText());
     }
 

@@ -9,22 +9,19 @@ class IFrameTest extends TestCase
     public function testIFrame()
     {
         $this->getSession()->visit($this->pathTo('/iframe.html'));
-        $page = $this->getSession()->getPage();
+        $webAssert = $this->getAssertSession();
 
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
 
         $this->getSession()->switchToIFrame('subframe');
 
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('iFrame div text', $el->getText());
 
         $this->getSession()->switchToIFrame();
 
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
     }
 }

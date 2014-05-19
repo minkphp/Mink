@@ -11,6 +11,7 @@ class WindowTest extends TestCase
         $this->getSession()->visit($this->pathTo('/window.html'));
         $session = $this->getSession();
         $page    = $session->getPage();
+        $webAssert = $this->getAssertSession();
 
         $page->clickLink('Popup #1');
         $session->switchToWindow(null);
@@ -18,23 +19,19 @@ class WindowTest extends TestCase
         $page->clickLink('Popup #2');
         $session->switchToWindow(null);
 
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
 
         $session->switchToWindow('popup_1');
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Popup#1 div text', $el->getText());
 
         $session->switchToWindow('popup_2');
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Popup#2 div text', $el->getText());
 
         $session->switchToWindow(null);
-        $el = $page->find('css', '#text');
-        $this->assertNotNull($el);
+        $el = $webAssert->elementExists('css', '#text');
         $this->assertSame('Main window div text', $el->getText());
     }
 
