@@ -9,16 +9,13 @@ class SelectTest extends TestCase
     public function testMultiselect()
     {
         $this->getSession()->visit($this->pathTo('/multiselect_form.html'));
+        $webAssert = $this->getAssertSession();
         $page = $this->getSession()->getPage();
-        $this->assertEquals('Multiselect Test', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Multiselect Test', $webAssert->elementExists('css', 'h1')->getText());
 
-        $select      = $page->findField('select_number');
-        $multiSelect = $page->findField('select_multiple_numbers[]');
-        $secondMultiSelect = $page->findField('select_multiple_values[]');
-
-        $this->assertNotNull($select);
-        $this->assertNotNull($multiSelect);
-        $this->assertNotNull($secondMultiSelect);
+        $select      = $webAssert->fieldExists('select_number');
+        $multiSelect = $webAssert->fieldExists('select_multiple_numbers[]');
+        $secondMultiSelect = $webAssert->fieldExists('select_multiple_values[]');
 
         $this->assertEquals('20', $select->getValue());
         $this->assertSame(array(), $multiSelect->getValue());
@@ -65,13 +62,12 @@ OUT;
     public function testElementSelectedStateCheck($selectName, $optionValue, $optionText)
     {
         $session = $this->getSession();
+        $webAssert = $this->getAssertSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
-        $select = $session->getPage()->findField($selectName);
-        $this->assertNotNull($select);
+        $select = $webAssert->fieldExists($selectName);
 
         $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
-        $option = $select->find('named', array('option', $optionValueEscaped));
-        $this->assertNotNull($option);
+        $option = $webAssert->elementExists('named', array('option', $optionValueEscaped));
 
         $this->assertFalse($option->isSelected());
         $select->selectOption($optionText);
@@ -90,8 +86,7 @@ OUT;
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
-        $select = $session->getPage()->findField('select_number');
-        $this->assertNotNull($select);
+        $select = $this->getAssertSession()->fieldExists('select_number');
 
         $select->setValue('10');
         $this->assertEquals('10', $select->getValue());
@@ -101,8 +96,7 @@ OUT;
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
-        $select = $session->getPage()->findField('select_multiple_values[]');
-        $this->assertNotNull($select);
+        $select = $this->getAssertSession()->fieldExists('select_multiple_values[]');
 
         $select->setValue(array('1', '2'));
         $this->assertEquals(array('1', '2'), $select->getValue());

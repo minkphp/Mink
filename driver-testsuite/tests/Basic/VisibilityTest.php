@@ -9,12 +9,10 @@ class VisibilityTest extends TestCase
     public function testVisibility()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
+        $webAssert = $this->getAssertSession();
 
-        $clicker   = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-        $invisible = $this->getSession()->getPage()->find('css', '#invisible');
-
-        $this->assertNotNull($clicker);
-        $this->assertNotNull($invisible);
+        $clicker   = $webAssert->elementExists('css', '.elements div#clicker');
+        $invisible = $webAssert->elementExists('css', '#invisible');
 
         $this->assertFalse($invisible->isVisible());
         $this->assertTrue($clicker->isVisible());

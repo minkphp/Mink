@@ -49,15 +49,12 @@ class CheckboxTest extends TestCase
     public function testCheckboxMultiple()
     {
         $this->getSession()->visit($this->pathTo('/multicheckbox_form.html'));
+        $webAssert = $this->getAssertSession();
 
-        $page = $this->getSession()->getPage();
-        $this->assertEquals('Multicheckbox Test', $page->find('css', 'h1')->getText());
+        $this->assertEquals('Multicheckbox Test', $webAssert->elementExists('css', 'h1')->getText());
 
-        $updateMail  = $page->find('css', '[name="mail_types[]"][value="update"]');
-        $spamMail    = $page->find('css', '[name="mail_types[]"][value="spam"]');
-
-        $this->assertNotNull($updateMail);
-        $this->assertNotNull($spamMail);
+        $updateMail  = $webAssert->elementExists('css', '[name="mail_types[]"][value="update"]');
+        $spamMail    = $webAssert->elementExists('css', '[name="mail_types[]"][value="spam"]');
 
         $this->assertTrue($updateMail->getValue());
         $this->assertFalse($spamMail->getValue());

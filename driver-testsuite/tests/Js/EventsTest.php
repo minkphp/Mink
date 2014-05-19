@@ -12,8 +12,7 @@ class EventsTest extends TestCase
     public function testClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-        $this->assertNotNull($clicker);
+        $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->click();
@@ -26,8 +25,7 @@ class EventsTest extends TestCase
     public function testDoubleClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-        $this->assertNotNull($clicker);
+        $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->doubleClick();
@@ -40,8 +38,7 @@ class EventsTest extends TestCase
     public function testRightClick()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $clicker = $this->getSession()->getPage()->find('css', '.elements div#clicker');
-        $this->assertNotNull($clicker);
+        $clicker = $this->getAssertSession()->elementExists('css', '.elements div#clicker');
         $this->assertEquals('not clicked', $clicker->getText());
 
         $clicker->rightClick();
@@ -54,8 +51,7 @@ class EventsTest extends TestCase
     public function testFocus()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
-        $this->assertNotNull($focusBlurDetector);
+        $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
         $focusBlurDetector->focus();
@@ -69,8 +65,7 @@ class EventsTest extends TestCase
     public function testBlur()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $focusBlurDetector = $this->getSession()->getPage()->find('css', '.elements input#focus-blur-detector');
-        $this->assertNotNull($focusBlurDetector);
+        $focusBlurDetector = $this->getAssertSession()->elementExists('css', '.elements input#focus-blur-detector');
         $this->assertEquals('no action detected', $focusBlurDetector->getValue());
 
         $focusBlurDetector->blur();
@@ -83,8 +78,7 @@ class EventsTest extends TestCase
     public function testMouseOver()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
-        $mouseOverDetector = $this->getSession()->getPage()->find('css', '.elements div#mouseover-detector');
-        $this->assertNotNull($mouseOverDetector);
+        $mouseOverDetector = $this->getAssertSession()->elementExists('css', '.elements div#mouseover-detector');
         $this->assertEquals('no mouse action detected', $mouseOverDetector->getText());
 
         $mouseOverDetector->mouseOver();
@@ -97,16 +91,12 @@ class EventsTest extends TestCase
     public function testKeyboardEvents($modifier, $eventProperties)
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
+        $webAssert = $this->getAssertSession();
 
-        $input1 = $this->getSession()->getPage()->find('css', '.elements input.input.first');
-        $input2 = $this->getSession()->getPage()->find('css', '.elements input.input.second');
-        $input3 = $this->getSession()->getPage()->find('css', '.elements input.input.third');
-        $event  = $this->getSession()->getPage()->find('css', '.elements .text-event');
-
-        $this->assertNotNull($input1);
-        $this->assertNotNull($input2);
-        $this->assertNotNull($input3);
-        $this->assertNotNull($event);
+        $input1 = $webAssert->elementExists('css', '.elements input.input.first');
+        $input2 = $webAssert->elementExists('css', '.elements input.input.second');
+        $input3 = $webAssert->elementExists('css', '.elements input.input.third');
+        $event  = $webAssert->elementExists('css', '.elements .text-event');
 
         $input1->keyDown('u', $modifier);
         $this->assertEquals('key downed:' . $eventProperties, $event->getText());

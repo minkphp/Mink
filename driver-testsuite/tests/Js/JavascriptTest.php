@@ -21,12 +21,10 @@ class JavascriptTest extends TestCase
     public function testDragDrop()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
+        $webAssert = $this->getAssertSession();
 
-        $draggable = $this->getSession()->getPage()->find('css', '#draggable');
-        $droppable = $this->getSession()->getPage()->find('css', '#droppable');
-
-        $this->assertNotNull($draggable);
-        $this->assertNotNull($droppable);
+        $draggable = $webAssert->elementExists('css', '#draggable');
+        $droppable = $webAssert->elementExists('css', '#droppable');
 
         $draggable->dragTo($droppable);
         $this->assertEquals('Dropped!', $droppable->find('css', 'p')->getText());

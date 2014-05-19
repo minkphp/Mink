@@ -148,19 +148,20 @@ class CookieTest extends TestCase
     public function testSessionPersistsBetweenRequests()
     {
         $this->getSession()->visit($this->pathTo('/session_test.php'));
-        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
+        $webAssert = $this->getAssertSession();
+        $node = $webAssert->elementExists('css', '#session-id');
         $sessionId = $node->getText();
 
         $this->getSession()->visit($this->pathTo('/session_test.php'));
-        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
+        $node = $webAssert->elementExists('css', '#session-id');
         $this->assertEquals($sessionId, $node->getText());
 
         $this->getSession()->visit($this->pathTo('/session_test.php?login'));
-        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
+        $node = $webAssert->elementExists('css', '#session-id');
         $this->assertNotEquals($sessionId, $newSessionId = $node->getText());
 
         $this->getSession()->visit($this->pathTo('/session_test.php'));
-        $this->assertNotNull($node = $this->getSession()->getPage()->find('css', '#session-id'));
+        $node = $webAssert->elementExists('css', '#session-id');
         $this->assertEquals($newSessionId, $node->getText());
     }
 }

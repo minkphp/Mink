@@ -10,10 +10,7 @@ class ContentTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $page = $this->getSession()->getPage();
-        $element = $page->find('css', '.travers');
-
-        $this->assertNotNull($element);
+        $element = $this->getAssertSession()->elementExists('css', '.travers');
 
         $this->assertEquals(
             "<div class=\"travers\">\n            <div class=\"sub\">el1</div>\n".
@@ -59,14 +56,12 @@ class ContentTest extends TestCase
     public function testHtmlDecodingNotPerformed()
     {
         $session = $this->getSession();
+        $webAssert = $this->getAssertSession();
         $session->visit($this->pathTo('/html_decoding.html'));
         $page = $session->getPage();
 
-        $span = $page->find('css', 'span');
-        $input = $page->find('css', 'input');
-
-        $this->assertNotNull($span);
-        $this->assertNotNull($input);
+        $span = $webAssert->elementExists('css', 'span');
+        $input = $webAssert->elementExists('css', 'input');
 
         $expectedHtml = '<span custom-attr="&amp;">some text</span>';
         $this->assertContains($expectedHtml, $page->getHtml(), '.innerHTML is returned as-is');
