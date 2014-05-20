@@ -15,7 +15,7 @@
 
         <select id="the-select">
             <option value="10">ten</option>
-            <option selected="selected" value="20">twenty</option>
+            <option value="20" selected="selected">twenty</option>
             <option value="30">thirty</option>
         </select>
 
@@ -27,7 +27,7 @@
         <input type="checkbox" id="the-checked-checkbox" value="cb-val" checked/>
         <input type="checkbox" id="the-unchecked-checkbox" value="cb-val"/>
 
-        <textarea id="the-textarea">original notes</textarea>
+        <textarea id="the-textarea"></textarea>
 
         <input type="file" id="the-file" />
     </form>
@@ -53,7 +53,12 @@
                 }
 
                 $('#' + $result_id).text($change_registry[this.id]);
-            })
+            });
+
+            $results.click(function () {
+                $results.empty();
+                $change_registry = {};
+            });
         });
     </script>
 </body>

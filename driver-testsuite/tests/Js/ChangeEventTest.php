@@ -35,7 +35,7 @@ class ChangeEventTest extends TestCase
      * @dataProvider setValueChangeEventDataProvider
      * @group change-event-detector
      */
-    public function testSetValueChangeEvent($elementId, $elementValue)
+    public function testSetValueChangeEvent($elementId, $valueForEmpty, $valueForFilled = '')
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -43,19 +43,28 @@ class ChangeEventTest extends TestCase
         $input = $page->findById($elementId);
         $this->assertNull($page->findById($elementId.'-result'));
 
-        $input->setValue($elementValue);
-        $this->assertElementChangeCount($elementId);
+        // Verify setting value, when control is initially empty.
+        $input->setValue($valueForEmpty);
+        $this->assertElementChangeCount($elementId, 'initial value setting triggers change event');
+
+        if ($valueForFilled) {
+            // Verify setting value, when control already has a value.
+            $page->findById('results')->click();
+            $input->setValue($valueForFilled);
+            $this->assertElementChangeCount($elementId, 'value change triggers change event');
+        }
     }
 
     public function setValueChangeEventDataProvider()
     {
         return array(
-            'input default' => array('the-input-default', 'some value'),
-            'input text' => array('the-input-text', 'some value'),
-            'input email' => array('the-email', 'some value'),
+            'input default' => array('the-input-default', 'from empty', 'from existing'),
+            'input text' => array('the-input-text', 'from empty', 'from existing'),
+            'input email' => array('the-email', 'from empty', 'from existing'),
+            'textarea' => array('the-textarea', 'from empty', 'from existing'),
+            'file' => array('the-file', 'from empty', 'from existing'),
             'select' => array('the-select', '30'),
-            'textarea' => array('the-textarea', 'some value'),
-            'file' => array('the-file', 'some value'),
+            'radio' => array('the-radio-m', 'm'),
         );
     }
 
@@ -84,9 +93,10 @@ class ChangeEventTest extends TestCase
     }
 
     /**
+     * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testCheckChangeEvent()
+    public function testCheckChangeEvent($useSetValue)
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -94,14 +104,20 @@ class ChangeEventTest extends TestCase
         $checkbox = $page->findById('the-unchecked-checkbox');
         $this->assertNull($page->findById('the-unchecked-checkbox-result'));
 
-        $checkbox->check();
+        if ($useSetValue) {
+            $checkbox->setValue(true);
+        } else {
+            $checkbox->check();
+        }
+
         $this->assertElementChangeCount('the-unchecked-checkbox');
     }
 
     /**
+     * @dataProvider checkboxTestWayDataProvider
      * @group change-event-detector
      */
-    public function testUncheckChangeEvent()
+    public function testUncheckChangeEvent($useSetValue)
     {
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
@@ -109,15 +125,28 @@ class ChangeEventTest extends TestCase
         $checkbox = $page->findById('the-checked-checkbox');
         $this->assertNull($page->findById('the-checked-checkbox-result'));
 
-        $checkbox->uncheck();
+        if ($useSetValue) {
+            $checkbox->setValue(false);
+        } else {
+            $checkbox->uncheck();
+        }
+
         $this->assertElementChangeCount('the-checked-checkbox');
     }
 
-    private function assertElementChangeCount($elementId)
+    public function checkboxTestWayDataProvider()
+    {
+        return array(
+            array(true),
+            array(false),
+        );
+    }
+
+    private function assertElementChangeCount($elementId, $message = '')
     {
         $counterElement = $this->getSession()->getPage()->findById($elementId.'-result');
         $actualCount = null === $counterElement ? 0 : $counterElement->getText();
 
-        $this->assertEquals('1', $actualCount);
+        $this->assertEquals('1', $actualCount, $message);
     }
 }
