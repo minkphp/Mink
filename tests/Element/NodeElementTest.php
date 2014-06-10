@@ -590,4 +590,101 @@ class NodeElementTest extends ElementTest
 
         $this->assertEquals(3, count($node->findAll('xpath', $xpath)));
     }
+
+    public function testFocusReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('focus')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->focus());
+    }
+
+    public function testBlurReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('blur')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->blur());
+    }
+
+    public function testCheckReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('check')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->check());
+    }
+
+    public function testUncheckReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('uncheck')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->uncheck());
+    }
+
+    public function testSetValueReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('setValue')
+            ->with('some_value')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->setValue('some_value'));
+    }
+
+    public function testClickReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('click')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->click());
+    }
+
+    public function testDoubleClickReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('doubleClick')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->doubleClick());
+    }
+
+    public function testRightClickReturn()
+    {
+        $expected = $node = new NodeElement('any_tag', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('rightClick')
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $node->rightClick());
+    }
 }
