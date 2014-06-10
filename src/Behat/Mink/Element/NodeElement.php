@@ -100,7 +100,7 @@ class NodeElement extends TraversableElement
      *
      * @see NodeElement::getValue for the format of the value for each type of field
      *
-     * @return $this
+     * @return static
      */
     public function setValue($value)
     {
@@ -151,7 +151,7 @@ class NodeElement extends TraversableElement
     /**
      * Clicks current node.
      *
-     * @return $this
+     * @return static
      */
     public function click()
     {
@@ -162,7 +162,7 @@ class NodeElement extends TraversableElement
     /**
      * Presses current button.
      *
-     * @return $this
+     * @return static
      */
     public function press()
     {
@@ -172,7 +172,7 @@ class NodeElement extends TraversableElement
     /**
      * Double-clicks current node.
      *
-     * @return $this
+     * @return static
      */
     public function doubleClick()
     {
@@ -183,7 +183,7 @@ class NodeElement extends TraversableElement
     /**
      * Right-clicks current node.
      *
-     * @return $this
+     * @return static
      */
     public function rightClick()
     {
@@ -194,7 +194,7 @@ class NodeElement extends TraversableElement
     /**
      * Checks current node if it's a checkbox field.
      *
-     * @return $this
+     * @return static
      */
     public function check()
     {
@@ -205,7 +205,7 @@ class NodeElement extends TraversableElement
     /**
      * Unchecks current node if it's a checkbox field.
      *
-     * @return $this
+     * @return static
      */
     public function uncheck()
     {
@@ -238,7 +238,7 @@ class NodeElement extends TraversableElement
      * @param string  $option
      * @param Boolean $multiple whether the option should be added to the selection for multiple selects
      *
-     * @return $this
+     * @return static
      * @throws ElementNotFoundException when the option is not found in the select box
      */
     public function selectOption($option, $multiple = false)
@@ -280,7 +280,7 @@ class NodeElement extends TraversableElement
      *
      * @param string $path path to file (local)
      *
-     * @return $this
+     * @return static
      */
     public function attachFile($path)
     {
@@ -301,7 +301,7 @@ class NodeElement extends TraversableElement
     /**
      * Simulates a mouse over on the element.
      *
-     * @return $this
+     * @return static
      */
     public function mouseOver()
     {
@@ -314,7 +314,7 @@ class NodeElement extends TraversableElement
      *
      * @param ElementInterface $destination other node
      *
-     * @return $this
+     * @return static
      */
     public function dragTo(ElementInterface $destination)
     {
@@ -325,7 +325,7 @@ class NodeElement extends TraversableElement
     /**
      * Brings focus to element.
      *
-     * @return $this
+     * @return static
      */
     public function focus()
     {
@@ -335,7 +335,7 @@ class NodeElement extends TraversableElement
 
     /**
      * Removes focus from element.
-     * @return $this
+     * @return static
      */
     public function blur()
     {
@@ -349,7 +349,7 @@ class NodeElement extends TraversableElement
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
-     * @return $this
+     * @return static
      */
     public function keyPress($char, $modifier = null)
     {
@@ -363,7 +363,7 @@ class NodeElement extends TraversableElement
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
-     * @return $this
+     * @return static
      */
     public function keyDown($char, $modifier = null)
     {
@@ -377,7 +377,7 @@ class NodeElement extends TraversableElement
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
-     * @return $this
+     * @return static
      */
     public function keyUp($char, $modifier = null)
     {
@@ -390,7 +390,7 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on anything else than form elements is not allowed.
      *
-     * @return $this
+     * @return static
      */
     public function submit()
     {
