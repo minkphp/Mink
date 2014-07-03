@@ -31,10 +31,10 @@
         </a>
 
         <!-- match links with `role=link` attribute -->
-        <span role="link" id="link-role-text"></span>
-        <span role="link" value="link-role-text"></span>
-        <span role="link" title="link-role-text"></span>
-        <span role="link">link-role-text</span>
+        <span role="Link" id="link-role-text"></span>
+        <span role="lInk" value="link-role-text"></span>
+        <span role="liNk" title="link-role-text"></span>
+        <span role="linK">link-role-text</span>
         <!-- partial match -->
         <span role="link" value="some link-role-text"></span>
         <span role="link" title="some link-role-text"></span>
@@ -94,11 +94,11 @@
             <label>the-field<select></select></label>
 
             <!-- don't match fields by `id` attribute -->
-            <input type="submit" id="the-field-submit-button"/>
-            <input type="image" id="the-field-image-button"/>
-            <input type="button" id="the-field-button-button"/>
-            <input type="reset" id="the-field-reset-button"/>
-            <input type="hidden" id="the-field-hidden"/>
+            <input type="Submit" id="the-field-submit-button"/>
+            <input type="iMage" id="the-field-image-button"/>
+            <input type="butTon" id="the-field-button-button"/>
+            <input type="resEt" id="the-field-reset-button"/>
+            <input type="hidDen" id="the-field-hidden"/>
 
             <!-- don't match fields by `name` attribute -->
             <input type="submit" name="the-field"/>
@@ -131,10 +131,10 @@
 
         <div id="test-for-button-selector">
             <!-- match buttons by `id` attribute -->
-            <input type="submit" id="input-submit-button"/>
-            <input type="image" id="input-image-button"/>
-            <input type="button" id="input-button-button"/>
-            <input type="reset" id="input-reset-button"/>
+            <input type="Submit" id="input-submit-button"/>
+            <input type="iMage" id="input-image-button"/>
+            <input type="butTon" id="input-button-button"/>
+            <input type="resEt" id="input-reset-button"/>
 
             <button type="submit" id="button-submit-button"></button>
             <button type="image" id="button-image-button"></button>
@@ -191,7 +191,7 @@
 
             <!-- match some buttons by `alt` attribute -->
             <input type="submit" alt="button-alt-text"/>
-            <input type="image" alt="button-alt-text"/>
+            <input type="imaGe" alt="button-alt-text"/>
             <input type="button" alt="button-alt-text"/>
             <input type="reset" alt="button-alt-text"/>
             <!-- partial match -->
@@ -206,14 +206,14 @@
             <button>some button-text</button>
 
             <!-- match buttons with `role=button` & `id` attribute -->
-            <span role="button" type="submit" id="role-button-submit-button"></span>
-            <span role="button" type="image" id="role-button-image-button"></span>
-            <span role="button" type="button" id="role-button-button-button"></span>
-            <span role="button" type="reset" id="role-button-reset-button"></span>
+            <span role="Button" type="submit" id="role-button-submit-button"></span>
+            <span role="bUtton" type="image" id="role-button-image-button"></span>
+            <span role="buTton" type="button" id="role-button-button-button"></span>
+            <span role="butTon" type="reset" id="role-button-reset-button"></span>
 
             <!-- match buttons with `role=button` & `name` attribute -->
-            <span role="button" type="submit" name="button-role-text"></span>
-            <span role="button" type="image" name="button-role-text"></span>
+            <span role="buttOn" type="submit" name="button-role-text"></span>
+            <span role="buttoN" type="image" name="button-role-text"></span>
             <span role="button" type="button" name="button-role-text"></span>
             <span role="button" type="reset" name="button-role-text"></span>
 
@@ -241,27 +241,27 @@
         </div>
 
         <div id="test-for-checkbox-selector">
-            <input type="checkbox" id="the-field-checkbox"/>
-            <input type="checkbox" name="the-field"/>
-            <input type="checkbox" placeholder="the-field"/>
-            <label for="label-for-checkbox">the-field</label><input type="checkbox" id="label-for-checkbox"/>
-            <label>the-field<input type="checkbox"/></label>
+            <input type="Checkbox" id="the-field-checkbox"/>
+            <input type="checkBox" name="the-field"/>
+            <input type="cheCkbox" placeholder="the-field"/>
+            <label for="label-for-checkbox">the-field</label><input type="checkboX" id="label-for-checkbox"/>
+            <label>the-field<input type="chEckbox"/></label>
         </div>
 
         <div id="test-for-radio-selector">
-            <input type="radio" id="the-field-radio"/>
-            <input type="radio" name="the-field"/>
-            <input type="radio" placeholder="the-field"/>
-            <label for="label-for-radio">the-field</label><input type="radio" id="label-for-radio"/>
-            <label>the-field<input type="radio"/></label>
+            <input type="Radio" id="the-field-radio"/>
+            <input type="raDio" name="the-field"/>
+            <input type="radIo" placeholder="the-field"/>
+            <label for="label-for-radio">the-field</label><input type="radiO" id="label-for-radio"/>
+            <label>the-field<input type="radIo"/></label>
         </div>
 
         <div id="test-for-file-selector">
-            <input type="file" id="the-field-file"/>
-            <input type="file" name="the-field"/>
-            <input type="file" placeholder="the-field"/>
-            <label for="label-for-file">the-field</label><input type="file" id="label-for-file"/>
-            <label>the-field<input type="file"/></label>
+            <input type="File" id="the-field-file"/>
+            <input type="fIle" name="the-field"/>
+            <input type="fiLe" placeholder="the-field"/>
+            <label for="label-for-file">the-field</label><input type="filE" id="label-for-file"/>
+            <label>the-field<input type="fiLe"/></label>
         </div>
 
         <div id="test-for-select-related-stuff">

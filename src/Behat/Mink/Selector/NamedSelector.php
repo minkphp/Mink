@@ -19,6 +19,8 @@ class NamedSelector implements SelectorInterface
 {
     private $replacements = array(
         // simple replacements
+        '%lowercaseType%' => "translate(./@type, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
+        '%lowercaseRole%' => "translate(./@role, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
         '%tagTextMatch%' => 'contains(normalize-space(string(.)), %locator%)',
         '%labelTextMatch%' => './@id = //label[%tagTextMatch%]/@for',
         '%idMatch%' => './@id = %locator%',
@@ -32,14 +34,14 @@ class NamedSelector implements SelectorInterface
         '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
 
         // complex replacements
-        '%inputTypeWithoutPlaceholderFilter%' => "./@type = 'radio' or ./@type = 'checkbox' or ./@type = 'file'",
+        '%inputTypeWithoutPlaceholderFilter%' => "%lowercaseType% = 'radio' or %lowercaseType% = 'checkbox' or %lowercaseType% = 'file'",
         '%fieldFilterWithPlaceholder%' => 'self::input[not(%inputTypeWithoutPlaceholderFilter%)] | self::textarea',
         '%fieldMatchWithPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
         '%fieldMatchWithoutPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch%)',
         '%fieldFilterWithoutPlaceholder%' => 'self::input[%inputTypeWithoutPlaceholderFilter%] | self::select',
-        '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or ./@type = 'hidden')",
+        '%buttonTypeFilter%' => "%lowercaseType% = 'submit' or %lowercaseType% = 'image' or %lowercaseType% = 'button' or %lowercaseType% = 'reset'",
+        '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or %lowercaseType% = 'hidden')",
         '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
-        '%buttonTypeFilter%' => "./@type = 'submit' or ./@type = 'image' or ./@type = 'button' or ./@type = 'reset'",
         '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or %relMatch%)',
         '%imgAltMatch%' => './/img[%altMatch%]',
     );
@@ -67,7 +69,7 @@ XPATH
 [./@href][(%linkMatch% or %imgAltMatch%)]
 |
 .//*
-[./@role = 'link'][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[%lowercaseRole% = 'link'][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
 
         ,'button' => <<<XPATH
@@ -75,13 +77,13 @@ XPATH
 [%buttonTypeFilter%][(%buttonMatch%)]
 |
 .//input
-[./@type = 'image'][%altMatch%]
+[%lowercaseType% = 'image'][%altMatch%]
 |
 .//button
 [(%buttonMatch% or %tagTextMatch%)]
 |
 .//*
-[./@role = 'button'][(%buttonMatch% or %tagTextMatch%)]
+[%lowercaseRole% = 'button'][(%buttonMatch% or %tagTextMatch%)]
 XPATH
 
         ,'link_or_button' => <<<XPATH
@@ -92,13 +94,13 @@ XPATH
 [%buttonTypeFilter%][(%idOrValueMatch% or %titleMatch%)]
 |
 .//input
-[./@type = 'image'][%altMatch%]
+[%lowercaseType% = 'image'][%altMatch%]
 |
 .//button
 [(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 |
 .//*
-[(./@role = 'button' or ./@role = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[(%lowercaseRole% = 'button' or %lowercaseRole% = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
 
         ,'content' => <<<XPATH
@@ -115,23 +117,23 @@ XPATH
 
         ,'checkbox' => <<<XPATH
 .//input
-[./@type = 'checkbox'][%fieldMatchWithoutPlaceholder%]
+[%lowercaseType% = 'checkbox'][%fieldMatchWithoutPlaceholder%]
 |
-.//label[%tagTextMatch%]//.//input[./@type = 'checkbox']
+.//label[%tagTextMatch%]//.//input[%lowercaseType% = 'checkbox']
 XPATH
 
         ,'radio' => <<<XPATH
 .//input
-[./@type = 'radio'][%fieldMatchWithoutPlaceholder%]
+[%lowercaseType% = 'radio'][%fieldMatchWithoutPlaceholder%]
 |
-.//label[%tagTextMatch%]//.//input[./@type = 'radio']
+.//label[%tagTextMatch%]//.//input[%lowercaseType% = 'radio']
 XPATH
 
         ,'file' => <<<XPATH
 .//input
-[./@type = 'file'][%fieldMatchWithoutPlaceholder%]
+[%lowercaseType% = 'file'][%fieldMatchWithoutPlaceholder%]
 |
-.//label[%tagTextMatch%]//.//input[./@type = 'file']
+.//label[%tagTextMatch%]//.//input[%lowercaseType% = 'file']
 XPATH
 
         ,'optgroup' => <<<XPATH
