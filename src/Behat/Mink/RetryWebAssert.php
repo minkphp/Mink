@@ -92,7 +92,7 @@ extends WebAssert
             {
                 usleep($usleep);
             }
-            catch(Exception $e)
+            catch(\Exception $e)
             {
                 throw $e;
             }
