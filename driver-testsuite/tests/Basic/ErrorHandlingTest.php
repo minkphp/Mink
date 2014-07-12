@@ -6,6 +6,12 @@ use Behat\Mink\Tests\Driver\TestCase;
 
 class ErrorHandlingTest extends TestCase
 {
+    const NOT_FOUND_XPATH = '//html/./invalid';
+
+    const NOT_FOUND_EXCEPTION = 'Exception';
+
+    const INVALID_EXCEPTION = 'Behat\Mink\Exception\DriverException';
+
     public function testVisitErrorPage()
     {
         $this->getSession()->visit($this->pathTo('/500.php'));
@@ -24,7 +30,7 @@ class ErrorHandlingTest extends TestCase
 
         $this->assertNotNull($element);
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->check($element->getXpath());
     }
 
@@ -32,8 +38,8 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->check('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->check(self::NOT_FOUND_XPATH);
     }
 
     public function testUncheckInvalidElement()
@@ -43,7 +49,7 @@ class ErrorHandlingTest extends TestCase
 
         $this->assertNotNull($element);
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->uncheck($element->getXpath());
     }
 
@@ -51,8 +57,8 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->uncheck('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->uncheck(self::NOT_FOUND_XPATH);
     }
 
     public function testSelectOptionInvalidElement()
@@ -62,7 +68,7 @@ class ErrorHandlingTest extends TestCase
 
         $this->assertNotNull($element);
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->selectOption($element->getXpath(), 'test');
     }
 
@@ -70,8 +76,8 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->selectOption('//html/./invalid', 'test');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->selectOption(self::NOT_FOUND_XPATH, 'test');
     }
 
     public function testAttachFileInvalidElement()
@@ -81,7 +87,7 @@ class ErrorHandlingTest extends TestCase
 
         $this->assertNotNull($element);
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->attachFile($element->getXpath(), __FILE__);
     }
 
@@ -89,8 +95,8 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->attachFile('//html/./invalid', __FILE__);
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->attachFile(self::NOT_FOUND_XPATH, __FILE__);
     }
 
     public function testSubmitFormInvalidElement()
@@ -100,7 +106,7 @@ class ErrorHandlingTest extends TestCase
 
         $this->assertNotNull($element);
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
+        $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->submitForm($element->getXpath());
     }
 
@@ -108,159 +114,159 @@ class ErrorHandlingTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->submitForm('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->submitForm(self::NOT_FOUND_XPATH);
     }
 
     public function testGetTagNameNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getTagName('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getTagName(self::NOT_FOUND_XPATH);
     }
 
     public function testGetTextNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getText('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getText(self::NOT_FOUND_XPATH);
     }
 
     public function testGetHtmlNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getHtml('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getHtml(self::NOT_FOUND_XPATH);
     }
 
     public function testGetOuterHtmlNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getOuterHtml('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getOuterHtml(self::NOT_FOUND_XPATH);
     }
 
     public function testGetValueNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getValue('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getValue(self::NOT_FOUND_XPATH);
     }
 
     public function testSetValueNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->setValue('//html/./invalid', 'test');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->setValue(self::NOT_FOUND_XPATH, 'test');
     }
 
     public function testIsSelectedNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->isSelected('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->isSelected(self::NOT_FOUND_XPATH);
     }
 
     public function testIsCheckedNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->isChecked('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->isChecked(self::NOT_FOUND_XPATH);
     }
 
     public function testIsVisibleNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->isVisible('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->isVisible(self::NOT_FOUND_XPATH);
     }
 
     public function testClickNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->click('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->click(self::NOT_FOUND_XPATH);
     }
 
     public function testDoubleClickNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->doubleClick('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->doubleClick(self::NOT_FOUND_XPATH);
     }
 
     public function testRightClickNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->rightClick('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->rightClick(self::NOT_FOUND_XPATH);
     }
 
     public function testGetAttributeNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->getAttribute('//html/./invalid', 'id');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->getAttribute(self::NOT_FOUND_XPATH, 'id');
     }
 
     public function testMouseOverFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->mouseOver('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->mouseOver(self::NOT_FOUND_XPATH);
     }
 
     public function testFocusFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->focus('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->focus(self::NOT_FOUND_XPATH);
     }
 
     public function testBlurFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->blur('//html/./invalid');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->blur(self::NOT_FOUND_XPATH);
     }
 
     public function testKeyPressNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->keyPress('//html/./invalid', 'a');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->keyPress(self::NOT_FOUND_XPATH, 'a');
     }
 
     public function testKeyDownNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->keyDown('//html/./invalid', 'a');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->keyDown(self::NOT_FOUND_XPATH, 'a');
     }
 
     public function testKeyUpNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $this->setExpectedException('Behat\Mink\Exception\DriverException');
-        $this->getSession()->getDriver()->keyUp('//html/./invalid', 'a');
+        $this->setExpectedException(self::NOT_FOUND_EXCEPTION);
+        $this->getSession()->getDriver()->keyUp(self::NOT_FOUND_XPATH, 'a');
     }
 }
