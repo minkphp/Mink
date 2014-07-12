@@ -10,7 +10,7 @@ class ErrorHandlingTest extends TestCase
 
     const NOT_FOUND_EXCEPTION = 'Exception';
 
-    const INVALID_EXCEPTION = 'Behat\Mink\Exception\DriverException';
+    const INVALID_EXCEPTION = 'Exception';
 
     public function testVisitErrorPage()
     {
