@@ -222,7 +222,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->getAttribute(self::NOT_FOUND_XPATH, 'id');
     }
 
-    public function testMouseOverFoundElement()
+    public function testMouseOverNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -230,7 +230,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->mouseOver(self::NOT_FOUND_XPATH);
     }
 
-    public function testFocusFoundElement()
+    public function testFocusNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
@@ -238,7 +238,7 @@ class ErrorHandlingTest extends TestCase
         $this->getSession()->getDriver()->focus(self::NOT_FOUND_XPATH);
     }
 
-    public function testBlurFoundElement()
+    public function testBlurNotFoundElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
