@@ -56,9 +56,9 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Returns All child elements(including descendant) to the current one.
+     * Returns All child elements (including descendant) to the current one.
      *
-     * @return NodeElement[]|null
+     * @return static[]|null
      */
     public function getAllChildren()
     {
@@ -66,9 +66,9 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Returns All direct child elements(NOT including deeper descendant) to the current one.
+     * Returns All direct child elements (NOT including deeper descendant) to the current one.
      *
-     * @return NodeElement[]|null
+     * @return static[]|null
      */
     public function getDirectChildren()
     {
@@ -98,7 +98,7 @@ class NodeElement extends TraversableElement
     /**
      * Returns all preceding sibling elements to the current one.
      *
-     * @return NodeElement[]|null
+     * @return static[]|null
      */
     public function getPreviousSiblings()
     {
@@ -118,7 +118,7 @@ class NodeElement extends TraversableElement
     /**
      * Returns all following sibling elements to the current one.
      *
-     * @return NodeElement[]|null
+     * @return static[]|null
      */
     public function getNextSiblings()
     {

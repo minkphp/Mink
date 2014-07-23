@@ -32,6 +32,7 @@ class NamedSelector implements SelectorInterface
         '%altMatch%' => 'contains(./@alt, %locator%)',
         '%relMatch%' => 'contains(./@rel, %locator%)',
         '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
+        '%nameMatch%' => './@name = %locator%',
 
         // complex replacements
         '%inputTypeWithoutPlaceholderFilter%' => "%lowercaseType% = 'radio' or %lowercaseType% = 'checkbox' or %lowercaseType% = 'file'",
@@ -154,8 +155,8 @@ XPATH
 .//*[%idMatch%]
 XPATH
         
-        ,'id_or_name' => <<<XPATH
-.//*[%idOrNameMatch%]
+        ,'name' => <<<XPATH
+.//*[%nameMatch%]
 XPATH
     );
 

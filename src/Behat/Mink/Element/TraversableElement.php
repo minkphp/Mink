@@ -37,19 +37,19 @@ abstract class TraversableElement extends Element
      * Finds element by its name.
      *
      * @param string name element name
-     * @return NodeElement|null
+     * @return static|null
      */
     public function findByName($name)
     {
         $name = $this->getSelectorsHandler()->xpathLiteral($name);
-        return $this->find('named', array('id_or_name', $name));
+        return $this->find('named', array('name', $name));
     }
 
     /**
      * Finds elements by its tag.
      *
      * @param string tag element tag
-     * @return NodeElement[]|null
+     * @return static[]|null
      */
     public function findByTag($tag)
     {
