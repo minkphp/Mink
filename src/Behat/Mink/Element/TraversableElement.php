@@ -32,31 +32,30 @@ abstract class TraversableElement extends Element
 
         return $this->find('named', array('id', $id));
     }
-	
-	/**
-	 * Finds element by its name.
-	 *
-	 * @param string name element name
-	 * @return NodeElement|NodeElements|null
-	 */
-	public function findByName($name)
-	{
-		$name = $this->getSelectorsHandler()->xpathLiteral($name);
-		return $this->find('xpath', ".//*[@name=$name]");
-	}
-	
-	/**
-	 * Finds elements by its tag.
-	 *
-	 * @param string tag element tag
-	 * @return NodeElements|null
-	 */
-	public function findByTag($tag)
-	{
-		$tag = $this->getSelectorsHandler()->xpathLiteral($tag);
-		return $this->findAll('css', $tag);
-	}
-	
+
+    /**
+     * Finds element by its name.
+     *
+     * @param string name element name
+     * @return NodeElement|null
+     */
+    public function findByName($name)
+    {
+        $name = $this->getSelectorsHandler()->xpathLiteral($name);
+        return $this->find('named', array('id_or_name', $name));
+    }
+
+    /**
+     * Finds elements by its tag.
+     *
+     * @param string tag element tag
+     * @return NodeElement[]|null
+     */
+    public function findByTag($tag)
+    {
+        return $this->findAll('css', $tag);
+    }
+
     /**
      * Checks whether element has a link with specified locator.
      *

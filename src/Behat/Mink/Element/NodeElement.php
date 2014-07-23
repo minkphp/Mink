@@ -54,91 +54,87 @@ class NodeElement extends TraversableElement
     {
         return $this->find('xpath', '..');
     }
-	
-	/**
-	 * Returns All child elements(including descendant) to the current one.
-	 *
-	 * @return NodeElements|null
-	 */
-	public function getAllChildren()
-	{
-		return $this->findAll('xpath', 'descendant::*');
-	}
-	
-	/**
-	 * Returns All direct child elements(NOT including deeper descendant) to the current one.
-	 *
-	 * @return NodeElements|null
-	 */
-	public function getDirectChildren()
-	{
-		return $this->findAll('xpath', 'child::*');
-	}
-	
-	/**
-	 * Returns the first child element to the current one.
-	 *
-	 * @return NodeElement|null
-	 */
-	public function getFirstChild()
-	{
-		$elements = $this->findAll('xpath', 'child::*');
-		return $elements[0];
-	}
-	
-	/**
-	 * Returns the last direct child element to the current one.
-	 *
-	 * @return NodeElement|null
-	 */
-	public function getLastChild()
-	{
-		$elements = $this->findAll('xpath', 'child::*');
-		return $elements[count($elements) - 1];
-	}
-	
-	/**
-	 * Returns all preceding sibling elements to the current one.
-	 *
-	 * @return NodeElements|null
-	 */
-	public function getPreviousSiblings()
-	{
-		return $this->findAll('xpath', 'preceding-sibling::*');
-	}
-	
-	/**
-	 * Returns the preceding sibling element close to the current one.
-	 *
-	 * @return NodeElement|null
-	 */
-	public function getPreviousSibling()
-	{
-		$elements = $this->findAll('xpath', 'preceding-sibling::*');
-		return $elements[count($elements) - 1];
-	}
-	
-	/**
-	 * Returns all following sibling elements to the current one.
-	 *
-	 * @return NodeElements|null
-	 */
-	public function getNextSiblings()
-	{
-		return $this->findAll('xpath', 'following-sibling::*');
-	}
-	
-	/**
-	 * Returns the following sibling element close to the current one.
-	 *
-	 * @return NodeElement|null
-	 */
-	public function getNextSibling()
-	{
-		$elements = $this->findAll('xpath', 'following-sibling::*');
-		return $elements[0];
-	}
-	
+
+    /**
+     * Returns All child elements(including descendant) to the current one.
+     *
+     * @return NodeElement[]|null
+     */
+    public function getAllChildren()
+    {
+        return $this->findAll('xpath', 'descendant::*');
+    }
+
+    /**
+     * Returns All direct child elements(NOT including deeper descendant) to the current one.
+     *
+     * @return NodeElement[]|null
+     */
+    public function getDirectChildren()
+    {
+        return $this->findAll('xpath', 'child::*');
+    }
+
+    /**
+     * Returns the first child element to the current one.
+     *
+     * @return static|null
+     */
+    public function getFirstChild()
+    {
+        return $this->find('xpath', 'child::*[1]');
+    }
+
+    /**
+     * Returns the last direct child element to the current one.
+     *
+     * @return static|null
+     */
+    public function getLastChild()
+    {
+        return $this->find('xpath', 'child::*[last()]');
+    }
+
+    /**
+     * Returns all preceding sibling elements to the current one.
+     *
+     * @return NodeElement[]|null
+     */
+    public function getPreviousSiblings()
+    {
+        return $this->findAll('xpath', 'preceding-sibling::*');
+    }
+
+    /**
+     * Returns the preceding sibling element close to the current one.
+     *
+     * @return static|null
+     */
+    public function getPreviousSibling()
+    {
+        return $this->find('xpath', 'preceding-sibling::*[1]');
+    }
+
+    /**
+     * Returns all following sibling elements to the current one.
+     *
+     * @return NodeElement[]|null
+     */
+    public function getNextSiblings()
+    {
+        return $this->findAll('xpath', 'following-sibling::*');
+    }
+
+    /**
+     * Returns the following sibling element close to the current one.
+     *
+     * @return static|null
+     */
+    public function getNextSibling()
+    {
+        return $this->find('xpath', 'following-sibling::*[1]');
+    }
+
     /**
      * Returns current node tag name.
      *
