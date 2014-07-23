@@ -156,7 +156,7 @@ XPATH
         
         ,'id_or_name' => <<<XPATH
 .//*[%idOrNameMatch%]
-XPATH  
+XPATH
     );
 
     /**
