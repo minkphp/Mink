@@ -142,7 +142,7 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 
             'id' => array('test.html', 'id', 'bad-link-text', 1),
             
-            'name' => array('test.html', 'name', 'element-name', 1),
+            'name' => array('test.html', 'name', 'the-field', 1),
         );
     }
 
