@@ -25,6 +25,7 @@ class PartialNamedSelector extends NamedSelector
         $this->registerReplacement('%altMatch%', 'contains(./@alt, %locator%)');
         $this->registerReplacement('%relMatch%', 'contains(./@rel, %locator%)');
         $this->registerReplacement('%labelAttributeMatch%', 'contains(./@label, %locator%)');
+        $this->registerReplacement('%nameMatch%', 'contains(./@name, %locator%)');
 
         parent::__construct();
     }
