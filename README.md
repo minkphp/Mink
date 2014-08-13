@@ -1,10 +1,12 @@
 Mink
 ====
-[![Latest Stable Version](https://poser.pugx.org/behat/mink/v/stable.png)](https://packagist.org/packages/behat/mink)
-[![Total Downloads](https://poser.pugx.org/behat/mink/downloads.png)](https://packagist.org/packages/behat/mink)
+[![Latest Stable Version](https://poser.pugx.org/behat/mink/v/stable.svg)](https://packagist.org/packages/behat/mink)
+[![Latest Unstable Version](https://poser.pugx.org/behat/mink/v/unstable.svg)](https://packagist.org/packages/behat/mink)
+[![Total Downloads](https://poser.pugx.org/behat/mink/downloads.svg)](https://packagist.org/packages/behat/mink)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Behat/Mink/badges/quality-score.png?s=d4faf469d6b399df121deed6070390800722ada0)](https://scrutinizer-ci.com/g/Behat/Mink/)
 [![Code Coverage](https://scrutinizer-ci.com/g/Behat/Mink/badges/coverage.png?s=88ab1cee4e131f4ef595f17ae4837001ef2aec3b)](https://scrutinizer-ci.com/g/Behat/Mink/)
-[![Build Status](https://travis-ci.org/Behat/Mink.png?branch=master)](http://travis-ci.org/Behat/Mink)
+[![Build Status](https://travis-ci.org/Behat/Mink.svg?branch=master)](https://travis-ci.org/Behat/Mink)
+[![License](https://poser.pugx.org/behat/mink/license.svg)](https://packagist.org/packages/behat/mink)
 
 Useful Links
 ------------
@@ -57,7 +59,7 @@ Install Dependencies
 --------------------
 
 ``` bash
-$> curl http://getcomposer.org/installer | php
+$> curl -sS https://getcomposer.org/installer | php
 $> php composer.phar install
 ```
 
