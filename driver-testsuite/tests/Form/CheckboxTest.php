@@ -12,17 +12,17 @@ class CheckboxTest extends TestCase
 
         $checkbox = $this->getAssertSession()->fieldExists('agreement');
 
-        $this->assertFalse($checkbox->getValue());
+        $this->assertNull($checkbox->getValue());
         $this->assertFalse($checkbox->isChecked());
 
         $checkbox->check();
 
-        $this->assertTrue($checkbox->getValue());
+        $this->assertEquals('yes', $checkbox->getValue());
         $this->assertTrue($checkbox->isChecked());
 
         $checkbox->uncheck();
 
-        $this->assertFalse($checkbox->getValue());
+        $this->assertNull($checkbox->getValue());
         $this->assertFalse($checkbox->isChecked());
     }
 
@@ -32,17 +32,17 @@ class CheckboxTest extends TestCase
 
         $checkbox = $this->getAssertSession()->fieldExists('agreement');
 
-        $this->assertFalse($checkbox->getValue());
+        $this->assertNull($checkbox->getValue());
         $this->assertFalse($checkbox->isChecked());
 
         $checkbox->setValue(true);
 
-        $this->assertTrue($checkbox->getValue());
+        $this->assertEquals('yes', $checkbox->getValue());
         $this->assertTrue($checkbox->isChecked());
 
         $checkbox->setValue(false);
 
-        $this->assertFalse($checkbox->getValue());
+        $this->assertNull($checkbox->getValue());
         $this->assertFalse($checkbox->isChecked());
     }
 
@@ -56,8 +56,8 @@ class CheckboxTest extends TestCase
         $updateMail  = $webAssert->elementExists('css', '[name="mail_types[]"][value="update"]');
         $spamMail    = $webAssert->elementExists('css', '[name="mail_types[]"][value="spam"]');
 
-        $this->assertTrue($updateMail->getValue());
-        $this->assertFalse($spamMail->getValue());
+        $this->assertEquals('update', $updateMail->getValue());
+        $this->assertNull($spamMail->getValue());
 
         $this->assertTrue($updateMail->isChecked());
         $this->assertFalse($spamMail->isChecked());

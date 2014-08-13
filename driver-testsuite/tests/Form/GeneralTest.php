@@ -169,8 +169,8 @@ class GeneralTest extends TestCase
         $this->assertEquals('w', $sex->getValue());
         $this->assertEquals('original notes', $notes->getValue());
 
-        $this->assertTrue($maillist->getValue());
-        $this->assertFalse($agreement->getValue());
+        $this->assertEquals('on', $maillist->getValue());
+        $this->assertNull($agreement->getValue());
 
         $this->assertTrue($maillist->isChecked());
         $this->assertFalse($agreement->isChecked());
