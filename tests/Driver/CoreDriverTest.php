@@ -4,6 +4,19 @@ namespace Behat\Mink\Tests\Driver;
 
 class CoreDriverTest extends \PHPUnit_Framework_TestCase
 {
+    public function testNoExtraMethods()
+    {
+        $interfaceRef = new \ReflectionClass('Behat\Mink\Driver\DriverInterface');
+        $coreDriverRef = new \ReflectionClass('Behat\Mink\Driver\CoreDriver');
+
+        foreach ($coreDriverRef->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            $this->assertTrue(
+                $interfaceRef->hasMethod($method->getName()),
+                sprintf('CoreDriver should not implement methods which are not part of the DriverInterface but %s found', $method->getName())
+            );
+        }
+    }
+
     /**
      * @dataProvider getDriverInterfaceMethods
      */
