@@ -184,7 +184,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function click($xpath)
+    public function click($xpath = null)
     {
         throw new UnsupportedDriverActionException('Clicking on an element is not supported by %s', $this);
     }
@@ -312,7 +312,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function doubleClick($xpath)
+    public function doubleClick($xpath = null)
     {
         throw new UnsupportedDriverActionException('Double-clicking is not supported by %s', $this);
     }
@@ -320,7 +320,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function rightClick($xpath)
+    public function rightClick($xpath = null)
     {
         throw new UnsupportedDriverActionException('Right-clicking is not supported by %s', $this);
     }
@@ -344,7 +344,15 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function mouseOver($xpath)
+    public function mouseOver($xpath, $x = 0, $y = 0)
+    {
+        throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function moveTo($x, $y)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
     }
