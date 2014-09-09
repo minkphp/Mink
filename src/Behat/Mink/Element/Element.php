@@ -117,7 +117,7 @@ abstract class Element implements ElementInterface
         }
 
         $start = microtime(true);
-        $end = $start + $timeout / 1000.0;
+        $end = $start + $timeout;
 
         do {
             $result = call_user_func($callback, $this);
