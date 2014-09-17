@@ -16,6 +16,7 @@ $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
 ksort($_POST);
 echo str_replace('>', '', var_export($_POST, true)) . "\n";
 if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
+    echo $_FILES['about']['name'] . "\n";
     echo file_get_contents($_FILES['about']['tmp_name']);
 } else {
     echo "no file";
