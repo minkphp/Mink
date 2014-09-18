@@ -216,6 +216,7 @@ array (
   'sex' = 'm',
   'submit' = 'Register',
 )
+some_file.txt
 1 uploaded file
 OUT;
             $this->assertContains($out, $page->getContent());
