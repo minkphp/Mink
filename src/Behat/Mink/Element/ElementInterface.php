@@ -57,9 +57,9 @@ interface ElementInterface
     /**
      * Waits for an element(-s) to appear and returns it.
      *
-     * @param int      $timeout  Maximal allowed waiting time in milliseconds.
-     * @param callable $callback Callback, which result is both used as waiting condition and returned.
-     *                           Will receive reference to `this element` as first argument.
+     * @param int|float $timeout  Maximal allowed waiting time in seconds.
+     * @param callable  $callback Callback, which result is both used as waiting condition and returned.
+     *                            Will receive reference to `this element` as first argument.
      *
      * @return mixed
      * @throws \InvalidArgumentException When invalid callback given.

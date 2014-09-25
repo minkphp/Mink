@@ -75,7 +75,7 @@ class NodeElementTest extends ElementTest
         $callCounter = 0;
         $node = new NodeElement('some xpath', $this->session);
 
-        $result = $node->waitFor(5000, function ($givenNode) use (&$callCounter) {
+        $result = $node->waitFor(5, function ($givenNode) use (&$callCounter) {
             $callCounter++;
 
             if (1 === $callCounter) {
@@ -99,7 +99,7 @@ class NodeElementTest extends ElementTest
 
         $expectedTimeout = 2;
         $startTime = microtime(true);
-        $result = $node->waitFor($expectedTimeout * 1000, function () {
+        $result = $node->waitFor($expectedTimeout, function () {
             return null;
         });
         $endTime = microtime(true);
@@ -114,7 +114,7 @@ class NodeElementTest extends ElementTest
     public function testWaitForFailure()
     {
         $node = new NodeElement('some xpath', $this->session);
-        $node->waitFor(5000, 'not a callable');
+        $node->waitFor(5, 'not a callable');
     }
 
     public function testHasAttribute()
