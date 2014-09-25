@@ -72,10 +72,9 @@ class WindowTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
         $session = $this->getSession();
-        $driver = $session->getDriver();
 
-        $driver->maximizeWindow();
-        $driver->wait(1000, 'false');
+        $session->maximizeWindow();
+        $session->wait(1000, 'false');
 
         $script = "return Math.abs(screen.availHeight - window.outerHeight) <= 100;";
 
