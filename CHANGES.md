@@ -1,3 +1,37 @@
+1.6.0 / 2014-09-26
+==================
+
+  * [BC break] Changed the named selector to prefer exact matches over partial matches
+  * [BC break] Changed `NodeElement::getValue` for checkboxes to return the value rather than the checked state (use `isChecked` for that)
+  * Fixed the XPath prefixing when searching inside an existing element
+  * Refactored the driver testsuite entirely and expand it to cover drivers entirely (covering many more cases for consistency)
+  * Changed `NodeElement::setValue` to support any fields rather than only input elements
+  * Removed the wrapping of any driver-level exception in a MinkException on invalid usage as it was making the code too complex
+  * Fixed the matching of the input type in the named selector to be case insensitive according to the HTML spec
+  * Introduced `Behat\Mink\Selector\Xpath\Escaper` to allow reusing the XPath escaping
+  * Deprecated `Element::getSession`. Code needing the session should get it from outside rather than the element
+  * Changed ElementNotFoundException to extend from ExpectationException
+  * Added `Element::getOuterHtml` to get the HTML code of the element including itself
+  * Fixed the name selectors to match on the `placeholder` only for textual inputs
+  * Enforced consistent behavior for drivers on 4xx and 5xx response to return the response rather than throwing an exception
+  * Added `Element::waitFor` to allow retrying some code until it succeeds or the timeout is reached
+  * Added `Element::isValid` to check whether an element still exists in the page
+  * Made `Session::executeScript` compatible across drivers by ensuring they all support the same syntaxes for the JS expression
+  * Made `Session::evaluateScript` compatible across drivers by ensuring they all support the same syntaxes for the JS expression
+  * Removed `hasClass` from `DocumentElement` (instead of triggering a fatal error)
+  * Added testing on HHVM to ensure consistency
+  * Fixed `NodeElement::getTagName` to ensure that the tag name is lowercase for all drivers
+  * Fixed `Element::hasAttribute` to ensure it supports attributes with an empty value
+  * Fixed the `field` selector to avoid matching inputs with the type `submit` or `reset`
+  * Changed the button XPath selection to accept `reset` buttons as well
+  * Changed `Session::wait` to return the condition value rather than nothing
+  * Added `Session::getWindowName` and `Session::getWindowNames` to get the name of the current and of all windows
+  * Added `Session::maximizeWindow` to maximize the window
+  * Added `NodeElement::isSelected` to check whether an `<option>` is selected
+  * Added `NodeElement::submitForm` to allow submitting a form without using a button
+  * Added assertions about the value of an attribute
+  * Added the anchor in the assertion on the URL in `WebAssert`
+
 1.5.0 / 2013-04-14
 ==================
 
