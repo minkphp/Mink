@@ -6,7 +6,9 @@ Mink
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Behat/Mink/badges/quality-score.png?s=d4faf469d6b399df121deed6070390800722ada0)](https://scrutinizer-ci.com/g/Behat/Mink/)
 [![Code Coverage](https://scrutinizer-ci.com/g/Behat/Mink/badges/coverage.png?s=88ab1cee4e131f4ef595f17ae4837001ef2aec3b)](https://scrutinizer-ci.com/g/Behat/Mink/)
 [![Build Status](https://travis-ci.org/Behat/Mink.svg?branch=master)](https://travis-ci.org/Behat/Mink)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc/mini.png)](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc)
 [![License](https://poser.pugx.org/behat/mink/license.svg)](https://packagist.org/packages/behat/mink)
+
 
 Useful Links
 ------------
