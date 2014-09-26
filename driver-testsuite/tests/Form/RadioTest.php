@@ -13,11 +13,8 @@ class RadioTest extends TestCase
 
     public function testIsChecked()
     {
-        $option = $this->getSession()->getPage()->findById('first');
-        $option2 = $this->getSession()->getPage()->findById('second');
-
-        $this->assertNotNull($option);
-        $this->assertNotNull($option2);
+        $option = $this->findById('first');
+        $option2 = $this->findById('second');
 
         $this->assertTrue($option->isChecked());
         $this->assertFalse($option2->isChecked());
@@ -30,8 +27,7 @@ class RadioTest extends TestCase
 
     public function testSelectOption()
     {
-        $option = $this->getSession()->getPage()->findById('first');
-        $this->assertNotNull($option);
+        $option = $this->findById('first');
 
         $this->assertEquals('set', $option->getValue());
 
@@ -46,8 +42,7 @@ class RadioTest extends TestCase
 
     public function testSetValue()
     {
-        $option = $this->getSession()->getPage()->findById('first');
-        $this->assertNotNull($option);
+        $option = $this->findById('first');
 
         $this->assertEquals('set', $option->getValue());
 
@@ -59,11 +54,8 @@ class RadioTest extends TestCase
 
     public function testSameNameInMultipleForms()
     {
-        $option1 = $this->getSession()->getPage()->findById('reused_form1');
-        $option2 = $this->getSession()->getPage()->findById('reused_form2');
-
-        $this->assertNotNull($option1);
-        $this->assertNotNull($option2);
+        $option1 = $this->findById('reused_form1');
+        $option2 = $this->findById('reused_form2');
 
         $this->assertEquals('test2', $option1->getValue());
         $this->assertEquals('test3', $option2->getValue());

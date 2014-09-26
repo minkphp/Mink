@@ -26,9 +26,7 @@ class ErrorHandlingTest extends TestCase
     public function testCheckInvalidElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
-        $element = $this->getSession()->getPage()->findById('user-name');
-
-        $this->assertNotNull($element);
+        $element = $this->findById('user-name');
 
         $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->check($element->getXpath());
@@ -45,9 +43,7 @@ class ErrorHandlingTest extends TestCase
     public function testUncheckInvalidElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
-        $element = $this->getSession()->getPage()->findById('user-name');
-
-        $this->assertNotNull($element);
+        $element = $this->findById('user-name');
 
         $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->uncheck($element->getXpath());
@@ -64,9 +60,7 @@ class ErrorHandlingTest extends TestCase
     public function testSelectOptionInvalidElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
-        $element = $this->getSession()->getPage()->findById('user-name');
-
-        $this->assertNotNull($element);
+        $element = $this->findById('user-name');
 
         $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->selectOption($element->getXpath(), 'test');
@@ -83,9 +77,7 @@ class ErrorHandlingTest extends TestCase
     public function testAttachFileInvalidElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
-        $element = $this->getSession()->getPage()->findById('user-name');
-
-        $this->assertNotNull($element);
+        $element = $this->findById('user-name');
 
         $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->attachFile($element->getXpath(), __FILE__);
@@ -102,9 +94,7 @@ class ErrorHandlingTest extends TestCase
     public function testSubmitFormInvalidElement()
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
-        $element = $this->getSession()->getPage()->findById('core');
-
-        $this->assertNotNull($element);
+        $element = $this->findById('core');
 
         $this->setExpectedException(self::INVALID_EXCEPTION);
         $this->getSession()->getDriver()->submitForm($element->getXpath());

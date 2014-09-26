@@ -38,8 +38,8 @@ OUT;
         $this->getSession()->visit($this->pathTo('html5_radio.html'));
         $page = $this->getSession()->getPage();
 
-        $radio = $page->findById('sex_f');
-        $otherRadio = $page->findById('sex_invalid');
+        $radio = $this->findById('sex_f');
+        $otherRadio = $this->findById('sex_invalid');
 
         $this->assertEquals('f', $radio->getValue());
         $this->assertEquals('invalid', $otherRadio->getValue());

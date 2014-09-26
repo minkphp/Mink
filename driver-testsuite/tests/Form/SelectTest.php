@@ -111,13 +111,13 @@ OUT;
         $session->visit($this->pathTo('/issue193.html'));
 
         $session->getPage()->selectFieldOption('options-without-values', 'Two');
-        $this->assertEquals('Two', $session->getPage()->findById('options-without-values')->getValue());
+        $this->assertEquals('Two', $this->findById('options-without-values')->getValue());
 
-        $this->assertTrue($session->getPage()->findById('two')->isSelected());
-        $this->assertFalse($session->getPage()->findById('one')->isSelected());
+        $this->assertTrue($this->findById('two')->isSelected());
+        $this->assertFalse($this->findById('one')->isSelected());
 
         $session->getPage()->selectFieldOption('options-with-values', 'two');
-        $this->assertEquals('two', $session->getPage()->findById('options-with-values')->getValue());
+        $this->assertEquals('two', $this->findById('options-with-values')->getValue());
     }
 
     /**

@@ -12,12 +12,11 @@ class HoverTest extends TestCase
     public function testMouseOverHover()
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
-        $page = $this->getSession()->getPage();
 
-        $page->findById('reset-square')->mouseOver();
+        $this->findById('reset-square')->mouseOver();
         $this->assertActionSquareHeight(100);
 
-        $page->findById('action-square')->mouseOver();
+        $this->findById('action-square')->mouseOver();
         $this->assertActionSquareHeight(200);
     }
 
@@ -28,12 +27,11 @@ class HoverTest extends TestCase
     public function testClickHover()
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
-        $page = $this->getSession()->getPage();
 
-        $page->findById('reset-square')->mouseOver();
+        $this->findById('reset-square')->mouseOver();
         $this->assertActionSquareHeight(100);
 
-        $page->findById('action-square')->click();
+        $this->findById('action-square')->click();
         $this->assertActionSquareHeight(200);
     }
 
@@ -44,12 +42,11 @@ class HoverTest extends TestCase
     public function testDoubleClickHover()
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
-        $page = $this->getSession()->getPage();
 
-        $page->findById('reset-square')->mouseOver();
+        $this->findById('reset-square')->mouseOver();
         $this->assertActionSquareHeight(100);
 
-        $page->findById('action-square')->doubleClick();
+        $this->findById('action-square')->doubleClick();
         $this->assertActionSquareHeight(200);
     }
 
@@ -60,12 +57,11 @@ class HoverTest extends TestCase
     public function testRightClickHover()
     {
         $this->getSession()->visit($this->pathTo('/css_mouse_events.html'));
-        $page = $this->getSession()->getPage();
 
-        $page->findById('reset-square')->mouseOver();
+        $this->findById('reset-square')->mouseOver();
         $this->assertActionSquareHeight(100);
 
-        $page->findById('action-square')->rightClick();
+        $this->findById('action-square')->rightClick();
         $this->assertActionSquareHeight(200);
     }
 

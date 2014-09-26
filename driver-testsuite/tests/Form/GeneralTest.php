@@ -12,10 +12,8 @@ class GeneralTest extends TestCase
         $session = $this->getSession();
 
         $session->visit($this->pathTo('/issue212.html'));
-        $page = $session->getPage();
 
-        $field = $page->findById('poney-button');
-        $this->assertNotNull($field);
+        $field = $this->findById('poney-button');
         $this->assertEquals('poney', $field->getValue());
     }
 
