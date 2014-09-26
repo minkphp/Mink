@@ -339,4 +339,14 @@ class Session
     {
         $this->driver->resizeWindow($width, $height, $name);
     }
+
+    /**
+     * Maximize the window if it is not maximized already
+     *
+     * @param string $name window name (null for the main window)
+     */
+    public function maximizeWindow($name = null)
+    {
+        $this->driver->maximizeWindow($name);
+    }
 }
