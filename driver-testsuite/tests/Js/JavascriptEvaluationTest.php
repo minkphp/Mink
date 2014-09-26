@@ -21,8 +21,7 @@ class JavascriptEvaluationTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
 
-        $waitable = $this->getSession()->getPage()->findById('waitable');
-        $this->assertNotNull($waitable);
+        $waitable = $this->findById('waitable');
 
         $waitable->click();
         $this->getSession()->wait(3000, '$("#waitable").has("div").length > 0');

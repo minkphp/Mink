@@ -135,14 +135,14 @@ class CookieTest extends TestCase
     {
         $this->getSession()->restart();
         $this->getSession()->visit($this->pathTo('/cookie_page3.php'));
-        $this->assertEquals('Has Cookie: false', $this->getSession()->getPage()->findById('cookie-status')->getText());
+        $this->assertEquals('Has Cookie: false', $this->findById('cookie-status')->getText());
 
         $this->getSession()->reload();
-        $this->assertEquals('Has Cookie: true', $this->getSession()->getPage()->findById('cookie-status')->getText());
+        $this->assertEquals('Has Cookie: true', $this->findById('cookie-status')->getText());
 
         $this->getSession()->restart();
         $this->getSession()->visit($this->pathTo('/cookie_page3.php'));
-        $this->assertEquals('Has Cookie: false', $this->getSession()->getPage()->findById('cookie-status')->getText());
+        $this->assertEquals('Has Cookie: false', $this->findById('cookie-status')->getText());
     }
 
     public function testSessionPersistsBetweenRequests()

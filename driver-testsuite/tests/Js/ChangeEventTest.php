@@ -27,8 +27,8 @@ class ChangeEventTest extends TestCase
         $session = $this->getSession();
         $session->visit($this->pathTo('/issue178.html'));
 
-        $session->getPage()->findById('source')->setValue('foo');
-        $this->assertEquals('foo', $session->getPage()->findById('target')->getText());
+        $this->findById('source')->setValue('foo');
+        $this->assertEquals('foo', $this->findById('target')->getText());
     }
 
     /**
@@ -40,7 +40,7 @@ class ChangeEventTest extends TestCase
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
-        $input = $page->findById($elementId);
+        $input = $this->findById($elementId);
         $this->assertNull($page->findById($elementId.'-result'));
 
         // Verify setting value, when control is initially empty.
@@ -49,7 +49,7 @@ class ChangeEventTest extends TestCase
 
         if ($valueForFilled) {
             // Verify setting value, when control already has a value.
-            $page->findById('results')->click();
+            $this->findById('results')->click();
             $input->setValue($valueForFilled);
             $this->assertElementChangeCount($elementId, 'value change triggers change event');
         }
@@ -77,7 +77,7 @@ class ChangeEventTest extends TestCase
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
-        $input = $page->findById($elementId);
+        $input = $this->findById($elementId);
         $this->assertNull($page->findById($elementId.'-result'));
 
         $input->selectOption($elementValue);
@@ -101,7 +101,7 @@ class ChangeEventTest extends TestCase
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
-        $checkbox = $page->findById('the-unchecked-checkbox');
+        $checkbox = $this->findById('the-unchecked-checkbox');
         $this->assertNull($page->findById('the-unchecked-checkbox-result'));
 
         if ($useSetValue) {
@@ -122,7 +122,7 @@ class ChangeEventTest extends TestCase
         $this->getSession()->visit($this->pathTo('/element_change_detector.html'));
         $page = $this->getSession()->getPage();
 
-        $checkbox = $page->findById('the-checked-checkbox');
+        $checkbox = $this->findById('the-checked-checkbox');
         $this->assertNull($page->findById('the-checked-checkbox-result'));
 
         if ($useSetValue) {

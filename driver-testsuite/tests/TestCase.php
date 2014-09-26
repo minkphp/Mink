@@ -96,6 +96,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $id
+     *
+     * @return \Behat\Mink\Element\NodeElement
+     */
+    protected function findById($id)
+    {
+        return $this->getAssertSession()->elementExists('named', array('id', $id));
+    }
+
+    /**
      * Map remote file path.
      *
      * @param string $file File path.
