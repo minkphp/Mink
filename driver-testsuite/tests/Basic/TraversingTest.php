@@ -126,4 +126,14 @@ class TraversingTest extends TestCase
         $this->assertFalse($subUrl->has('css', 'em'));
         $this->assertEquals('deep', $subUrl->find('css', 'strong')->getText());
     }
+
+    public function testFindingChild()
+    {
+        $this->getSession()->visit($this->pathTo('/index.html'));
+
+        $form = $this->getSession()->getPage()->find('css', 'footer form');
+        $this->assertNotNull($form);
+
+        $this->assertCount(1, $form->findAll('css', 'input'), 'Elements are searched only in the element, not in all previous matches');
+    }
 }
