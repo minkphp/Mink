@@ -26,17 +26,23 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     public function testAddressEquals()
     {
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getCurrentUrl')
             ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
         ;
 
-        $this->assertCorrectAssertion('addressEquals', array('/sub/url#webapp/nav'));
+        $this->assertCorrectAssertion('addressEquals', array('/sub/url?param=true#webapp/nav'));
+        $this->assertWrongAssertion(
+            'addressEquals',
+            array('/sub/url#webapp/nav'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page is "/sub/url?param=true#webapp/nav", but "/sub/url#webapp/nav" expected.'
+        );
         $this->assertWrongAssertion(
             'addressEquals',
             array('sub_url'),
             'Behat\\Mink\\Exception\\ExpectationException',
-            'Current page is "/sub/url#webapp/nav", but "sub_url" expected.'
+            'Current page is "/sub/url?param=true#webapp/nav", but "sub_url" expected.'
         );
     }
 
