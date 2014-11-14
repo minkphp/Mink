@@ -18,5 +18,5 @@ Mink is an open source, community-driven project. If you'd like to contribute, f
 Make sure that you don't break anything with your changes by running:
 
 ```bash
-$> phpunit
+$> vendor/bin/phpunit
 ```
