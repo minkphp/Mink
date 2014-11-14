@@ -648,8 +648,9 @@ class WebAssert
     {
         $parts = parse_url($url);
         $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
+        $query = empty($parts['query']) ? '' : '?' . $parts['query'];
 
-        return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
+        return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $query . $fragment;
     }
 
     /**
