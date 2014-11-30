@@ -162,6 +162,132 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testResponseHeaderEquals()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderEquals', array('foo', 'bar'));
+        $this->assertWrongAssertion(
+            'responseHeaderEquals',
+            array('bar', 'foo'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current response header "bar" is "baz", but "foo" expected.'
+        );
+    }
+
+    public function testResponseHeaderNotEquals()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderNotEquals', array('foo', 'baz'));
+        $this->assertWrongAssertion(
+            'responseHeaderNotEquals',
+            array('bar', 'baz'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current response header "bar" is "baz", but should not be.'
+        );
+    }
+
+    public function testResponseHeaderContains()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderContains', array('foo', 'ba'));
+        $this->assertWrongAssertion(
+            'responseHeaderContains',
+            array('bar', 'bz'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The text "bz" was not found anywhere in the "bar" response header.'
+        );
+    }
+
+    public function testResponseHeaderNotContains()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', 'bz'));
+        $this->assertWrongAssertion(
+            'responseHeaderNotContains',
+            array('bar', 'ba'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The text "ba" was found in the "bar" response header, but it should not.'
+        );
+    }
+
+    public function testResponseHeaderMatches()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderMatches', array('foo', '/ba(.*)/'));
+        $this->assertWrongAssertion(
+            'responseHeaderMatches',
+            array('bar', '/b[^a]/'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The pattern "/b[^a]/" was not found anywhere in the "bar" response header.'
+        );
+    }
+
+    public function testResponseHeaderNotMatches()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+                array(
+                    array('foo', 'bar'),
+                    array('bar', 'baz'),
+                )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderNotMatches', array('foo', '/bz/'));
+        $this->assertWrongAssertion(
+            'responseHeaderNotMatches',
+            array('bar', '/b[ab]z/'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The pattern "/b[ab]z/" was found in the text of the "bar" response header, but it should not.'
+        );
+    }
+
     public function testPageTextContains()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')

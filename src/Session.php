@@ -176,6 +176,16 @@ class Session
     }
 
     /**
+     * Returns specific response header.
+     *
+     * @return array
+     */
+    public function getResponseHeader($name)
+    {
+      return $this->driver->getResponseHeader($name);
+    }
+
+    /**
      * Sets cookie.
      *
      * @param string $name
