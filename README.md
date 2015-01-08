@@ -3,9 +3,9 @@ Mink
 [![Latest Stable Version](https://poser.pugx.org/behat/mink/v/stable.svg)](https://packagist.org/packages/behat/mink)
 [![Latest Unstable Version](https://poser.pugx.org/behat/mink/v/unstable.svg)](https://packagist.org/packages/behat/mink)
 [![Total Downloads](https://poser.pugx.org/behat/mink/downloads.svg)](https://packagist.org/packages/behat/mink)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Behat/Mink/badges/quality-score.png?s=d4faf469d6b399df121deed6070390800722ada0)](https://scrutinizer-ci.com/g/Behat/Mink/)
-[![Code Coverage](https://scrutinizer-ci.com/g/Behat/Mink/badges/coverage.png?s=88ab1cee4e131f4ef595f17ae4837001ef2aec3b)](https://scrutinizer-ci.com/g/Behat/Mink/)
-[![Build Status](https://travis-ci.org/Behat/Mink.svg?branch=master)](https://travis-ci.org/Behat/Mink)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/minkphp/Mink/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/minkphp/Mink/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/minkphp/Mink/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/minkphp/Mink/)
+[![Build Status](https://travis-ci.org/minkphp/Mink.svg?branch=master)](https://travis-ci.org/minkphp/Mink)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc/mini.png)](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc)
 [![License](https://poser.pugx.org/behat/mink/license.svg)](https://packagist.org/packages/behat/mink)
 
@@ -68,5 +68,7 @@ $> php composer.phar install
 Contributors
 ------------
 
-* Konstantin Kudryashov [everzet](http://github.com/everzet) [lead developer]
-* Other [awesome developers](https://github.com/Behat/Mink/graphs/contributors)
+* Konstantin Kudryashov [everzet](https://github.com/everzet) [lead developer]
+* Christophe Coevoet [stof](https://github.com/stof) [lead developer]
+* Alexander Obuhovich [aik099](https://github.com/aik099) [lead developer]
+* Other [awesome developers](https://github.com/minkphp/Mink/graphs/contributors)
