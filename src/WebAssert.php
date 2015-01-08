@@ -698,6 +698,82 @@ class WebAssert
     }
 
     /**
+     * Checks that specific button exists on the current page.
+     *
+     * @param string             $button       button id|name|title|value
+     * @param TraversableElement $container    document to check against
+     *
+     * @return NodeElement
+     *
+     * @throws ElementNotFoundException
+     */
+    public function buttonExists($button, TraversableElement $container = null)
+    {
+        $container = $container ?: $this->session->getPage();
+        $node = $container->findButton($button);
+
+        if (null === $node) {
+            throw new ElementNotFoundException($this->session, 'button', 'id|name|title|value', $button);
+        }
+
+        return $node;
+    }
+
+    /**
+     * Checks that specific button does not exists on the current page.
+     *
+     * @param string             $button       button id|name|title|value
+     * @param TraversableElement $container    document to check against
+     *
+     * @return NodeElement
+     */
+    public function buttonNotExists($button, TraversableElement $container = null)
+    {
+        $container = $container ?: $this->session->getPage();
+        $node = $container->findButton($button);
+
+        $this->assert(null === $node, sprintf('A button "%s" appears on this page, but it should not.', $button));
+    }
+
+    /**
+     * Checks that specific select field exists on the current page.
+     *
+     * @param string             $select       select id|name|label
+     * @param TraversableElement $container    document to check against
+     *
+     * @return NodeElement
+     *
+     * @throws ElementNotFoundException
+     */
+    public function selectExists($select, TraversableElement $container = null)
+    {
+        $container = $container ?: $this->session->getPage();
+        $node = $container->find('named', array('select', $select));
+
+        if (null === $node) {
+            throw new ElementNotFoundException($this->session, 'select', 'id|name|label', $select);
+        }
+
+        return $node;
+    }
+
+    /**
+     * Checks that specific select field does not exists on the current page.
+     *
+     * @param string             $select       select id|name|label
+     * @param TraversableElement $container    document to check against
+     *
+     * @return NodeElement
+     */
+    public function selectNotExists($select, TraversableElement $container = null)
+    {
+        $container = $container ?: $this->session->getPage();
+        $node = $container->find('named', array('select', $select));
+
+        $this->assert(null === $node, sprintf('A select "%s" appears on this page, but it should not.', $select));
+    }
+
+    /**
      * Checks that specific checkbox is checked.
      *
      * @param string             $field     field id|name|label|value

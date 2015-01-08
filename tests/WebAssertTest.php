@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\WebAssert;
 
 class WebAssertTest extends \PHPUnit_Framework_TestCase
@@ -1056,6 +1057,140 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             array('username'),
             'Behat\\Mink\\Exception\\ExpectationException',
             'A field "username" appears on this page, but it should not.'
+        );
+    }
+
+    public function testButtonExists()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('findButton')
+            ->with('test')
+            ->will($this->onConsecutiveCalls($element, null))
+        ;
+
+        $this->assertCorrectAssertion('buttonExists', array('test'));
+        $this->assertWrongAssertion(
+            'buttonExists',
+            array('test'),
+            'Behat\\Mink\\Exception\\ElementNotFoundException',
+            'Button with id|name|title|value "test" not found.'
+        );
+    }
+
+    public function testButtonNotExists()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('findButton')
+            ->with('test')
+            ->will($this->onConsecutiveCalls(null, $element))
+        ;
+
+        $this->assertCorrectAssertion('buttonNotExists', array('test'));
+        $this->assertWrongAssertion(
+            'buttonNotExists',
+            array('test'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'A button "test" appears on this page, but it should not.'
+        );
+    }
+
+    public function testSelectExists()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->will($this->onConsecutiveCalls($element, null))
+        ;
+
+        $this->assertCorrectAssertion('selectExists', array('choice'));
+        $this->assertWrongAssertion(
+            'selectExists',
+            array('test'),
+            'Behat\\Mink\\Exception\\ElementNotFoundException',
+            'Select with id|name|label "test" not found.'
+        );
+    }
+
+    public function testSelectNotExists()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('find')
+            ->will($this->onConsecutiveCalls(null, $element))
+        ;
+
+        $this->assertCorrectAssertion('selectNotExists', array('choice'));
+        $this->assertWrongAssertion(
+            'selectNotExists',
+            array('test'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'A select "test" appears on this page, but it should not.'
         );
     }
 
