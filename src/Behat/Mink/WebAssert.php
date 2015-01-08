@@ -648,7 +648,9 @@ class WebAssert
     {
         $parts = parse_url($url);
         $fragment = empty($parts['fragment']) ? '' : '#' . $parts['fragment'];
-
+        if (!isset($parts['path'])) {
+            $parts['path'] = '';
+        }
         return preg_replace('/^\/[^\.\/]+\.php/', '', $parts['path']) . $fragment;
     }
 
