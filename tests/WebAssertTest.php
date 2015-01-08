@@ -20,7 +20,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->assert  = new WebAssert($this->session);
+        $this->assert = new WebAssert($this->session);
     }
 
     public function testAddressEquals()
@@ -38,6 +38,17 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/sub/url#webapp/nav", but "sub_url" expected.'
         );
+    }
+
+    public function testAddressEqualsEmptyPath()
+    {
+        $this->session
+            ->expects($this->once())
+            ->method('getCurrentUrl')
+            ->willReturn('http://example.com')
+        ;
+
+        $this->assertCorrectAssertion('addressEquals', array('/'));
     }
 
     public function testAddressNotEquals()
