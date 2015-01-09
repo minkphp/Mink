@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests;
 
+use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\WebAssert;
 
 class WebAssertTest extends \PHPUnit_Framework_TestCase
@@ -85,9 +86,6 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers Behat\Mink\WebAssert::cookieEquals
-     */
     public function testCookieEquals()
     {
         $this->session->
@@ -109,9 +107,6 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers Behat\Mink\WebAssert::cookieExists
-     */
     public function testCookieExists()
     {
         $this->session->
@@ -1112,21 +1107,25 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function assertCorrectAssertion($assertion, $arguments)
+    private function assertCorrectAssertion($assertion, $arguments)
     {
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
-        } catch (\Exception $e) {
+        } catch (ExpectationException $e) {
             $this->fail('Correct assertion should not throw an exception: '.$e->getMessage());
         }
     }
 
-    protected function assertWrongAssertion($assertion, $arguments, $exceptionClass, $exceptionMessage)
+    private function assertWrongAssertion($assertion, $arguments, $exceptionClass, $exceptionMessage)
     {
+        if ('Behat\Mink\Exception\ExpectationException' !== $exceptionClass && !is_subclass_of($exceptionClass, 'Behat\Mink\Exception\ExpectationException')) {
+            throw new \LogicException('Wrong expected exception for the failed assertion. It should be a Behat\Mink\Exception\ExpectationException.');
+        }
+
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
             $this->fail('Wrong assertion should throw an exception');
-        } catch (\Exception $e) {
+        } catch (ExpectationException $e) {
             $this->assertInstanceOf($exceptionClass, $e);
             $this->assertSame($exceptionMessage, $e->getMessage());
         }
