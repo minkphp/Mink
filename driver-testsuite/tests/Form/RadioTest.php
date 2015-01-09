@@ -75,7 +75,7 @@ class RadioTest extends TestCase
         $session->visit($this->pathTo('/advanced_form.html'));
         $page = $session->getPage();
 
-        $sex = $page->find('xpath', '//*[@name = "sex"]' . "\n|\n" . '//*[@id = "sex"]');
+        $sex = $page->find('xpath', '//*[@name = "sex"]'."\n|\n".'//*[@id = "sex"]');
         $this->assertNotNull($sex, 'xpath with line ending works');
 
         $sex->setValue('m');

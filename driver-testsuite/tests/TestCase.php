@@ -132,7 +132,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function pathTo($path)
     {
-        return rtrim(self::getConfig()->getWebFixturesUrl(), '/') . '/' . ltrim($path, '/');
+        return rtrim(self::getConfig()->getWebFixturesUrl(), '/').'/'.ltrim($path, '/');
     }
 
     /**

@@ -40,7 +40,7 @@ class Manipulator
 
         // If the xpath prefix contains a union we need to wrap it in parentheses.
         if (preg_match(self::UNION_PATTERN, $prefix)) {
-            $prefix = '(' . $prefix . ')';
+            $prefix = '('.$prefix.')';
         }
 
         // Split any unions into individual expressions.
@@ -57,11 +57,11 @@ class Manipulator
 
             // add prefix before element selector
             if (0 === strpos($expression, '/')) {
-                $expression = $prefix . $expression;
+                $expression = $prefix.$expression;
             } else {
-                $expression = $prefix . '/' . $expression;
+                $expression = $prefix.'/'.$expression;
             }
-            $expressions[] = $parenthesis . $expression;
+            $expressions[] = $parenthesis.$expression;
         }
 
         return implode(' | ', $expressions);

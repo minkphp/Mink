@@ -49,7 +49,7 @@ class ExpectationException extends Exception
     public function __toString()
     {
         try {
-            $pageText = $this->pipeString($this->trimString($this->getContext()) . "\n");
+            $pageText = $this->pipeString($this->trimString($this->getContext())."\n");
             $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
@@ -87,7 +87,7 @@ class ExpectationException extends Exception
      */
     protected function pipeString($string)
     {
-        return '|  ' . strtr($string, array("\n" => "\n|  "));
+        return '|  '.strtr($string, array("\n" => "\n|  "));
     }
 
     /**
@@ -117,7 +117,7 @@ class ExpectationException extends Exception
         $string = trim($string);
 
         if ($count < mb_strlen($string)) {
-            return mb_substr($string, 0, $count - 3) . '...';
+            return mb_substr($string, 0, $count - 3).'...';
         }
 
         return $string;

@@ -28,7 +28,7 @@ class ContentTest extends TestCase
     {
         $this->getSession()->visit($this->pathTo('/index.html'));
 
-        $element = $this->getSession()->getPage()->findById('attr-elem[' . $attributeName . ']');
+        $element = $this->getSession()->getPage()->findById('attr-elem['.$attributeName.']');
 
         $this->assertNotNull($element);
         $this->assertSame($attributeValue, $element->getAttribute($attributeName));

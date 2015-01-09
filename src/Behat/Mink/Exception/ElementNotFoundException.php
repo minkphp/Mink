@@ -43,7 +43,7 @@ class ElementNotFoundException extends ExpectationException
             } else {
                 $selector = 'with '.$selector;
             }
-            $message .= ' '.$selector.' "' . $locator . '"';
+            $message .= ' '.$selector.' "'.$locator.'"';
         }
 
         $message .= ' not found.';

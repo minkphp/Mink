@@ -64,7 +64,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
         $this->driver
             ->expects($this->exactly($times))
             ->method('find')
-            ->with('//html' . $xpath)
+            ->with('//html'.$xpath)
             ->will($returnValue);
 
         $this->selectors

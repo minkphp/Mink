@@ -99,13 +99,13 @@ class EventsTest extends TestCase
         $event  = $webAssert->elementExists('css', '.elements .text-event');
 
         $input1->keyDown('u', $modifier);
-        $this->assertEquals('key downed:' . $eventProperties, $event->getText());
+        $this->assertEquals('key downed:'.$eventProperties, $event->getText());
 
         $input2->keyPress('r', $modifier);
-        $this->assertEquals('key pressed:114 / ' . $eventProperties, $event->getText());
+        $this->assertEquals('key pressed:114 / '.$eventProperties, $event->getText());
 
         $input3->keyUp(78, $modifier);
-        $this->assertEquals('key upped:78 / ' . $eventProperties, $event->getText());
+        $this->assertEquals('key upped:78 / '.$eventProperties, $event->getText());
     }
 
     public function provideKeyboardEventsModifiers()

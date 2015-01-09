@@ -33,8 +33,8 @@ class DocumentElementTest extends ElementTest
             ->expects($this->exactly(2))
             ->method('find')
             ->will($this->returnValueMap(array(
-                array('//html/' . $xpath, array(2, 3, 4)),
-                array('//html/' . $css, array(1, 2)),
+                array('//html/'.$xpath, array(2, 3, 4)),
+                array('//html/'.$css, array(1, 2)),
             )));
 
         $this->selectors

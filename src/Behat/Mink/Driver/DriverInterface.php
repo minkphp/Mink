@@ -623,15 +623,15 @@ interface DriverInterface
      */
     public function maximizeWindow($name = null);
 
-     /**
-      * Submits the form.
-      *
-      * @param string $xpath Xpath.
-      *
-      * @throws UnsupportedDriverActionException When operation not supported by the driver
-      * @throws DriverException                  When the operation cannot be done
-      *
-      * @see \Behat\Mink\Element\NodeElement::submitForm
-      */
+    /**
+     * Submits the form.
+     *
+     * @param string $xpath Xpath.
+     *
+     * @throws UnsupportedDriverActionException When operation not supported by the driver
+     * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::submitForm
+     */
     public function submitForm($xpath);
 }
