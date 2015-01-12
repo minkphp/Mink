@@ -16,7 +16,7 @@ The testsuite of a driver should be based as follow:
 
     "autoload-dev": {
         "psr-4": {
-            "Acme\MyDriver\Tests\\": "tests"
+            "Acme\\MyDriver\\Tests\\": "tests"
         }
     }
 }
@@ -34,15 +34,18 @@ The testsuite of a driver should be based as follow:
     </php>
 
     <testsuites>
-        <testsuite name="Driver test suite">
-            <directory>./tests/</directory><!-- if needed to add more tests -->
+        <testsuite name="Functional tests">
             <directory>vendor/behat/mink/driver-testsuite/tests</directory>
+        </testsuite>
+        <!-- if needed to add more tests -->
+        <testsuite name="Driver tests">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./src/Acme/MyDriver</directory>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 </phpunit>
