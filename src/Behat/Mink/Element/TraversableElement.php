@@ -64,6 +64,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator link id, title, text or image alt
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      */
     public function clickLink($locator)
@@ -74,7 +75,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('link', 'id|title|alt|text', $locator);
         }
 
-        $link->click();
+        return $link->click();
     }
 
     /**
@@ -108,6 +109,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator button id, value or alt
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      */
     public function pressButton($locator)
@@ -118,7 +120,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('button', 'id|name|title|alt|value', $locator);
         }
 
-        $button->press();
+        return $button->press();
     }
 
     /**
@@ -153,6 +155,7 @@ abstract class TraversableElement extends Element
      * @param string $locator input id, name or label
      * @param string $value   value
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      *
      * @see NodeElement::setValue
@@ -165,7 +168,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
         }
 
-        $field->setValue($value);
+        return $field->setValue($value);
     }
 
     /**
@@ -205,6 +208,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      */
     public function checkField($locator)
@@ -215,7 +219,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
         }
 
-        $field->check();
+        return $field->check();
     }
 
     /**
@@ -223,6 +227,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      */
     public function uncheckField($locator)
@@ -233,7 +238,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
         }
 
-        $field->uncheck();
+        return $field->uncheck();
     }
 
     /**
@@ -257,6 +262,7 @@ abstract class TraversableElement extends Element
      * @param string  $value    option value
      * @param Boolean $multiple select multiple options
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      *
      * @see NodeElement::selectOption
@@ -269,7 +275,7 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
         }
 
-        $field->selectOption($value, $multiple);
+        return $field->selectOption($value, $multiple);
     }
 
     /**
@@ -292,6 +298,7 @@ abstract class TraversableElement extends Element
      * @param string $locator input id, name or label
      * @param string $path    path to file
      *
+     * @return NodeElement
      * @throws ElementNotFoundException
      *
      * @see NodeElement::attachFile
@@ -304,6 +311,6 @@ abstract class TraversableElement extends Element
             throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
         }
 
-        $field->attachFile($path);
+        return $field->attachFile($path);
     }
 }

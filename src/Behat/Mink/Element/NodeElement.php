@@ -99,10 +99,13 @@ class NodeElement extends TraversableElement
      * @param string|bool|array $value
      *
      * @see NodeElement::getValue for the format of the value for each type of field
+     *
+     * @return static
      */
     public function setValue($value)
     {
         $this->getDriver()->setValue($this->getXpath(), $value);
+        return $this;
     }
 
     /**
@@ -147,50 +150,67 @@ class NodeElement extends TraversableElement
 
     /**
      * Clicks current node.
+     *
+     * @return static
      */
     public function click()
     {
         $this->getDriver()->click($this->getXpath());
+        return $this;
     }
 
     /**
      * Presses current button.
+     *
+     * @return static
      */
     public function press()
     {
-        $this->click();
+        return $this->click();
     }
 
     /**
      * Double-clicks current node.
+     *
+     * @return static
      */
     public function doubleClick()
     {
         $this->getDriver()->doubleClick($this->getXpath());
+        return $this;
     }
 
     /**
      * Right-clicks current node.
+     *
+     * @return static
      */
     public function rightClick()
     {
         $this->getDriver()->rightClick($this->getXpath());
+        return $this;
     }
 
     /**
      * Checks current node if it's a checkbox field.
+     *
+     * @return static
      */
     public function check()
     {
         $this->getDriver()->check($this->getXpath());
+        return $this;
     }
 
     /**
      * Unchecks current node if it's a checkbox field.
+     *
+     * @return static
      */
     public function uncheck()
     {
         $this->getDriver()->uncheck($this->getXpath());
+        return $this;
     }
 
     /**
@@ -218,6 +238,7 @@ class NodeElement extends TraversableElement
      * @param string  $option
      * @param Boolean $multiple whether the option should be added to the selection for multiple selects
      *
+     * @return static
      * @throws ElementNotFoundException when the option is not found in the select box
      */
     public function selectOption($option, $multiple = false)
@@ -225,7 +246,7 @@ class NodeElement extends TraversableElement
         if ('select' !== $this->getTagName()) {
             $this->getDriver()->selectOption($this->getXpath(), $option, $multiple);
 
-            return;
+            return $this;
         }
 
         $opt = $this->find('named', array(
@@ -237,6 +258,7 @@ class NodeElement extends TraversableElement
         }
 
         $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
+        return $this;
     }
 
     /**
@@ -257,10 +279,13 @@ class NodeElement extends TraversableElement
      * Calling this method on any other elements than file input is not allowed.
      *
      * @param string $path path to file (local)
+     *
+     * @return static
      */
     public function attachFile($path)
     {
         $this->getDriver()->attachFile($this->getXpath(), $path);
+        return $this;
     }
 
     /**
@@ -275,36 +300,47 @@ class NodeElement extends TraversableElement
 
     /**
      * Simulates a mouse over on the element.
+     *
+     * @return static
      */
     public function mouseOver()
     {
         $this->getDriver()->mouseOver($this->getXpath());
+        return $this;
     }
 
     /**
      * Drags current node onto other node.
      *
      * @param ElementInterface $destination other node
+     *
+     * @return static
      */
     public function dragTo(ElementInterface $destination)
     {
         $this->getDriver()->dragTo($this->getXpath(), $destination->getXpath());
+        return $this;
     }
 
     /**
      * Brings focus to element.
+     *
+     * @return static
      */
     public function focus()
     {
         $this->getDriver()->focus($this->getXpath());
+        return $this;
     }
 
     /**
      * Removes focus from element.
+     * @return static
      */
     public function blur()
     {
         $this->getDriver()->blur($this->getXpath());
+        return $this;
     }
 
     /**
@@ -312,10 +348,13 @@ class NodeElement extends TraversableElement
      *
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @return static
      */
     public function keyPress($char, $modifier = null)
     {
         $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
+        return $this;
     }
 
     /**
@@ -323,10 +362,13 @@ class NodeElement extends TraversableElement
      *
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @return static
      */
     public function keyDown($char, $modifier = null)
     {
         $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
+        return $this;
     }
 
     /**
@@ -334,19 +376,25 @@ class NodeElement extends TraversableElement
      *
      * @param string|integer $char     could be either char ('b') or char-code (98)
      * @param string         $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @return static
      */
     public function keyUp($char, $modifier = null)
     {
         $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
+        return $this;
     }
 
     /**
      * Submits the form.
      *
      * Calling this method on anything else than form elements is not allowed.
+     *
+     * @return static
      */
     public function submit()
     {
         $this->getDriver()->submitForm($this->getXpath());
+        return $this;
     }
 }

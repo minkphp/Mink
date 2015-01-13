@@ -590,4 +590,53 @@ class NodeElementTest extends ElementTest
 
         $this->assertEquals(3, count($node->findAll('xpath', $xpath)));
     }
+
+    public function testFocusReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->focus());
+    }
+
+    public function testBlurReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->blur());
+    }
+
+    public function testCheckReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+
+        $this->assertSame($node, $node->check());
+    }
+
+    public function testUncheckReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->uncheck());
+    }
+
+    public function testSetValueReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->setValue('some_value'));
+    }
+
+    public function testPressReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->press());
+    }
+
+    public function testDoubleClickReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->doubleClick());
+    }
+
+    public function testRightClickReturn()
+    {
+        $node = new NodeElement('any_tag', $this->session);
+        $this->assertSame($node, $node->rightClick());
+    }
 }
