@@ -146,6 +146,106 @@ class WebAssert
     }
 
     /**
+     * Checks that current response header equals value.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderEquals($name, $value)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $message = sprintf('Current response header "%s" is "%s", but "%s" expected.', $name, $actual, $value);
+
+        $this->assert($value === $actual, $message);
+    }
+
+    /**
+     * Checks that current response header does not equal value.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderNotEquals($name, $value)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $message = sprintf('Current response header "%s" is "%s", but should not be.', $name, $actual, $value);
+
+        $this->assert($value !== $actual, $message);
+    }
+
+    /**
+     * Checks that current response header contains value.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderContains($name, $value)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $regex  = '/'.preg_quote($value, '/').'/ui';
+        $message = sprintf('The text "%s" was not found anywhere in the "%s" response header.', $value, $name);
+
+        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
+    }
+
+    /**
+     * Checks that current response header does not contain value.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderNotContains($name, $value)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $regex  = '/'.preg_quote($value, '/').'/ui';
+        $message = sprintf('The text "%s" was found in the "%s" response header, but it should not.', $value, $name);
+
+        $this->assertResponseText(!preg_match($regex, $actual), $message);
+    }
+
+    /**
+     * Checks that current response header matches regex.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderMatches($name, $regex)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $message = sprintf('The pattern "%s" was not found anywhere in the "%s" response header.', $regex, $name);
+
+        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
+    }
+
+    /**
+     * Checks that current response header does not match regex.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @throws ExpectationException
+     */
+    public function responseHeaderNotMatches($name, $regex)
+    {
+        $actual = $this->session->getResponseHeader($name);
+        $message = sprintf('The pattern "%s" was found in the text of the "%s" response header, but it should not.', $regex, $name);
+
+        $this->assertResponseText(!preg_match($regex, $actual), $message);
+    }
+
+    /**
      * Checks that current page contains text.
      *
      * @param string $text
