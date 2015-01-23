@@ -188,11 +188,9 @@ class WebAssert
     public function responseHeaderContains($name, $value)
     {
         $actual = $this->session->getResponseHeader($name);
-        $actual = preg_replace('/\s+/u', ' ', $actual);
-        $regex  = '/'.preg_quote($value, '/').'/ui';
         $message = sprintf('The text "%s" was not found anywhere in the "%s" response header.', $value, $name);
 
-        $this->assert((bool) preg_match($regex, $actual), $message);
+        $this->assert(false !== stripos($actual, $value), $message);
     }
 
     /**
@@ -206,11 +204,9 @@ class WebAssert
     public function responseHeaderNotContains($name, $value)
     {
         $actual = $this->session->getResponseHeader($name);
-        $actual = preg_replace('/\s+/u', ' ', $actual);
-        $regex  = '/'.preg_quote($value, '/').'/ui';
         $message = sprintf('The text "%s" was found in the "%s" response header, but it should not.', $value, $name);
 
-        $this->assert(!preg_match($regex, $actual), $message);
+        $this->assert(false === stripos($actual, $value), $message);
     }
 
     /**
