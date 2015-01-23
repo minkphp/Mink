@@ -178,11 +178,22 @@ class Session
     /**
      * Returns specific response header.
      *
-     * @return array
+     * @param string $name
+     *
+     * @return string|null
      */
     public function getResponseHeader($name)
     {
-      return $this->driver->getResponseHeader($name);
+        $headers = $this->driver->getResponseHeaders();
+
+        $name = strtolower($name);
+        $headers = array_change_key_case($headers, CASE_LOWER);
+
+        if (!isset($headers[$name])) {
+            return null;
+        }
+
+        return is_array($headers[$name]) ? $headers[$name][0] : $headers[$name];
     }
 
     /**

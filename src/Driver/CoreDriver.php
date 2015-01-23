@@ -256,14 +256,6 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function getResponseHeader($name)
-    {
-        throw new UnsupportedDriverActionException('Response headers are not available from %s', $this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getResponseHeaders()
     {
         throw new UnsupportedDriverActionException('Response headers are not available from %s', $this);

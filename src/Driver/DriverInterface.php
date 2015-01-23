@@ -182,18 +182,6 @@ interface DriverInterface
     public function setRequestHeader($name, $value);
 
     /**
-     * Returns specific response header.
-     *
-     * @param string $name
-     *
-     * @return string|null
-     *
-     * @throws UnsupportedDriverActionException When operation not supported by the driver
-     * @throws DriverException                  When the operation cannot be done
-     */
-    public function getResponseHeader($name);
-
-    /**
      * Returns last response headers.
      *
      * @return array
