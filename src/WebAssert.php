@@ -192,7 +192,7 @@ class WebAssert
         $regex  = '/'.preg_quote($value, '/').'/ui';
         $message = sprintf('The text "%s" was not found anywhere in the "%s" response header.', $value, $name);
 
-        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
@@ -210,14 +210,14 @@ class WebAssert
         $regex  = '/'.preg_quote($value, '/').'/ui';
         $message = sprintf('The text "%s" was found in the "%s" response header, but it should not.', $value, $name);
 
-        $this->assertResponseText(!preg_match($regex, $actual), $message);
+        $this->assert(!preg_match($regex, $actual), $message);
     }
 
     /**
      * Checks that current response header matches regex.
      *
      * @param string $name
-     * @param string $value
+     * @param string $regex
      *
      * @throws ExpectationException
      */
@@ -226,14 +226,14 @@ class WebAssert
         $actual = $this->session->getResponseHeader($name);
         $message = sprintf('The pattern "%s" was not found anywhere in the "%s" response header.', $regex, $name);
 
-        $this->assertResponseText((bool) preg_match($regex, $actual), $message);
+        $this->assert((bool) preg_match($regex, $actual), $message);
     }
 
     /**
      * Checks that current response header does not match regex.
      *
      * @param string $name
-     * @param string $value
+     * @param string $regex
      *
      * @throws ExpectationException
      */
@@ -242,7 +242,7 @@ class WebAssert
         $actual = $this->session->getResponseHeader($name);
         $message = sprintf('The pattern "%s" was found in the text of the "%s" response header, but it should not.', $regex, $name);
 
-        $this->assertResponseText(!preg_match($regex, $actual), $message);
+        $this->assert(!preg_match($regex, $actual), $message);
     }
 
     /**
