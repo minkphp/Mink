@@ -21,9 +21,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->driver           = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
+        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
-        $this->session  = new Session($this->driver, $this->selectorsHandler);
+        $this->session = new Session($this->driver, $this->selectorsHandler);
     }
 
     public function testGetDriver()
@@ -39,6 +39,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testGetSelectorsHandler()
     {
         $this->assertSame($this->selectorsHandler, $this->session->getSelectorsHandler());
+    }
+
+    public function testInstantiateWithoutOptionalDeps()
+    {
+        $session = new Session($this->driver);
+
+        $this->assertInstanceOf('Behat\Mink\Selector\SelectorsHandler', $session->getSelectorsHandler());
     }
 
     public function testIsStarted()

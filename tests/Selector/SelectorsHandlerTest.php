@@ -77,4 +77,16 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals("'some simple string'", $handler->xpathLiteral('some simple string'));
     }
+
+    public function testBcLayer()
+    {
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
+        $handler = new SelectorsHandler();
+
+        $handler->registerSelector('named_partial', $selector);
+
+        $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
+
+        $this->assertSame($selector, $handler->getSelector('named'));
+    }
 }
