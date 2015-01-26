@@ -27,8 +27,8 @@
     },
 
     "autoload": {
-        "psr-0": {
-            "Behat\\Mink": "src/"
+        "psr-4": {
+            "Behat\\Mink\\": "src/"
         }
     },
 
