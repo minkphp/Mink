@@ -9,7 +9,7 @@
 
     <filter>
         <whitelist>
-            <directory>./src/Behat/Mink/</directory>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 </phpunit>
