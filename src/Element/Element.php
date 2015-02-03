@@ -85,6 +85,8 @@ abstract class Element implements ElementInterface
      * Returns selectors handler.
      *
      * @return SelectorsHandler
+     *
+     * @deprecated Accessing the selectors handler in the element is deprecated as of 1.7 and will be impossible in 2.0.
      */
     protected function getSelectorsHandler()
     {
@@ -156,7 +158,7 @@ abstract class Element implements ElementInterface
             return $items;
         }
 
-        $xpath = $this->getSelectorsHandler()->selectorToXpath($selector, $locator);
+        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
         $xpath = $this->xpathManipulator->prepend($xpath, $this->getXpath());
 
         return $this->getDriver()->find($xpath);

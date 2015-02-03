@@ -66,8 +66,7 @@ OUT;
         $session->visit($this->pathTo('/multiselect_form.html'));
         $select = $webAssert->fieldExists($selectName);
 
-        $optionValueEscaped = $session->getSelectorsHandler()->xpathLiteral($optionValue);
-        $option = $webAssert->elementExists('named', array('option', $optionValueEscaped));
+        $option = $webAssert->elementExists('named', array('option', $optionValue));
 
         $this->assertFalse($option->isSelected());
         $select->selectOption($optionText);

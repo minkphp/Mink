@@ -102,8 +102,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function findById($id)
     {
-        $id = $this->getSession()->getSelectorsHandler()->xpathLiteral($id);
-
         return $this->getAssertSession()->elementExists('named', array('id', $id));
     }
 

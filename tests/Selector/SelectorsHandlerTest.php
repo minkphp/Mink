@@ -75,6 +75,8 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $handler = new SelectorsHandler();
 
+        $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
+
         $this->assertEquals("'some simple string'", $handler->xpathLiteral('some simple string'));
     }
 
