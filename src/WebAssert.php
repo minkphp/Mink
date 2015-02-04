@@ -236,7 +236,11 @@ class WebAssert
     public function responseHeaderNotMatches($name, $regex)
     {
         $actual = $this->session->getResponseHeader($name);
-        $message = sprintf('The pattern "%s" was found in the text of the "%s" response header, but it should not.', $regex, $name);
+        $message = sprintf(
+            'The pattern "%s" was found in the text of the "%s" response header, but it should not.',
+            $regex,
+            $name
+        );
 
         $this->assert(!preg_match($regex, $actual), $message);
     }
