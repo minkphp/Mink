@@ -1,3 +1,20 @@
+1.6.1 / 2015-02-04
+==================
+
+Bug fixes:
+
+* Added a check for empty path in `WebAssert::cleanUrl()`
+
+Driver testsuite:
+
+* Added an extra test to ensure the right behavior for traversal
+
+Misc:
+
+* Changed the description in the composer.json
+* Switched the repository structure to use PSR-4
+* Updated URLs for the move to the new Github organization
+
 1.6.0 / 2014-09-26
 ==================
 
