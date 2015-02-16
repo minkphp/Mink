@@ -29,7 +29,7 @@ class ContentTest extends TestCase
 
         $this->assertEquals(
             "An empty <em></em> tag should be rendered with both open and close tags.",
-            $element->getHtml()
+            trim($element->getHtml())
         );
     }
 
