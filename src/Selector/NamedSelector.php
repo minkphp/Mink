@@ -10,6 +10,8 @@
 
 namespace Behat\Mink\Selector;
 
+use Behat\Mink\Selector\Xpath\Escaper;
+
 /**
  * Named selectors engine. Uses registered XPath selectors to create new expressions.
  *
@@ -157,12 +159,15 @@ XPATH
 .//*[%idOrNameMatch%]
 XPATH
     );
+    private $xpathEscaper;
 
     /**
      * Creates selector instance.
      */
     public function __construct()
     {
+        $this->xpathEscaper = new Escaper();
+
         foreach ($this->replacements as $from => $to) {
             $this->replacements[$from] = strtr($to, $this->replacements);
         }
@@ -217,7 +222,7 @@ XPATH
         $xpath = $this->selectors[$selector];
 
         if (null !== $locator) {
-            $xpath = strtr($xpath, array('%locator%' => $locator));
+            $xpath = strtr($xpath, array('%locator%' => $this->escapeLocator($locator)));
         }
 
         return $xpath;
@@ -234,5 +239,25 @@ XPATH
     protected function registerReplacement($from, $to)
     {
         $this->replacements[$from] = $to;
+    }
+
+    private function escapeLocator($locator)
+    {
+        // If the locator looks like an escaped one, don't escape it again for BC reasons.
+        if (
+            preg_match('/^\'[^\']*+\'$/', $locator)
+            || (false !== strpos($locator, '\'') && preg_match('/^"[^"]*+"$/', $locator))
+            || ((8 < $length = strlen($locator)) && 'concat(' === substr($locator, 0, 7) && ')' === $locator[$length - 1])
+        ) {
+            trigger_error(
+                'Passing an excaped locator to the named selector is deprecated as of 1.7 and will be removed in 2.0.'
+                .' Pass the raw value instead.',
+                E_USER_DEPRECATED
+            );
+
+            return $locator;
+        }
+
+        return $this->xpathEscaper->escapeLiteral($locator);
     }
 }

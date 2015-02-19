@@ -228,9 +228,7 @@ class NodeElement extends TraversableElement
             return;
         }
 
-        $opt = $this->find('named', array(
-            'option', $this->getSelectorsHandler()->xpathLiteral($option),
-        ));
+        $opt = $this->find('named', array('option', $option));
 
         if (null === $opt) {
             throw $this->elementNotFound('select option', 'value|text', $option);
