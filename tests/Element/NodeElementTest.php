@@ -93,6 +93,9 @@ class NodeElementTest extends ElementTest
         $this->assertSame($node, $result, '->waitFor() returns node found in callback');
     }
 
+    /**
+     * @medium
+     */
     public function testWaitForTimeout()
     {
         $node = new NodeElement('some xpath', $this->session);
