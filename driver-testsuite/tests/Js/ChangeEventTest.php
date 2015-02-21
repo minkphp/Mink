@@ -4,6 +4,9 @@ namespace Behat\Mink\Tests\Driver\Js;
 
 use Behat\Mink\Tests\Driver\TestCase;
 
+/**
+ * @group slow
+ */
 class ChangeEventTest extends TestCase
 {
     /**
