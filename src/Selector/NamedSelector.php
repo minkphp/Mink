@@ -250,7 +250,7 @@ XPATH
             || ((8 < $length = strlen($locator)) && 'concat(' === substr($locator, 0, 7) && ')' === $locator[$length - 1])
         ) {
             trigger_error(
-                'Passing an excaped locator to the named selector is deprecated as of 1.7 and will be removed in 2.0.'
+                'Passing an escaped locator to the named selector is deprecated as of 1.7 and will be removed in 2.0.'
                 .' Pass the raw value instead.',
                 E_USER_DEPRECATED
             );
