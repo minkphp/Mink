@@ -41,7 +41,6 @@ class Session
 
         $this->driver           = $driver;
         $this->selectorsHandler = $selectorsHandler;
-        $this->page             = new DocumentElement($this);
     }
 
     /**
@@ -118,9 +117,9 @@ class Session
      *
      * @return DocumentElement
      */
-    public function getPage()
+    public function getPage($xpath = '//html')
     {
-        return $this->page;
+        return $this->page = $this->page ?: new DocumentElement($xpath, $this);
     }
 
     /**
