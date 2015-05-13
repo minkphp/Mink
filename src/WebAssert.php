@@ -28,15 +28,17 @@ use Behat\Mink\Exception\ElementTextException;
 class WebAssert
 {
     protected $session;
+    private $xpath;
 
     /**
      * Initializes assertion engine.
      *
      * @param Session $session
      */
-    public function __construct(Session $session)
+    public function __construct(Session $session, $xpath)
     {
         $this->session = $session;
+        $this->xpath = $xpath;
     }
 
     /**
@@ -254,7 +256,7 @@ class WebAssert
      */
     public function pageTextContains($text)
     {
-        $actual = $this->session->getPage()->getText();
+        $actual = $this->getPage()->getText();
         $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
@@ -271,7 +273,7 @@ class WebAssert
      */
     public function pageTextNotContains($text)
     {
-        $actual = $this->session->getPage()->getText();
+        $actual = $this->getPage()->getText();
         $actual = preg_replace('/\s+/u', ' ', $actual);
         $regex  = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
@@ -288,7 +290,7 @@ class WebAssert
      */
     public function pageTextMatches($regex)
     {
-        $actual = $this->session->getPage()->getText();
+        $actual = $this->getPage()->getText();
         $message = sprintf('The pattern %s was not found anywhere in the text of the current page.', $regex);
 
         $this->assertResponseText((bool) preg_match($regex, $actual), $message);
@@ -303,7 +305,7 @@ class WebAssert
      */
     public function pageTextNotMatches($regex)
     {
-        $actual = $this->session->getPage()->getText();
+        $actual = $this->getPage()->getText();
         $message = sprintf('The pattern %s was found in the text of the current page, but it should not.', $regex);
 
         $this->assertResponseText(!preg_match($regex, $actual), $message);
@@ -318,7 +320,7 @@ class WebAssert
      */
     public function responseContains($text)
     {
-        $actual = $this->session->getPage()->getContent();
+        $actual = $this->getPage()->getContent();
         $regex  = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text);
 
@@ -334,7 +336,7 @@ class WebAssert
      */
     public function responseNotContains($text)
     {
-        $actual = $this->session->getPage()->getContent();
+        $actual = $this->getPage()->getContent();
         $regex  = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The string "%s" appears in the HTML response of this page, but it should not.', $text);
 
@@ -350,7 +352,7 @@ class WebAssert
      */
     public function responseMatches($regex)
     {
-        $actual = $this->session->getPage()->getContent();
+        $actual = $this->getPage()->getContent();
         $message = sprintf('The pattern %s was not found anywhere in the HTML response of the page.', $regex);
 
         $this->assert((bool) preg_match($regex, $actual), $message);
@@ -365,7 +367,7 @@ class WebAssert
      */
     public function responseNotMatches($regex)
     {
-        $actual = $this->session->getPage()->getContent();
+        $actual = $this->getPage()->getContent();
         $message = sprintf('The pattern %s was found in the HTML response of the page, but it should not.', $regex);
 
         $this->assert(!preg_match($regex, $actual), $message);
@@ -383,7 +385,7 @@ class WebAssert
      */
     public function elementsCount($selectorType, $selector, $count, ElementInterface $container = null)
     {
-        $container = $container ?: $this->session->getPage();
+        $container = $container ?: $this->getPage();
         $nodes = $container->findAll($selectorType, $selector);
 
         $message = sprintf(
@@ -409,7 +411,7 @@ class WebAssert
      */
     public function elementExists($selectorType, $selector, ElementInterface $container = null)
     {
-        $container = $container ?: $this->session->getPage();
+        $container = $container ?: $this->getPage();
         $node = $container->find($selectorType, $selector);
 
         if (null === $node) {
@@ -434,7 +436,7 @@ class WebAssert
      */
     public function elementNotExists($selectorType, $selector, ElementInterface $container = null)
     {
-        $container = $container ?: $this->session->getPage();
+        $container = $container ?: $this->getPage();
         $node = $container->find($selectorType, $selector);
 
         $message = sprintf(
@@ -631,7 +633,7 @@ class WebAssert
      */
     public function fieldExists($field, TraversableElement $container = null)
     {
-        $container = $container ?: $this->session->getPage();
+        $container = $container ?: $this->getPage();
         $node = $container->findField($field);
 
         if (null === $node) {
@@ -651,7 +653,7 @@ class WebAssert
      */
     public function fieldNotExists($field, TraversableElement $container = null)
     {
-        $container = $container ?: $this->session->getPage();
+        $container = $container ?: $this->getPage();
         $node = $container->findField($field);
 
         $this->assert(null === $node, sprintf('A field "%s" appears on this page, but it should not.', $field));
@@ -845,5 +847,10 @@ class WebAssert
         }
 
         return sprintf('element%s matching %s "%s"', $pluralization, $selectorType, $selector);
+    }
+
+    private function getPage()
+    {
+        return $this->session->getPage($this->xpath);
     }
 }

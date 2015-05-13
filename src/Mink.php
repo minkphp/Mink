@@ -143,13 +143,13 @@ class Mink
      *
      * @return WebAssert
      */
-    public function assertSession($session = null)
+    public function assertSession($session = null, $xpath = '//html')
     {
         if (!($session instanceof Session)) {
             $session = $this->getSession($session);
         }
 
-        return new WebAssert($session);
+        return new WebAssert($session, $xpath);
     }
 
     /**

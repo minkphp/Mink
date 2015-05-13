@@ -10,6 +10,8 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Session;
+
 /**
  * Document element.
  *
@@ -17,6 +19,21 @@ namespace Behat\Mink\Element;
  */
 class DocumentElement extends TraversableElement
 {
+    private $xpath;
+
+    /**
+     * Initializes node element.
+     *
+     * @param string  $xpath   element xpath
+     * @param Session $session session instance
+     */
+    public function __construct($xpath, Session $session)
+    {
+        $this->xpath = $xpath;
+
+        parent::__construct($session);
+    }
+
     /**
      * Returns XPath for handled element.
      *
@@ -24,7 +41,7 @@ class DocumentElement extends TraversableElement
      */
     public function getXpath()
     {
-        return '//html';
+        return $this->xpath;
     }
 
     /**
