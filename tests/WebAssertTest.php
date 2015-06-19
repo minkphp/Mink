@@ -52,6 +52,23 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->assertCorrectAssertion('addressEquals', array('/'));
     }
 
+    public function testAddressEqualsEndingInScript()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/script.php'))
+        ;
+
+        $this->assertCorrectAssertion('addressEquals', array('/script.php'));
+        $this->assertWrongAssertion(
+            'addressEquals',
+            array('/'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page is "/script.php", but "/" expected.'
+        );
+    }
+
     public function testAddressNotEquals()
     {
         $this->session
@@ -66,6 +83,23 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             array('/sub/url'),
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/sub/url", but should not be.'
+        );
+    }
+
+    public function testAddressNotEqualsEndingInScript()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/script.php'))
+        ;
+
+        $this->assertCorrectAssertion('addressNotEquals', array('/'));
+        $this->assertWrongAssertion(
+            'addressNotEquals',
+            array('/script.php'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page is "/script.php", but should not be.'
         );
     }
 
