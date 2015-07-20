@@ -168,14 +168,27 @@ XPATH
     {
         $this->xpathEscaper = new Escaper();
 
-        foreach ($this->replacements as $from => $to) {
-            $this->replacements[$from] = strtr($to, $this->replacements);
-        }
-
-        foreach ($this->selectors as $alias => $selector) {
-            $this->selectors[$alias] = strtr($selector, $this->replacements);
-        }
+        $this->replace();
     }
+
+    /**
+     * Replace placeholders with replacements
+     *
+     * @return NamedSelector
+     */
+    public function replace()
+    {
+    	foreach ($this->replacements as $from => $to) {
+    		$this->replacements[$from] = strtr($to, $this->replacements);
+    	}
+
+    	foreach ($this->selectors as $alias => $selector) {
+    		$this->selectors[$alias] = strtr($selector, $this->replacements);
+    	}
+
+    	return $this;
+    }
+
 
     /**
      * Registers new XPath selector with specified name.
