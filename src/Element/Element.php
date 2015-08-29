@@ -68,6 +68,8 @@ abstract class Element implements ElementInterface
      */
     public function getSession()
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+
         return $this->session;
     }
 
@@ -90,6 +92,8 @@ abstract class Element implements ElementInterface
      */
     protected function getSelectorsHandler()
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+
         return $this->selectorsHandler;
     }
 
