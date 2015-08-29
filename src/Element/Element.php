@@ -195,7 +195,7 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * Builds an ElementNotFoundException
+     * Builds an ElementNotFoundException.
      *
      * @param string      $type
      * @param string|null $selector

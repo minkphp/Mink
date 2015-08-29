@@ -7,7 +7,8 @@ use Behat\Mink\Tests\Driver\TestCase;
 class TraversingTest extends TestCase
 {
     /**
-     * find by label
+     * find by label.
+     *
      * @group issue211
      */
     public function testIssue211()

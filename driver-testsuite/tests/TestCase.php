@@ -22,7 +22,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     private static $config;
 
     /**
-     * Initializes the test case
+     * Initializes the test case.
      */
     public static function setUpBeforeClass()
     {
@@ -134,7 +134,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Waits for a condition to be true, considering than it is successful for drivers not supporting wait()
+     * Waits for a condition to be true, considering than it is successful for drivers not supporting wait().
      *
      * @param int    $time
      * @param string $condition A JS condition to evaluate

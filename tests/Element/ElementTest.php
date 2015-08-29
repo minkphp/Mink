@@ -50,7 +50,7 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
             $processedResults[] = $result;
             if (empty($result)) {
                 $processedResults[] = $result;
-                $times++;
+                ++$times;
             }
         }
 

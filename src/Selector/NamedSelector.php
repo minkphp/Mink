@@ -204,11 +204,11 @@ XPATH
         }
 
         if (2 == count($locator)) {
-            $selector   = $locator[0];
-            $locator    = $locator[1];
+            $selector = $locator[0];
+            $locator = $locator[1];
         } else {
-            $selector   = (string) $locator;
-            $locator    = null;
+            $selector = (string) $locator;
+            $locator = null;
         }
 
         if (!isset($this->selectors[$selector])) {
@@ -229,7 +229,7 @@ XPATH
     }
 
     /**
-     * Registers a replacement in the list of replacements
+     * Registers a replacement in the list of replacements.
      *
      * This method must be called in the constructor before calling the parent constructor.
      *

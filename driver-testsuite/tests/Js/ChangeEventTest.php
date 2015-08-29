@@ -10,7 +10,7 @@ use Behat\Mink\Tests\Driver\TestCase;
 class ChangeEventTest extends TestCase
 {
     /**
-     * 'change' event should be fired after selecting an <option> in a <select>
+     * 'change' event should be fired after selecting an <option> in a <select>.
      *
      * TODO check whether this test is redundant with other change event tests.
      */

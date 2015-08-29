@@ -15,7 +15,7 @@ namespace Behat\Mink\Exception;
 use Behat\Mink\Element\Element;
 
 /**
- * A standard way for elements to re-throw exceptions
+ * A standard way for elements to re-throw exceptions.
  *
  * @deprecated This exception class is not used anymore in Mink 1.6 and will be removed in 2.0
  *
@@ -49,7 +49,7 @@ class ElementException extends Exception
     }
 
     /**
-     * Get the element that caused the exception
+     * Get the element that caused the exception.
      *
      * @return Element
      */

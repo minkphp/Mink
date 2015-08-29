@@ -162,7 +162,7 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
     abstract protected function getSelector();
 
     /**
-     * @return boolean
+     * @return bool
      */
     abstract protected function allowPartialMatch();
 }

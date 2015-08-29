@@ -28,7 +28,7 @@ class ContentTest extends TestCase
         $element = $this->getAssertSession()->elementExists('css', '#empty');
 
         $this->assertEquals(
-            "An empty <em></em> tag should be rendered with both open and close tags.",
+            'An empty <em></em> tag should be rendered with both open and close tags.',
             trim($element->getHtml())
         );
     }

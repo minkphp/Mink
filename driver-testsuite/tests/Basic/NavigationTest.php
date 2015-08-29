@@ -58,7 +58,7 @@ class NavigationTest extends TestCase
 
         $this->getSession()->visit($this->pathTo('/links.html'));
         $page = $this->getSession()->getPage();
-        $link = $page->findLink("Link with a ");
+        $link = $page->findLink('Link with a ');
 
         $this->assertNotNull($link);
         $this->assertRegExp('/links\.html\?quoted$/', $link->getAttribute('href'));

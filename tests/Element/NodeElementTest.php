@@ -76,7 +76,7 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('some xpath', $this->session);
 
         $result = $node->waitFor(5, function ($givenNode) use (&$callCounter) {
-            $callCounter++;
+            ++$callCounter;
 
             if (1 === $callCounter) {
                 return null;
@@ -574,8 +574,8 @@ class NodeElementTest extends ElementTest
     public function testFindAllParentUnion()
     {
         $node = new NodeElement('some_xpath | another_xpath', $this->session);
-        $xpath = "some_tag1 | some_tag2";
-        $expectedPrefixed = "(some_xpath | another_xpath)/some_tag1 | (some_xpath | another_xpath)/some_tag2";
+        $xpath = 'some_tag1 | some_tag2';
+        $expectedPrefixed = '(some_xpath | another_xpath)/some_tag1 | (some_xpath | another_xpath)/some_tag2';
 
         $this->driver
             ->expects($this->exactly(1))

@@ -62,7 +62,7 @@ class ExpectationException extends Exception
     {
         try {
             $pageText = $this->pipeString($this->trimString($this->getContext())."\n");
-            $string   = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
+            $string = sprintf("%s\n\n%s%s", $this->getMessage(), $this->getResponseInfo(), $pageText);
         } catch (\Exception $e) {
             return $this->getMessage();
         }
@@ -71,7 +71,7 @@ class ExpectationException extends Exception
     }
 
     /**
-     * Gets the context rendered for this exception
+     * Gets the context rendered for this exception.
      *
      * @return string
      */
@@ -137,8 +137,8 @@ class ExpectationException extends Exception
     /**
      * Trims string to specified number of chars.
      *
-     * @param string  $string response content
-     * @param integer $count  trim count
+     * @param string $string response content
+     * @param int    $count  trim count
      *
      * @return string
      */
