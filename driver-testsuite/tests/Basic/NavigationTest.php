@@ -12,13 +12,13 @@ class NavigationTest extends TestCase
         $this->assertEquals($this->pathTo('/redirect_destination.html'), $this->getSession()->getCurrentUrl());
     }
 
-    public function testPageControlls()
+    public function testPageControls()
     {
         $this->getSession()->visit($this->pathTo('/randomizer.php'));
-        $number1 = $this->getSession()->getPage()->find('css', '#number')->getText();
+        $number1 = $this->getAssertSession()->elementExists('css', '#number')->getText();
 
         $this->getSession()->reload();
-        $number2 = $this->getSession()->getPage()->find('css', '#number')->getText();
+        $number2 = $this->getAssertSession()->elementExists('css', '#number')->getText();
 
         $this->assertNotEquals($number1, $number2);
 

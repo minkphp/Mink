@@ -22,7 +22,7 @@ class ChangeEventTest extends TestCase
         $session->getPage()->selectFieldOption('foo_select', 'Option 3');
 
         $session->wait(2000, '$("#output_foo_select").text() != ""');
-        $this->assertEquals('onChangeSelect', $session->getPage()->find('css', '#output_foo_select')->getText());
+        $this->assertEquals('onChangeSelect', $this->getAssertSession()->elementExists('css', '#output_foo_select')->getText());
     }
 
     public function testIssue178()
