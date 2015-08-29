@@ -197,9 +197,6 @@ abstract class Element implements ElementInterface
     /**
      * Builds an ElementNotFoundException
      *
-     * This is an helper to build the ElementNotFoundException without
-     * needing to use the deprecated getSession accessor in child classes.
-     *
      * @param string      $type
      * @param string|null $selector
      * @param string|null $locator
@@ -208,6 +205,6 @@ abstract class Element implements ElementInterface
      */
     protected function elementNotFound($type, $selector = null, $locator = null)
     {
-        return new ElementNotFoundException($this->session, $type, $selector, $locator);
+        return new ElementNotFoundException($this->driver, $type, $selector, $locator);
     }
 }
