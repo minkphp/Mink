@@ -68,7 +68,7 @@ abstract class Element implements ElementInterface
      */
     public function getSession()
     {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The method %s is deprecated as of 1.6 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
 
         return $this->session;
     }
@@ -202,9 +202,13 @@ abstract class Element implements ElementInterface
      * @param string|null $locator
      *
      * @return ElementNotFoundException
+     *
+     * @deprecated as of 1.7, to be removed in 2.0
      */
     protected function elementNotFound($type, $selector = null, $locator = null)
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+
         return new ElementNotFoundException($this->driver, $type, $selector, $locator);
     }
 }
