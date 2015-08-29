@@ -67,7 +67,7 @@ abstract class TraversableElement extends Element
         $link = $this->findLink($locator);
 
         if (null === $link) {
-            throw $this->elementNotFound('link', 'id|title|alt|text', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'link', 'id|title|alt|text', $locator);
         }
 
         $link->click();
@@ -109,7 +109,7 @@ abstract class TraversableElement extends Element
         $button = $this->findButton($locator);
 
         if (null === $button) {
-            throw $this->elementNotFound('button', 'id|name|title|alt|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'button', 'id|name|title|alt|value', $locator);
         }
 
         $button->press();
@@ -154,7 +154,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
         }
 
         $field->setValue($value);
@@ -204,7 +204,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
         }
 
         $field->check();
@@ -222,7 +222,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
         }
 
         $field->uncheck();
@@ -256,7 +256,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
         }
 
         $field->selectOption($value, $multiple);
@@ -289,7 +289,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw $this->elementNotFound('form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
         }
 
         $field->attachFile($path);

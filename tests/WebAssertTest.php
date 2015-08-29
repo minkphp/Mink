@@ -21,6 +21,10 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->session->expects($this->any())
+            ->method('getDriver')
+            ->will($this->returnValue($this->getMock('Behat\Mink\Driver\DriverInterface')));
+
         $this->assert = new WebAssert($this->session);
     }
 

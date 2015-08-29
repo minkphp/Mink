@@ -417,7 +417,7 @@ class WebAssert
                 $selector = implode(' ', $selector);
             }
 
-            throw new ElementNotFoundException($this->session, 'element', $selectorType, $selector);
+            throw new ElementNotFoundException($this->session->getDriver(), 'element', $selectorType, $selector);
         }
 
         return $node;
@@ -635,7 +635,7 @@ class WebAssert
         $node = $container->findField($field);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->session, 'form field', 'id|name|label|value', $field);
+            throw new ElementNotFoundException($this->session->getDriver(), 'form field', 'id|name|label|value', $field);
         }
 
         return $node;
@@ -767,7 +767,7 @@ class WebAssert
             return;
         }
 
-        throw new ExpectationException($message, $this->session);
+        throw new ExpectationException($message, $this->session->getDriver());
     }
 
     /**
@@ -784,7 +784,7 @@ class WebAssert
             return;
         }
 
-        throw new ResponseTextException($message, $this->session);
+        throw new ResponseTextException($message, $this->session->getDriver());
     }
 
     /**
@@ -802,7 +802,7 @@ class WebAssert
             return;
         }
 
-        throw new ElementHtmlException($message, $this->session, $element);
+        throw new ElementHtmlException($message, $this->session->getDriver(), $element);
     }
 
     /**
@@ -820,7 +820,7 @@ class WebAssert
             return;
         }
 
-        throw new ElementTextException($message, $this->session, $element);
+        throw new ElementTextException($message, $this->session->getDriver(), $element);
     }
 
     /**
