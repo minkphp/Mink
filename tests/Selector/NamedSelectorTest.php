@@ -54,14 +54,13 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getSelectorTests
+     * @group legacy
      */
     public function testEscapedSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
     {
         // Escape the locator as Mink 1.x expects the caller of the NamedSelector to handle it
         $escaper = new Escaper();
         $locator = $escaper->escapeLiteral($locator);
-
-        $this->iniSet('error_reporting', -1 & ~E_USER_DEPRECATED);
 
         $this->testSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount);
     }

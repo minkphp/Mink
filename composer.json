@@ -19,6 +19,10 @@
         "symfony/css-selector":  "~2.0"
     },
 
+    "require-dev": {
+        "symfony/phpunit-bridge": "~2.7"
+    },
+
     "suggest": {
         "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
         "behat/mink-goutte-driver":     "fast headless driver for any app without JS emulation",
