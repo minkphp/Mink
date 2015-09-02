@@ -156,11 +156,13 @@ class NodeElementTest extends ElementTest
             ->expects($this->exactly(6))
             ->method('getAttribute')
             ->with('input_tag', 'class')
-            ->will($this->returnValue('class1 class2'));
+            ->will($this->returnValue('
+            class1  class2
+            '));
 
-        $this->assertTrue($node->hasClass('class1'));
-        $this->assertTrue($node->hasClass('class2'));
-        $this->assertFalse($node->hasClass('class3'));
+        $this->assertTrue($node->hasClass('class1'), 'The "class1" was found');
+        $this->assertTrue($node->hasClass('class2'), 'The "class2" was found');
+        $this->assertFalse($node->hasClass('class3'), 'The "class3" was not found');
     }
 
     public function testHasClassWithoutArgument()
