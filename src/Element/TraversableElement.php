@@ -154,7 +154,7 @@ abstract class TraversableElement extends Element
         $field = $this->findField($locator);
 
         if (null === $field) {
-            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value', $locator);
+            throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value|placeholder', $locator);
         }
 
         $field->setValue($value);
