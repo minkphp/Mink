@@ -106,6 +106,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Creates a new driver instance.
+     *
+     * This driver is not associated to a session. It is meant to be used for tests on the driver
+     * implementation itself rather than test using the Mink API.
+     *
+     * @return \Behat\Mink\Driver\DriverInterface
+     */
+    protected function createDriver()
+    {
+        return self::getConfig()->createDriver();
+    }
+
+    /**
      * Map remote file path.
      *
      * @param string $file File path.
