@@ -139,7 +139,7 @@ class NodeElement extends TraversableElement
     public function hasClass($className)
     {
         if ($this->hasAttribute('class')) {
-            return in_array($className, explode(' ', $this->getAttribute('class')));
+            return in_array($className, preg_split('/\s+/', $this->getAttribute('class')));
         }
 
         return false;
