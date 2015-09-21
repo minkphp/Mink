@@ -65,7 +65,7 @@ class BestPracticesTest extends TestCase
             $message .= ' '.$reason;
         }
 
-        $this->assertSame($ref->name, $refMethod->getDeclaringClass()->name, $message);
+        $this->assertNotSame('Behat\Mink\Driver\CoreDriver', $refMethod->getDeclaringClass()->name, $message);
     }
 
     private function assertNotImplementMethod($method, $object, $reason = '')
@@ -79,6 +79,6 @@ class BestPracticesTest extends TestCase
             $message .= ' '.$reason;
         }
 
-        $this->assertNotSame($ref->name, $refMethod->getDeclaringClass()->name, $message);
+        $this->assertSame('Behat\Mink\Driver\CoreDriver', $refMethod->getDeclaringClass()->name, $message);
     }
 }
