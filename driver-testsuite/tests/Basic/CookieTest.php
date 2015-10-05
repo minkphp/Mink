@@ -45,7 +45,9 @@ class CookieTest extends TestCase
         $this->getSession()->setCookie('srvr_cookie', null);
         $this->getSession()->reload();
         $this->assertContains('Previous cookie: NO', $this->getSession()->getPage()->getText());
+    }
 
+    public function testCookieWithSemicolon() {
         $this->getSession()->setCookie('srvr_cookie', 'foo;bar;baz');
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->assertEquals('foo;bar;baz', $this->getSession()->getCookie('srvr_cookie'));
