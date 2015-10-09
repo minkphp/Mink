@@ -14,10 +14,13 @@ if (isset($_POST['select_multiple_numbers']) && false !== strpos($_POST['select_
 
 $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
 ksort($_POST);
-echo str_replace('>', '', var_export($_POST, true)) . "\n";
+foreach ($_POST as $key => $value) {
+	$post_for_printing[htmlspecialchars($key, ENT_QUOTES, 'UTF-8')] = htmlspecialchars(var_export($value, TRUE), ENT_QUOTES, 'UTF-8');
+}
+echo str_replace('>', '', var_export($post_for_printing, true)) . "\n";
 if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
-    echo $_FILES['about']['name'] . "\n";
-    echo file_get_contents($_FILES['about']['tmp_name']);
+    echo htmlspecialchars($_FILES['about']['name'], ENT_QUOTES, 'UTF-8') . "\n";
+    echo htmlspecialchars(file_get_contents($_FILES['about']['tmp_name'], ENT_QUOTES, 'UTF-8'));
 } else {
     echo "no file";
 }
