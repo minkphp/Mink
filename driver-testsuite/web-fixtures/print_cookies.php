@@ -7,10 +7,9 @@
 <body>
 	<?php
 	foreach ($_COOKIE as $key => $value) {
-		unset($_COOKIE[$key]);
-		$_COOKIE[htmlspecialchars($key, ENT_QUOTES, 'UTF-8')] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+		$cookie_for_printing[htmlspecialchars($key, ENT_QUOTES, 'UTF-8')] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 	}
 	?>
-    <?php echo str_replace('>', '', var_export($_COOKIE, true)); ?>
+    <?php echo str_replace('>', '', var_export($cookie_for_printing, true)); ?>
 </body>
 </html>
