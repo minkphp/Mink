@@ -11,11 +11,8 @@ matrix:
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
     - php: 5.6
       env: DEPENDENCIES=dev
-    - php: 5.6
-      env: DEPENDENCIES='dev' SYMFONY_VERSION=3.0.*@dev
   allow_failures:
     - php: 7.0
-    - env: DEPENDENCIES='dev' SYMFONY_VERSION="3.0.*@dev"
 
 cache:
   directories:
@@ -26,7 +23,6 @@ before_install:
   - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
 
 install:
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update "symfony/symfony:${SYMFONY_VERSION}"; fi;
   - composer update $COMPOSER_FLAGS
 
 script: phpunit -v --coverage-clover=coverage.clover
