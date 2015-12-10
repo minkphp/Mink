@@ -62,10 +62,24 @@ class WindowTest extends TestCase
 
         $session->resizeWindow(400, 300);
         $session->wait(1000, 'false');
+        $jsWindowSizeScript = <<<JS
+        (function(){
+          var boolSizeCheck = Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;
+          if (boolSizeCheck){
+            return true;
+          }
+          var w = window,
+              d = document,
+              e = d.documentElement,
+              g = d.getElementsByTagName('body')[0],
+              x = w.innerWidth || e.clientWidth || g.clientWidth,
+              y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+          boolSizeCheck = Math.abs(y - 300) <= 100 && Math.abs(x - 400) <= 100;
+          return boolSizeCheck;
+        })();
+        JS;
 
-        $script = 'return Math.abs(window.outerHeight - 300) <= 100 && Math.abs(window.outerWidth - 400) <= 100;';
-
-        $this->assertTrue($session->evaluateScript($script));
+        $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
 
     public function testWindowMaximize()
