@@ -77,7 +77,7 @@ class WindowTest extends TestCase
           boolSizeCheck = Math.abs(y - 300) <= 100 && Math.abs(x - 400) <= 100;
           return boolSizeCheck;
         })();
-        JS;
+JS;
 
         $this->assertTrue($session->evaluateScript($jsWindowSizeScript));
     }
