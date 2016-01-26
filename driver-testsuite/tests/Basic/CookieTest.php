@@ -49,6 +49,7 @@ class CookieTest extends TestCase
 
     public function testCookieWithSemicolon()
     {
+        $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->getSession()->setCookie('srvr_cookie', 'foo;bar;baz');
         $this->getSession()->visit($this->pathTo('/cookie_page2.php'));
         $this->assertEquals('foo;bar;baz', $this->getSession()->getCookie('srvr_cookie'));
