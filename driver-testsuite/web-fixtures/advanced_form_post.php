@@ -13,10 +13,10 @@ if (isset($_POST['select_multiple_numbers']) && false !== strpos($_POST['select_
 }
 
 $_POST['agreement'] = isset($_POST['agreement']) ? 'on' : 'off';
+ksort($_POST);
 foreach ($_POST as $key => $value) {
-	$post_for_printing[htmlspecialchars($key, ENT_QUOTES, 'UTF-8')] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+	$post_for_printing[htmlspecialchars($key, ENT_QUOTES, 'UTF-8')] = htmlspecialchars(var_export($value, TRUE), ENT_QUOTES, 'UTF-8');
 }
-ksort($post_for_printing);
 echo str_replace('>', '', var_export($post_for_printing, true)) . "\n";
 if (isset($_FILES['about']) && file_exists($_FILES['about']['tmp_name'])) {
     echo htmlspecialchars($_FILES['about']['name'], ENT_QUOTES, 'UTF-8') . "\n";
