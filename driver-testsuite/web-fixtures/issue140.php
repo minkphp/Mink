@@ -2,7 +2,7 @@
 if (!empty($_POST)) {
     setcookie("tc", $_POST['cookie_value'], null, '/');
 } elseif (isset($_GET["show_value"])) {
-    echo $_COOKIE["tc"];
+    echo htmlspecialchars($_COOKIE["tc"],  ENT_QUOTES, 'UTF-8');
     die();
 }
 ?>

@@ -5,7 +5,7 @@
     if ('1' === $_GET['p']) {
         echo '<a href="issue130.php?p=2">Go to 2</a>';
     } else {
-        echo '<strong>'.$_SERVER['HTTP_REFERER'].'</strong>';
+        echo '<strong>'.htmlspecialchars($_SERVER['HTTP_REFERER'], ENT_QUOTES, 'UTF-8').'</strong>';
     }
     ?>
 </body>
