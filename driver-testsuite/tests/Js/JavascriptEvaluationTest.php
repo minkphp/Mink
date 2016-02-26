@@ -17,6 +17,14 @@ class JavascriptEvaluationTest extends TestCase
         $this->assertTrue($found);
     }
 
+    public function testWaitReturnValueAlwaysBoolean()
+    {
+        $this->getSession()->visit($this->pathTo('/js_test.html'));
+
+        $found = $this->getSession()->wait(5000, '$("#draggable").length');
+        $this->assertTrue($found);
+    }
+
     public function testWait()
     {
         $this->getSession()->visit($this->pathTo('/js_test.html'));
