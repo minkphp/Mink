@@ -5,8 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 </head>
 <body>
-    <h1>Anket for <?php echo htmlspecialchars($_POST['first_name'], ENT_QUOTES, 'UTF-8') ?></h1>
-    <span id="first">Firstname: <?php echo htmlspecialchars($_POST['first_name'], ENT_QUOTES, 'UTF-8') ?></span>
-    <span id="last">Lastname: <?php echo htmlspecialchars($_POST['last_name'], ENT_QUOTES, 'UTF-8') ?></span>
+    <?php
+        require_once 'utils.php';
+    ?>
+    <h1>Anket for <?php echo html_escape_value($_POST['first_name']) ?></h1>
+
+    <span id="first">Firstname: <?php echo html_escape_value($_POST['first_name']) ?></span>
+    <span id="last">Lastname: <?php echo html_escape_value($_POST['last_name']) ?></span>
 </body>
 </html>

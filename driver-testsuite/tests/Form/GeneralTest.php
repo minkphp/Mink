@@ -207,7 +207,7 @@ class GeneralTest extends TestCase
 array (
   'agreement' = 'on',
   'email' = 'ever.zet@gmail.com',
-  'first_name' = 'Foo "item"',
+  'first_name' = 'Foo &quot;item&quot;',
   'last_name' = 'Bar',
   'notes' = 'new notes',
   'select_number' = '30',
