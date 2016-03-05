@@ -8,7 +8,10 @@
     <h1>Basic Get Form Page</h1>
 
     <div id="serach">
-        <?php echo isset($_GET['q']) && $_GET['q'] ? $_GET['q'] : 'No search query' ?>
+        <?php
+            require_once 'utils.php';
+            echo isset($_GET['q']) && $_GET['q'] ? html_escape_value($_GET['q']) : 'No search query';
+        ?>
     </div>
 
     <form>
