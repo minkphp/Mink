@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\WebAssert;
+use \PHPUnit_Framework_AssertionFailedError;
 
 class WebAssertTest extends \PHPUnit_Framework_TestCase
 {
@@ -927,7 +928,10 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFieldValueEquals()
+    /**
+     * @dataProvider getFieldValues
+     */
+    public function testFieldValueEquals($fieldValue, $errors)
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
@@ -940,46 +944,44 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('findField')
-            ->with('username')
+            ->with('test')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValue(234))
+            ->will($this->returnValue($fieldValue))
         ;
 
-        $this->assertCorrectAssertion('fieldValueEquals', array('username', 234));
-        $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', 235),
-            'Behat\\Mink\\Exception\\ExpectationException',
-            'The field "username" value is "234", but "235" expected.'
-        );
-        $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', 23),
-            'Behat\\Mink\\Exception\\ExpectationException',
-            'The field "username" value is "234", but "23" expected.'
-        );
-        $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', ''),
-            'Behat\\Mink\\Exception\\ExpectationException',
-            'The field "username" value is "234", but "" expected.'
-        );
+        $this->assertCorrectAssertion('fieldValueEquals', array('test', $fieldValue));
+
+        foreach ($errors as $value) {
+            $this->assertWrongAssertion(
+                'fieldValueEquals',
+                array('test', $value),
+                'Behat\\Mink\\Exception\\ExpectationException',
+                'The field "test" value is "'.
+                (is_array($fieldValue) ? '['.implode(', ', $fieldValue).']' : $fieldValue)
+                .'", but "'.
+                (is_array($value) ? '['.implode(', ', $value).']' : $value)
+                .'" expected.'
+            );
+        }
     }
 
-    public function testFieldValueNotEquals()
+    /**
+     * @dataProvider getFieldValues
+     */
+    public function testFieldValueNotEquals($fieldValue, $errors)
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
@@ -992,33 +994,67 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('findField')
-            ->with('username')
+            ->with('test')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(4))
+            ->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValue(235))
+            ->will($this->returnValue($fieldValue))
         ;
 
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 234));
         $this->assertWrongAssertion(
             'fieldValueNotEquals',
-            array('username', 235),
+            array('test', $fieldValue),
             'Behat\\Mink\\Exception\\ExpectationException',
-            'The field "username" value is "235", but it should not be.'
+            'The field "test" value is "'.
+            (is_array($fieldValue) ? '['.implode(', ', $fieldValue).']' : $fieldValue)
+            .'", but it should not be.'
         );
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 23));
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', ''));
+
+        foreach ($errors as $value) {
+            $this->assertCorrectAssertion('fieldValueNotEquals', array('test', $value));
+
+        }
+    }
+
+    public function getFieldValues()
+    {
+        return [
+            'empty string' => [
+                'return' => '',
+                'wrong' => ['foo', 'Foo', true, false, [], ['foo', 'bar', 'baz']],
+            ],
+            'string' => [
+                'return' => 'foo',
+                'wrong' => ['', 'Foo', true, false, [], ['foo', 'bar', 'baz']],
+            ],
+            'bool true' => [
+                'return' => true,
+                'wrong' => ['', 'foo', 'Foo', false, [], ['foo', 'bar', 'baz']],
+            ],
+            'bool false' => [
+                'return' => false,
+                'wrong' => ['', 'foo', 'Foo', true, [], ['foo', 'bar', 'baz']],
+            ],
+            'empty array' => [
+                'return' => [],
+                'wrong' => ['', 'foo', 'Foo', true, false, ['foo', 'bar', 'baz']],
+            ],
+            'array' => [
+                'return' => ['foo', 'bar', 'baz'],
+                'wrong' => ['', 'foo', 'Foo', true, false, []],
+            ],
+        ];
     }
 
     public function testCheckboxChecked()
@@ -1115,6 +1151,8 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
             $this->fail('Wrong assertion should throw an exception');
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            throw $e;
         } catch (\Exception $e) {
             $this->assertInstanceOf($exceptionClass, $e);
             $this->assertSame($exceptionMessage, $e->getMessage());
