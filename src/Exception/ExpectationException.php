@@ -103,7 +103,7 @@ class ExpectationException extends Exception
             throw new \LogicException(sprintf('The deprecated method %s cannot be used when passing a driver in the constructor', __METHOD__));
         }
 
-        @trigger_error(sprintf('The method %s is deprecated as of Mink 1.7 and will be removed in 2.0. Use getDriver and the driver API instead.'));
+        @trigger_error(sprintf('The method %s is deprecated as of Mink 1.7 and will be removed in 2.0. Use getDriver and the driver API instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->session;
     }
