@@ -196,6 +196,9 @@ class GeneralTest extends TestCase
         $page->fillField('first_name', 'Foo "item"');
         $page->fillField('last_name', 'Bar');
         $page->fillField('Your email:', 'ever.zet@gmail.com');
+        $page->fillField('select_number', 'ten');
+        $this->assertEquals('10', $select->getValue());
+        $page->fillField('select_number', 'thirty');
 
         $this->assertEquals('Foo "item"', $firstname->getValue());
         $this->assertEquals('Bar', $lastname->getValue());

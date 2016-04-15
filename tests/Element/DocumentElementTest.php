@@ -318,6 +318,31 @@ class DocumentElementTest extends ElementTest
         $this->document->fillField('some field', 'some val');
     }
 
+    public function testSetValueOnSelect()
+    {
+        $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $node
+            ->expects($this->once())
+            ->method('getTagName')
+            ->willReturn('select');
+        $node
+            ->expects($this->once())
+            ->method('selectOption')
+            ->with('some val');
+
+        $this->mockNamedFinder(
+            '//field',
+            array($node),
+            array('field', 'some field')
+        );
+
+        $this->document->fillField('some field', 'some val');
+        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->document->fillField('some field', 'some val');
+    }
+
     public function testCheckField()
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
