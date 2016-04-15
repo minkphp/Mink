@@ -157,7 +157,11 @@ abstract class TraversableElement extends Element
             throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value|placeholder', $locator);
         }
 
-        $field->setValue($value);
+        if ('select' === $field->getTagName()) {
+            $field->selectOption($value);
+        } else {
+            $field->setValue($value);
+        }
     }
 
     /**
