@@ -21,7 +21,7 @@ class Manipulator
     /**
      * Regex to find union operators not inside brackets.
      */
-    const UNION_PATTERN = '/\|(?![^\[]*\])/';
+    const UNION_PATTERN = '/\s\|\s(?![^\[]*\])/';
 
     /**
      * Prepends the XPath prefix to the given XPath.
