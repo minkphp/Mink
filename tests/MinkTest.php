@@ -67,36 +67,12 @@ class MinkTest extends \PHPUnit_Framework_TestCase
     {
         $session = $this->getSessionMock();
 
-        $session
-            ->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(false));
-        $session
-            ->expects($this->once())
-            ->method('start');
-
         $this->mink->registerSession('mock_session', $session);
         $this->assertSame($session, $this->mink->getSession('mock_session'));
 
         $this->setExpectedException('InvalidArgumentException');
 
         $this->mink->getSession('not_registered');
-    }
-
-    public function testGetAlreadyStartedSession()
-    {
-        $session = $this->getSessionMock();
-
-        $session
-            ->expects($this->once())
-            ->method('isStarted')
-            ->will($this->returnValue(true));
-        $session
-            ->expects($this->never())
-            ->method('start');
-
-        $this->mink->registerSession('mock_session', $session);
-        $this->assertSame($session, $this->mink->getSession('mock_session'));
     }
 
     public function testSetDefaultSessionName()
