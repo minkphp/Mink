@@ -643,7 +643,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testElementAttributeNotExists()
+    public function testElementNotExists()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
@@ -982,7 +982,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testElementNotExistsValid()
+    public function testElementAttributeNotExistsValid()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
                      ->disableOriginalConstructor()
@@ -1017,7 +1017,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         call_user_func_array(array($this->assert, 'elementAttributeNotExists'), array('css', 'h2 > span', 'blah'));
     }
 
-    public function testElementNotExistsThrowsException()
+    public function testElementAttributeNotExistsThrowsException()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
                      ->disableOriginalConstructor()
