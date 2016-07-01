@@ -1020,13 +1020,13 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     public function testElementAttributeNotExistsThrowsException()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
-                     ->disableOriginalConstructor()
-                     ->getMock()
+            ->disableOriginalConstructor()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
-                        ->disableOriginalConstructor()
-                        ->getMock()
+            ->disableOriginalConstructor()
+            ->getMock()
         ;
 
         $this->session
