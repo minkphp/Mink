@@ -807,6 +807,81 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testElementAttributeNotExistsThrowsException()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+                     ->disableOriginalConstructor()
+                     ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+                        ->disableOriginalConstructor()
+                        ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(1))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(1))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->at(0))
+            ->method('hasAttribute')
+            ->with('name')
+            ->will($this->returnValue(true))
+        ;
+
+        $this->setExpectedException(
+            'Behat\\Mink\\Exception\\ElementHtmlException',
+            'The attribute "name" was found in the element matching css "h2 > span".'
+        );
+        
+        call_user_func_array(array($this->assert, 'elementAttributeNotExists'), array('css', 'h2 > span', 'name'));
+    }
+
+    public function testElementNotExistsValid()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+                     ->disableOriginalConstructor()
+                     ->getMock()
+        ;
+
+        $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+                        ->disableOriginalConstructor()
+                        ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(1))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(1))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->at(0))
+            ->method('hasAttribute')
+            ->with('disabled')
+            ->will($this->returnValue(false))
+        ;
+
+        call_user_func_array(array($this->assert, 'elementAttributeNotExists'), array('css', 'h2 > span', 'disabled'));
+    }
+
     public function testElementAttributeNotContains()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')

@@ -504,6 +504,33 @@ class WebAssert
     }
 
     /**
+     * Checks that an attribute does not exist in an element.
+     *
+     * @param string       $selectorType
+     * @param string|array $selector
+     * @param string       $attribute
+     *
+     * @return NodeElement
+     *
+     * @throws ElementHtmlException
+     */
+    public function elementAttributeNotExists($selectorType, $selector, $attribute)
+    {
+        $element = $this->elementExists($selectorType, $selector);
+
+        if ($element->hasAttribute($attribute)) {
+            $message = sprintf(
+                'The attribute "%s" was found in the %s.',
+                $attribute,
+                $this->getMatchingElementRepresentation($selectorType, $selector)
+            );
+            throw new ElementHtmlException($message, $this->session, $element);
+        }
+
+        return $element;
+    }
+
+    /**
      * Checks that an attribute of a specific elements contains text.
      *
      * @param string       $selectorType
