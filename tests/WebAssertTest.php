@@ -1009,9 +1009,9 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
 
         $element
             ->expects($this->exactly(1))
-            ->method('doesNotHaveAttribute')
+            ->method('hasAttribute')
             ->with('blah')
-            ->will($this->returnValue(true))
+            ->will($this->returnValue(false))
         ;
 
         call_user_func_array(array($this->assert, 'elementAttributeNotExists'), array('css', 'h2 > span', 'blah'));
@@ -1044,9 +1044,9 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
 
         $element
             ->expects($this->exactly(1))
-            ->method('doesNotHaveAttribute')
+            ->method('hasAttribute')
             ->with('blah')
-            ->will($this->returnValue(false))
+            ->will($this->returnValue(true))
         ;
 
         $this->setExpectedException('Behat\\Mink\Exception\ElementHtmlException',

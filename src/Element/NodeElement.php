@@ -118,18 +118,6 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Checks whether element does not have an attribute with specified name.
-     *
-     * @param string $name
-     *
-     * @return Boolean
-     */
-    public function doesNotHaveAttribute($name)
-    {
-        return null === $this->getDriver()->getAttribute($this->getXpath(), $name);
-    }
-
-    /**
      * Returns specified attribute value.
      *
      * @param string $name

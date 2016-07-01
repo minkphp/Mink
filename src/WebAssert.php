@@ -588,7 +588,7 @@ class WebAssert
             $this->getMatchingElementRepresentation($selectorType, $selector)
         );
 
-        $this->assertElement($element->doesNotHaveAttribute($attribute), $message, $element);
+        $this->assertElement(!$element->hasAttribute($attribute), $message, $element);
 
         return $element;
     }
