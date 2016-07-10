@@ -91,6 +91,15 @@ OUT;
         $this->assertEquals('10', $select->getValue());
     }
 
+    public function testSetValueByDriverSingleSelect()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $select = $session->getPage()->find('xpath', '//select[@name="select_number"]');
+        $select->setValue('thirty');
+        $this->assertEquals('30', $select->getValue());
+    }
+
     public function testSetValueMultiSelect()
     {
         $session = $this->getSession();
