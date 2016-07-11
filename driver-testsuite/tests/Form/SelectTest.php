@@ -103,24 +103,39 @@ OUT;
 
     /**
      * Set values by Driver
+     *
+     * @dataProvider setValueByOptionTextProvider
      */
-    public function testSetValueByOptionText()
+    public function testSetValueByOptionText($xpath, $value, $expectedResult)
     {
         $session = $this->getSession();
         $session->visit($this->pathTo('/multiselect_form.html'));
         $page = $session->getPage();
-        $select = $page->find('xpath', '//select[@name="select_number"]');
-        $multiSelect = $page->find('xpath', '//select[@name="select_multiple_numbers[]"]');
-        $secondMultiSelect = $page->find('xpath', '//select[@name="select_multiple_values[]"]');
+        $select = $page->find('xpath', $xpath);
 
-        $select->setValue('thirty');
-        $this->assertEquals('30', $select->getValue());
+        $select->setValue($value);
+        $this->assertEquals($expectedResult, $select->getValue());
+    }
 
-        $multiSelect->setValue(array('one', 'three'));
-        $this->assertSame(array('1', '3'), $multiSelect->getValue());
-
-        $secondMultiSelect->setValue(array('one', 'three'));
-        $this->assertSame(array('1', '3'), $secondMultiSelect->getValue());
+    public function setValueByOptionTextProvider()
+    {
+        return array(
+            'single select' => array(
+                'xpath'          => '//select[@name="select_number"]',
+                'value'          => 'thirty',
+                'expectedResult' => '30',
+            ),
+            'multiple select numbers' => array(
+                'xpath'          => '//select[@name="select_multiple_numbers[]"]',
+                'value'          => array('one', 'three'),
+                'expectedResult' => array('1', '3'),
+            ),
+            'multiple select values' => array(
+                'xpath'          => '//select[@name="select_multiple_values[]"]',
+                'value'          => array('one', 'three'),
+                'expectedResult' => array('1', '3'),
+            ),
+        );
     }
 
     /**
