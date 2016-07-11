@@ -135,6 +135,16 @@ OUT;
                 array('one', 'three'),
                 array('1', '3'),
             ),
+            array(
+                '//select[@name="select_without_value_attribute"]',
+                'title two',
+                'title two',
+            ),
+            array(
+                '//select[@name="select_multiple_without_value_attribute"]',
+                array('title one', 'title three'),
+                array('title one', 'title three'),
+            ),
         );
     }
 
