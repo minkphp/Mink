@@ -102,6 +102,53 @@ OUT;
     }
 
     /**
+     * Set values by Driver
+     *
+     * @dataProvider setValueByOptionTextDataProvider
+     */
+    public function testSetValueByOptionText($xpath, $value, $expectedResult)
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $page = $session->getPage();
+        $select = $page->find('xpath', $xpath);
+
+        $select->setValue($value);
+        $this->assertEquals($expectedResult, $select->getValue());
+    }
+
+    public function setValueByOptionTextDataProvider()
+    {
+        return array(
+            array(
+                '//select[@name="select_number"]',
+                'thirty',
+                '30',
+            ),
+            array(
+                '//select[@name="select_multiple_numbers[]"]',
+                array('one', 'three'),
+                array('1', '3'),
+            ),
+            array(
+                '//select[@name="select_multiple_values[]"]',
+                array('one', 'three'),
+                array('1', '3'),
+            ),
+            array(
+                '//select[@name="select_without_value_attribute"]',
+                'title two',
+                'title two',
+            ),
+            array(
+                '//select[@name="select_multiple_without_value_attribute"]',
+                array('title one', 'title three'),
+                array('title one', 'title three'),
+            ),
+        );
+    }
+
+    /**
      * @see https://github.com/Behat/Mink/issues/193
      */
     public function testOptionWithoutValue()
