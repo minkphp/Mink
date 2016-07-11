@@ -104,7 +104,7 @@ OUT;
     /**
      * Set values by Driver
      *
-     * @dataProvider setValueByOptionTextProvider
+     * @dataProvider setValueByOptionTextDataProvider
      */
     public function testSetValueByOptionText($xpath, $value, $expectedResult)
     {
@@ -117,23 +117,23 @@ OUT;
         $this->assertEquals($expectedResult, $select->getValue());
     }
 
-    public function setValueByOptionTextProvider()
+    public function setValueByOptionTextDataProvider()
     {
         return array(
-            'single select' => array(
-                'xpath'          => '//select[@name="select_number"]',
-                'value'          => 'thirty',
-                'expectedResult' => '30',
+            array(
+                '//select[@name="select_number"]',
+                'thirty',
+                '30',
             ),
-            'multiple select numbers' => array(
-                'xpath'          => '//select[@name="select_multiple_numbers[]"]',
-                'value'          => array('one', 'three'),
-                'expectedResult' => array('1', '3'),
+            array(
+                '//select[@name="select_multiple_numbers[]"]',
+                array('one', 'three'),
+                array('1', '3'),
             ),
-            'multiple select values' => array(
-                'xpath'          => '//select[@name="select_multiple_values[]"]',
-                'value'          => array('one', 'three'),
-                'expectedResult' => array('1', '3'),
+            array(
+                '//select[@name="select_multiple_values[]"]',
+                array('one', 'three'),
+                array('1', '3'),
             ),
         );
     }
