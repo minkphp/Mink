@@ -91,15 +91,6 @@ OUT;
         $this->assertEquals('10', $select->getValue());
     }
 
-    public function testSetValueByDriverSingleSelect()
-    {
-        $session = $this->getSession();
-        $session->visit($this->pathTo('/multiselect_form.html'));
-        $select = $session->getPage()->find('xpath', '//select[@name="select_number"]');
-        $select->setValue('thirty');
-        $this->assertEquals('30', $select->getValue());
-    }
-
     public function testSetValueMultiSelect()
     {
         $session = $this->getSession();
@@ -108,6 +99,28 @@ OUT;
 
         $select->setValue(array('1', '2'));
         $this->assertEquals(array('1', '2'), $select->getValue());
+    }
+
+    /**
+     * Set values by Driver
+     */
+    public function testSetValueByOptionText()
+    {
+        $session = $this->getSession();
+        $session->visit($this->pathTo('/multiselect_form.html'));
+        $page = $session->getPage();
+        $select = $page->find('xpath', '//select[@name="select_number"]');
+        $multiSelect = $page->find('xpath', '//select[@name="select_multiple_numbers[]"]');
+        $secondMultiSelect = $page->find('xpath', '//select[@name="select_multiple_values[]"]');
+
+        $select->setValue('thirty');
+        $this->assertEquals('30', $select->getValue());
+
+        $multiSelect->setValue(array('one', 'three'));
+        $this->assertSame(array('1', '3'), $multiSelect->getValue());
+
+        $secondMultiSelect->setValue(array('one', 'three'));
+        $this->assertSame(array('1', '3'), $secondMultiSelect->getValue());
     }
 
     /**
