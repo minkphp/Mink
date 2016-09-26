@@ -25,7 +25,7 @@ class HeaderTest extends TestCase
         $this->getSession()->setRequestHeader('Accept-Language', 'fr');
         $this->getSession()->visit($this->pathTo('/headers.php'));
 
-        $this->assertContains('[HTTP_ACCEPT_LANGUAGE] => fr', $this->getSession()->getPage()->getContent());
+        $this->assertContains('HTTP_ACCEPT_LANGUAGE=fr', $this->getSession()->getPage()->getContent());
     }
 
     public function testSetUserAgent()
@@ -34,7 +34,7 @@ class HeaderTest extends TestCase
 
         $session->setRequestHeader('user-agent', 'foo bar');
         $session->visit($this->pathTo('/headers.php'));
-        $this->assertContains('[HTTP_USER_AGENT] => foo bar', $session->getPage()->getContent());
+        $this->assertContains('HTTP_USER_AGENT=foo bar', $session->getPage()->getContent());
     }
 
     public function testResetHeaders()
@@ -45,7 +45,7 @@ class HeaderTest extends TestCase
         $session->visit($this->pathTo('/headers.php'));
 
         $this->assertContains(
-            '[HTTP_X_MINK_TEST] => test',
+            'HTTP_X_MINK_TEST=test',
             $session->getPage()->getContent(),
             'The custom header should be sent',
             true
@@ -55,7 +55,7 @@ class HeaderTest extends TestCase
         $session->visit($this->pathTo('/headers.php'));
 
         $this->assertNotContains(
-            '[HTTP_X_MINK_TEST] => test',
+            'HTTP_X_MINK_TEST=test',
             $session->getPage()->getContent(),
             'The custom header should not be sent after resetting',
             true
