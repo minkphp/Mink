@@ -24,9 +24,9 @@ class Manipulator
     const UNION_PATTERN = '/\|(?![^\[]*\])/';
 
     /**
-     * Pipe ('|') inside xpath strings placeholder.
+     * Pipe ('|') inside xpath strings placeholder template.
      */
-    const PIPE_PLACEHOLDER = '****PIPE-CHAR-PLACEHOLDER****';
+    const PIPE_PLACEHOLDER_TEMPLATE = '****PIPE-CHAR-PLACEHOLDER-';
 
     /**
      * Prepends the XPath prefix to the given XPath.
@@ -48,6 +48,13 @@ class Manipulator
             $prefix = '('.$prefix.')';
         }
 
+        // Compute a safe pipe placeholder, not included in the xpath string.
+        $suffix = 0;
+        do {
+            $placeholder = self::PIPE_PLACEHOLDER_TEMPLATE . $suffix++;
+          print_r($placeholder);
+        } while (false !== strpos($xpath, $placeholder));
+
         // If the pipe ('|') character is present in xpath strings, this will break the later split into individual
         // expressions. Replacing all pipe characters with a placeholder will preserve them during split.
         if (preg_match_all('@(["\'])(?:\\\1|.)*?\1@', $xpath, $matches)) {
@@ -55,7 +62,7 @@ class Manipulator
             foreach ($matches[0] as $string) {
                 // Create a list of replacements.
                 if (false !== strpos($string, '|') && !isset($replacements[$string])) {
-                    $replacements[$string] = str_replace('|', self::PIPE_PLACEHOLDER, $string);
+                    $replacements[$string] = str_replace('|', $placeholder, $string);
                 }
             }
             // Replace pipe '|' character with a placeholder inside all strings.
@@ -85,6 +92,6 @@ class Manipulator
             $expressions[] = $parenthesis.$expression;
         }
 
-        return str_replace(self::PIPE_PLACEHOLDER, '|', implode(' | ', $expressions));
+        return str_replace($placeholder, '|', implode(' | ', $expressions));
     }
 }
