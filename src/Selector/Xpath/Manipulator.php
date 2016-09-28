@@ -59,7 +59,7 @@ class Manipulator
                 }
             }
             // Replace pipe '|' character with a placeholder inside all strings.
-            if ($replacements) {
+            if (!empty($replacements)) {
                 $xpath = strtr($xpath, $replacements);
             }
         }
