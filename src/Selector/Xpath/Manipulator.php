@@ -48,7 +48,8 @@ class Manipulator
             $prefix = '('.$prefix.')';
         }
 
-        // Get all xpath strings.
+        // If the pipe ('|') character is present in xpath strings, this will break the later split into individual
+        // expressions. Replacing all pipe characters with a placeholder will preserve them during split.
         if (preg_match_all('@(["\'])(?:\\\1|.)*?\1@', $xpath, $matches)) {
             $replacements = array();
             foreach ($matches[0] as $string) {
