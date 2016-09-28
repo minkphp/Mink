@@ -51,7 +51,7 @@ class Manipulator
         // Compute a safe pipe placeholder, not included in the xpath string.
         $suffix = 0;
         do {
-            $placeholder = self::PIPE_PLACEHOLDER_TEMPLATE . $suffix++;
+            $placeholder = self::PIPE_PLACEHOLDER_TEMPLATE.$suffix++;
         } while (false !== strpos($xpath, $placeholder));
 
         // If the pipe ('|') character is present in xpath strings, this will break the later split into individual
