@@ -52,7 +52,6 @@ class Manipulator
         $suffix = 0;
         do {
             $placeholder = self::PIPE_PLACEHOLDER_TEMPLATE . $suffix++;
-          print_r($placeholder);
         } while (false !== strpos($xpath, $placeholder));
 
         // If the pipe ('|') character is present in xpath strings, this will break the later split into individual
