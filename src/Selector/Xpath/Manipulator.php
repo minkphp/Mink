@@ -44,7 +44,7 @@ class Manipulator
         }
 
         // Split any unions into individual expressions.
-        foreach (preg_split(self::UNION_PATTERN, $xpath) as $expression) {
+        foreach ($this->splitUnionParts($xpath) as $expression) {
             $expression = trim($expression);
             $parenthesis = '';
 
@@ -66,4 +66,50 @@ class Manipulator
 
         return implode(' | ', $expressions);
     }
+
+    /**
+     * Splits the XPath into parts that are separated by the union operator.
+     *
+     * @param string $xpath
+     *
+     * @return string[]
+     */
+    protected function splitUnionParts($xpath)
+    {
+        // Split any unions into individual expressions. We need to iterate
+        // through the string to correctly parse opening/closing quotes and
+        // braces which is not possible with regular expressions.
+        $union_parts = array();
+        $singleQuoteOpen = false;
+        $doubleQuoteOpen = false;
+        $bracketOpen = 0;
+        $lastUnion = 0;
+        for ($i = 0; $i < strlen($xpath); $i++) {
+            if ($xpath{$i} === "'" && $doubleQuoteOpen === false) {
+                if ($singleQuoteOpen === true) {
+                    $singleQuoteOpen = false;
+                } else {
+                    $singleQuoteOpen = true;
+                }
+            } else if ($xpath{$i} === '"' && $singleQuoteOpen === false) {
+                if ($doubleQuoteOpen === true) {
+                    $doubleQuoteOpen = false;
+                } else {
+                    $doubleQuoteOpen = true;
+                }
+            } else if ($singleQuoteOpen === false && $doubleQuoteOpen === false) {
+                if ($xpath{$i} === '[') {
+                    $bracketOpen++;
+                } else if ($xpath{$i} === ']') {
+                    $bracketOpen--;
+                } else if ($xpath{$i} === '|' && $bracketOpen === 0) {
+                    $union_parts[] = substr($xpath, $lastUnion, $i - $lastUnion);
+                    $lastUnion = $i + 1;
+                }
+            }
+        }
+        $union_parts[] = substr($xpath, $lastUnion);
+        return $union_parts;
+    }
+
 }
