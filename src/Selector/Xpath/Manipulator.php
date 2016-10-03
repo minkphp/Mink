@@ -74,12 +74,12 @@ class Manipulator
      *
      * @return string[]
      */
-    protected function splitUnionParts($xpath)
+    private function splitUnionParts($xpath)
     {
         // Split any unions into individual expressions. We need to iterate
         // through the string to correctly parse opening/closing quotes and
         // braces which is not possible with regular expressions.
-        $union_parts = array();
+        $unionParts = array();
         $singleQuoteOpen = false;
         $doubleQuoteOpen = false;
         $bracketOpen = 0;
@@ -103,13 +103,13 @@ class Manipulator
                 } else if ($xpath{$i} === ']') {
                     $bracketOpen--;
                 } else if ($xpath{$i} === '|' && $bracketOpen === 0) {
-                    $union_parts[] = substr($xpath, $lastUnion, $i - $lastUnion);
+                    $unionParts[] = substr($xpath, $lastUnion, $i - $lastUnion);
                     $lastUnion = $i + 1;
                 }
             }
         }
-        $union_parts[] = substr($xpath, $lastUnion);
-        return $union_parts;
+        $unionParts[] = substr($xpath, $lastUnion);
+        return $unionParts;
     }
 
 }
