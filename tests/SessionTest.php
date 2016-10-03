@@ -10,7 +10,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $driver;
-    private $selectorsHandler;
 
     /**
      * Session.
@@ -22,8 +21,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
-        $this->session = new Session($this->driver, $this->selectorsHandler);
+        $this->session = new Session($this->driver);
     }
 
     public function testGetDriver()
@@ -36,16 +34,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Behat\Mink\Element\DocumentElement', $this->session->getPage());
     }
 
-    public function testGetSelectorsHandler()
-    {
-        $this->assertSame($this->selectorsHandler, $this->session->getSelectorsHandler());
-    }
-
     public function testInstantiateWithoutOptionalDeps()
     {
-        $session = new Session($this->driver);
+        new Session($this->driver);
 
-        $this->assertInstanceOf('Behat\Mink\Selector\SelectorsHandler', $session->getSelectorsHandler());
+        $this->assertTrue(true, 'The instantiation should work.');
     }
 
     public function testIsStarted()

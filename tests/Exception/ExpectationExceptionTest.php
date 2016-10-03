@@ -93,22 +93,4 @@ TXT;
 
         $this->assertEquals('Expectation failure', $exception->__toString());
     }
-
-    /**
-     * @group legacy
-     */
-    public function testConstructWithSession()
-    {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
-        $session = $this->getMockBuilder('Behat\Mink\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $session->expects($this->any())
-            ->method('getDriver')
-            ->will($this->returnValue($driver));
-
-        $exception = new ExpectationException('', $session, new \Exception('Something failed'));
-
-        $this->assertEquals('Something failed', $exception->getMessage());
-    }
 }

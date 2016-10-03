@@ -10,7 +10,7 @@
 
 namespace Behat\Mink\Element;
 
-use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\ElementNotFoundException;
 
 /**
@@ -25,14 +25,15 @@ class NodeElement extends TraversableElement
     /**
      * Initializes node element.
      *
-     * @param string  $xpath   element xpath
-     * @param Session $session session instance
+     * @param string          $xpath         element xpath
+     * @param DriverInterface $driver
+     * @param ElementFinder   $elementFinder
      */
-    public function __construct($xpath, Session $session)
+    public function __construct($xpath, DriverInterface $driver, ElementFinder $elementFinder)
     {
         $this->xpath = $xpath;
 
-        parent::__construct($session);
+        parent::__construct($driver, $elementFinder);
     }
 
     /**

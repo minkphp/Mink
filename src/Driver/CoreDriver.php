@@ -10,9 +10,7 @@
 
 namespace Behat\Mink\Driver;
 
-use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
-use Behat\Mink\Session;
 
 /**
  * Core driver.
@@ -22,19 +20,6 @@ use Behat\Mink\Session;
  */
 abstract class CoreDriver implements DriverInterface
 {
-    /**
-     * @var Session
-     */
-    private $session;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setSession(Session $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -96,13 +81,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function find($xpath)
     {
-        $elements = array();
-
-        foreach ($this->findElementXpaths($xpath) as $xpath) {
-            $elements[] = new NodeElement($xpath, $this->session);
-        }
-
-        return $elements;
+        return $this->findElementXpaths($xpath);
     }
 
     /**

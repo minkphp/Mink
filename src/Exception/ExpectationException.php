@@ -11,7 +11,6 @@
 namespace Behat\Mink\Exception;
 
 use Behat\Mink\Driver\DriverInterface;
-use Behat\Mink\Session;
 
 /**
  * Exception thrown for failed expectations.
@@ -22,29 +21,18 @@ use Behat\Mink\Session;
  */
 class ExpectationException extends Exception
 {
-    private $session;
     private $driver;
 
     /**
      * Initializes exception.
      *
-     * @param string                  $message   optional message
-     * @param DriverInterface|Session $driver    driver instance (or session for BC)
-     * @param \Exception|null         $exception expectation exception
+     * @param string          $message   optional message
+     * @param DriverInterface $driver    driver instance
+     * @param \Exception|null $exception expectation exception
      */
-    public function __construct($message, $driver, \Exception $exception = null)
+    public function __construct($message, DriverInterface $driver, \Exception $exception = null)
     {
-        if ($driver instanceof Session) {
-            @trigger_error('Passing a Session object to the ExpectationException constructor is deprecated as of Mink 1.7. Pass the driver instead.', E_USER_DEPRECATED);
-
-            $this->session = $driver;
-            $this->driver = $driver->getDriver();
-        } elseif (!$driver instanceof DriverInterface) {
-            // Trigger an exception as we cannot typehint a disjunction
-            throw new \InvalidArgumentException('The ExpectationException constructor expects a DriverInterface or a Session.');
-        } else {
-            $this->driver = $driver;
-        }
+        $this->driver = $driver;
 
         if (!$message && null !== $exception) {
             $message = $exception->getMessage();
@@ -88,24 +76,6 @@ class ExpectationException extends Exception
     protected function getDriver()
     {
         return $this->driver;
-    }
-
-    /**
-     * Returns exception session.
-     *
-     * @return Session
-     *
-     * @deprecated since 1.7, to be removed in 2.0. Use getDriver and the driver API instead.
-     */
-    protected function getSession()
-    {
-        if (null === $this->session) {
-            throw new \LogicException(sprintf('The deprecated method %s cannot be used when passing a driver in the constructor', __METHOD__));
-        }
-
-        @trigger_error(sprintf('The method %s is deprecated as of Mink 1.7 and will be removed in 2.0. Use getDriver and the driver API instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->session;
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Behat\Mink\Tests\Driver;
 
-use Behat\Mink\Element\NodeElement;
-
 class CoreDriverTest extends \PHPUnit_Framework_TestCase
 {
     public function testNoExtraMethods()
@@ -17,34 +15,6 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
                 sprintf('CoreDriver should not implement methods which are not part of the DriverInterface but %s found', $method->getName())
             );
         }
-    }
-
-    public function testCreateNodeElements()
-    {
-        $driver = $this->getMockBuilder('Behat\Mink\Driver\CoreDriver')
-            ->setMethods(array('findElementXpaths'))
-            ->getMockForAbstractClass();
-
-        $session = $this->getMockBuilder('Behat\Mink\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $driver->setSession($session);
-
-        $driver->expects($this->once())
-            ->method('findElementXpaths')
-            ->with('xpath')
-            ->willReturn(array('xpath1', 'xpath2'));
-
-        /** @var NodeElement[] $elements */
-        $elements = $driver->find('xpath');
-
-        $this->assertInternalType('array', $elements);
-        $this->assertCount(2, $elements);
-        $this->assertContainsOnlyInstancesOf('Behat\Mink\Element\NodeElement', $elements);
-
-        $this->assertSame('xpath1', $elements[0]->getXpath());
-        $this->assertSame('xpath2', $elements[1]->getXpath());
     }
 
     /**
