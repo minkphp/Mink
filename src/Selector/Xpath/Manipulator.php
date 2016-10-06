@@ -87,11 +87,11 @@ class Manipulator
         for ($i = 0; $i < strlen($xpath); $i++) {
             $char = $xpath[$i];
 
-            if ($char === "'" && $inDoubleQuotedString === false) {
+            if ($char === "'" && !$inDoubleQuotedString) {
                 $inSingleQuotedString = !$inSingleQuotedString;
-            } elseif ($char === '"' && $inSingleQuotedString === false) {
+            } elseif ($char === '"' && !$inSingleQuotedString) {
                 $inDoubleQuotedString = !$inDoubleQuotedString;
-            } elseif ($inSingleQuotedString === false && $inDoubleQuotedString === false) {
+            } elseif (!$inSingleQuotedString && !$inDoubleQuotedString) {
                 if ($char === '[') {
                     $openedBrackets++;
                 } elseif ($char === ']') {
