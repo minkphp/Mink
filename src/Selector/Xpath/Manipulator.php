@@ -80,29 +80,23 @@ class Manipulator
         // through the string to correctly parse opening/closing quotes and
         // braces which is not possible with regular expressions.
         $unionParts = array();
-        $singleQuoteOpen = false;
-        $doubleQuoteOpen = false;
-        $bracketOpen = 0;
+        $inSingleQuotedString = false;
+        $inDoubleQuotedString = false;
+        $openedBrackets = 0;
         $lastUnion = 0;
         for ($i = 0; $i < strlen($xpath); $i++) {
-            if ($xpath{$i} === "'" && $doubleQuoteOpen === false) {
-                if ($singleQuoteOpen === true) {
-                    $singleQuoteOpen = false;
-                } else {
-                    $singleQuoteOpen = true;
-                }
-            } else if ($xpath{$i} === '"' && $singleQuoteOpen === false) {
-                if ($doubleQuoteOpen === true) {
-                    $doubleQuoteOpen = false;
-                } else {
-                    $doubleQuoteOpen = true;
-                }
-            } else if ($singleQuoteOpen === false && $doubleQuoteOpen === false) {
-                if ($xpath{$i} === '[') {
-                    $bracketOpen++;
-                } else if ($xpath{$i} === ']') {
-                    $bracketOpen--;
-                } else if ($xpath{$i} === '|' && $bracketOpen === 0) {
+            $char = $xpath[$i];
+
+            if ($char === "'" && $inDoubleQuotedString === false) {
+                $inSingleQuotedString = !$inSingleQuotedString;
+            } elseif ($char === '"' && $inSingleQuotedString === false) {
+                $inDoubleQuotedString = !$inDoubleQuotedString;
+            } elseif ($inSingleQuotedString === false && $inDoubleQuotedString === false) {
+                if ($char === '[') {
+                    $openedBrackets++;
+                } elseif ($char === ']') {
+                    $openedBrackets--;
+                } elseif ($char === '|' && $openedBrackets === 0) {
                     $unionParts[] = substr($xpath, $lastUnion, $i - $lastUnion);
                     $lastUnion = $i + 1;
                 }
