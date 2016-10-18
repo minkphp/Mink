@@ -76,56 +76,54 @@ class Manipulator
      */
     private function splitUnionParts($xpath)
     {
-        // Split any unions into individual expressions. We need to iterate
-        // through the string to correctly parse opening/closing quotes and
-        // braces which is not possible with regular expressions.
-        $unionParts = array();
-        $inSingleQuotedString = false;
-        $inDoubleQuotedString = false;
-        $openedBrackets = 0;
-        $lastUnion = 0;
-        $xpathLength = strlen($xpath);
-
-        for ($i = 0; $i < $xpathLength; $i++) {
-            $char = $xpath[$i];
-
-            if ($char === "'" && !$inDoubleQuotedString) {
-                $inSingleQuotedString = !$inSingleQuotedString;
-
-                continue;
-            }
-
-            if ($char === '"' && !$inSingleQuotedString) {
-                $inDoubleQuotedString = !$inDoubleQuotedString;
-
-                continue;
-            }
-
-            if ($inSingleQuotedString || $inDoubleQuotedString) {
-                continue;
-            }
-
-            if ($char === '[') {
-                $openedBrackets++;
-
-                continue;
-            }
-
-            if ($char === ']') {
-                $openedBrackets--;
-
-                continue;
-            }
-
-            if ($char === '|' && $openedBrackets === 0) {
-                $unionParts[] = substr($xpath, $lastUnion, $i - $lastUnion);
-                $lastUnion = $i + 1;
-            }
+        if (false === strpos($xpath, '|')) {
+            return array($xpath); // If there is no pipe in the string, we know for sure that there is no union
         }
 
-        $unionParts[] = substr($xpath, $lastUnion);
+        $xpathLen = strlen($xpath);
+        $openedBrackets = 0;
+        // Consume whitespaces chars at the beginning of the string (this is the list of chars removed by trim() by default)
+        $startPosition = strspn($xpath, " \t\n\r\0\x0B");
 
-        return $unionParts;
+        $unionParts = array();
+
+        for ($i = $startPosition; $i <= $xpathLen; ++$i) {
+            // Consume all chars until we reach a quote, a bracket or a pipe
+            $i += strcspn($xpath, '"\'[]|', $i);
+
+            if ($i < $xpathLen) {
+                switch ($xpath[$i]) {
+                    case '"':
+                    case "'":
+                        // Move to the end of the string literal
+                        if (false === $i = strpos($xpath, $xpath[$i], $i + 1)) {
+                            return array($xpath); // The XPath expression is invalid, don't split it
+                        }
+                        continue 2;
+                    case '[':
+                        ++$openedBrackets;
+                        continue 2;
+                    case ']':
+                        --$openedBrackets;
+                        continue 2;
+                }
+            }
+            if ($openedBrackets) {
+                continue;
+            }
+
+            $unionParts[] = substr($xpath, $startPosition, $i - $startPosition);
+
+            if ($i === $xpathLen) {
+                return $unionParts;
+            }
+
+            // Consume any whitespace chars after the pipe
+            $i += strspn($xpath, " \t\n\r\0\x0B", $i + 1);
+            $startPosition = $i + 1;
+        }
+
+        return array($xpath); // The XPath expression is invalid
     }
 
 }
