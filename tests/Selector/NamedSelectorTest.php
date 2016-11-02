@@ -75,6 +75,7 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
         // Fixture file,  selector name,  locator,  expected number of exact matched elements, expected number of partial matched elements if different
         return array(
             'fieldset' => array('test.html', 'fieldset', 'fieldset-text', 2, 3),
+            'fieldset nested' => array('test.html', 'fieldset', 'inner', 1),
 
             'field (name/placeholder/label)' => array('test.html', 'field', 'the-field', $fieldCount),
             'field (input, with-id)' => array('test.html', 'field', 'the-field-input', 1),

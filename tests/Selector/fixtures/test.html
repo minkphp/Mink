@@ -56,6 +56,14 @@
         <!-- don't match fieldsets -->
         <fieldset>fieldset-text</fieldset>
         <fieldset></fieldset>
+
+        <!-- nested fieldsets -->
+        <fieldset>
+            <legend>outer</legend>
+            <fieldset>
+                <legend>inner</legend>
+            </fieldset>
+        </fieldset>
     </div>
 
     <div id="test-for-content-selector">
