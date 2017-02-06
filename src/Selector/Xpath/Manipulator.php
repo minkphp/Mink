@@ -24,6 +24,11 @@ class Manipulator
     const UNION_PATTERN = '/\|(?![^\[]*\])/';
 
     /**
+     * Pipe ('|') inside xpath strings placeholder template.
+     */
+    const PIPE_PLACEHOLDER_TEMPLATE = '****PIPE-CHAR-PLACEHOLDER-';
+
+    /**
      * Prepends the XPath prefix to the given XPath.
      *
      * The returned XPath will match elements matching the XPath inside an element
@@ -41,6 +46,28 @@ class Manipulator
         // If the xpath prefix contains a union we need to wrap it in parentheses.
         if (preg_match(self::UNION_PATTERN, $prefix)) {
             $prefix = '('.$prefix.')';
+        }
+
+        // Compute a safe pipe placeholder, not included in the xpath string.
+        $suffix = 0;
+        do {
+            $placeholder = self::PIPE_PLACEHOLDER_TEMPLATE.$suffix++;
+        } while (false !== strpos($xpath, $placeholder));
+
+        // If the pipe ('|') character is present in xpath strings, this will break the later split into individual
+        // expressions. Replacing all pipe characters with a placeholder will preserve them during split.
+        if (preg_match_all('@(["\'])(?:\\\1|.)*?\1@', $xpath, $matches)) {
+            $replacements = array();
+            foreach ($matches[0] as $string) {
+                // Create a list of replacements.
+                if (false !== strpos($string, '|') && !isset($replacements[$string])) {
+                    $replacements[$string] = str_replace('|', $placeholder, $string);
+                }
+            }
+            // Replace pipe '|' character with a placeholder inside all strings.
+            if (!empty($replacements)) {
+                $xpath = strtr($xpath, $replacements);
+            }
         }
 
         // Split any unions into individual expressions.
@@ -64,7 +91,7 @@ class Manipulator
             $expressions[] = $parenthesis.$expression;
         }
 
-        return implode(' | ', $expressions);
+        return str_replace($placeholder, '|', implode(' | ', $expressions));
     }
 
     /**

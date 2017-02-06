@@ -64,6 +64,11 @@ class ManipulatorTest extends \PHPUnit_Framework_TestCase
                 "some_tag[(contains(normalize-space(string(.)), 'foo|bar') | other_tag[contains(./@some_attribute, 'foo|bar')])]",
                 "some_xpath/some_tag[(contains(normalize-space(string(.)), 'foo|bar') | other_tag[contains(./@some_attribute, 'foo|bar')])]",
             ),
+            'containing pipe' => array(
+                'some_xpath',
+                "some_tag[(contains(normalize-space(string(.)), 'foo|bar') | other_tag[contains(./@some_attribute, 'foo|bar')])]",
+                "some_xpath/some_tag[(contains(normalize-space(string(.)), 'foo|bar') | some_xpath/other_tag[contains(./@some_attribute, 'foo|bar')])]",
+            ),
         );
     }
 }
