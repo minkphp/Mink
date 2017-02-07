@@ -142,9 +142,7 @@ class Session
      */
     public function visit($url)
     {
-        // start session if needed
         $this->start();
-
         $this->driver->visit($url);
     }
 
@@ -363,7 +361,6 @@ class Session
      */
     public function resizeWindow($width, $height, $name = null)
     {
-        // start session if needed
         $this->start();
         $this->driver->resizeWindow($width, $height, $name);
     }
@@ -375,7 +372,6 @@ class Session
      */
     public function maximizeWindow($name = null)
     {
-        // start session if needed
         $this->start();
         $this->driver->maximizeWindow($name);
     }
