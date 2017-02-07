@@ -57,9 +57,27 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->session->isStarted());
     }
 
-    public function testStart()
+    public function testStartWithoutRunningSession()
     {
+        $this->driver
+            ->expects($this->once())
+            ->method('isStarted')
+            ->willReturn(false);
+
         $this->driver->expects($this->once())
+            ->method('start');
+
+        $this->session->start();
+    }
+
+    public function testStartWithRunningSession()
+    {
+        $this->driver
+            ->expects($this->once())
+            ->method('isStarted')
+            ->willReturn(true);
+
+        $this->driver->expects($this->never())
             ->method('start');
 
         $this->session->start();
@@ -83,34 +101,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->session->restart();
     }
 
-    public function testVisitWithoutRunningSession()
+    public function testVisit()
     {
         $this->driver
             ->expects($this->once())
-            ->method('isStarted')
-            ->willReturn(false);
-
-        $this->driver
-            ->expects($this->once())
-            ->method('start');
-
-        $this->driver
-            ->expects($this->once())
-            ->method('visit')
-            ->with($url = 'some_url');
-
-        $this->session->visit($url);
-    }
-
-    public function testVisitWithRunningSession()
-    {
-        $this->driver
-            ->expects($this->once())
-            ->method('isStarted')
-            ->willReturn(true);
-
-        $this->driver
-            ->expects($this->never())
             ->method('start');
 
         $this->driver
@@ -322,6 +316,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testResizeWindow()
     {
+        $this->driver
+            ->expects($this->once())
+            ->method('start');
+
         $this->driver->expects($this->once())
             ->method('resizeWindow')
             ->with(800, 600, 'test');
@@ -331,6 +329,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testMaximizeWindow()
     {
+        $this->driver
+            ->expects($this->once())
+            ->method('start');
+
         $this->driver->expects($this->once())
             ->method('maximizeWindow')
             ->with('test');

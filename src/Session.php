@@ -55,10 +55,12 @@ class Session
     }
 
     /**
-     * Starts session driver.
+     * Starts session driver if session is not started.
      *
      * Calling any action before visiting a page is an undefined behavior.
      * The only supported method calls on a fresh driver are
+     * - resizeWindow()
+     * - maximizeWindow()
      * - visit()
      * - setRequestHeader()
      * - setBasicAuth()
@@ -67,7 +69,9 @@ class Session
      */
     public function start()
     {
-        $this->driver->start();
+        if (!$this->isStarted()) {
+            $this->driver->start();
+        }
     }
 
     /**
@@ -92,6 +96,8 @@ class Session
      *
      * Calling any action before visiting a page is an undefined behavior.
      * The only supported method calls on a fresh driver are
+     * - resizeWindow()
+     * - maximizeWindow()
      * - visit()
      * - setRequestHeader()
      * - setBasicAuth()
@@ -140,11 +146,7 @@ class Session
      */
     public function visit($url)
     {
-        // start session if needed
-        if (!$this->isStarted()) {
-            $this->start();
-        }
-
+        $this->start();
         $this->driver->visit($url);
     }
 
@@ -363,6 +365,7 @@ class Session
      */
     public function resizeWindow($width, $height, $name = null)
     {
+        $this->start();
         $this->driver->resizeWindow($width, $height, $name);
     }
 
@@ -373,6 +376,7 @@ class Session
      */
     public function maximizeWindow($name = null)
     {
+        $this->start();
         $this->driver->maximizeWindow($name);
     }
 }
