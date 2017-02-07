@@ -69,7 +69,6 @@ class Session
      */
     public function start()
     {
-        // start session if needed
         if (!$this->isStarted()) {
             $this->driver->start();
         }
