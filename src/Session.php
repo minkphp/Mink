@@ -55,7 +55,7 @@ class Session
     }
 
     /**
-     * Starts session driver.
+     * Starts session driver if session is not started.
      *
      * Calling any action before visiting a page is an undefined behavior.
      * The only supported method calls on a fresh driver are
@@ -67,7 +67,10 @@ class Session
      */
     public function start()
     {
-        $this->driver->start();
+        // start session if needed
+        if (!$this->isStarted()) {
+            $this->driver->start();
+        }
     }
 
     /**
@@ -141,9 +144,7 @@ class Session
     public function visit($url)
     {
         // start session if needed
-        if (!$this->isStarted()) {
-            $this->start();
-        }
+        $this->start();
 
         $this->driver->visit($url);
     }
