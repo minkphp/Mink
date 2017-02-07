@@ -59,6 +59,8 @@ class Session
      *
      * Calling any action before visiting a page is an undefined behavior.
      * The only supported method calls on a fresh driver are
+     * - resizeWindow()
+     * - maximizeWindow()
      * - visit()
      * - setRequestHeader()
      * - setBasicAuth()
@@ -94,6 +96,8 @@ class Session
      *
      * Calling any action before visiting a page is an undefined behavior.
      * The only supported method calls on a fresh driver are
+     * - resizeWindow()
+     * - maximizeWindow()
      * - visit()
      * - setRequestHeader()
      * - setBasicAuth()
