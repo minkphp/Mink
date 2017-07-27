@@ -670,15 +670,21 @@ class WebAssert
     {
         $node = $this->fieldExists($field, $container);
         $actual = $node->getValue();
-        $regex = '/^'.preg_quote($value, '/').'$/ui';
 
-        $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
+        if (is_array($actual)) {
+            $condition = $actual == (array) $value;
+        } else {
+            $regex = '/^'.preg_quote($value, '/').'$/ui';
+            $condition = (bool) preg_match($regex, $actual);
+        }
 
-        $this->assert((bool) preg_match($regex, $actual), $message);
+        $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, implode(', ', (array) $actual), implode(', ', (array) $value));
+
+        $this->assert($condition, $message);
     }
 
     /**
-     * Checks that specific field have provided value.
+     * Checks that specific field does not have provided value.
      *
      * @param string             $field     field id|name|label|value
      * @param string             $value     field value
@@ -690,11 +696,17 @@ class WebAssert
     {
         $node = $this->fieldExists($field, $container);
         $actual = $node->getValue();
-        $regex = '/^'.preg_quote($value, '/').'$/ui';
 
-        $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
+        if (is_array($actual)) {
+            $condition = $actual != (array) $value;
+        } else {
+            $regex = '/^'.preg_quote($value, '/').'$/ui';
+            $condition = !preg_match($regex, $actual);
+        }
 
-        $this->assert(!preg_match($regex, $actual), $message);
+        $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, implode(', ', (array) $actual));
+
+        $this->assert($condition, $message);
     }
 
     /**

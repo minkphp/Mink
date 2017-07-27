@@ -1110,22 +1110,22 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('findField')
             ->with('username')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('getValue')
-            ->will($this->returnValue(234))
+            ->will($this->onConsecutiveCalls(234, 234, 234, 234, array(234), array(234, 432), array(234), array(234, 432), array(234, 432)))
         ;
 
         $this->assertCorrectAssertion('fieldValueEquals', array('username', 234));
@@ -1147,6 +1147,27 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "234", but "" expected.'
         );
+
+        $this->assertCorrectAssertion('fieldValueEquals', array('username', array(234)));
+        $this->assertCorrectAssertion('fieldValueEquals', array('username', array(234, 432)));
+        $this->assertWrongAssertion(
+            'fieldValueEquals',
+            array('username', array(235)),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "234", but "235" expected.'
+        );
+        $this->assertWrongAssertion(
+            'fieldValueEquals',
+            array('username', array(235, 431)),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "234, 432", but "235, 431" expected.'
+        );
+        $this->assertWrongAssertion(
+            'fieldValueEquals',
+            array('username', array()),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "234, 432", but "" expected.'
+        );
     }
 
     public function testFieldValueNotEquals()
@@ -1162,22 +1183,22 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('findField')
             ->with('username')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('getValue')
-            ->will($this->returnValue(235))
+            ->will($this->onConsecutiveCalls(235, 235, 235, 235, array(235), array(235, 431), array(235), array(235, 431), array(235, 431)))
         ;
 
         $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 234));
@@ -1189,6 +1210,22 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 23));
         $this->assertCorrectAssertion('fieldValueNotEquals', array('username', ''));
+
+        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', array(234)));
+        $this->assertWrongAssertion(
+            'fieldValueNotEquals',
+            array('username', array(235, 431)),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "235, 431", but it should not be.'
+        );
+        $this->assertWrongAssertion(
+            'fieldValueNotEquals',
+            array('username', array(235)),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The field "username" value is "235", but it should not be.'
+        );
+        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', array(234, 431)));
+        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', array()));
     }
 
     public function testCheckboxChecked()
