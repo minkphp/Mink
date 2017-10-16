@@ -332,6 +332,10 @@ class Session
     /**
      * Execute JS in browser and return it's response.
      *
+     * The "return" keyword is optional in the script passed as argument.
+     * Multiline scripts must be wrapped in an immediately-invoked function
+     * expression.
+     *
      * @param string $script javascript
      *
      * @return string
