@@ -320,7 +320,7 @@ class WebAssert
     {
         $actual = $this->session->getPage()->getContent();
         $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text);
- 
+
         $this->assert(strpos($actual, $text) !== FALSE, $message);
     }
 
@@ -335,7 +335,7 @@ class WebAssert
     {
         $actual = $this->session->getPage()->getContent();
         $message = sprintf('The string "%s" appears in the HTML response of this page, but it should not.', $text);
- 
+
         $this->assert(strpos($actual, $text) === FALSE, $message);
     }
 
