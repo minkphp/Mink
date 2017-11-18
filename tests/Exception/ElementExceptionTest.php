@@ -31,7 +31,7 @@ class ElementExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMockBuilder('Behat\Mink\Element\Element')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
 
         $mock->expects($this->any())
             ->method('getXPath')

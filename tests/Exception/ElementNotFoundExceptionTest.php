@@ -11,7 +11,7 @@ class ElementNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildMessage($message, $type, $selector = null, $locator = null)
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
 
         $exception = new ElementNotFoundException($driver, $type, $selector, $locator);
 
@@ -35,10 +35,10 @@ class ElementNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithSession()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $session->expects($this->any())
             ->method('getDriver')
             ->will($this->returnValue($driver));
