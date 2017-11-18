@@ -217,6 +217,6 @@ class MinkTest extends \PHPUnit_Framework_TestCase
     {
         return $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockBuilder();
     }
 }

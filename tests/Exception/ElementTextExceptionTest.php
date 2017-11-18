@@ -8,7 +8,7 @@ class ElementTextExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface');
         $element = $this->getElementMock();
 
         $driver->expects($this->any())
@@ -43,6 +43,6 @@ TXT;
     {
         return $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockBuilder();
     }
 }
