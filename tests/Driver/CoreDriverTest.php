@@ -27,7 +27,7 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
 
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
 
         $driver->setSession($session);
 
@@ -65,7 +65,7 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
 
         $driver = $this->getMockForAbstractClass('Behat\Mink\Driver\CoreDriver');
 
-        $this->setExpectedException('Behat\Mink\Exception\UnsupportedDriverActionException');
+        $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
         call_user_func_array(array($driver, $method->getName()), $this->getArguments($method));
     }
 
@@ -102,7 +102,7 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
         if ($argument->getClass()) {
             return $this->getMockBuilder($argument->getClass()->getName())
                 ->disableOriginalConstructor()
-                ->getMock();
+                ->createMock();
         }
 
         return null;

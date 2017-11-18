@@ -14,7 +14,7 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
         $selector->registerNamedXpath('some', 'my_xpath');
         $this->assertEquals('my_xpath', $selector->translateToXPath('some'));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $selector->translateToXPath('custom');
     }

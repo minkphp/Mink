@@ -8,7 +8,7 @@ class ResponseTextExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
 
         $driver->expects($this->any())
             ->method('getStatusCode')

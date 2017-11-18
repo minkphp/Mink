@@ -8,14 +8,14 @@ class ExpectationExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmptyMessageAndPreviousException()
     {
-        $exception = new ExpectationException('', $this->getMock('Behat\Mink\Driver\DriverInterface'), new \Exception('Something failed'));
+        $exception = new ExpectationException('', $this->createMock('Behat\Mink\Driver\DriverInterface'), new \Exception('Something failed'));
 
         $this->assertEquals('Something failed', $exception->getMessage());
     }
 
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
 
         $driver->expects($this->any())
             ->method('getStatusCode')
@@ -50,7 +50,7 @@ TXT;
 
     public function testBigContent()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
 
         $driver->expects($this->any())
             ->method('getStatusCode')
@@ -84,7 +84,7 @@ TXT;
 
     public function testExceptionWhileRenderingString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
         $driver->expects($this->any())
             ->method('getContent')
             ->will($this->throwException(new \Exception('Broken page')));
@@ -99,10 +99,10 @@ TXT;
      */
     public function testConstructWithSession()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->createMock('Behat\Mink\Driver\DriverInterface');
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $session->expects($this->any())
             ->method('getDriver')
             ->will($this->returnValue($driver));

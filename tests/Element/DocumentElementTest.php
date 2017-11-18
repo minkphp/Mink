@@ -193,7 +193,7 @@ class DocumentElementTest extends ElementTest
     {
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $checkbox
             ->expects($this->exactly(2))
             ->method('isChecked')
@@ -215,7 +215,7 @@ class DocumentElementTest extends ElementTest
     {
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $checkbox
             ->expects($this->exactly(2))
             ->method('isChecked')
@@ -261,7 +261,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('click');
@@ -273,7 +273,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->clickLink('some link');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->clickLink('some link');
     }
 
@@ -281,7 +281,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('press');
@@ -293,7 +293,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->pressButton('some button');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->pressButton('some button');
     }
 
@@ -301,7 +301,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('setValue')
@@ -314,7 +314,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->fillField('some field', 'some val');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->fillField('some field', 'some val');
     }
 
@@ -322,7 +322,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('check');
@@ -334,7 +334,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->checkField('some field');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->checkField('some field');
     }
 
@@ -342,7 +342,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('uncheck');
@@ -354,7 +354,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->uncheckField('some field');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->uncheckField('some field');
     }
 
@@ -362,7 +362,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('selectOption')
@@ -375,7 +375,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->selectFieldOption('some field', 'option2');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->selectFieldOption('some field', 'option2');
     }
 
@@ -383,7 +383,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->createMock();
         $node
             ->expects($this->once())
             ->method('attachFile')
@@ -396,7 +396,7 @@ class DocumentElementTest extends ElementTest
         );
 
         $this->document->attachFileToField('some field', '/path/to/file');
-        $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
         $this->document->attachFileToField('some field', '/path/to/file');
     }
 
