@@ -21,8 +21,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMockBuilder();
-        $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMockBuilder();
+        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
+        $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
         $this->session = new Session($this->driver, $this->selectorsHandler);
     }
 

@@ -27,7 +27,7 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
 
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
 
         $driver->setSession($session);
 
@@ -102,7 +102,7 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
         if ($argument->getClass()) {
             return $this->getMockBuilder($argument->getClass()->getName())
                 ->disableOriginalConstructor()
-                ->getMockBuilder();
+                ->getMock();
         }
 
         return null;

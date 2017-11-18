@@ -193,7 +193,7 @@ class DocumentElementTest extends ElementTest
     {
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $checkbox
             ->expects($this->exactly(2))
             ->method('isChecked')
@@ -215,7 +215,7 @@ class DocumentElementTest extends ElementTest
     {
         $checkbox = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $checkbox
             ->expects($this->exactly(2))
             ->method('isChecked')
@@ -261,7 +261,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('click');
@@ -281,7 +281,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('press');
@@ -301,7 +301,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('setValue')
@@ -322,7 +322,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('check');
@@ -342,7 +342,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('uncheck');
@@ -362,7 +362,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('selectOption')
@@ -383,7 +383,7 @@ class DocumentElementTest extends ElementTest
     {
         $node = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $node
             ->expects($this->once())
             ->method('attachFile')

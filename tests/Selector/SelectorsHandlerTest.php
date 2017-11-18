@@ -8,7 +8,7 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegisterSelector()
     {
-        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMockBuilder();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $handler = new SelectorsHandler();
 
         $this->assertFalse($handler->isSelectorRegistered('custom'));
@@ -21,7 +21,7 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testRegisterSelectorThroughConstructor()
     {
-        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMockBuilder();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $handler = new SelectorsHandler(array('custom' => $selector));
 
         $this->assertTrue($handler->isSelectorRegistered('custom'));
@@ -54,7 +54,7 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testSelectorToXpath()
     {
-        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMockBuilder();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $handler = new SelectorsHandler();
 
         $handler->registerSelector('custom_selector', $selector);
@@ -86,7 +86,7 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBcLayer()
     {
-        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMockBuilder();
+        $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();
         $handler = new SelectorsHandler();
 
         $handler->registerSelector('named_partial', $selector);

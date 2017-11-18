@@ -20,10 +20,10 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $this->session->expects($this->any())
             ->method('getDriver')
-            ->will($this->returnValue($this->getMockBuilder('Behat\Mink\Driver\DriverInterface')));
+            ->will($this->returnValue($this->getMock('Behat\Mink\Driver\DriverInterface')));
 
         $this->assert = new WebAssert($this->session);
     }
@@ -330,7 +330,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -358,7 +358,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -386,7 +386,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -414,7 +414,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -442,7 +442,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -470,7 +470,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -498,7 +498,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -526,7 +526,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -554,7 +554,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -583,7 +583,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -620,7 +620,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session->expects($this->never())
@@ -647,7 +647,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -687,7 +687,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -731,12 +731,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -771,12 +771,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -811,12 +811,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -851,12 +851,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -891,12 +891,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -938,12 +938,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -986,12 +986,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1033,12 +1033,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1067,12 +1067,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1101,12 +1101,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1153,12 +1153,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1195,12 +1195,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session
@@ -1235,12 +1235,12 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder()
+            ->getMock()
         ;
 
         $this->session

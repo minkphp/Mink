@@ -282,7 +282,7 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('select', $this->session);
         $option = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
         $option
             ->expects($this->once())
             ->method('getValue')
@@ -378,7 +378,7 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('elem', $this->session);
         $parent = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
             ->disableOriginalConstructor()
-            ->getMockBuilder();
+            ->getMock();
 
         $this->driver
             ->expects($this->once())
@@ -489,7 +489,7 @@ class NodeElementTest extends ElementTest
     {
         $node = new NodeElement('some_tag1', $this->session);
 
-        $target = $this->getMockBuilder('Behat\Mink\Element\ElementInterface');
+        $target = $this->getMock('Behat\Mink\Element\ElementInterface');
         $target->expects($this->any())
             ->method('getXPath')
             ->will($this->returnValue('some_tag2'));

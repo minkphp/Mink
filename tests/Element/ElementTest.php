@@ -29,12 +29,12 @@ abstract class ElementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMockBuilder();
+        $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->driver
             ->expects($this->once())
             ->method('setSession');
 
-        $this->selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMockBuilder();
+        $this->selectors = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
         $this->session = new Session($this->driver, $this->selectors);
     }
 
