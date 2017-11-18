@@ -67,7 +67,7 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($ret, $handler->selectorToXpath('custom_selector', $locator));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $handler->selectorToXpath('undefined', 'asd');
     }
 

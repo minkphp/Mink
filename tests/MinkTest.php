@@ -70,7 +70,7 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->mink->registerSession('mock_session', $session);
         $this->assertSame($session, $this->mink->getSession('mock_session'));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $this->mink->getSession('not_registered');
     }
@@ -85,7 +85,7 @@ class MinkTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('session_name', $this->mink->getDefaultSessionName());
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $this->mink->setDefaultSessionName('not_registered');
     }
@@ -116,7 +116,7 @@ class MinkTest extends \PHPUnit_Framework_TestCase
 
         $this->mink->registerSession('session_1', $session1);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $this->mink->getSession();
     }
@@ -148,7 +148,7 @@ class MinkTest extends \PHPUnit_Framework_TestCase
         $this->mink->registerSession('started', $session_2);
         $this->assertTrue($this->mink->isSessionStarted('started'));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $this->mink->getSession('not_registered');
     }
