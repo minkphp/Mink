@@ -29,4 +29,5 @@ install:
 script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
 
 after_script:
-  - if [[ "7.0" != "$TRAVIS_PHP_VERSION" && "$TRAVIS_PHP_VERSION" != "hhvm" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
