@@ -7,20 +7,24 @@ php: [5.4, 5.5, 5.6, 7.0, 7.1, hhvm]
 matrix:
   fast_finish: true
   include:
+    - php: 5.3
+      dist: precise
     - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
-    - php: 5.4
+    - php: 7.1
       env: DEPENDENCIES=dev
 
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - $HOME/symfony-bridge/.phpunit
 
 before_install:
   - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
 
 install:
   - composer update $COMPOSER_FLAGS
+  - vendor/bin/simple-phpunit install
 
 script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
 
