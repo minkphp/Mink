@@ -2,28 +2,32 @@ language: php
 
 sudo: false
 
-php: [5.3, 5.4, 5.5, 5.6, 7.0, hhvm]
+php: [5.4, 5.5, 5.6, 7.0, 7.1, hhvm]
 
 matrix:
   fast_finish: true
   include:
     - php: 5.3
+      dist: precise
+    - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
-    - php: 5.6
+    - php: 7.1
       env: DEPENDENCIES=dev
 
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - $HOME/symfony-bridge/.phpunit
 
 before_install:
-  - composer self-update
-  - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
+  - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
 
 install:
   - composer update $COMPOSER_FLAGS
+  - vendor/bin/simple-phpunit install
 
-script: phpunit -v --coverage-clover=coverage.clover
+script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
 
 after_script:
-  - if [[ "7.0" != "$TRAVIS_PHP_VERSION" && "$TRAVIS_PHP_VERSION" != "hhvm" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
