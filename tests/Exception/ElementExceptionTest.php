@@ -3,11 +3,12 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group legacy
  */
-class ElementExceptionTest extends \PHPUnit_Framework_TestCase
+class ElementExceptionTest extends TestCase
 {
     public function testMessage()
     {

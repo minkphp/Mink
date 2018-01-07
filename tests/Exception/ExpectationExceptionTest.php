@@ -3,19 +3,20 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ExpectationException;
+use PHPUnit\Framework\TestCase;
 
-class ExpectationExceptionTest extends \PHPUnit_Framework_TestCase
+class ExpectationExceptionTest extends TestCase
 {
     public function testEmptyMessageAndPreviousException()
     {
-        $exception = new ExpectationException('', $this->getMock('Behat\Mink\Driver\DriverInterface'), new \Exception('Something failed'));
+        $exception = new ExpectationException('', $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock(), new \Exception('Something failed'));
 
         $this->assertEquals('Something failed', $exception->getMessage());
     }
 
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
 
         $driver->expects($this->any())
             ->method('getStatusCode')
@@ -50,7 +51,7 @@ TXT;
 
     public function testBigContent()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
 
         $driver->expects($this->any())
             ->method('getStatusCode')
@@ -84,7 +85,7 @@ TXT;
 
     public function testExceptionWhileRenderingString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $driver->expects($this->any())
             ->method('getContent')
             ->will($this->throwException(new \Exception('Broken page')));
@@ -99,7 +100,7 @@ TXT;
      */
     public function testConstructWithSession()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
             ->getMock();

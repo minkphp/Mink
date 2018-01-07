@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Session;
+use PHPUnit\Framework\TestCase;
 
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

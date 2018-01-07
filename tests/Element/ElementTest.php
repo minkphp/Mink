@@ -5,8 +5,9 @@ namespace Behat\Mink\Tests\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Session;
 use Behat\Mink\Selector\SelectorsHandler;
+use PHPUnit\Framework\TestCase;
 
-abstract class ElementTest extends \PHPUnit_Framework_TestCase
+abstract class ElementTest extends TestCase
 {
     /**
      * Session.

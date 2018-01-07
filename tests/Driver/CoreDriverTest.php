@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Element\NodeElement;
+use PHPUnit\Framework\TestCase;
 
-class CoreDriverTest extends \PHPUnit_Framework_TestCase
+class CoreDriverTest extends TestCase
 {
     public function testNoExtraMethods()
     {
@@ -65,7 +66,13 @@ class CoreDriverTest extends \PHPUnit_Framework_TestCase
 
         $driver = $this->getMockForAbstractClass('Behat\Mink\Driver\CoreDriver');
 
-        $this->setExpectedException('Behat\Mink\Exception\UnsupportedDriverActionException');
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
+        } else {
+            // BC with PHPUnit 4 used for PHP 5.5 and older
+            $this->setExpectedException('Behat\Mink\Exception\UnsupportedDriverActionException');
+        }
+
         call_user_func_array(array($driver, $method->getName()), $this->getArguments($method));
     }
 
