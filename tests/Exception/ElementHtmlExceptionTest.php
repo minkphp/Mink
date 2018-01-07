@@ -3,12 +3,13 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementHtmlException;
+use PHPUnit\Framework\TestCase;
 
-class ElementHtmlExceptionTest extends \PHPUnit_Framework_TestCase
+class ElementHtmlExceptionTest extends TestCase
 {
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $element = $this->getElementMock();
 
         $driver->expects($this->any())

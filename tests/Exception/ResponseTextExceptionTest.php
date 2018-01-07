@@ -3,12 +3,13 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ResponseTextException;
+use PHPUnit\Framework\TestCase;
 
-class ResponseTextExceptionTest extends \PHPUnit_Framework_TestCase
+class ResponseTextExceptionTest extends TestCase
 {
     public function testExceptionToString()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
 
         $driver->expects($this->any())
             ->method('getStatusCode')

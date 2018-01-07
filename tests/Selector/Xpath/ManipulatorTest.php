@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests\Selector\Xpath;
 
 use Behat\Mink\Selector\Xpath\Manipulator;
+use PHPUnit\Framework\TestCase;
 
-class ManipulatorTest extends \PHPUnit_Framework_TestCase
+class ManipulatorTest extends TestCase
 {
     /**
      * @dataProvider getPrependedXpath

@@ -4,8 +4,9 @@ namespace Behat\Mink\Tests;
 
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\WebAssert;
+use PHPUnit\Framework\TestCase;
 
-class WebAssertTest extends \PHPUnit_Framework_TestCase
+class WebAssertTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -23,7 +24,7 @@ class WebAssertTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->session->expects($this->any())
             ->method('getDriver')
-            ->will($this->returnValue($this->getMock('Behat\Mink\Driver\DriverInterface')));
+            ->will($this->returnValue($this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock()));
 
         $this->assert = new WebAssert($this->session);
     }

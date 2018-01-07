@@ -3,15 +3,16 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementNotFoundException;
+use PHPUnit\Framework\TestCase;
 
-class ElementNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
+class ElementNotFoundExceptionTest extends TestCase
 {
     /**
      * @dataProvider provideExceptionMessage
      */
     public function testBuildMessage($message, $type, $selector = null, $locator = null)
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
 
         $exception = new ElementNotFoundException($driver, $type, $selector, $locator);
 
@@ -35,7 +36,7 @@ class ElementNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructWithSession()
     {
-        $driver = $this->getMock('Behat\Mink\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
             ->getMock();

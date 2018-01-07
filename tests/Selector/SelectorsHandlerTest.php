@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\SelectorsHandler;
+use PHPUnit\Framework\TestCase;
 
-class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
+class SelectorsHandlerTest extends TestCase
 {
     public function testRegisterSelector()
     {
@@ -67,7 +68,13 @@ class SelectorsHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($ret, $handler->selectorToXpath('custom_selector', $locator));
 
-        $this->setExpectedException('InvalidArgumentException');
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('InvalidArgumentException');
+        } else {
+            // BC with PHPUnit 4 used for PHP 5.5 and older
+            $this->setExpectedException('InvalidArgumentException');
+        }
+
         $handler->selectorToXpath('undefined', 'asd');
     }
 

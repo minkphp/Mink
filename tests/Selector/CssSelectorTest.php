@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\CssSelector;
+use PHPUnit\Framework\TestCase;
 
-class CssSelectorTest extends \PHPUnit_Framework_TestCase
+class CssSelectorTest extends TestCase
 {
     protected function setUp()
     {

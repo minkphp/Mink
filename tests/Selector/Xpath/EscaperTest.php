@@ -3,8 +3,9 @@
 namespace Behat\Mink\Tests\Selector\Xpath;
 
 use Behat\Mink\Selector\Xpath\Escaper;
+use PHPUnit\Framework\TestCase;
 
-class EscaperTest extends \PHPUnit_Framework_TestCase
+class EscaperTest extends TestCase
 {
     /**
      * @dataProvider getXpathLiterals
