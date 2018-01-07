@@ -199,11 +199,11 @@ XPATH
      */
     public function translateToXPath($locator)
     {
-        if (2 < count($locator)) {
-            throw new \InvalidArgumentException('NamedSelector expects array(name, locator) as argument');
-        }
+        if (\is_array($locator)) {
+            if (2 !== \count($locator)) {
+                throw new \InvalidArgumentException('NamedSelector expects array(name, locator) as argument');
+            }
 
-        if (2 == count($locator)) {
             $selector = $locator[0];
             $locator = $locator[1];
         } else {
