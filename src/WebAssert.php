@@ -342,7 +342,7 @@ class WebAssert
     }
 
     /**
-     * Checks that page HTML (response content) contains text n times.
+     * Checks that page HTML (response content) contains case insensitive text n times.
      *
      * @param string  $text   expected text
      *
@@ -358,7 +358,7 @@ class WebAssert
             $text,
             $number
         );
-        $this->assert(substr_count($actual, $text) === $number, $message);
+        $this->assert(substr_count(strtolower($actual), strtolower($text)) === $number, $message);
     }
 
     /**
