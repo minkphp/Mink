@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Tests\helpers\Stringer;
 use Behat\Mink\WebAssert;
 use PHPUnit\Framework\TestCase;
 
@@ -255,7 +256,7 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderContains', array('foo', 'ba'));
+        $this->assertCorrectAssertion('responseHeaderContains', array('foo', new Stringer('ba')));
         $this->assertWrongAssertion(
             'responseHeaderContains',
             array('bar', 'bz'),
@@ -276,7 +277,7 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', 'bz'));
+        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', new Stringer('bz')));
         $this->assertWrongAssertion(
             'responseHeaderNotContains',
             array('bar', 'ba'),
@@ -458,7 +459,7 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some page text'))
         ;
 
-        $this->assertCorrectAssertion('responseContains', array('PAGE text'));
+        $this->assertCorrectAssertion('responseContains', array(new Stringer('PAGE text')));
         $this->assertWrongAssertion(
             'responseContains',
             array('html text'),
@@ -486,7 +487,7 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some html text'))
         ;
 
-        $this->assertCorrectAssertion('responseNotContains', array('PAGE text'));
+        $this->assertCorrectAssertion('responseNotContains', array(new Stringer('PAGE text')));
         $this->assertWrongAssertion(
             'responseNotContains',
             array('HTML text'),
