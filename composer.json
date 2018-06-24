@@ -27,6 +27,7 @@
         "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
         "behat/mink-goutte-driver":     "fast headless driver for any app without JS emulation",
         "behat/mink-selenium2-driver":  "slow, but JS-enabled driver for any app (requires Selenium2)",
+        "dmore/chrome-mink-driver":     "fast and JS-enabled driver for any app (requires chromium or google chrome)",
         "behat/mink-zombie-driver":     "fast and JS-enabled headless driver for any app (requires node.js)"
     },
 
