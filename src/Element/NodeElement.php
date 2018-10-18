@@ -239,9 +239,9 @@ class NodeElement extends TraversableElement
 
     /**
      * Returns that the option is in the element or not.
-     * 
+     *
      * @param string $option
-     * @return Boolean
+     * @return Boolean|null
      */
     public function hasOption($option)
     {
