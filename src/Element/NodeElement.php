@@ -244,15 +244,11 @@ class NodeElement extends TraversableElement
      * @return Boolean
      */
     public function hasOption($option){
-        $previousValue=$this->getValue();
-        try{
-            $this->selectOption($value);
-            $this->setValue($previousValue);
-            return true;
+        if ('select' !== $this->getTagName()) {
+            return;
         }
-        catch (ElementNotFoundException $e){
-            return false;
-        }
+        $optionElement=$this->find('named', array('option', $option));
+        return $optionElement!==null;
     }
 
     /**
