@@ -247,8 +247,8 @@ class NodeElement extends TraversableElement
         if ('select' !== $this->getTagName()) {
             return;
         }
-        $optionElement=$this->find('named', array('option', $option));
-        return $optionElement!==null;
+        $optionElement = $this->find('named', array('option', $option));
+        return $optionElement !== null;
     }
 
     /**
