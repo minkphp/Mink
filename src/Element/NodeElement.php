@@ -243,11 +243,14 @@ class NodeElement extends TraversableElement
      * @param string $option
      * @return Boolean
      */
-    public function hasOption($option){
+    public function hasOption($option)
+    {
         if ('select' !== $this->getTagName()) {
             return;
         }
+
         $optionElement = $this->find('named', array('option', $option));
+
         return $optionElement !== null;
     }
 
