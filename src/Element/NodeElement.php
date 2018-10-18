@@ -238,6 +238,24 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Returns that the element has the find option or not.
+     * 
+     * @param string $option
+     * @return Boolean
+     */
+    public function hasOption($option){
+        $previousValue=$this->getValue();
+        try{
+            $this->selectOption($value);
+            $this->setValue($previousValue);
+            return true;
+        }
+        catch (ElementNotFoundException $e){
+            return false;
+        }
+    }
+
+    /**
      * Checks whether current node is selected if it's a option field.
      *
      * Calling this method on any other elements is not allowed.
