@@ -238,7 +238,7 @@ class NodeElement extends TraversableElement
     }
 
     /**
-     * Returns that the element has the find option or not.
+     * Returns that the option is in the element or not.
      * 
      * @param string $option
      * @return Boolean
