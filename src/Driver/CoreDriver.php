@@ -182,7 +182,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function setAutocompleteValue($xpath, $value)
     {
-        throw new UnsupportedDriverActionException('Setting the field value is not supported by %s', $this);
+        throw new UnsupportedDriverActionException('Setting the auto-complete field value is not supported by %s', $this);
     }
 
     /**
