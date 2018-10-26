@@ -36,16 +36,4 @@ class DocumentElement extends TraversableElement
     {
         return trim($this->getDriver()->getContent());
     }
-
-    /**
-     * Check whether document has specified content.
-     *
-     * @param string $content
-     *
-     * @return Boolean
-     */
-    public function hasContent($content)
-    {
-        return $this->has('named', array('content', $content));
-    }
 }

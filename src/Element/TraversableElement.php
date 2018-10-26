@@ -294,4 +294,16 @@ abstract class TraversableElement extends Element
 
         $field->attachFile($path);
     }
+
+    /**
+     * Check whether element has specified content.
+     *
+     * @param string $content
+     *
+     * @return Boolean
+     */
+    public function hasContent($content)
+    {
+        return $this->has('named', array('content', $content));
+    }
 }
