@@ -538,6 +538,18 @@ class NodeElementTest extends ElementTest
         $node->keyUp('key');
     }
 
+    public function testPressKey()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('pressKey')
+            ->with('elem', 'key');
+
+        $node->pressKey('key');
+    }
+
     public function testSubmitForm()
     {
         $node = new NodeElement('some_xpath', $this->session);

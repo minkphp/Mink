@@ -525,6 +525,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
      */
     public function keyPress($xpath, $char, $modifier = null);
 
@@ -537,6 +539,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
      */
     public function keyDown($xpath, $char, $modifier = null);
 
@@ -549,8 +553,22 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
      */
     public function keyUp($xpath, $char, $modifier = null);
+
+    /**
+     * Send a sequence of key strokes to the active element
+     *
+     * @param string     $xpath
+     * @param string|int $char     could be either char ('b') or char-code (98)
+     * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @throws UnsupportedDriverActionException When operation not supported by the driver
+     * @throws DriverException                  When the operation cannot be done
+     */
+    public function pressKey($xpath, $char, $modifier = null);
 
     /**
      * Drag one element onto another.
