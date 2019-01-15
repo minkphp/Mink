@@ -526,7 +526,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      *
-     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
+     * @deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.
      */
     public function keyPress($xpath, $char, $modifier = null);
 
@@ -540,7 +540,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      *
-     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
+     * @deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.
      */
     public function keyDown($xpath, $char, $modifier = null);
 
@@ -554,7 +554,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      *
-     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
+     * @deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.
      */
     public function keyUp($xpath, $char, $modifier = null);
 
