@@ -502,6 +502,9 @@ class NodeElementTest extends ElementTest
         $node->dragTo($target);
     }
 
+    /**
+     * @group legacy
+     */
     public function testKeyPress()
     {
         $node = new NodeElement('elem', $this->session);
@@ -514,6 +517,9 @@ class NodeElementTest extends ElementTest
         $node->keyPress('key');
     }
 
+    /**
+     * @group legacy
+     */
     public function testKeyDown()
     {
         $node = new NodeElement('elem', $this->session);
@@ -526,6 +532,9 @@ class NodeElementTest extends ElementTest
         $node->keyDown('key');
     }
 
+    /**
+     * @group legacy
+     */
     public function testKeyUp()
     {
         $node = new NodeElement('elem', $this->session);
