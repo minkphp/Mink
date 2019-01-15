@@ -315,6 +315,7 @@ class NodeElement extends TraversableElement
      */
     public function keyPress($char, $modifier = null)
     {
+        @trigger_error('Method "keyPress" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
     }
 
@@ -328,6 +329,7 @@ class NodeElement extends TraversableElement
      */
     public function keyDown($char, $modifier = null)
     {
+        @trigger_error('Method "keyDown" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
     }
 
@@ -341,6 +343,7 @@ class NodeElement extends TraversableElement
      */
     public function keyUp($char, $modifier = null)
     {
+        @trigger_error('Method "keyUp" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
 
