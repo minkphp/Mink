@@ -4,8 +4,6 @@ namespace Behat\Mink\Tests\Helper;
 
 /**
  * A container class to hold a string.
- *
- * @package Behat\Mink\Tests\helpers
  */
 class Stringer
 {
