@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Tests\Helper\Stringer;
 use Behat\Mink\WebAssert;
 use PHPUnit\Framework\TestCase;
 
@@ -285,6 +286,50 @@ class WebAssertTest extends TestCase
         );
     }
 
+    public function testResponseHeaderContainsObjectWithToString()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will($this->returnValueMap(
+              array(
+                array('foo', 'bar'),
+                array('bar', 'baz'),
+              )
+            ));
+
+        $this->assertCorrectAssertion('responseHeaderContains', array('foo', new Stringer('ba')));
+        $this->assertWrongAssertion(
+            'responseHeaderContains',
+            array('bar', 'bz'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The text "bz" was not found anywhere in the "bar" response header.'
+        );
+    }
+
+    public function testResponseHeaderNotContainsObjectWithToString()
+    {
+        $this->session
+            ->expects($this->any())
+            ->method('getResponseHeader')
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array('foo', 'bar'),
+                        array('bar', 'baz'),
+                    )
+                )
+            );
+
+        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', new Stringer('bz')));
+        $this->assertWrongAssertion(
+            'responseHeaderNotContains',
+            array('bar', 'ba'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The text "ba" was found in the "bar" response header, but it should not.'
+        );
+    }
+
     public function testResponseHeaderMatches()
     {
         $this->session
@@ -487,6 +532,62 @@ class WebAssertTest extends TestCase
         ;
 
         $this->assertCorrectAssertion('responseNotContains', array('PAGE text'));
+        $this->assertWrongAssertion(
+            'responseNotContains',
+            array('HTML text'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The string "HTML text" appears in the HTML response of this page, but it should not.'
+        );
+    }
+
+    public function testResponseContainsObjectWithToString()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('getContent')
+            ->will($this->returnValue('Some page text'))
+        ;
+
+        $this->assertCorrectAssertion('responseContains', array(new Stringer('PAGE text')));
+        $this->assertWrongAssertion(
+            'responseContains',
+            array('html text'),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The string "html text" was not found anywhere in the HTML response of the current page.'
+        );
+    }
+
+    public function testResponseNotContainsObjectWithToString()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('getContent')
+            ->will($this->returnValue('Some html text'))
+        ;
+
+        $this->assertCorrectAssertion('responseNotContains', array(new Stringer('PAGE text')));
         $this->assertWrongAssertion(
             'responseNotContains',
             array('HTML text'),
