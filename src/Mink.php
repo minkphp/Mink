@@ -64,7 +64,7 @@ class Mink
      *
      * @param string $name
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasSession($name)
     {

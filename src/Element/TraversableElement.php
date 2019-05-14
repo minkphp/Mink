@@ -36,7 +36,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator link id, title, text or image alt
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasLink($locator)
     {
@@ -78,7 +78,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator button id, value or alt
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasButton($locator)
     {
@@ -120,7 +120,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasField($locator)
     {
@@ -165,7 +165,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return Boolean
+     * @return boolean
      *
      * @see NodeElement::isChecked
      */
@@ -181,7 +181,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return Boolean
+     * @return boolean
      *
      * @see NodeElement::isChecked
      */
@@ -233,7 +233,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator select id, name or label
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasSelect($locator)
     {
@@ -245,7 +245,7 @@ abstract class TraversableElement extends Element
      *
      * @param string  $locator  input id, name or label
      * @param string  $value    option value
-     * @param Boolean $multiple select multiple options
+     * @param boolean $multiple select multiple options
      *
      * @throws ElementNotFoundException
      *
@@ -267,7 +267,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator table id or caption
      *
-     * @return Boolean
+     * @return boolean
      */
     public function hasTable($locator)
     {
