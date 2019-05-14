@@ -53,7 +53,7 @@ interface DriverInterface
     /**
      * Checks whether driver is started.
      *
-     * @return Boolean
+     * @return boolean
      */
     public function isStarted();
 
@@ -142,7 +142,7 @@ interface DriverInterface
     /**
      * Sets HTTP Basic authentication parameters.
      *
-     * @param string|Boolean $user     user name or false to disable authentication
+     * @param string|boolean $user     user name or false to disable authentication
      * @param string         $password password
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
@@ -394,7 +394,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return Boolean
+     * @return boolean
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -408,7 +408,7 @@ interface DriverInterface
      *
      * @param string  $xpath
      * @param string  $value
-     * @param Boolean $multiple
+     * @param boolean $multiple
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -422,7 +422,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return Boolean
+     * @return boolean
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -479,7 +479,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return Boolean
+     * @return boolean
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done

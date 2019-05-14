@@ -47,7 +47,7 @@ class Session
     /**
      * Checks whether session (driver) was started.
      *
-     * @return Boolean
+     * @return boolean
      */
     public function isStarted()
     {
@@ -151,7 +151,7 @@ class Session
     /**
      * Sets HTTP Basic authentication parameters.
      *
-     * @param string|Boolean $user     user name or false to disable authentication
+     * @param string|boolean $user     user name or false to disable authentication
      * @param string         $password password
      */
     public function setBasicAuth($user, $password = '')
