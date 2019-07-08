@@ -343,7 +343,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return string|bool|array
+     * @return string|bool|array|null
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
