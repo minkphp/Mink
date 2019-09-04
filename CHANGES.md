@@ -18,7 +18,7 @@ Testsuite:
 * Objects with __toString() can be asserted.
 * Add testing on PHP 7.2
 * Add compatibility with PHPUnit 6
-* Remove the driver testsuite
+* Extracted driver test suite into separate repository.
 
 Misc:
 
