@@ -6,6 +6,7 @@ New features:
 * Allow using XPath union operator (`|`) in XPath expressions, when searching for elements on the page
 * Auto-start session only upon 1st "->visit(...)" method call
 * Allow using this library for testing projects built on Symfony 4
+* Objects with __toString() can be asserted
 
 Bug fixes:
 
@@ -17,7 +18,6 @@ Testsuite:
 
 * Don't install PHPUnit 8.0
 * Fixed PHP 5.4 and PHP 5.5 builds
-* Objects with __toString() can be asserted
 * Added build for PHP 7.2
 * Extracted driver test suite into separate repository
 
