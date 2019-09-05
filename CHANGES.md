@@ -10,13 +10,10 @@ New features:
 
 Bug fixes:
 
-* DriverInterface#getValue() can return null
 * Fixed compatibility with PHP 7.2
-* Optimize the splitting of XPath unions
 
 Testsuite:
 
-* Don't install PHPUnit 8.0
 * Fixed PHP 5.4 and PHP 5.5 builds
 * Added build for PHP 7.2
 * Extracted driver test suite into separate repository
@@ -24,7 +21,6 @@ Testsuite:
 Misc:
 
 * Rename boolean type in lowercase
-* Suggest chrome-mink-driver as fast JS-enabled alternative to selenium
 
 1.7.1 / 2016-03-05
 ==================
