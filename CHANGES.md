@@ -1,32 +1,30 @@
-1.7.2 / 2019-09-XX
+1.8.0 / 2019-09-XX
 ==================
+
+New features:
+
+* Allow using XPath union operator (`|`) in XPath expressions, when searching for elements on the page
+* Auto-start session only upon 1st "->visit(...)" method call
+* Allow using this library for testing projects built on Symfony 4
 
 Bug fixes:
 
 * DriverInterface#getValue() can return null
-* Modify response[Contains|NotContains] to use strpos vs preg_match
-* Fix compatibility with PHP 7.2
-* Allow Symfony 4.
+* Fixed compatibility with PHP 7.2
 * Optimize the splitting of XPath unions
-* Allow pipes (|) in attributes by implementing better XPath parsing
-* Auto-start session only upon 1st "->visit(...)" method call
 
 Testsuite:
 
 * Don't install PHPUnit 8.0
-* Fix PHP 5.4 and PHP 5.5 builds
-* Objects with __toString() can be asserted.
-* Add testing on PHP 7.2
-* Add compatibility with PHPUnit 6
-* Extracted driver test suite into separate repository.
+* Fixed PHP 5.4 and PHP 5.5 builds
+* Objects with __toString() can be asserted
+* Added build for PHP 7.2
+* Extracted driver test suite into separate repository
 
 Misc:
 
 * Rename boolean type in lowercase
 * Suggest chrome-mink-driver as fast JS-enabled alternative to selenium
-* Use ! operator instead of === false
-* Improved variable names and simplified quote logic
-* Changed method visibility to private and variable name to camle case
 
 1.7.1 / 2016-03-05
 ==================
