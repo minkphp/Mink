@@ -5,7 +5,6 @@
     "homepage":     "http://mink.behat.org/",
     "type":         "library",
     "license":      "MIT",
-    "minimum-stability": "dev",
 
     "authors": [
         {
