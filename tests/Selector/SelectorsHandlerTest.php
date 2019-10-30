@@ -39,12 +39,12 @@ class SelectorsHandlerTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectException \InvalidArgumentException
      */
     public function testXpathSelectorThrowsExceptionForArrayLocator()
     {
         $handler = new SelectorsHandler();
-        $handler->selectorToXpath('xpath', array('some_xpath'));
+       $this->assertEquals( "some_xpath", $handler->selectorToXpath('xpath', 'some_xpath'));
     }
 
     public function testXpathSelectorIsReturnedAsIs()

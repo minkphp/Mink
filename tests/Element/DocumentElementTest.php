@@ -13,7 +13,7 @@ class DocumentElementTest extends ElementTest
      */
     private $document;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->document = new DocumentElement($this->session);

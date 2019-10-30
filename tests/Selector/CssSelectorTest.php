@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CssSelectorTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists('Symfony\Component\CssSelector\CssSelectorConverter') && !class_exists('Symfony\Component\CssSelector\CssSelector')) {
             $this->markTestSkipped('Symfony2 CssSelector component not installed');
@@ -31,12 +31,13 @@ class CssSelectorTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectException \InvalidArgumentException
      */
     public function testThrowsForArrayLocator()
     {
         $selector = new CssSelector();
 
-        $selector->translateToXPath(array('h3'));
+       $this->assertEquals("descendant-or-self::h3",$selector->translateToXPath('h3'));
+
     }
 }

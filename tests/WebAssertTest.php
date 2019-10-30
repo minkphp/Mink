@@ -18,7 +18,7 @@ class WebAssertTest extends TestCase
      */
     private $assert;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()

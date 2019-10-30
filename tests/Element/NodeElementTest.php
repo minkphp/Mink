@@ -112,12 +112,12 @@ class NodeElementTest extends ElementTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectException \InvalidArgumentException
      */
     public function testWaitForFailure()
     {
         $node = new NodeElement('some xpath', $this->session);
-        $node->waitFor(5, 'not a callable');
+        $node->waitFor(5,  $this->expectException('InvalidArgumentException'));
     }
 
     public function testHasAttribute()
@@ -315,7 +315,7 @@ class NodeElementTest extends ElementTest
     }
 
     /**
-     * @expectedException \Behat\Mink\Exception\ElementNotFoundException
+     * @expectException \Behat\Mink\Exception\ElementNotFoundException
      */
     public function testSelectOptionNotFound()
     {
