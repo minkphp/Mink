@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CssSelectorTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists('Symfony\Component\CssSelector\CssSelectorConverter') && !class_exists('Symfony\Component\CssSelector\CssSelector')) {
             $this->markTestSkipped('Symfony2 CssSelector component not installed');

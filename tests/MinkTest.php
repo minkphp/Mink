@@ -12,7 +12,7 @@ class MinkTest extends TestCase
      */
     private $mink;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mink = new Mink();
     }

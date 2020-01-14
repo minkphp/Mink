@@ -2,32 +2,22 @@ language: php
 
 sudo: false
 
-php: [5.6, 7.0, 7.1, 7.2]
+php:
+  - 7.2
+  - 7.3
+  - 7.4
 
-matrix:
-  fast_finish: true
-  include:
-    - php: 5.3
-      dist: precise
-    - php: 5.4
-      dist: trusty
-    - php: 5.5
-      dist: trusty
-    - php: 7.1
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
-    - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
+env:
+  - SYMFONY_VERSION=3.4.*
+  - SYMFONY_VERSION=4.4.*
+  - SYMFONY_VERSION=5.0.*
 
 cache:
   directories:
-    - $HOME/.composer/cache/files
     - $HOME/symfony-bridge/.phpunit
 
-before_install:
-  - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
-
 install:
-  - composer update $COMPOSER_FLAGS
+  - composer require symfony/css-selector:$SYMFONY_VERSION
   - vendor/bin/simple-phpunit install
 
 script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
