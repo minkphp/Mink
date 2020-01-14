@@ -1,5 +1,5 @@
 {
-    "name":         "behat/mink",
+    "name":         "friends-of-behat/mink",
     "description":  "Browser controller/emulator abstraction for PHP",
     "keywords":     ["web", "testing", "browser"],
     "homepage":     "http://mink.behat.org/",
@@ -21,6 +21,10 @@
 
     "require-dev": {
         "symfony/phpunit-bridge": "^4.2"
+    },
+
+    "replace": {
+        "behat/mink": "self.version"
     },
 
     "suggest": {
