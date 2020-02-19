@@ -5,9 +5,10 @@ namespace Behat\Mink\Tests\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Session;
 use Behat\Mink\Selector\SelectorsHandler;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-abstract class ElementTest extends TestCase
+abstract class ElementTest extends BaseTestCase
 {
     /**
      * Session.
@@ -17,14 +18,14 @@ abstract class ElementTest extends TestCase
     protected $session;
 
     /**
-     * @var DriverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var DriverInterface|MockObject
      */
     protected $driver;
 
     /**
      * Selectors.
      *
-     * @var SelectorsHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var SelectorsHandler|MockObject
      */
     protected $selectors;
 

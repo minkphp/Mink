@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementNotFoundException;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class ElementNotFoundExceptionTest extends TestCase
+class ElementNotFoundExceptionTest extends BaseTestCase
 {
     /**
      * @dataProvider provideExceptionMessage

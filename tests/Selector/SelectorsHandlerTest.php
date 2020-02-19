@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\SelectorsHandler;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class SelectorsHandlerTest extends TestCase
+class SelectorsHandlerTest extends BaseTestCase
 {
     public function testRegisterSelector()
     {
@@ -38,11 +38,9 @@ class SelectorsHandlerTest extends TestCase
         $this->assertTrue($handler->isSelectorRegistered('named_partial'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testXpathSelectorThrowsExceptionForArrayLocator()
     {
+        $this->expectException('\InvalidArgumentException');
         $handler = new SelectorsHandler();
         $handler->selectorToXpath('xpath', array('some_xpath'));
     }

@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ResponseTextException;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class ResponseTextExceptionTest extends TestCase
+class ResponseTextExceptionTest extends BaseTestCase
 {
     public function testExceptionToString()
     {

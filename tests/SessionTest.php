@@ -3,12 +3,12 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Session;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class SessionTest extends TestCase
+class SessionTest extends BaseTestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     private $driver;
     private $selectorsHandler;

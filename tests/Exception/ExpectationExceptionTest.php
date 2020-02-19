@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ExpectationException;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class ExpectationExceptionTest extends TestCase
+class ExpectationExceptionTest extends BaseTestCase
 {
     public function testEmptyMessageAndPreviousException()
     {

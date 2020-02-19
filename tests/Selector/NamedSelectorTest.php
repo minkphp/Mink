@@ -4,9 +4,9 @@ namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\Xpath\Escaper;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-abstract class NamedSelectorTest extends TestCase
+abstract class NamedSelectorTest extends BaseTestCase
 {
     public function testRegisterXpath()
     {
@@ -25,11 +25,9 @@ abstract class NamedSelectorTest extends TestCase
         $selector->translateToXPath('custom');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidLocator()
     {
+        $this->expectException('\InvalidArgumentException');
         $namedSelector = $this->getSelector();
 
         $namedSelector->translateToXPath(array('foo', 'bar', 'baz'));

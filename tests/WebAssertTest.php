@@ -5,12 +5,12 @@ namespace Behat\Mink\Tests;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Tests\Helper\Stringer;
 use Behat\Mink\WebAssert;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class WebAssertTest extends TestCase
+class WebAssertTest extends BaseTestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     private $session;
     /**

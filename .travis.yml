@@ -2,21 +2,31 @@ language: php
 
 sudo: false
 
-php: [5.6, 7.0, 7.1, 7.2]
-
 matrix:
   fast_finish: true
   include:
     - php: 5.3
       dist: precise
+      env:
+       - PHPUNIT_PHAR_VERSION=4
     - php: 5.4
       dist: trusty
+      env:
+       - PHPUNIT_PHAR_VERSION=4
     - php: 5.5
       dist: trusty
+      env:
+       - PHPUNIT_PHAR_VERSION=4
+    - php: 5.6
+    - php: 7.0
     - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
     - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
+    - php: 7.3
+    - php: 7.4
+  allow_failures:
+    - php: 7.4
+      env: DEPENDENCIES=dev
 
 cache:
   directories:
@@ -27,10 +37,21 @@ before_install:
   - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
 
 install:
+  - |
+    if [ "$PHPUNIT_PHAR_VERSION" ]; then
+      composer remove symfony/phpunit-bridge --dev
+      wget -O phpunit "https://phar.phpunit.de/phpunit-$PHPUNIT_PHAR_VERSION.phar"
+      chmod +x phpunit
+    fi;
   - composer update $COMPOSER_FLAGS
-  - vendor/bin/simple-phpunit install
 
-script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
+script:
+  - |
+    if [ "$PHPUNIT_PHAR_VERSION" ]; then
+      ./phpunit
+    else
+      ./vendor/bin/simple-phpunit
+    fi;
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

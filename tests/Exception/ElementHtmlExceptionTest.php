@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Exception;
 
 use Behat\Mink\Exception\ElementHtmlException;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class ElementHtmlExceptionTest extends TestCase
+class ElementHtmlExceptionTest extends BaseTestCase
 {
     public function testExceptionToString()
     {

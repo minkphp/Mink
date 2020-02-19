@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit colors="true" bootstrap="vendor/autoload.php">
+    <php>
+        <env name="SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT" value="true"/>
+    </php>
+
     <testsuites>
         <testsuite name="Behat Mink test suite">
             <directory>tests</directory>

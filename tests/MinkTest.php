@@ -3,9 +3,8 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Mink;
-use PHPUnit\Framework\TestCase;
 
-class MinkTest extends TestCase
+class MinkTest extends BaseTestCase
 {
     /**
      * @var Mink

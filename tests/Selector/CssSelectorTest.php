@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\CssSelector;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class CssSelectorTest extends TestCase
+class CssSelectorTest extends BaseTestCase
 {
     protected function setUp()
     {
@@ -30,11 +30,9 @@ class CssSelectorTest extends TestCase
         $this->assertEquals($expectation, $selector->translateToXPath('h3 > .my_div'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowsForArrayLocator()
     {
+        $this->expectException('\InvalidArgumentException');
         $selector = new CssSelector();
 
         $selector->translateToXPath(array('h3'));

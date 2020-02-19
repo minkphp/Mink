@@ -3,9 +3,9 @@
 namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Element\NodeElement;
-use PHPUnit\Framework\TestCase;
+use Behat\Mink\Tests\BaseTestCase;
 
-class CoreDriverTest extends TestCase
+class CoreDriverTest extends BaseTestCase
 {
     public function testNoExtraMethods()
     {
@@ -40,7 +40,7 @@ class CoreDriverTest extends TestCase
         /** @var NodeElement[] $elements */
         $elements = $driver->find('xpath');
 
-        $this->assertInternalType('array', $elements);
+        $this->assertIsArray($elements);
         $this->assertCount(2, $elements);
         $this->assertContainsOnlyInstancesOf('Behat\Mink\Element\NodeElement', $elements);
 
