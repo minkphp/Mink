@@ -22,11 +22,11 @@ matrix:
     - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
     - php: 7.2
+      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
     - php: 7.3
+      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
     - php: 7.4
-  allow_failures:
-    - php: 7.4
-      env: DEPENDENCIES=dev
+      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
 
 cache:
   directories:
