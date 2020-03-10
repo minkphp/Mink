@@ -28,6 +28,8 @@ cache:
 
 before_install:
   - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
+  # Install symfony/error-handler on compatible PHP versions to avoid a deprecation warning of the old DebugClassLoader and ErrorHandler classes
+  - if [[ "$TRAVIS_PHP_VERSION" != 5.* && "$TRAVIS_PHP_VERSION" != 7.0 ]]; then composer require --no-update --dev symfony/error-handler "^4.4 || ^5.0"; fi;
 
 install:
   - composer update $COMPOSER_FLAGS
