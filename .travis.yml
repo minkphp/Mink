@@ -16,25 +16,25 @@ matrix:
     - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER=weak
     - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
+      env: DEPENDENCIES=dev
     - php: 7.3
-      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
+      env: DEPENDENCIES=dev
     - php: 7.4
-      env: DEPENDENCIES=dev SYMFONY_PHPUNIT_VERSION=7.5
+      env: DEPENDENCIES=dev
 
 cache:
   directories:
     - $HOME/.composer/cache/files
-    - $HOME/symfony-bridge/.phpunit
 
 before_install:
   - if [ "$DEPENDENCIES" = "dev" ]; then composer config minimum-stability dev; fi;
+  # Install symfony/error-handler on compatible PHP versions to avoid a deprecation warning of the old DebugClassLoader and ErrorHandler classes
+  - if [[ "$TRAVIS_PHP_VERSION" != 5.* && "$TRAVIS_PHP_VERSION" != 7.0 ]]; then composer require --no-update --dev symfony/error-handler "^4.4 || ^5.0"; fi;
 
 install:
   - composer update $COMPOSER_FLAGS
-  - vendor/bin/simple-phpunit install
 
-script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
+script: vendor/bin/phpunit -v --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
