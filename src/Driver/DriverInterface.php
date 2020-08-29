@@ -578,6 +578,12 @@ interface DriverInterface
      *
      * The "return" keyword is optional in the script passed as argument. Driver implementations
      * must accept the expression both with and without the keyword.
+     * Multiline scripts must be wrapped in an immediately-invoked
+     * function expression.
+     * Examples of valid scripts:
+     * - '1 + 1'
+     * - 'return 1 + 1;'
+     * - '(function () {return 1 + 1;})()'
      *
      * @param string $script
      *
