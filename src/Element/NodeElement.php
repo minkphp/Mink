@@ -106,6 +106,18 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Sends keys to an input element
+     *
+     * Calling this method on other elements than form fields is not allowed.
+     *
+     * @param string|bool|array $value
+     */
+    public function sendKeys($value)
+    {
+        $this->getDriver()->sendKeys($this->getXpath(), $value);
+    }
+
+    /**
      * Checks whether element has attribute with specified name.
      *
      * @param string $name
