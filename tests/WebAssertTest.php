@@ -1062,17 +1062,13 @@ class WebAssertTest extends TestCase
         ;
 
         $element
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('hasAttribute')
             ->with('name')
-            ->will($this->returnValue(true))
-        ;
-
-        $element
-            ->expects($this->at(1))
-            ->method('hasAttribute')
-            ->with('name')
-            ->will($this->returnValue(false))
+            ->willReturnOnConsecutiveCalls(
+                $this->returnValue(true),
+                $this->returnValue(false)
+            )
         ;
 
         $this->assertCorrectAssertion('elementAttributeExists', array('css', 'h2 > span', 'name'));

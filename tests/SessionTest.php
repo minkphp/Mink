@@ -76,10 +76,18 @@ class SessionTest extends TestCase
 
     public function testRestart()
     {
-        $this->driver->expects($this->at(0))
-            ->method('stop');
-        $this->driver->expects($this->at(1))
-            ->method('start');
+        $stopped = false;
+
+        $this->driver->expects($this->once())
+            ->method('stop')
+            ->willReturnCallback(function () use (&$stopped) {
+                $stopped = true;
+            });
+        $this->driver->expects($this->once())
+            ->method('start')
+            ->willReturnCallback(function () use (&$stopped) {
+                $this->assertTrue($stopped);
+            });
 
         $this->session->restart();
     }

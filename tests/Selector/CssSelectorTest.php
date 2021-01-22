@@ -30,11 +30,10 @@ class CssSelectorTest extends TestCase
         $this->assertEquals($expectation, $selector->translateToXPath('h3 > .my_div'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowsForArrayLocator()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $selector = new CssSelector();
 
         $selector->translateToXPath(array('h3'));

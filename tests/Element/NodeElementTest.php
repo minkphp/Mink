@@ -111,11 +111,10 @@ class NodeElementTest extends ElementTest
         $this->assertEquals($expectedTimeout, round($endTime - $startTime));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testWaitForFailure()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $node = new NodeElement('some xpath', $this->session);
         $node->waitFor(5, 'not a callable');
     }
@@ -314,11 +313,10 @@ class NodeElementTest extends ElementTest
         $node->selectOption('item1');
     }
 
-    /**
-     * @expectedException \Behat\Mink\Exception\ElementNotFoundException
-     */
     public function testSelectOptionNotFound()
     {
+        $this->expectException(\Behat\Mink\Exception\ElementNotFoundException::class);
+
         $node = new NodeElement('select', $this->session);
 
         $this->driver
