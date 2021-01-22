@@ -22,7 +22,7 @@ install:
   - composer require symfony/css-selector:$SYMFONY_VERSION
   - vendor/bin/simple-phpunit install
 
-script: vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
+script: XDEBUG_MODE=coverage vendor/bin/simple-phpunit -v --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
