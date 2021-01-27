@@ -20,7 +20,7 @@
     },
 
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.2"
+        "symfony/phpunit-bridge": "^5.2"
     },
 
     "replace": {
