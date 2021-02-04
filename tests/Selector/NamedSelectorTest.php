@@ -25,11 +25,10 @@ abstract class NamedSelectorTest extends TestCase
         $selector->translateToXPath('custom');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidLocator()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $namedSelector = $this->getSelector();
 
         $namedSelector->translateToXPath(array('foo', 'bar', 'baz'));

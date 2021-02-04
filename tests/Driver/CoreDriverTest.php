@@ -23,7 +23,7 @@ class CoreDriverTest extends TestCase
     public function testCreateNodeElements()
     {
         $driver = $this->getMockBuilder('Behat\Mink\Driver\CoreDriver')
-            ->setMethods(array('findElementXpaths'))
+            ->onlyMethods(array('findElementXpaths'))
             ->getMockForAbstractClass();
 
         $session = $this->getMockBuilder('Behat\Mink\Session')
@@ -40,7 +40,7 @@ class CoreDriverTest extends TestCase
         /** @var NodeElement[] $elements */
         $elements = $driver->find('xpath');
 
-        $this->assertInternalType('array', $elements);
+        $this->assertIsArray($elements);
         $this->assertCount(2, $elements);
         $this->assertContainsOnlyInstancesOf('Behat\Mink\Element\NodeElement', $elements);
 

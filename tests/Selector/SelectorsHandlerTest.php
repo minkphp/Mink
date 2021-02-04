@@ -38,11 +38,10 @@ class SelectorsHandlerTest extends TestCase
         $this->assertTrue($handler->isSelectorRegistered('named_partial'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testXpathSelectorThrowsExceptionForArrayLocator()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $handler = new SelectorsHandler();
         $handler->selectorToXpath('xpath', array('some_xpath'));
     }

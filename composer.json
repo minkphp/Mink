@@ -15,12 +15,12 @@
     ],
 
     "require": {
-        "php":                   "^7.2",
+        "php":                   "^7.2|^8.0",
         "symfony/css-selector":  "^3.4|^4.4|^5.0"
     },
 
     "require-dev": {
-        "symfony/phpunit-bridge": "^4.2"
+        "symfony/phpunit-bridge": "^5.2"
     },
 
     "replace": {
