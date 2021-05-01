@@ -355,8 +355,8 @@ interface DriverInterface
     /**
      * Sets element's value by it's XPath query.
      *
-     * @param string            $xpath
-     * @param string|bool|array $value
+     * @param string                   $xpath
+     * @param string|bool|array|object $value
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
