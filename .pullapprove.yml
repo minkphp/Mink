@@ -1,0 +1,8 @@
+
+version: 3
+extends: "https://api.github.com/repos/medology/Scripts/contents/config/base.pullapprove.yml?ref=master"
+groups:
+  min_global_approvals:
+    reviewers:
+      teams:
+        - Back-end
