@@ -1293,6 +1293,110 @@ class WebAssertTest extends TestCase
         $this->assertCorrectAssertion('fieldValueNotEquals', array('username', ''));
     }
 
+  public function testFieldValueMatches()
+  {
+    $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+      ->disableOriginalConstructor()
+      ->getMock()
+    ;
+
+    $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+      ->disableOriginalConstructor()
+      ->getMock()
+    ;
+
+    $this->session
+      ->expects($this->exactly(4))
+      ->method('getPage')
+      ->will($this->returnValue($page))
+    ;
+
+    $page
+      ->expects($this->exactly(4))
+      ->method('findField')
+      ->with('username')
+      ->will($this->returnValue($element))
+    ;
+
+    $element
+      ->expects($this->exactly(4))
+      ->method('getValue')
+      ->will($this->returnValue(234))
+    ;
+
+    $this->assertCorrectAssertion('fieldValueMatches', array('username', '/234/'));
+    $this->assertWrongAssertion(
+      'fieldValueMatches',
+      array('username', '/235/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/235/" was not found in the value "234" of field "username".'
+    );
+    $this->assertWrongAssertion(
+      'fieldValueMatches',
+      array('username', '/22/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/22/" was not found in the value "234" of field "username".'
+    );
+    $this->assertWrongAssertion(
+      'fieldValueMatches',
+      array('username', '/\D+/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/\D+/" was not found in the value "234" of field "username".'
+    );
+  }
+
+  public function testFieldValueNotMatches()
+  {
+    $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+      ->disableOriginalConstructor()
+      ->getMock()
+    ;
+
+    $element = $this->getMockBuilder('Behat\\Mink\\Element\\NodeElement')
+      ->disableOriginalConstructor()
+      ->getMock()
+    ;
+
+    $this->session
+      ->expects($this->exactly(4))
+      ->method('getPage')
+      ->will($this->returnValue($page))
+    ;
+
+    $page
+      ->expects($this->exactly(4))
+      ->method('findField')
+      ->with('username')
+      ->will($this->returnValue($element))
+    ;
+
+    $element
+      ->expects($this->exactly(4))
+      ->method('getValue')
+      ->will($this->returnValue(235))
+    ;
+
+    $this->assertCorrectAssertion('fieldValueNotMatches', array('username', '/234/'));
+    $this->assertWrongAssertion(
+      'fieldValueNotMatches',
+      array('username', '/235/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/235/" was found in the value "235" of field "username", but it should not.'
+    );
+    $this->assertWrongAssertion(
+      'fieldValueNotMatches',
+      array('username', '/23/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/23/" was found in the value "235" of field "username", but it should not.'
+    );
+    $this->assertWrongAssertion(
+      'fieldValueNotMatches',
+      array('username', '/\d+/'),
+      'Behat\\Mink\\Exception\\ExpectationException',
+      'The pattern "/\d+/" was found in the value "235" of field "username", but it should not.'
+    );
+  }
+
     public function testCheckboxChecked()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
