@@ -192,7 +192,7 @@ class Mink
      */
     protected function locateSession($name = null)
     {
-        $name = strtolower($name) ?: $this->defaultSessionName;
+        $name = $name ? strtolower($name) : $this->defaultSessionName;
 
         if (null === $name) {
             throw new \InvalidArgumentException('Specify session name to get');
