@@ -187,7 +187,7 @@ class WebAssert
      */
     public function responseHeaderContains($name, $value)
     {
-        $actual = $this->session->getResponseHeader($name);
+        $actual = (string) $this->session->getResponseHeader($name);
         $message = sprintf('The text "%s" was not found anywhere in the "%s" response header.', $value, $name);
 
         $this->assert(false !== stripos($actual, (string) $value), $message);
@@ -203,7 +203,7 @@ class WebAssert
      */
     public function responseHeaderNotContains($name, $value)
     {
-        $actual = $this->session->getResponseHeader($name);
+        $actual = (string) $this->session->getResponseHeader($name);
         $message = sprintf('The text "%s" was found in the "%s" response header, but it should not.', $value, $name);
 
         $this->assert(false === stripos($actual, (string) $value), $message);
