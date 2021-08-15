@@ -310,9 +310,12 @@ class NodeElement extends TraversableElement
      *
      * @param string|int $char     could be either char ('b') or char-code (98)
      * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.
      */
     public function keyPress($char, $modifier = null)
     {
+        @trigger_error('Method "keyPress" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
     }
 
@@ -321,9 +324,12 @@ class NodeElement extends TraversableElement
      *
      * @param string|int $char     could be either char ('b') or char-code (98)
      * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
      */
     public function keyDown($char, $modifier = null)
     {
+        @trigger_error('Method "keyDown" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
     }
 
@@ -332,10 +338,24 @@ class NodeElement extends TraversableElement
      *
      * @param string|int $char     could be either char ('b') or char-code (98)
      * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @deprecated Deprecating in favor of `pressKey` which is WebDriver (W3C) compliant
      */
     public function keyUp($char, $modifier = null)
     {
+        @trigger_error('Method "keyUp" is deprecated since version 1.8.0. Use "pressKey" instead, which is WebDriver (W3C) compliant.', E_USER_DEPRECATED);
         $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
+    }
+
+    /**
+     * Send a sequence of key strokes to the active element
+     *
+     * @param string|int $char     could be either char ('b') or char-code (98)
+     * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     */
+    public function pressKey($char, $modifier = null)
+    {
+        $this->getDriver()->pressKey($this->getXpath(), $char, $modifier);
     }
 
     /**

@@ -420,6 +420,14 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
+    public function pressKey($xpath, $char, $modifier = null)
+    {
+        throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dragTo($sourceXpath, $destinationXpath)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
