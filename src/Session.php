@@ -24,6 +24,8 @@ class Session
     private $driver;
     private $page;
     private $selectorsHandler;
+    private $basicAuthUser;
+    private $basicAuthPassword;
 
     /**
      * Initializes session.
@@ -42,6 +44,8 @@ class Session
         $this->driver = $driver;
         $this->selectorsHandler = $selectorsHandler;
         $this->page = new DocumentElement($this);
+        $this->basicAuthUser = NULL;
+        $this->basicAuthPassword = NULL;
     }
 
     /**
@@ -68,6 +72,7 @@ class Session
     public function start()
     {
         $this->driver->start();
+        $this->doBasicAuth();
     }
 
     /**
@@ -101,8 +106,31 @@ class Session
     public function reset()
     {
         $this->driver->reset();
+        $this->doBasicAuth();
     }
 
+    /**
+     * Perform HTTP basic authentication.
+     */
+    public function doBasicAuth() {
+        if ($this->basicAuthUser && $this->basicAuthPassword) {
+            if (!$this->isStarted()) {
+                  $this->start();
+            }
+            $this->setBasicAuth($this->basicAuthUser, $this->basicAuthPassword);
+        }
+    }
+
+    /**
+     * Set basic authentication credentials.
+     */
+    public function setBasicAuthCredentials(string $username, string $password) {
+        if ($username &&  $password) {
+            $this->basicAuthUser = $username;
+            $this->basicAuthPassword = $password;
+        }
+    }
+    
     /**
      * Returns session driver.
      *
