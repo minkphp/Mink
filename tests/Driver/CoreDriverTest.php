@@ -4,9 +4,14 @@ namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Element\NodeElement;
 use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\AssertIsType;
+use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class CoreDriverTest extends TestCase
 {
+    use ExpectException;
+    use AssertIsType;
+
     public function testNoExtraMethods()
     {
         $interfaceRef = new \ReflectionClass('Behat\Mink\Driver\DriverInterface');
@@ -40,7 +45,8 @@ class CoreDriverTest extends TestCase
         /** @var NodeElement[] $elements */
         $elements = $driver->find('xpath');
 
-        $this->assertInternalType('array', $elements);
+        $this->assertIsArray($elements);
+
         $this->assertCount(2, $elements);
         $this->assertContainsOnlyInstancesOf('Behat\Mink\Element\NodeElement', $elements);
 
@@ -66,12 +72,7 @@ class CoreDriverTest extends TestCase
 
         $driver = $this->getMockForAbstractClass('Behat\Mink\Driver\CoreDriver');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\UnsupportedDriverActionException');
-        }
+        $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
 
         call_user_func_array(array($driver, $method->getName()), $this->getArguments($method));
     }

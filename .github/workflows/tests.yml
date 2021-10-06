@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  tests:
+    name: Tests
+    runs-on: Ubuntu-20.04
+
+    strategy:
+      matrix:
+        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+        composer_flags: [ '' ]
+        minimum_stability: [ '' ]
+        symfony_deprecations_helper: [ '' ]
+        include:
+          - php: '7.1'
+            composer_flags: '--prefer-lowest --prefer-stable'
+            symfony_deprecations_helper: weak
+          - php: '8.0'
+            minimum_stability: dev
+          - php: '7.4'
+            minimum_stability: dev
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php }}"
+          tools: composer
+
+      - name: Configure for minimum stability
+        if: "${{ matrix.minimum_stability == 'dev' }}"
+        run: |
+          composer config minimum-stability dev
+
+      - name: Configure for PHP >= 7.1
+        if: "${{ matrix.php >= '7.1' }}"
+        run: |
+          composer require --no-update --dev symfony/error-handler "^4.4 || ^5.0"
+
+      - name: Install dependencies
+        run: |
+          composer update ${{ matrix.composer_flags }}
+
+      - name: Run tests
+        run: |
+          export SYMFONY_DEPRECATIONS_HELPER="${{ matrix.symfony_deprecations_helper }}"
+          vendor/bin/phpunit -v

@@ -20,7 +20,10 @@ class SessionTest extends TestCase
      */
     private $session;
 
-    protected function setUp()
+    /**
+     * @before
+     */
+    protected function prepareSession()
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();

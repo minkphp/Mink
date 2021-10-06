@@ -4,15 +4,11 @@ namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\CssSelector;
 use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class CssSelectorTest extends TestCase
 {
-    protected function setUp()
-    {
-        if (!class_exists('Symfony\Component\CssSelector\CssSelectorConverter') && !class_exists('Symfony\Component\CssSelector\CssSelector')) {
-            $this->markTestSkipped('Symfony2 CssSelector component not installed');
-        }
-    }
+    use ExpectException;
 
     public function testSelector()
     {
@@ -30,11 +26,9 @@ class CssSelectorTest extends TestCase
         $this->assertEquals($expectation, $selector->translateToXPath('h3 > .my_div'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowsForArrayLocator()
     {
+        $this->expectException('\InvalidArgumentException');
         $selector = new CssSelector();
 
         $selector->translateToXPath(array('h3'));

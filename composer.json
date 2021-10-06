@@ -15,15 +15,15 @@
     ],
 
     "require": {
-        "php":                   ">=5.3.1",
+        "php":                   ">=5.4",
         "symfony/css-selector":  "^2.7|^3.0|^4.0|^5.0"
     },
 
     "require-dev": {
-        "symfony/debug": "^2.7|^3.0|^4.0",
-        "symfony/phpunit-bridge": "^3.4.38 || ^5.0.5",
-        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20"
-
+        "symfony/debug": "^2.7|^3.0|^4.0|^5.0",
+        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5 || ^9.5",
+        "symfony/phpunit-bridge": "^3.4.38 || ^4.4 || ^5.0.5",
+        "yoast/phpunit-polyfills": "^1.0"
     },
 
     "suggest": {

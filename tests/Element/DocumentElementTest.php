@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\DocumentElement;
+use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class DocumentElementTest extends ElementTest
 {
+    use ExpectException;
+
     /**
      * Page.
      *
@@ -13,9 +16,12 @@ class DocumentElementTest extends ElementTest
      */
     private $document;
 
-    protected function setUp()
+    /**
+     * @before
+     */
+    protected function prepareSession()
     {
-        parent::setUp();
+        parent::prepareSession();
         $this->document = new DocumentElement($this->session);
     }
 
@@ -274,12 +280,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->clickLink('some link');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->clickLink('some link');
     }
@@ -301,12 +302,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->pressButton('some button');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->pressButton('some button');
     }
@@ -329,12 +325,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->fillField('some field', 'some val');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->fillField('some field', 'some val');
     }
@@ -356,12 +347,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->checkField('some field');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->checkField('some field');
     }
@@ -383,12 +369,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->uncheckField('some field');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->uncheckField('some field');
     }
@@ -411,12 +392,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->selectFieldOption('some field', 'option2');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->selectFieldOption('some field', 'option2');
     }
@@ -439,12 +415,7 @@ class DocumentElementTest extends ElementTest
 
         $this->document->attachFileToField('some field', '/path/to/file');
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('Behat\Mink\Exception\ElementNotFoundException');
-        }
+        $this->expectException('Behat\Mink\Exception\ElementNotFoundException');
 
         $this->document->attachFileToField('some field', '/path/to/file');
     }
