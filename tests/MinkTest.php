@@ -18,7 +18,7 @@ class MinkTest extends TestCase
     /**
      * @before
      */
-    protected function setUpTest()
+    protected function prepareMink()
     {
         $this->mink = new Mink();
     }
