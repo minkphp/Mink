@@ -21,12 +21,12 @@ jobs:
         minimum_stability: [ '' ]
         symfony_deprecations_helper: [ '' ]
         include:
-          - php: 7.1
+          - php: '7.1'
             composer_flags: '--prefer-lowest --prefer-stable'
             symfony_deprecations_helper: weak
-          - php: 8.0
+          - php: '8.0'
             minimum_stability: dev
-          - php: 7.4
+          - php: '7.4'
             minimum_stability: dev
       fail-fast: false
 
