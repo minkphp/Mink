@@ -1,5 +1,6 @@
 *.tgz
 *.phar
 phpunit.xml
+.phpunit.result.cache
 composer.lock
 vendor

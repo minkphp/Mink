@@ -28,7 +28,10 @@ abstract class ElementTest extends TestCase
      */
     protected $selectors;
 
-    protected function setUp()
+    /**
+     * @before
+     */
+    protected function setUpTest()
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->driver

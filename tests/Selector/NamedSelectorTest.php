@@ -5,9 +5,12 @@ namespace Behat\Mink\Tests\Selector;
 use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\Xpath\Escaper;
 use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 abstract class NamedSelectorTest extends TestCase
 {
+    use ExpectException;
+
     public function testRegisterXpath()
     {
         $selector = $this->getSelector();
@@ -15,21 +18,15 @@ abstract class NamedSelectorTest extends TestCase
         $selector->registerNamedXpath('some', 'my_xpath');
         $this->assertEquals('my_xpath', $selector->translateToXPath('some'));
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException('InvalidArgumentException');
-        } else {
-            // BC with PHPUnit 4 used for PHP 5.5 and older
-            $this->setExpectedException('InvalidArgumentException');
-        }
+        $this->expectException('InvalidArgumentException');
 
         $selector->translateToXPath('custom');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidLocator()
     {
+        $this->expectException('\InvalidArgumentException');
+
         $namedSelector = $this->getSelector();
 
         $namedSelector->translateToXPath(array('foo', 'bar', 'baz'));
