@@ -64,7 +64,7 @@ jobs:
           vendor/bin/phpunit -v --coverage-clover=coverage.clover
 
       - name: Upload code coverage
-        if: "${{ matrix.php >= '5.4' && matrix.minimum_stability != 'dev' }}"
+        if: "${{ matrix.php > '5.4' && matrix.minimum_stability != 'dev' }}"
         run: |
           composer require scrutinizer/ocular
           vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
