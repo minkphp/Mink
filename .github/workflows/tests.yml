@@ -26,6 +26,7 @@ jobs:
             symfony_deprecations_helper: weak
           - php: '8.0'
             minimum_stability: dev
+            symfony_deprecations_helper: max[direct]=0
           - php: '7.4'
             minimum_stability: dev
       fail-fast: false
@@ -34,12 +35,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 1
+          fetch-depth: 2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
+          coverage: "xdebug"
           php-version: "${{ matrix.php }}"
           tools: composer
 
@@ -60,4 +61,10 @@ jobs:
       - name: Run tests
         run: |
           export SYMFONY_DEPRECATIONS_HELPER="${{ matrix.symfony_deprecations_helper }}"
-          vendor/bin/phpunit -v
+          vendor/bin/phpunit -v --coverage-clover=coverage.clover
+
+      - name: Upload code coverage
+        if: "${{ matrix.php >= '5.4' && matrix.minimum_stability != 'dev' }}"
+        run: |
+          composer require scrutinizer/ocular
+          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
