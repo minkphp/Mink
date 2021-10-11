@@ -2,7 +2,7 @@
     "name":         "behat/mink",
     "description":  "Browser controller/emulator abstraction for PHP",
     "keywords":     ["web", "testing", "browser"],
-    "homepage":     "http://mink.behat.org/",
+    "homepage":     "https://mink.behat.org/",
     "type":         "library",
     "license":      "MIT",
 

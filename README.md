@@ -13,9 +13,8 @@ Mink
 Useful Links
 ------------
 
-- The main website with documentation is at [http://mink.behat.org](http://mink.behat.org)
-- Official Google Group is at [http://groups.google.com/group/behat](http://groups.google.com/group/behat)
-- IRC channel on [#freenode](http://freenode.net/) is `#behat`
+- The main website with documentation is at [https://mink.behat.org](https://mink.behat.org)
+- Official Google Group is at [https://groups.google.com/group/behat](https://groups.google.com/group/behat)
 - [Note on Patches/Pull Requests](CONTRIBUTING.md)
 
 Usage Example
