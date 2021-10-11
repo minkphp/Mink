@@ -3,10 +3,7 @@ Mink
 [![Latest Stable Version](https://poser.pugx.org/behat/mink/v/stable.svg)](https://packagist.org/packages/behat/mink)
 [![Latest Unstable Version](https://poser.pugx.org/behat/mink/v/unstable.svg)](https://packagist.org/packages/behat/mink)
 [![Total Downloads](https://poser.pugx.org/behat/mink/downloads.svg)](https://packagist.org/packages/behat/mink)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/minkphp/Mink/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/minkphp/Mink/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/minkphp/Mink/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/minkphp/Mink/)
-[![Build Status](https://travis-ci.org/minkphp/Mink.svg?branch=master)](https://travis-ci.org/minkphp/Mink)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc/mini.png)](https://insight.sensiolabs.com/projects/5bb8fab0-978f-428a-ae23-44ee4e129fbc)
+[![CI](https://github.com/minkphp/Mink/actions/workflows/tests.yml/badge.svg)](https://github.com/minkphp/Mink/actions/workflows/tests.yml)
 [![License](https://poser.pugx.org/behat/mink/license.svg)](https://packagist.org/packages/behat/mink)
 
 
