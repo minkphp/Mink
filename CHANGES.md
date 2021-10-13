@@ -1,3 +1,11 @@
+[Unreleased]
+==================
+
+* Move selector and replacement declaration to dedicated functions.
+  Note: If you were previously extending the NamedSelector class and defining overrides to existing values, these will
+  need to be moved to the relevant `getRawSelectors()` or `getRawReplacements()` function as appropriate.
+  See #815 for further information on this change.
+
 1.9.0 / 2021-10-11
 ==================
 

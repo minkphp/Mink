@@ -17,15 +17,15 @@ namespace Behat\Mink\Selector;
  */
 class PartialNamedSelector extends NamedSelector
 {
-    public function __construct()
+    protected function getRawReplacements()
     {
-        $this->registerReplacement('%tagTextMatch%', 'contains(normalize-space(string(.)), %locator%)');
-        $this->registerReplacement('%valueMatch%', 'contains(./@value, %locator%)');
-        $this->registerReplacement('%titleMatch%', 'contains(./@title, %locator%)');
-        $this->registerReplacement('%altMatch%', 'contains(./@alt, %locator%)');
-        $this->registerReplacement('%relMatch%', 'contains(./@rel, %locator%)');
-        $this->registerReplacement('%labelAttributeMatch%', 'contains(./@label, %locator%)');
-
-        parent::__construct();
+        return array_merge(parent::getRawReplacements(), [
+            '%tagTextMatch%' => 'contains(normalize-space(string(.)), %locator%)',
+            '%valueMatch%' => 'contains(./@value, %locator%)',
+            '%titleMatch%' => 'contains(./@title, %locator%)',
+            '%altMatch%' => 'contains(./@alt, %locator%)',
+            '%relMatch%' => 'contains(./@rel, %locator%)',
+            '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
+        ]);
     }
 }

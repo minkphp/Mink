@@ -19,42 +19,80 @@ use Behat\Mink\Selector\Xpath\Escaper;
  */
 class NamedSelector implements SelectorInterface
 {
-    private $replacements = array(
-        // simple replacements
-        '%lowercaseType%' => "translate(./@type, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
-        '%lowercaseRole%' => "translate(./@role, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
-        '%tagTextMatch%' => 'contains(normalize-space(string(.)), %locator%)',
-        '%labelTextMatch%' => './@id = //label[%tagTextMatch%]/@for',
-        '%idMatch%' => './@id = %locator%',
-        '%valueMatch%' => 'contains(./@value, %locator%)',
-        '%idOrValueMatch%' => '(%idMatch% or %valueMatch%)',
-        '%idOrNameMatch%' => '(%idMatch% or ./@name = %locator%)',
-        '%placeholderMatch%' => './@placeholder = %locator%',
-        '%titleMatch%' => 'contains(./@title, %locator%)',
-        '%altMatch%' => 'contains(./@alt, %locator%)',
-        '%relMatch%' => 'contains(./@rel, %locator%)',
-        '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
+    private $replacements = [];
 
-        // complex replacements
-        '%inputTypeWithoutPlaceholderFilter%' => "%lowercaseType% = 'radio' or %lowercaseType% = 'checkbox' or %lowercaseType% = 'file'",
-        '%fieldFilterWithPlaceholder%' => 'self::input[not(%inputTypeWithoutPlaceholderFilter%)] | self::textarea',
-        '%fieldMatchWithPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
-        '%fieldMatchWithoutPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch%)',
-        '%fieldFilterWithoutPlaceholder%' => 'self::input[%inputTypeWithoutPlaceholderFilter%] | self::select',
-        '%buttonTypeFilter%' => "%lowercaseType% = 'submit' or %lowercaseType% = 'image' or %lowercaseType% = 'button' or %lowercaseType% = 'reset'",
-        '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or %lowercaseType% = 'hidden')",
-        '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
-        '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or %relMatch%)',
-        '%imgAltMatch%' => './/img[%altMatch%]',
-    );
+    private $selectors = [];
 
-    private $selectors = array(
-        'fieldset' => <<<XPATH
+    private $xpathEscaper;
+
+    /**
+     * Creates selector instance.
+     */
+    public function __construct()
+    {
+        $this->xpathEscaper = new Escaper();
+
+        foreach ($this->getRawReplacements() as $from => $to) {
+            $this->registerReplacement($from, $to);
+        }
+
+        foreach ($this->getRawSelectors() as $alias => $selector) {
+            $this->registerNamedXpath($alias, $selector);
+        }
+    }
+
+    /**
+     * Get the list of replacements in their raw state with replacements not applied.
+     *
+     * @return array
+     */
+    protected function getRawReplacements()
+    {
+        return array(
+            // simple replacements
+            '%lowercaseType%' => "translate(./@type, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
+            '%lowercaseRole%' => "translate(./@role, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')",
+            '%tagTextMatch%' => 'contains(normalize-space(string(.)), %locator%)',
+            '%labelTextMatch%' => './@id = //label[%tagTextMatch%]/@for',
+            '%idMatch%' => './@id = %locator%',
+            '%valueMatch%' => 'contains(./@value, %locator%)',
+            '%idOrValueMatch%' => '(%idMatch% or %valueMatch%)',
+            '%idOrNameMatch%' => '(%idMatch% or ./@name = %locator%)',
+            '%placeholderMatch%' => './@placeholder = %locator%',
+            '%titleMatch%' => 'contains(./@title, %locator%)',
+            '%altMatch%' => 'contains(./@alt, %locator%)',
+            '%relMatch%' => 'contains(./@rel, %locator%)',
+            '%labelAttributeMatch%' => 'contains(./@label, %locator%)',
+
+            // complex replacements
+            '%inputTypeWithoutPlaceholderFilter%' => "%lowercaseType% = 'radio' or %lowercaseType% = 'checkbox' or %lowercaseType% = 'file'",
+            '%fieldFilterWithPlaceholder%' => 'self::input[not(%inputTypeWithoutPlaceholderFilter%)] | self::textarea',
+            '%fieldMatchWithPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch% or %placeholderMatch%)',
+            '%fieldMatchWithoutPlaceholder%' => '(%idOrNameMatch% or %labelTextMatch%)',
+            '%fieldFilterWithoutPlaceholder%' => 'self::input[%inputTypeWithoutPlaceholderFilter%] | self::select',
+            '%buttonTypeFilter%' => "%lowercaseType% = 'submit' or %lowercaseType% = 'image' or %lowercaseType% = 'button' or %lowercaseType% = 'reset'",
+            '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or %lowercaseType% = 'hidden')",
+            '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
+            '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or %relMatch%)',
+            '%imgAltMatch%' => './/img[%altMatch%]',
+        );
+    }
+
+    /**
+     * Get the list of selectors in their raw state with replacements not applied.
+     *
+     * @return array
+     */
+    protected function getRawSelectors()
+    {
+
+        return array(
+            'fieldset' => <<<XPATH
 .//fieldset
 [(%idMatch% or .//legend[%tagTextMatch%])]
 XPATH
 
-        ,'field' => <<<XPATH
+            ,'field' => <<<XPATH
 .//*
 [%fieldFilterWithPlaceholder%][%notFieldTypeFilter%][%fieldMatchWithPlaceholder%]
 |
@@ -66,7 +104,7 @@ XPATH
 .//label[%tagTextMatch%]//.//*[%fieldFilterWithoutPlaceholder%][%notFieldTypeFilter%]
 XPATH
 
-        ,'link' => <<<XPATH
+            ,'link' => <<<XPATH
 .//a
 [./@href][(%linkMatch% or %imgAltMatch%)]
 |
@@ -74,7 +112,7 @@ XPATH
 [%lowercaseRole% = 'link'][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
 
-        ,'button' => <<<XPATH
+            ,'button' => <<<XPATH
 .//input
 [%buttonTypeFilter%][(%buttonMatch%)]
 |
@@ -88,7 +126,7 @@ XPATH
 [%lowercaseRole% = 'button'][(%buttonMatch% or %tagTextMatch%)]
 XPATH
 
-        ,'link_or_button' => <<<XPATH
+            ,'link_or_button' => <<<XPATH
 .//a
 [./@href][(%linkMatch% or %imgAltMatch%)]
 |
@@ -105,76 +143,60 @@ XPATH
 [(%lowercaseRole% = 'button' or %lowercaseRole% = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
 XPATH
 
-        ,'content' => <<<XPATH
+            ,'content' => <<<XPATH
 ./descendant-or-self::*
 [%tagTextMatch%]
 XPATH
 
-        ,'select' => <<<XPATH
+            ,'select' => <<<XPATH
 .//select
 [%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//select
 XPATH
 
-        ,'checkbox' => <<<XPATH
+            ,'checkbox' => <<<XPATH
 .//input
 [%lowercaseType% = 'checkbox'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[%lowercaseType% = 'checkbox']
 XPATH
 
-        ,'radio' => <<<XPATH
+            ,'radio' => <<<XPATH
 .//input
 [%lowercaseType% = 'radio'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[%lowercaseType% = 'radio']
 XPATH
 
-        ,'file' => <<<XPATH
+            ,'file' => <<<XPATH
 .//input
 [%lowercaseType% = 'file'][%fieldMatchWithoutPlaceholder%]
 |
 .//label[%tagTextMatch%]//.//input[%lowercaseType% = 'file']
 XPATH
 
-        ,'optgroup' => <<<XPATH
+            ,'optgroup' => <<<XPATH
 .//optgroup
 [%labelAttributeMatch%]
 XPATH
 
-        ,'option' => <<<XPATH
+            ,'option' => <<<XPATH
 .//option
 [(./@value = %locator% or %tagTextMatch%)]
 XPATH
 
-        ,'table' => <<<XPATH
+            ,'table' => <<<XPATH
 .//table
 [(%idMatch% or .//caption[%tagTextMatch%])]
 XPATH
-        ,'id' => <<<XPATH
+            ,'id' => <<<XPATH
 .//*[%idMatch%]
 XPATH
-    ,'id_or_name' => <<<XPATH
+        ,'id_or_name' => <<<XPATH
 .//*[%idOrNameMatch%]
 XPATH
-    );
-    private $xpathEscaper;
-
-    /**
-     * Creates selector instance.
-     */
-    public function __construct()
-    {
-        $this->xpathEscaper = new Escaper();
-
-        foreach ($this->replacements as $from => $to) {
-            $this->registerReplacement($from, $to);
-        }
-
-        foreach ($this->selectors as $alias => $selector) {
-            $this->registerNamedXpath($alias, $selector);
-        }
+        );
     }
 
     /**
