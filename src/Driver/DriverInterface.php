@@ -366,6 +366,19 @@ interface DriverInterface
     public function setValue($xpath, $value);
 
     /**
+     * Sends keys to an element by it's XPath query.
+     *
+     * @param string            $xpath
+     * @param string|bool|array $value
+     *
+     * @throws UnsupportedDriverActionException When operation not supported by the driver
+     * @throws DriverException                  When the operation cannot be done
+     *
+     * @see \Behat\Mink\Element\NodeElement::setAutocompleteValue
+     */
+    public function sendKeys($xpath, $value);
+
+    /**
      * Checks checkbox by it's XPath query.
      *
      * @param string $xpath
