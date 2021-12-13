@@ -187,7 +187,7 @@ class WebAssert
      */
     public function responseHeaderContains($name, $value)
     {
-        $actual = $this->session->getResponseHeader($name);
+        $actual = (string) $this->session->getResponseHeader($name);
         $message = sprintf('The text "%s" was not found anywhere in the "%s" response header.', $value, $name);
 
         $this->assert(false !== stripos($actual, (string) $value), $message);
@@ -203,7 +203,7 @@ class WebAssert
      */
     public function responseHeaderNotContains($name, $value)
     {
-        $actual = $this->session->getResponseHeader($name);
+        $actual = (string) $this->session->getResponseHeader($name);
         $message = sprintf('The text "%s" was found in the "%s" response header, but it should not.', $value, $name);
 
         $this->assert(false === stripos($actual, (string) $value), $message);
@@ -578,7 +578,7 @@ class WebAssert
     public function elementAttributeContains($selectorType, $selector, $attribute, $text)
     {
         $element = $this->elementAttributeExists($selectorType, $selector, $attribute);
-        $actual = $element->getAttribute($attribute);
+        $actual = (string) $element->getAttribute($attribute);
         $regex = '/'.preg_quote($text, '/').'/ui';
 
         $message = sprintf(
@@ -604,7 +604,7 @@ class WebAssert
     public function elementAttributeNotContains($selectorType, $selector, $attribute, $text)
     {
         $element = $this->elementAttributeExists($selectorType, $selector, $attribute);
-        $actual = $element->getAttribute($attribute);
+        $actual = (string) $element->getAttribute($attribute);
         $regex = '/'.preg_quote($text, '/').'/ui';
 
         $message = sprintf(
@@ -667,7 +667,7 @@ class WebAssert
     public function fieldValueEquals($field, $value, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
-        $actual = $node->getValue();
+        $actual = (string) $node->getValue();
         $regex = '/^'.preg_quote($value, '/').'$/ui';
 
         $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
@@ -687,7 +687,7 @@ class WebAssert
     public function fieldValueNotEquals($field, $value, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
-        $actual = $node->getValue();
+        $actual = (string) $node->getValue();
         $regex = '/^'.preg_quote($value, '/').'$/ui';
 
         $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
