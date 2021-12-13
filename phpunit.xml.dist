@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true" bootstrap="vendor/autoload.php">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
+         bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Behat Mink test suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory>./src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>
