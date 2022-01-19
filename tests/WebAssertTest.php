@@ -3,14 +3,16 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Session;
 use Behat\Mink\Tests\Helper\Stringer;
 use Behat\Mink\WebAssert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class WebAssertTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var Session&MockObject
      */
     private $session;
     /**
@@ -1065,17 +1067,9 @@ class WebAssertTest extends TestCase
         ;
 
         $element
-            ->expects($this->at(0))
             ->method('hasAttribute')
             ->with('name')
-            ->will($this->returnValue(true))
-        ;
-
-        $element
-            ->expects($this->at(1))
-            ->method('hasAttribute')
-            ->with('name')
-            ->will($this->returnValue(false))
+            ->will($this->onConsecutiveCalls(true, false))
         ;
 
         $this->assertCorrectAssertion('elementAttributeExists', array('css', 'h2 > span', 'name'));
@@ -1113,17 +1107,9 @@ class WebAssertTest extends TestCase
         ;
 
         $element
-            ->expects($this->at(0))
             ->method('hasAttribute')
             ->with('name')
-            ->will($this->returnValue(false))
-        ;
-
-        $element
-            ->expects($this->at(1))
-            ->method('hasAttribute')
-            ->with('name')
-            ->will($this->returnValue(true))
+            ->will($this->onConsecutiveCalls(false, true))
         ;
 
         $this->assertCorrectAssertion('elementAttributeNotExists', array('css', 'h2 > span', 'name'));

@@ -4,12 +4,9 @@ namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\SelectorsHandler;
 use PHPUnit\Framework\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class SelectorsHandlerTest extends TestCase
 {
-    use ExpectException;
-
     public function testRegisterSelector()
     {
         $selector = $this->getMockBuilder('Behat\Mink\Selector\SelectorInterface')->getMock();

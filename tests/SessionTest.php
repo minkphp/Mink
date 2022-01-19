@@ -2,13 +2,15 @@
 
 namespace Behat\Mink\Tests;
 
+use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Session;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SessionTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var DriverInterface&MockObject
      */
     private $driver;
     private $selectorsHandler;
@@ -79,9 +81,9 @@ class SessionTest extends TestCase
 
     public function testRestart()
     {
-        $this->driver->expects($this->at(0))
+        $this->driver->expects($this->once())
             ->method('stop');
-        $this->driver->expects($this->at(1))
+        $this->driver->expects($this->once())
             ->method('start');
 
         $this->session->restart();
