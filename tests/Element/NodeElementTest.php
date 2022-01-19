@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\NodeElement;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class NodeElementTest extends ElementTest
 {
-    use ExpectException;
-
     public function testGetXpath()
     {
         $node = new NodeElement('some custom xpath', $this->session);

@@ -4,14 +4,9 @@ namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Element\NodeElement;
 use PHPUnit\Framework\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\AssertIsType;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class CoreDriverTest extends TestCase
 {
-    use ExpectException;
-    use AssertIsType;
-
     public function testNoExtraMethods()
     {
         $interfaceRef = new \ReflectionClass('Behat\Mink\Driver\DriverInterface');

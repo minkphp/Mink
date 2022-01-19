@@ -5,12 +5,9 @@ namespace Behat\Mink\Tests\Selector;
 use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\Xpath\Escaper;
 use PHPUnit\Framework\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 abstract class NamedSelectorTest extends TestCase
 {
-    use ExpectException;
-
     public function testRegisterXpath()
     {
         $selector = $this->getSelector();

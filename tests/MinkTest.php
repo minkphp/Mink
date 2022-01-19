@@ -4,12 +4,9 @@ namespace Behat\Mink\Tests;
 
 use Behat\Mink\Mink;
 use PHPUnit\Framework\TestCase;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class MinkTest extends TestCase
 {
-    use ExpectException;
-
     /**
      * @var Mink
      */

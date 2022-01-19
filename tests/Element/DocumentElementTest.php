@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\DocumentElement;
-use Yoast\PHPUnitPolyfills\Polyfills\ExpectException;
 
 class DocumentElementTest extends ElementTest
 {
-    use ExpectException;
-
     /**
      * Page.
      *
