@@ -153,7 +153,7 @@ interface DriverInterface
     /**
      * Switches to specific browser window.
      *
-     * @param string $name window name (null for switching back to main window)
+     * @param string|null $name window name (null for switching back to main window)
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -163,7 +163,7 @@ interface DriverInterface
     /**
      * Switches to specific iFrame.
      *
-     * @param string $name iframe name (null for switching back)
+     * @param string|null $name iframe name (null for switching back)
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -184,7 +184,7 @@ interface DriverInterface
     /**
      * Returns last response headers.
      *
-     * @return array
+     * @return array<string, string|string[]>
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -194,8 +194,10 @@ interface DriverInterface
     /**
      * Sets cookie.
      *
-     * @param string $name
-     * @param string $value
+     * Passing null as value will delete the cookie.
+     *
+     * @param string      $name
+     * @param string|null $value
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -248,7 +250,7 @@ interface DriverInterface
     /**
      * Return the names of all open windows.
      *
-     * @return array array of all open windows
+     * @return string[] array of all open windows
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -278,7 +280,7 @@ interface DriverInterface
     public function find($xpath);
 
     /**
-     * Returns element's tag name by it's XPath query.
+     * Returns element's tag name by its XPath query.
      *
      * @param string $xpath
      *
@@ -290,7 +292,7 @@ interface DriverInterface
     public function getTagName($xpath);
 
     /**
-     * Returns element's text by it's XPath query.
+     * Returns element's text by its XPath query.
      *
      * @param string $xpath
      *
@@ -302,7 +304,7 @@ interface DriverInterface
     public function getText($xpath);
 
     /**
-     * Returns element's inner html by it's XPath query.
+     * Returns element's inner html by its XPath query.
      *
      * @param string $xpath
      *
@@ -314,7 +316,7 @@ interface DriverInterface
     public function getHtml($xpath);
 
     /**
-     * Returns element's outer html by it's XPath query.
+     * Returns element's outer html by its XPath query.
      *
      * @param string $xpath
      *
@@ -326,7 +328,7 @@ interface DriverInterface
     public function getOuterHtml($xpath);
 
     /**
-     * Returns element's attribute by it's XPath query.
+     * Returns element's attribute by its XPath query.
      *
      * @param string $xpath
      * @param string $name
@@ -339,7 +341,7 @@ interface DriverInterface
     public function getAttribute($xpath, $name);
 
     /**
-     * Returns element's value by it's XPath query.
+     * Returns element's value by its XPath query.
      *
      * @param string $xpath
      *
@@ -353,7 +355,7 @@ interface DriverInterface
     public function getValue($xpath);
 
     /**
-     * Sets element's value by it's XPath query.
+     * Sets element's value by its XPath query.
      *
      * @param string            $xpath
      * @param string|bool|array $value
@@ -366,7 +368,7 @@ interface DriverInterface
     public function setValue($xpath, $value);
 
     /**
-     * Checks checkbox by it's XPath query.
+     * Checks checkbox by its XPath query.
      *
      * @param string $xpath
      *
@@ -378,7 +380,7 @@ interface DriverInterface
     public function check($xpath);
 
     /**
-     * Unchecks checkbox by it's XPath query.
+     * Unchecks checkbox by its XPath query.
      *
      * @param string $xpath
      *
@@ -390,7 +392,7 @@ interface DriverInterface
     public function uncheck($xpath);
 
     /**
-     * Checks whether checkbox or radio button located by it's XPath query is checked.
+     * Checks whether checkbox or radio button located by its XPath query is checked.
      *
      * @param string $xpath
      *
@@ -404,7 +406,7 @@ interface DriverInterface
     public function isChecked($xpath);
 
     /**
-     * Selects option from select field or value in radio group located by it's XPath query.
+     * Selects option from select field or value in radio group located by its XPath query.
      *
      * @param string  $xpath
      * @param string  $value
@@ -418,7 +420,7 @@ interface DriverInterface
     public function selectOption($xpath, $value, $multiple = false);
 
     /**
-     * Checks whether select option, located by it's XPath query, is selected.
+     * Checks whether select option, located by its XPath query, is selected.
      *
      * @param string $xpath
      *
@@ -432,7 +434,7 @@ interface DriverInterface
     public function isSelected($xpath);
 
     /**
-     * Clicks button or link located by it's XPath query.
+     * Clicks button or link located by its XPath query.
      *
      * @param string $xpath
      *
@@ -442,7 +444,7 @@ interface DriverInterface
     public function click($xpath);
 
     /**
-     * Double-clicks button or link located by it's XPath query.
+     * Double-clicks button or link located by its XPath query.
      *
      * @param string $xpath
      *
@@ -452,7 +454,7 @@ interface DriverInterface
     public function doubleClick($xpath);
 
     /**
-     * Right-clicks button or link located by it's XPath query.
+     * Right-clicks button or link located by its XPath query.
      *
      * @param string $xpath
      *
@@ -462,7 +464,7 @@ interface DriverInterface
     public function rightClick($xpath);
 
     /**
-     * Attaches file path to file field located by it's XPath query.
+     * Attaches file path to file field located by its XPath query.
      *
      * @param string $xpath
      * @param string $path
@@ -475,7 +477,7 @@ interface DriverInterface
     public function attachFile($xpath, $path);
 
     /**
-     * Checks whether element visible located by it's XPath query.
+     * Checks whether element visible located by its XPath query.
      *
      * @param string $xpath
      *
@@ -531,9 +533,9 @@ interface DriverInterface
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string     $xpath
-     * @param string|int $char     could be either char ('b') or char-code (98)
-     * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string      $xpath
+     * @param string|int  $char     could be either char ('b') or char-code (98)
+     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -543,9 +545,9 @@ interface DriverInterface
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string     $xpath
-     * @param string|int $char     could be either char ('b') or char-code (98)
-     * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string      $xpath
+     * @param string|int  $char     could be either char ('b') or char-code (98)
+     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
