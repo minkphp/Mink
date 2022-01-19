@@ -28,8 +28,8 @@ class Session
     /**
      * Initializes session.
      *
-     * @param DriverInterface  $driver
-     * @param SelectorsHandler $selectorsHandler
+     * @param DriverInterface       $driver
+     * @param SelectorsHandler|null $selectorsHandler
      */
     public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
     {
@@ -173,7 +173,7 @@ class Session
     /**
      * Returns all response headers.
      *
-     * @return array
+     * @return array<string, string|string[]>
      */
     public function getResponseHeaders()
     {
@@ -204,8 +204,10 @@ class Session
     /**
      * Sets cookie.
      *
-     * @param string $name
-     * @param string $value
+     * Passing null as value will delete the cookie.
+     *
+     * @param string      $name
+     * @param string|null $value
      */
     public function setCookie($name, $value = null)
     {
@@ -258,7 +260,7 @@ class Session
     /**
      * Return the names of all open windows.
      *
-     * @return array Array of all open window's names.
+     * @return string[] Array of all open window's names.
      */
     public function getWindowNames()
     {
@@ -302,7 +304,7 @@ class Session
     /**
      * Switches to specific browser window.
      *
-     * @param string $name window name (null for switching back to main window)
+     * @param string|null $name window name (null for switching back to main window)
      */
     public function switchToWindow($name = null)
     {
@@ -312,7 +314,7 @@ class Session
     /**
      * Switches to specific iFrame.
      *
-     * @param string $name iframe name (null for switching back)
+     * @param string|null $name iframe name (null for switching back)
      */
     public function switchToIFrame($name = null)
     {
@@ -330,11 +332,11 @@ class Session
     }
 
     /**
-     * Execute JS in browser and return it's response.
+     * Execute JS in browser and return its response.
      *
      * @param string $script javascript
      *
-     * @return string
+     * @return mixed
      */
     public function evaluateScript($script)
     {
@@ -357,9 +359,9 @@ class Session
     /**
      * Set the dimensions of the window.
      *
-     * @param int    $width  set the window width, measured in pixels
-     * @param int    $height set the window height, measured in pixels
-     * @param string $name   window name (null for the main window)
+     * @param int         $width  set the window width, measured in pixels
+     * @param int         $height set the window height, measured in pixels
+     * @param string|null $name   window name (null for the main window)
      */
     public function resizeWindow($width, $height, $name = null)
     {
@@ -369,7 +371,7 @@ class Session
     /**
      * Maximize the window if it is not maximized already.
      *
-     * @param string $name window name (null for the main window)
+     * @param string|null $name window name (null for the main window)
      */
     public function maximizeWindow($name = null)
     {

@@ -125,5 +125,4 @@ class Manipulator
 
         return array($xpath); // The XPath expression is invalid
     }
-
 }

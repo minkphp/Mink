@@ -11,12 +11,15 @@
 namespace Behat\Mink;
 
 /**
- * Mink sessions manager.
+ * Mink session manager.
  *
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
 class Mink
 {
+    /**
+     * @var null|string
+     */
     private $defaultSessionName;
 
     /**
@@ -102,7 +105,7 @@ class Mink
     /**
      * Returns registered session by it's name or default one.
      *
-     * @param string $name session name
+     * @param string|null $name session name
      *
      * @return Session
      *
@@ -116,7 +119,7 @@ class Mink
     /**
      * Checks whether a named session (or the default session) has already been started.
      *
-     * @param string $name session name - if null then the default session will be checked
+     * @param string|null $name session name - if null then the default session will be checked
      *
      * @return bool whether the session has been started
      *
@@ -132,7 +135,7 @@ class Mink
     /**
      * Returns session asserter.
      *
-     * @param Session|string $session session object or name
+     * @param Session|string|null $session session object or name
      *
      * @return WebAssert
      */
@@ -184,7 +187,7 @@ class Mink
     /**
      * Returns the named or default session without starting it.
      *
-     * @param string $name session name
+     * @param string|null $name session name
      *
      * @return Session
      *
