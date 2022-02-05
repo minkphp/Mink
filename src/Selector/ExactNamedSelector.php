@@ -15,15 +15,15 @@ namespace Behat\Mink\Selector;
  */
 class ExactNamedSelector extends NamedSelector
 {
-    public function __construct()
+    protected function getRawReplacements()
     {
-        $this->registerReplacement('%tagTextMatch%', 'normalize-space(string(.)) = %locator%');
-        $this->registerReplacement('%valueMatch%', './@value = %locator%');
-        $this->registerReplacement('%titleMatch%', './@title = %locator%');
-        $this->registerReplacement('%altMatch%', './@alt = %locator%');
-        $this->registerReplacement('%relMatch%', './@rel = %locator%');
-        $this->registerReplacement('%labelAttributeMatch%', './@label = %locator%');
-
-        parent::__construct();
+        return array_merge(parent::getRawReplacements(), [
+            '%tagTextMatch%' => 'normalize-space(string(.)) = %locator%',
+            '%valueMatch%' => './@value = %locator%',
+            '%titleMatch%' => './@title = %locator%',
+            '%altMatch%' => './@alt = %locator%',
+            '%relMatch%' => './@rel = %locator%',
+            '%labelAttributeMatch%' => './@label = %locator%',
+        ]);
     }
 }
