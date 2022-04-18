@@ -144,12 +144,12 @@ abstract class Element implements ElementInterface
      *
      * @return NodeElement[]
      */
-    private function findAllWithLimit($selector, $locator, ?int $limit): array
+    private function findAllWithLimit($selector, $locator, bool $firstOnly): array
     {
         if ('named' === $selector) {
-            $items = $this->findAllWithLimit('named_exact', $locator, $limit);
+            $items = $this->findAllWithLimit('named_exact', $locator, $firstOnly);
             if (empty($items)) {
-                $items = $this->findAllWithLimit('named_partial', $locator, $limit);
+                $items = $this->findAllWithLimit('named_partial', $locator, $firstOnly);
             }
 
             return $items;
@@ -158,12 +158,8 @@ abstract class Element implements ElementInterface
         $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
         $xpath = $this->xpathManipulator->prepend($xpath, $this->getXpath());
 
-        if ($limit !== null) {
-            if ($limit === 1) {
-                $xpath = '(' . $xpath . ')[1]';
-            } else {
-                $xpath = '(' . $xpath . ')[position() <= ' . $limit . ']';
-            }
+        if ($firstOnly) {
+            $xpath = '(' . $xpath . ')[1]';
         }
 
         return $this->getDriver()->find($xpath);
@@ -174,7 +170,7 @@ abstract class Element implements ElementInterface
      */
     public function find($selector, $locator)
     {
-        $items = $this->findAllWithLimit($selector, $locator, 1);
+        $items = $this->findAllWithLimit($selector, $locator, true);
 
         return count($items) > 0 ? current($items) : null;
     }
@@ -184,7 +180,7 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        return $this->findAllWithLimit($selector, $locator, null);
+        return $this->findAllWithLimit($selector, $locator, false);
     }
 
     /**
