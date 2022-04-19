@@ -178,6 +178,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated This is not possible in Selenium 2, 3 nor Selenium 4 / W3C WebDriver 1.
      */
     public function setRequestHeader($name, $value);
 
@@ -188,6 +190,10 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated This is no longer possible in Selenium 4, which implements W3C WebDriver 1: see
+     *             https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141 for
+     *             more information.
      */
     public function getResponseHeaders();
 
@@ -223,6 +229,10 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated This is no longer possible in Selenium 4, which implements W3C WebDriver 1: see
+     *             https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141 for
+     *             more information.
      */
     public function getStatusCode();
 

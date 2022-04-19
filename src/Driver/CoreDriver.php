@@ -278,6 +278,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function setRequestHeader($name, $value)
     {
+        @trigger_error(__METHOD__ . 'is deprecated: this is not possible in Selenium 2, 3 nor Selenium 4 / W3C WebDriver 1.', E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
     }
 
@@ -286,6 +287,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function getResponseHeaders()
     {
+        @trigger_error(__METHOD__ . 'is deprecated: this is no longer possible in Selenium 4, which implements W3C WebDriver 1.', E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Response headers are not available from %s', $this);
     }
 
@@ -310,6 +312,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function getStatusCode()
     {
+        @trigger_error(__METHOD__ . 'is deprecated: this is no longer possible in Selenium 4, which implements W3C WebDriver 1.', E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Status code is not available from %s', $this);
     }
 
