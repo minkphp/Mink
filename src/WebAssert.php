@@ -494,17 +494,19 @@ class WebAssert
     /**
      * Checks that specific element contains HTML.
      *
-     * @param string       $selectorType element selector type (css, xpath)
-     * @param string|array $selector     element selector
-     * @param string       $html         expected text
+     * @param string       $selectorType  element selector type (css, xpath)
+     * @param string|array $selector      element selector
+     * @param string       $html          expected text
+     * @param bool         $caseSensitive use case sensitive comparison
      *
      * @throws ElementHtmlException
      */
-    public function elementContains($selectorType, $selector, $html)
+    public function elementContains($selectorType, $selector, $html, $caseSensitive = false)
     {
         $element = $this->elementExists($selectorType, $selector);
         $actual = $element->getHtml();
-        $regex = '/'.preg_quote($html, '/').'/ui';
+        $regex = '/'.preg_quote($html, '/').'/u';
+        if ($caseSensitive === false) $regex .= 'i';
 
         $message = sprintf(
             'The string "%s" was not found in the HTML of the %s.',
@@ -518,17 +520,19 @@ class WebAssert
     /**
      * Checks that specific element does not contains HTML.
      *
-     * @param string       $selectorType element selector type (css, xpath)
-     * @param string|array $selector     element selector
-     * @param string       $html         expected text
+     * @param string       $selectorType  element selector type (css, xpath)
+     * @param string|array $selector      element selector
+     * @param string       $html          expected text
+     * @param bool         $caseSensitive use case sensitive comparison
      *
      * @throws ElementHtmlException
      */
-    public function elementNotContains($selectorType, $selector, $html)
+    public function elementNotContains($selectorType, $selector, $html, $caseSensitive = false)
     {
         $element = $this->elementExists($selectorType, $selector);
         $actual = $element->getHtml();
-        $regex = '/'.preg_quote($html, '/').'/ui';
+        $regex = '/'.preg_quote($html, '/').'/u';
+        if ($caseSensitive === false) $regex .= 'i';
 
         $message = sprintf(
             'The string "%s" appears in the HTML of the %s, but it should not.',
