@@ -396,8 +396,17 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
+    public function pressKey($xpath, $keys)
+    {
+        throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function keyPress($xpath, $char, $modifier = null)
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
 
@@ -406,6 +415,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function keyDown($xpath, $char, $modifier = null)
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
 
@@ -414,6 +424,7 @@ abstract class CoreDriver implements DriverInterface
      */
     public function keyUp($xpath, $char, $modifier = null)
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
 

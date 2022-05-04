@@ -64,6 +64,10 @@ class CoreDriverTest extends TestCase
         if ('setSession' === $method->getName()) {
             return; // setSession is actually implemented, so we don't expect an exception here.
         }
+        if (in_array($method->getName(), ['keyPress', 'keyDown', 'keyUp'])) {
+            return; // Skip deprecated methods in the driver
+        }
+
 
         $driver = $this->getMockForAbstractClass('Behat\Mink\Driver\CoreDriver');
 

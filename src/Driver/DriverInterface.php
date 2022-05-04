@@ -519,6 +519,15 @@ interface DriverInterface
     public function blur($xpath);
 
     /**
+     * @param string           $xpath
+     * @param string|array|int $keys  a string to type ('PHP Hypertext Preprocessor'), a integer key code (88), or an array of keys to press in sequence (e.g.: ["\u{E008}", 'H', "\u{E001}", 'ello']). See https://w3c.github.io/webdriver/#keyboard-actions
+     *
+     * @throws UnsupportedDriverActionException When operation not supported by the driver
+     * @throws DriverException                  When the operation cannot be done
+     */
+    public function pressKey($xpath, $keys);
+
+    /**
      * Presses specific keyboard key.
      *
      * @param string     $xpath
@@ -527,6 +536,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated use pressKey($xpath, $keys) instead.
      */
     public function keyPress($xpath, $char, $modifier = null);
 
@@ -539,6 +550,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated use pressKey($xpath, $keys) instead.
      */
     public function keyDown($xpath, $char, $modifier = null);
 
@@ -551,6 +564,8 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
+     *
+     * @deprecated use pressKey($xpath, $keys) instead.
      */
     public function keyUp($xpath, $char, $modifier = null);
 

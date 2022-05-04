@@ -505,7 +505,7 @@ class NodeElementTest extends ElementTest
 
         $this->driver
             ->expects($this->once())
-            ->method('keyPress')
+            ->method('pressKey')
             ->with('elem', 'key');
 
         $node->keyPress('key');
@@ -517,7 +517,7 @@ class NodeElementTest extends ElementTest
 
         $this->driver
             ->expects($this->once())
-            ->method('keyDown')
+            ->method('pressKey')
             ->with('elem', 'key');
 
         $node->keyDown('key');
@@ -529,7 +529,7 @@ class NodeElementTest extends ElementTest
 
         $this->driver
             ->expects($this->once())
-            ->method('keyUp')
+            ->method('pressKey')
             ->with('elem', 'key');
 
         $node->keyUp('key');
