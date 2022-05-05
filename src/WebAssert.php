@@ -494,6 +494,9 @@ class WebAssert
     /**
      * Checks that specific element contains HTML.
      *
+     * Comparison is case-insensitive by default. You can enable case-sensitive
+     * mode via passing `true` in the fourth argument.
+     *
      * @param string       $selectorType  element selector type (css, xpath)
      * @param string|array $selector      element selector
      * @param string       $html          expected text
@@ -519,6 +522,9 @@ class WebAssert
 
     /**
      * Checks that specific element does not contains HTML.
+     *
+     * Comparison is case-insensitive by default. You can enable case-sensitive
+     * mode via passing `true` in the fourth argument.
      *
      * @param string       $selectorType  element selector type (css, xpath)
      * @param string|array $selector      element selector
