@@ -1424,7 +1424,7 @@ class WebAssertTest extends TestCase
             call_user_func_array([$assert, 'addressEquals'], ['sub_url']);
             $this->fail('Wrong assertion should throw an exception');
         } catch (\LogicException $e) {
-            $this->assertInstanceOf(\LogicException, $e);
+            $this->assertInstanceOf(\LogicException::class, $e);
             $this->assertSame('A zigo zago', $e->getMessage());
         }
     }
