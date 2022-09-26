@@ -1434,6 +1434,7 @@ class WebAssertTest extends TestCase
         if ($condition) {
             return;
         }
+
         throw new \LogicException('A zigo zago');
     }
 
