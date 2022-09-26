@@ -791,8 +791,7 @@ class WebAssert
     private function assert($condition, $message)
     {
         if ($this->assertCallback) {
-            $callback = $this->assertCallback;
-            $callback($condition, $message, $this->session);
+            call_user_func($this->assertCallback, $condition, $message, $this->session);
         } else {
             if ($condition) {
                 return;
@@ -812,8 +811,7 @@ class WebAssert
     private function assertResponseText($condition, $message)
     {
         if ($this->assertCallback) {
-            $callback = $this->assertCallback;
-            $callback($condition, $message, $this->session);
+            call_user_func($this->assertCallback, $condition, $message, $this->session);
         } else {
             if ($condition) {
                 return;
@@ -834,8 +832,7 @@ class WebAssert
     private function assertElement($condition, $message, Element $element)
     {
         if ($this->assertCallback) {
-            $callback = $this->assertCallback;
-            $callback($condition, $message, $this->session, $element);
+            call_user_func($this->assertCallback, $condition, $message, $this->session, $element);
         } else {
             if ($condition) {
                 return;
@@ -856,8 +853,7 @@ class WebAssert
     private function assertElementText($condition, $message, Element $element)
     {
         if ($this->assertCallback) {
-            $callback = $this->assertCallback;
-            $callback($condition, $message, $this->session, $element);
+            call_user_func($this->assertCallback, $condition, $message, $this->session, $element);
         } else {
             if ($condition) {
                 return;
