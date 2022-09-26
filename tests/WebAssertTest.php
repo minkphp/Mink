@@ -1414,7 +1414,7 @@ class WebAssertTest extends TestCase
     public function testAlternativeAssertCallback()
     {
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('getCurrentUrl')
             ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
         ;
