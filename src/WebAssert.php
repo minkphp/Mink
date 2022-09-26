@@ -29,14 +29,17 @@ class WebAssert
 {
     protected $session;
 
+    protected $assertCallback;
+
     /**
      * Initializes assertion engine.
      *
      * @param Session $session
      */
-    public function __construct(Session $session)
+    public function __construct(Session $session, callable $assertCallback = null)
     {
         $this->session = $session;
+        $this->assertCallback = $assertCallback;
     }
 
     /**
@@ -787,11 +790,14 @@ class WebAssert
      */
     private function assert($condition, $message)
     {
-        if ($condition) {
-            return;
+        if ($this->assertCallback) {
+            $this->assertCallback($condition, $message, $this->session);
+        } else {
+            if ($condition) {
+                return;
+            }
+            throw new ExpectationException($message, $this->session->getDriver());
         }
-
-        throw new ExpectationException($message, $this->session->getDriver());
     }
 
     /**
@@ -804,11 +810,14 @@ class WebAssert
      */
     private function assertResponseText($condition, $message)
     {
-        if ($condition) {
-            return;
+        if ($this->assertCallback) {
+            $this->assertCallback($condition, $message, $this->session);
+        } else {
+            if ($condition) {
+                return;
+            }
+            throw new ResponseTextException($message, $this->session->getDriver());
         }
-
-        throw new ResponseTextException($message, $this->session->getDriver());
     }
 
     /**
@@ -822,11 +831,14 @@ class WebAssert
      */
     private function assertElement($condition, $message, Element $element)
     {
-        if ($condition) {
-            return;
+        if ($this->assertCallback) {
+            $this->assertCallback($condition, $message, $this->session, $element);
+        } else {
+            if ($condition) {
+                return;
+            }
+            throw new ElementHtmlException($message, $this->session->getDriver(), $element);
         }
-
-        throw new ElementHtmlException($message, $this->session->getDriver(), $element);
     }
 
     /**
@@ -840,11 +852,14 @@ class WebAssert
      */
     private function assertElementText($condition, $message, Element $element)
     {
-        if ($condition) {
-            return;
+        if ($this->assertCallback) {
+            $this->assertCallback($condition, $message, $this->session, $element);
+        } else {
+            if ($condition) {
+                return;
+            }
+            throw new ElementTextException($message, $this->session->getDriver(), $element);
         }
-
-        throw new ElementTextException($message, $this->session->getDriver(), $element);
     }
 
     /**

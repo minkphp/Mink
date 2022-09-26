@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests;
 
+use Behat\Mink\Element\Element;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Session;
 use Behat\Mink\Tests\Helper\Stringer;
@@ -1408,6 +1409,32 @@ class WebAssertTest extends TestCase
             'Behat\\Mink\\Exception\\ExpectationException',
             'Checkbox "remember_me" is checked, but it should not be.'
         );
+    }
+
+    public function testAlternativeAssertCallback()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
+        ;
+
+        $assert = new WebAssert($this->session, [$this, 'assertionTestCallback']);
+        try {
+            call_user_func_array([$assert, 'addressEquals'], ['sub_url']);
+            $this->fail('Wrong assertion should throw an exception');
+        } catch (\LogicException $e) {
+            $this->assertInstanceOf(\LogicException, $e);
+            $this->assertSame('A zigo zago', $e->getMessage());
+        }
+    }
+
+    public function assertionTestCallback($condition, $message, Session $session, Element $element = null)
+    {
+        if ($condition) {
+            return;
+        }
+        throw new \LogicException('A zigo zago');
     }
 
     private function assertCorrectAssertion($assertion, $arguments)
