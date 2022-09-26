@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.2', '7.3', '7.4', '8.0', '8.1']
+#        php: ['7.2', '7.3', '7.4', '8.0', '8.1']
         composer_flags: [ '' ]
         minimum_stability: [ '' ]
         symfony_deprecations_helper: [ '' ]
