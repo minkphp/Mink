@@ -27,19 +27,24 @@ use Behat\Mink\Exception\ElementTextException;
  */
 class WebAssert
 {
+    protected const ASSERT_CONTEXT = 0;
+    protected const ASSERT_RESPONSE_TEXT_CONTEXT = 1;
+    protected const ASSERT_ELEMENT_CONTEXT = 2;
+    protected const ASSERT_ELEMENT_TEXT_CONTEXT = 3;
+
     protected $session;
 
-    protected $assertCallback;
+    protected $assertionCallback;
 
     /**
      * Initializes assertion engine.
      *
      * @param Session $session
      */
-    public function __construct(Session $session, callable $assertCallback = null)
+    public function __construct(Session $session, callable $assertionCallback = null)
     {
         $this->session = $session;
-        $this->assertCallback = $assertCallback;
+        $this->assertionCallback = $assertionCallback ?? [$this, 'defaultAssertionCallback'];
     }
 
     /**
@@ -781,6 +786,43 @@ class WebAssert
     }
 
     /**
+     * Default assertion callback.
+     *
+     * @param int          $context
+     * @param bool         $condition
+     * @param string       $message   Failure message
+     * @param Session      $session
+     * @param Element|null $element
+     *
+     * @throws ExpectationException when the ASSERT_CONTEXT condition is not fulfilled
+     * @throws ResponseTextException when the ASSERT_RESPONSE_TEXT_CONTEXT condition is not fulfilled
+     * @throws ElementHtmlException when the ASSERT_ELEMENT_CONTEXT condition is not fulfilled
+     * @throws ElementTextException when the ASSERT_ELEMENT_TEXT_CONTEXT condition is not fulfilled
+     */
+    protected function defaultAssertionCallback(int $context, bool $condition, string $message, Session $session, Element $element = null): void
+    {
+        if ($condition) {
+            return;
+        }
+
+        switch ($context) {
+            case static::ASSERT_RESPONSE_TEXT_CONTEXT:
+                throw new ResponseTextException($message, $this->session->getDriver());
+
+            case static::ASSERT_ELEMENT_CONTEXT:
+                throw new ElementHtmlException($message, $this->session->getDriver(), $element);
+
+            case static::ASSERT_ELEMENT_TEXT_CONTEXT:
+                throw new ElementTextException($message, $this->session->getDriver(), $element);
+
+            case static::ASSERT_CONTEXT:
+            default:
+                throw new ExpectationException($message, $this->session->getDriver());
+
+        }
+    }
+
+    /**
      * Asserts a condition.
      *
      * @param bool   $condition
@@ -790,14 +832,7 @@ class WebAssert
      */
     private function assert($condition, $message)
     {
-        if ($this->assertCallback) {
-            call_user_func($this->assertCallback, $condition, $message, $this->session);
-        } else {
-            if ($condition) {
-                return;
-            }
-            throw new ExpectationException($message, $this->session->getDriver());
-        }
+        call_user_func($this->assertionCallback, static::ASSERT_CONTEXT, $condition, $message, $this->session);
     }
 
     /**
@@ -810,14 +845,7 @@ class WebAssert
      */
     private function assertResponseText($condition, $message)
     {
-        if ($this->assertCallback) {
-            call_user_func($this->assertCallback, $condition, $message, $this->session);
-        } else {
-            if ($condition) {
-                return;
-            }
-            throw new ResponseTextException($message, $this->session->getDriver());
-        }
+        call_user_func($this->assertionCallback, static::ASSERT_RESPONSE_TEXT_CONTEXT, $condition, $message, $this->session);
     }
 
     /**
@@ -831,14 +859,7 @@ class WebAssert
      */
     private function assertElement($condition, $message, Element $element)
     {
-        if ($this->assertCallback) {
-            call_user_func($this->assertCallback, $condition, $message, $this->session, $element);
-        } else {
-            if ($condition) {
-                return;
-            }
-            throw new ElementHtmlException($message, $this->session->getDriver(), $element);
-        }
+        call_user_func($this->assertionCallback, static::ASSERT_ELEMENT_CONTEXT, $condition, $message, $this->session, $element);
     }
 
     /**
@@ -852,14 +873,7 @@ class WebAssert
      */
     private function assertElementText($condition, $message, Element $element)
     {
-        if ($this->assertCallback) {
-            call_user_func($this->assertCallback, $condition, $message, $this->session, $element);
-        } else {
-            if ($condition) {
-                return;
-            }
-            throw new ElementTextException($message, $this->session->getDriver(), $element);
-        }
+        call_user_func($this->assertionCallback, static::ASSERT_ELEMENT_TEXT_CONTEXT, $condition, $message, $this->session, $element);
     }
 
     /**

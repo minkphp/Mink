@@ -1429,7 +1429,7 @@ class WebAssertTest extends TestCase
         }
     }
 
-    public function assertionTestCallback($condition, $message, Session $session, Element $element = null)
+    public function assertionTestCallback(int $context, bool $condition, string $message, Session $session, Element $element = null): void
     {
         if ($condition) {
             return;
