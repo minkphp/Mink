@@ -31,6 +31,7 @@ class WebAssert
     public const ASSERT_RESPONSE_TEXT_CONTEXT = 1;
     public const ASSERT_ELEMENT_CONTEXT = 2;
     public const ASSERT_ELEMENT_TEXT_CONTEXT = 3;
+    public const ASSERT_ELEMENT_NOT_FOUND_CONTEXT = 4;
 
     protected $session;
 
@@ -423,7 +424,7 @@ class WebAssert
                 $selector = implode(' ', $selector);
             }
 
-            throw new ElementNotFoundException($this->session->getDriver(), 'element', $selectorType, $selector);
+            call_user_func($this->assertionCallback, static::ASSERT_ELEMENT_NOT_FOUND_CONTEXT, false, '', $this->session, null, 'element', $selectorType, $selector);
         }
 
         return $node;
@@ -667,7 +668,7 @@ class WebAssert
         $node = $container->findField($field);
 
         if (null === $node) {
-            throw new ElementNotFoundException($this->session->getDriver(), 'form field', 'id|name|label|value', $field);
+            call_user_func($this->assertionCallback, static::ASSERT_ELEMENT_NOT_FOUND_CONTEXT, false, '', $this->session, null, 'form field', 'id|name|label|value', $field);
         }
 
         return $node;
@@ -793,13 +794,17 @@ class WebAssert
      * @param string       $message   Failure message
      * @param Session      $session
      * @param Element|null $element
+     * @param string|null  $type      element type
+     * @param string|null  $selector  element selector type
+     * @param string|null  $locator   element locator
      *
      * @throws ExpectationException when the ASSERT_CONTEXT condition is not fulfilled
      * @throws ResponseTextException when the ASSERT_RESPONSE_TEXT_CONTEXT condition is not fulfilled
      * @throws ElementHtmlException when the ASSERT_ELEMENT_CONTEXT condition is not fulfilled
      * @throws ElementTextException when the ASSERT_ELEMENT_TEXT_CONTEXT condition is not fulfilled
+     * @throws ElementNotFoundException when the ASSERT_ELEMENT_NOT_FOUND_CONTEXT is passed in
      */
-    protected function defaultAssertionCallback(int $context, bool $condition, string $message, Session $session, Element $element = null): void
+    protected function defaultAssertionCallback(int $context, bool $condition, string $message, Session $session, Element $element = null, string $type = null, string $selector = null, string $locator = null): void
     {
         if ($condition) {
             return;
@@ -814,6 +819,9 @@ class WebAssert
 
             case static::ASSERT_ELEMENT_TEXT_CONTEXT:
                 throw new ElementTextException($message, $this->session->getDriver(), $element);
+
+            case static::ASSERT_ELEMENT_NOT_FOUND_CONTEXT:
+                throw new ElementNotFoundException($this->session->getDriver(), $type, $selector, $locator);
 
             case static::ASSERT_CONTEXT:
             default:

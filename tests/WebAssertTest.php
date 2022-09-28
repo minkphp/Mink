@@ -1452,11 +1452,11 @@ class WebAssertTest extends TestCase
             $this->fail('Wrong assertion should throw an exception');
         } catch (\LogicException $e) {
             $this->assertInstanceOf(\LogicException::class, $e);
-            $this->assertSame("con la faccia blu", $e->getMessage());
+            $this->assertSame("sul grande lago", $e->getMessage());
         }
     }
 
-    public function assertionTestCallback(int $context, bool $condition, string $message, Session $session, Element $element = null): void
+    public function assertionTestCallback(int $context, bool $condition, string $message, Session $session, Element $element = null, string $type = null, string $selector = null, string $locator = null): void
     {
         if ($condition) {
             return;
@@ -1470,6 +1470,9 @@ class WebAssertTest extends TestCase
                 throw new \LogicException("con la faccia blu");
 
             case WebAssert::ASSERT_ELEMENT_TEXT_CONTEXT:
+                throw new \LogicException("sul grande lago");
+
+            case WebAssert::ASSERT_ELEMENT_NOT_FOUND_CONTEXT:
                 throw new \LogicException("obabaluba");
 
             case WebAssert::ASSERT_CONTEXT:
