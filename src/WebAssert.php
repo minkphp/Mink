@@ -27,10 +27,10 @@ use Behat\Mink\Exception\ElementTextException;
  */
 class WebAssert
 {
-    protected const ASSERT_CONTEXT = 0;
-    protected const ASSERT_RESPONSE_TEXT_CONTEXT = 1;
-    protected const ASSERT_ELEMENT_CONTEXT = 2;
-    protected const ASSERT_ELEMENT_TEXT_CONTEXT = 3;
+    public const ASSERT_CONTEXT = 0;
+    public const ASSERT_RESPONSE_TEXT_CONTEXT = 1;
+    public const ASSERT_ELEMENT_CONTEXT = 2;
+    public const ASSERT_ELEMENT_TEXT_CONTEXT = 3;
 
     protected $session;
 

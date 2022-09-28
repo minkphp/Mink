@@ -1419,13 +1419,40 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
         ;
 
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(1))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(1))
+            ->method('find')
+            ->with('css', 'h2 > span')
+            ->will($this->returnValue(null))
+        ;
+
         $assert = new WebAssert($this->session, [$this, 'assertionTestCallback']);
+
         try {
             call_user_func_array([$assert, 'addressEquals'], ['sub_url']);
             $this->fail('Wrong assertion should throw an exception');
         } catch (\LogicException $e) {
             $this->assertInstanceOf(\LogicException::class, $e);
-            $this->assertSame('A zigo zago', $e->getMessage());
+            $this->assertSame("A zigo zago", $e->getMessage());
+        }
+
+        try {
+            call_user_func_array([$assert, 'elementExists'], ['css', 'h2 > span']);
+            $this->fail('Wrong assertion should throw an exception');
+        } catch (\LogicException $e) {
+            $this->assertInstanceOf(\LogicException::class, $e);
+            $this->assertSame("con la faccia blu", $e->getMessage());
         }
     }
 
@@ -1435,7 +1462,21 @@ class WebAssertTest extends TestCase
             return;
         }
 
-        throw new \LogicException('A zigo zago');
+        switch ($context) {
+            case WebAssert::ASSERT_RESPONSE_TEXT_CONTEXT:
+                throw new \LogicException("c'era un mago");
+
+            case WebAssert::ASSERT_ELEMENT_CONTEXT:
+                throw new \LogicException("con la faccia blu");
+
+            case WebAssert::ASSERT_ELEMENT_TEXT_CONTEXT:
+                throw new \LogicException("obabaluba");
+
+            case WebAssert::ASSERT_CONTEXT:
+            default:
+                throw new \LogicException("A zigo zago");
+
+        }
     }
 
     private function assertCorrectAssertion($assertion, $arguments)
