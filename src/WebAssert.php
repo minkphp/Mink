@@ -812,20 +812,20 @@ class WebAssert
 
         switch ($context) {
             case static::ASSERT_RESPONSE_TEXT_CONTEXT:
-                throw new ResponseTextException($message, $this->session->getDriver());
+                throw new ResponseTextException($message, $session->getDriver());
 
             case static::ASSERT_ELEMENT_CONTEXT:
-                throw new ElementHtmlException($message, $this->session->getDriver(), $element);
+                throw new ElementHtmlException($message, $session->getDriver(), $element);
 
             case static::ASSERT_ELEMENT_TEXT_CONTEXT:
-                throw new ElementTextException($message, $this->session->getDriver(), $element);
+                throw new ElementTextException($message, $session->getDriver(), $element);
 
             case static::ASSERT_ELEMENT_NOT_FOUND_CONTEXT:
-                throw new ElementNotFoundException($this->session->getDriver(), $type, $selector, $locator);
+                throw new ElementNotFoundException($session->getDriver(), $type, $selector, $locator);
 
             case static::ASSERT_CONTEXT:
             default:
-                throw new ExpectationException($message, $this->session->getDriver());
+                throw new ExpectationException($message, $session->getDriver());
 
         }
     }
