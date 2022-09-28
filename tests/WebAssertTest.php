@@ -1452,7 +1452,7 @@ class WebAssertTest extends TestCase
             $this->fail('Wrong assertion should throw an exception');
         } catch (\LogicException $e) {
             $this->assertInstanceOf(\LogicException::class, $e);
-            $this->assertSame("sul grande lago", $e->getMessage());
+            $this->assertSame("obabaluba", $e->getMessage());
         }
     }
 
