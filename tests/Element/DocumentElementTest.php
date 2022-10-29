@@ -58,26 +58,28 @@ class DocumentElementTest extends ElementTest
     public function testFind()
     {
         $this->driver
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('find')
             ->with('//html/h3[a]')
-            ->will($this->onConsecutiveCalls(array(2, 3, 4), array(1, 2), array()));
+            ->will($this->onConsecutiveCalls(array(2, 3, 4), array(1, 2), array(), null));
 
         $xpath = 'h3[a]';
         $css = 'h3 > a';
 
         $this->selectors
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('selectorToXpath')
             ->will($this->returnValueMap(array(
                 array('xpath', $xpath, $xpath),
                 array('xpath', $xpath, $xpath),
+                array('css', $css, $xpath),
                 array('css', $css, $xpath),
             )));
 
         $this->assertEquals(2, $this->document->find('xpath', $xpath));
         $this->assertEquals(1, $this->document->find('css', $css));
         $this->assertNull($this->document->find('xpath', $xpath));
+        $this->assertNull($this->document->find('css', $css));
     }
 
     public function testFindField()
