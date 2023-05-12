@@ -21,7 +21,7 @@
 
     "require-dev": {
         "symfony/error-handler": "^4.4 || ^5.0 || ^6.0",
-        "phpunit/phpunit": "^8.5.22 || ^9.5.11",
+        "phpunit/phpunit": "^8.5.22 || ^9.6 || ^10.1",
         "symfony/phpunit-bridge": "^5.4 || ^6.0"
     },
 
