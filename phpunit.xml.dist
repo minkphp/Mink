@@ -9,7 +9,10 @@
   <testsuites>
     <testsuite name="Behat Mink test suite">
       <directory>tests</directory>
+      <exclude>./tests/Element/ElementTest.php</exclude>
+      <exclude>./tests/Selector/NamedSelectorTest.php</exclude>
     </testsuite>
+
   </testsuites>
 
   <source>
