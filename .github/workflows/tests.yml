@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.2', '7.3', '7.4', '8.0', '8.1']
+        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
         composer_flags: [ '' ]
         minimum_stability: [ '' ]
         symfony_deprecations_helper: [ '' ]
@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
@@ -58,6 +58,6 @@ jobs:
           vendor/bin/phpunit -v --coverage-clover=coverage.xml
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: coverage.xml
