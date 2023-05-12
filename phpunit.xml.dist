@@ -9,10 +9,7 @@
   <testsuites>
     <testsuite name="Behat Mink test suite">
       <directory>tests</directory>
-      <exclude>./tests/Element/ElementTest.php</exclude>
-      <exclude>./tests/Selector/NamedSelectorTest.php</exclude>
     </testsuite>
-
   </testsuites>
 
   <source>
@@ -20,5 +17,12 @@
       <directory>./src</directory>
     </include>
   </source>
+
+  <!--
+  Not supported in PHPUnit
+  <extensions>
+    <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+  </extensions>
+  -->
 
 </phpunit>

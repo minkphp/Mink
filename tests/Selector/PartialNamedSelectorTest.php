@@ -3,9 +3,12 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\PartialNamedSelector;
+use PHPUnit\Framework\TestCase;
 
-class PartialNamedSelectorTest extends NamedSelectorTest
+class PartialNamedSelectorTest extends TestCase
 {
+    use NamedSelectorTestTrait;
+
     protected function getSelector()
     {
         return new PartialNamedSelector();

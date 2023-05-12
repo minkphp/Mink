@@ -8,7 +8,7 @@ use Behat\Mink\Selector\SelectorsHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class ElementTest extends TestCase
+class ElementTest extends TestCase
 {
     /**
      * Session.
@@ -72,5 +72,11 @@ abstract class ElementTest extends TestCase
             ->method('selectorToXpath')
             ->with($this->logicalOr('named_exact', 'named_partial'), $locator)
             ->will($this->returnValue($xpath));
+    }
+
+    // just to suppress warnings from phpunit 10 of no tests found
+    public function testDummy()
+    {
+        self::assertTrue(true);
     }
 }
