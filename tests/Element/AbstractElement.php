@@ -8,7 +8,7 @@ use Behat\Mink\Selector\SelectorsHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class ElementTest extends TestCase
+abstract class AbstractElement extends TestCase
 {
     /**
      * Session.

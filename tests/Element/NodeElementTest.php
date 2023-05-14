@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\NodeElement;
 
-class NodeElementTest extends ElementTest
+class NodeElementTest extends AbstractElement
 {
     public function testGetXpath()
     {

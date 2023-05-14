@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\DocumentElement;
 
-class DocumentElementTest extends ElementTest
+class DocumentElementTest extends AbstractElement
 {
     /**
      * Page.

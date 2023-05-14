@@ -55,7 +55,7 @@ jobs:
       - name: Run tests
         run: |
           export SYMFONY_DEPRECATIONS_HELPER="${{ matrix.symfony_deprecations_helper }}"
-          vendor/bin/phpunit -v --coverage-clover=coverage.xml
+          vendor/bin/phpunit --coverage-clover=coverage.xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3
