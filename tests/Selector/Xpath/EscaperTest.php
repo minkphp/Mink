@@ -17,7 +17,7 @@ class EscaperTest extends TestCase
         $this->assertEquals($expected, $escaper->escapeLiteral($string));
     }
 
-    public function getXpathLiterals()
+    public static function getXpathLiterals()
     {
         return array(
             array('some simple string', "'some simple string'"),

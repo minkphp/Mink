@@ -19,7 +19,7 @@ class ElementNotFoundExceptionTest extends TestCase
         $this->assertEquals($message, $exception->getMessage());
     }
 
-    public function provideExceptionMessage()
+    public static function provideExceptionMessage()
     {
         return array(
             array('Tag not found.', null),

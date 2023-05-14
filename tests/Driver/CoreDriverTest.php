@@ -74,7 +74,7 @@ class CoreDriverTest extends TestCase
         $coreDriverMethod->invokeArgs($driver, $this->getArguments($method));
     }
 
-    public function getDriverInterfaceMethods()
+    public static function getDriverInterfaceMethods()
     {
         $ref = new \ReflectionClass('Behat\Mink\Driver\DriverInterface');
 

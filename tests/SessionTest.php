@@ -188,7 +188,7 @@ class SessionTest extends TestCase
         $this->assertSame($expected, $this->session->getResponseHeader($name));
     }
 
-    public function provideResponseHeader()
+    public static function provideResponseHeader()
     {
         return array(
             array('test', 'Mink', array('Mink' => 'test')),

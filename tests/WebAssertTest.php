@@ -922,7 +922,7 @@ class WebAssertTest extends TestCase
         );
     }
 
-    public function getArrayLocatorFormats()
+    public static function getArrayLocatorFormats()
     {
         return array(
             'named' => array(
