@@ -2,9 +2,11 @@
 
 namespace Behat\Mink\Tests\Selector;
 
+use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\Xpath\Escaper;
+use PHPUnit\Framework\TestCase;
 
-trait NamedSelectorTestTrait
+abstract class AbstractNamedSelector extends TestCase
 {
     public function testRegisterXpath()
     {
@@ -292,4 +294,14 @@ trait NamedSelectorTestTrait
             ),
         );
     }
+
+    /**
+     * @return NamedSelector
+     */
+    abstract protected function getSelector();
+
+    /**
+     * @return bool
+     */
+    abstract protected function allowPartialMatch();
 }

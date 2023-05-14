@@ -3,12 +3,9 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\ExactNamedSelector;
-use PHPUnit\Framework\TestCase;
 
-class ExactNamedSelectorTest extends TestCase
+class ExactNamedSelectorTest extends AbstractNamedSelector
 {
-    use NamedSelectorTestTrait;
-
     protected function getSelector()
     {
         return new ExactNamedSelector();
