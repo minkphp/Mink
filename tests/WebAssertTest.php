@@ -927,30 +927,37 @@ class WebAssertTest extends TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('find')
             ->with('css', 'h2 > span')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getHtml')
             ->will($this->returnValue('element html'))
         ;
 
-        $this->assertCorrectAssertion('elementContains', array('css', 'h2 > span', 'html'));
+        $this->assertCorrectAssertion('elementContains', array('css', 'h2 > span', 'HTML'));
+        $this->assertCorrectAssertion('elementContains', array('css', 'h2 > span', 'html', true));
         $this->assertWrongAssertion(
             'elementContains',
             array('css', 'h2 > span', 'text'),
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "text" was not found in the HTML of the element matching css "h2 > span".'
+        );
+        $this->assertWrongAssertion(
+            'elementContains',
+            array('css', 'h2 > span', 'Html', true),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The string "Html" was not found in the HTML of the element matching css "h2 > span".'
         );
     }
 
@@ -967,30 +974,37 @@ class WebAssertTest extends TestCase
         ;
 
         $this->session
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getPage')
             ->will($this->returnValue($page))
         ;
 
         $page
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('find')
             ->with('css', 'h2 > span')
             ->will($this->returnValue($element))
         ;
 
         $element
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getHtml')
-            ->will($this->returnValue('element html'))
+            ->will($this->returnValue('element Html'))
         ;
 
-        $this->assertCorrectAssertion('elementNotContains', array('css', 'h2 > span', 'text'));
+        $this->assertCorrectAssertion('elementNotContains', array('css', 'h2 > span', 'Text'));
+        $this->assertCorrectAssertion('elementNotContains', array('css', 'h2 > span', 'html', true));
         $this->assertWrongAssertion(
             'elementNotContains',
             array('css', 'h2 > span', 'html'),
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "html" appears in the HTML of the element matching css "h2 > span", but it should not.'
+        );
+        $this->assertWrongAssertion(
+            'elementNotContains',
+            array('css', 'h2 > span', 'Html', true),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The string "Html" appears in the HTML of the element matching css "h2 > span", but it should not.'
         );
     }
 
