@@ -325,22 +325,24 @@ class Session
      * Execute JS in browser.
      *
      * @param string $script javascript
+     * @param array  $args
      */
-    public function executeScript($script)
+    public function executeScript($script, array $args = [])
     {
-        $this->driver->executeScript($script);
+        $this->driver->executeScript($script, $args);
     }
 
     /**
      * Execute JS in browser and return its response.
      *
      * @param string $script javascript
+     * @param array  $args
      *
      * @return mixed
      */
-    public function evaluateScript($script)
+    public function evaluateScript($script, array $args = [])
     {
-        return $this->driver->evaluateScript($script);
+        return $this->driver->evaluateScript($script, $args);
     }
 
     /**
@@ -348,12 +350,13 @@ class Session
      *
      * @param int    $time      time in milliseconds
      * @param string $condition JS condition
+     * @param array  $args
      *
      * @return bool
      */
-    public function wait($time, $condition = 'false')
+    public function wait($time, $condition = 'false', array $args = [])
     {
-        return $this->driver->wait($time, $condition);
+        return $this->driver->wait($time, $condition, $args);
     }
 
     /**

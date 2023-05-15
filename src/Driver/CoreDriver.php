@@ -428,7 +428,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function executeScript($script)
+    public function executeScript($script, array $args = [])
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
@@ -436,7 +436,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function evaluateScript($script)
+    public function evaluateScript($script, array $args = [])
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
@@ -444,7 +444,7 @@ abstract class CoreDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function wait($timeout, $condition)
+    public function wait($timeout, $condition, array $args = [])
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }

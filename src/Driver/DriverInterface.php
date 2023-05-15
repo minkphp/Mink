@@ -569,11 +569,12 @@ interface DriverInterface
      * Executes JS script.
      *
      * @param string $script
+     * @param array  $args
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function executeScript($script);
+    public function executeScript($script, array $args = []);
 
     /**
      * Evaluates JS script.
@@ -582,26 +583,28 @@ interface DriverInterface
      * must accept the expression both with and without the keyword.
      *
      * @param string $script
+     * @param array  $args
      *
      * @return mixed
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function evaluateScript($script);
+    public function evaluateScript($script, array $args = []);
 
     /**
      * Waits some time or until JS condition turns true.
      *
      * @param int    $timeout   timeout in milliseconds
      * @param string $condition JS condition
+     * @param array  $args
      *
      * @return bool
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function wait($timeout, $condition);
+    public function wait($timeout, $condition, array $args = []);
 
     /**
      * Set the dimensions of the window.
