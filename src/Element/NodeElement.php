@@ -306,25 +306,38 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Press one or more keyboard keys on an element.
+     *
+     * @param string|int|array $keys a string to type ('PHP Hypertext Preprocessor'), a integer key code (88), or an array of keys to press in sequence (e.g.: ["\u{E008}", 'H', "\u{E001}", 'ello']). See https://w3c.github.io/webdriver/#keyboard-actions
+     */
+    public function pressKey($keys) {
+        $this->getDriver()->pressKey($this->getXpath(), $keys);
+    }
+
+    /**
      * Presses specific keyboard key.
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @deprecated use pressKey($keys) instead.
      */
     public function keyPress($char, $modifier = null)
     {
-        $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
+        $this->pressKey($this->wrapCharWithModifier($char, $modifier));
     }
 
     /**
      * Pressed down specific keyboard key.
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')'
+     *
+     * @deprecated use pressKey($keys) instead.
      */
     public function keyDown($char, $modifier = null)
     {
-        $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
+        $this->pressKey($this->wrapCharWithModifier($char, $modifier));
     }
 
     /**
@@ -332,10 +345,12 @@ class NodeElement extends TraversableElement
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @deprecated use pressKey($keys) instead.
      */
     public function keyUp($char, $modifier = null)
     {
-        $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
+        $this->pressKey($this->wrapCharWithModifier($char, $modifier));
     }
 
     /**
@@ -346,5 +361,28 @@ class NodeElement extends TraversableElement
     public function submit()
     {
         $this->getDriver()->submitForm($this->getXpath());
+    }
+
+    /**
+     * Polyfill to convert from deprecated keyPress(), keyDown(), keyUp() parameters to pressKey() parameters.
+     *
+     * @param string|int  $char     could be either char ('b') or char-code (98)
+     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @return string|int|array     a $keys parameter that pressKey() can parse
+     */
+    private function wrapCharWithModifier($char, $modifier = null)
+    {
+        switch ($modifier) {
+            case 'ctrl':
+                return ["\u{E009}", $char, "\u{E001}"];
+            case 'alt':
+                return ["\u{E00A}", $char, "\u{E001}"];
+            case 'shift':
+                return ["\u{E008}", $char, "\u{E001}"];
+            case 'meta':
+                return ["\u{E03D}", $char, "\u{E001}"];
+            default:
+                return $char;
+        }
     }
 }
