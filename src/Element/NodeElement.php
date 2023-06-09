@@ -10,6 +10,7 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
 use Behat\Mink\Exception\ElementNotFoundException;
 
@@ -310,6 +311,8 @@ class NodeElement extends TraversableElement
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @phpstan-param KeyModifier::*|null $modifier
      */
     public function keyPress($char, $modifier = null)
     {
@@ -321,6 +324,8 @@ class NodeElement extends TraversableElement
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @phpstan-param KeyModifier::*|null $modifier
      */
     public function keyDown($char, $modifier = null)
     {
@@ -332,6 +337,8 @@ class NodeElement extends TraversableElement
      *
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @phpstan-param KeyModifier::*|null $modifier
      */
     public function keyUp($char, $modifier = null)
     {

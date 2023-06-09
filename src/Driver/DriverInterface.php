@@ -13,6 +13,7 @@ namespace Behat\Mink\Driver;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
 
 /**
@@ -521,9 +522,11 @@ interface DriverInterface
     /**
      * Presses specific keyboard key.
      *
-     * @param string     $xpath
-     * @param string|int $char     could be either char ('b') or char-code (98)
-     * @param string     $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string      $xpath
+     * @param string|int  $char     could be either char ('b') or char-code (98)
+     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @phpstan-param KeyModifier::*|null $modifier
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -537,6 +540,8 @@ interface DriverInterface
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
+     * @phpstan-param KeyModifier::*|null $modifier
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -548,6 +553,8 @@ interface DriverInterface
      * @param string      $xpath
      * @param string|int  $char     could be either char ('b') or char-code (98)
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     *
+     * @phpstan-param KeyModifier::*|null $modifier
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
