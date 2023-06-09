@@ -27,6 +27,8 @@ interface DriverInterface
      * Sets driver's current session.
      *
      * @param Session $session
+     *
+     * @return void
      */
     public function setSession(Session $session);
 
@@ -47,6 +49,8 @@ interface DriverInterface
      * implementations are free to handle it silently or to fail with an
      * exception.
      *
+     * @return void
+     *
      * @throws DriverException When the driver cannot be started
      */
     public function start();
@@ -54,7 +58,7 @@ interface DriverInterface
     /**
      * Checks whether driver is started.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStarted();
 
@@ -69,6 +73,8 @@ interface DriverInterface
      * Calling stop on a stopped driver is an undefined behavior. Driver
      * implementations are free to handle it silently or to fail with an
      * exception.
+     *
+     * @return void
      *
      * @throws DriverException When the driver cannot be closed
      */
@@ -93,6 +99,8 @@ interface DriverInterface
      * - stop()
      *
      * Calling reset on a stopped driver is an undefined behavior.
+     *
+     * @return void
      */
     public function reset();
 
@@ -100,6 +108,8 @@ interface DriverInterface
      * Visit specified URL.
      *
      * @param string $url url of the page
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -119,6 +129,8 @@ interface DriverInterface
     /**
      * Reloads current page.
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -126,6 +138,8 @@ interface DriverInterface
 
     /**
      * Moves browser forward 1 page.
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -135,6 +149,8 @@ interface DriverInterface
     /**
      * Moves browser backward 1 page.
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -143,8 +159,10 @@ interface DriverInterface
     /**
      * Sets HTTP Basic authentication parameters.
      *
-     * @param string|boolean $user     user name or false to disable authentication
-     * @param string         $password password
+     * @param string|false $user     user name or false to disable authentication
+     * @param string       $password password
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -156,6 +174,8 @@ interface DriverInterface
      *
      * @param string|null $name window name (null for switching back to main window)
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -165,6 +185,8 @@ interface DriverInterface
      * Switches to specific iFrame.
      *
      * @param string|null $name iframe name (null for switching back)
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -176,6 +198,8 @@ interface DriverInterface
      *
      * @param string $name
      * @param string $value
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -199,6 +223,8 @@ interface DriverInterface
      *
      * @param string      $name
      * @param string|null $value
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -361,6 +387,8 @@ interface DriverInterface
      * @param string            $xpath
      * @param string|bool|array $value
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      *
@@ -372,6 +400,8 @@ interface DriverInterface
      * Checks checkbox by its XPath query.
      *
      * @param string $xpath
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -385,6 +415,8 @@ interface DriverInterface
      *
      * @param string $xpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      *
@@ -397,7 +429,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return boolean
+     * @return bool
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -409,9 +441,11 @@ interface DriverInterface
     /**
      * Selects option from select field or value in radio group located by its XPath query.
      *
-     * @param string  $xpath
-     * @param string  $value
-     * @param boolean $multiple
+     * @param string $xpath
+     * @param string $value
+     * @param bool   $multiple
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -425,7 +459,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return boolean
+     * @return bool
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -439,6 +473,8 @@ interface DriverInterface
      *
      * @param string $xpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -448,6 +484,8 @@ interface DriverInterface
      * Double-clicks button or link located by its XPath query.
      *
      * @param string $xpath
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -459,6 +497,8 @@ interface DriverInterface
      *
      * @param string $xpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -469,6 +509,8 @@ interface DriverInterface
      *
      * @param string $xpath
      * @param string $path
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -482,7 +524,7 @@ interface DriverInterface
      *
      * @param string $xpath
      *
-     * @return boolean
+     * @return bool
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -494,6 +536,8 @@ interface DriverInterface
      *
      * @param string $xpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -504,6 +548,8 @@ interface DriverInterface
      *
      * @param string $xpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -513,6 +559,8 @@ interface DriverInterface
      * Removes focus from element.
      *
      * @param string $xpath
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -528,6 +576,8 @@ interface DriverInterface
      *
      * @phpstan-param KeyModifier::*|null $modifier
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -541,6 +591,8 @@ interface DriverInterface
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -556,6 +608,8 @@ interface DriverInterface
      *
      * @phpstan-param KeyModifier::*|null $modifier
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -567,6 +621,8 @@ interface DriverInterface
      * @param string $sourceXpath
      * @param string $destinationXpath
      *
+     * @return void
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -576,6 +632,8 @@ interface DriverInterface
      * Executes JS script.
      *
      * @param string $script
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -613,9 +671,11 @@ interface DriverInterface
     /**
      * Set the dimensions of the window.
      *
-     * @param int    $width  set the window width, measured in pixels
-     * @param int    $height set the window height, measured in pixels
-     * @param string $name   window name (null for the main window)
+     * @param int         $width  set the window width, measured in pixels
+     * @param int         $height set the window height, measured in pixels
+     * @param string|null $name   window name (null for the main window)
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -625,7 +685,9 @@ interface DriverInterface
     /**
      * Maximizes the window if it is not maximized already.
      *
-     * @param string $name window name (null for the main window)
+     * @param string|null $name window name (null for the main window)
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
@@ -636,6 +698,8 @@ interface DriverInterface
      * Submits the form.
      *
      * @param string $xpath Xpath.
+     *
+     * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done

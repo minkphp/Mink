@@ -23,6 +23,9 @@ use Behat\Mink\Element\Element;
  */
 class ElementException extends Exception
 {
+    /**
+     * @var Element
+     */
     private $element;
 
     /**

@@ -54,6 +54,8 @@ class Mink
      *
      * @param string  $name
      * @param Session $session
+     *
+     * @return void
      */
     public function registerSession($name, Session $session)
     {
@@ -67,7 +69,7 @@ class Mink
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSession($name)
     {
@@ -78,6 +80,8 @@ class Mink
      * Sets default session name to use.
      *
      * @param string $name name of the registered session
+     *
+     * @return void
      *
      * @throws \InvalidArgumentException
      */
@@ -150,6 +154,8 @@ class Mink
 
     /**
      * Resets all started sessions.
+     *
+     * @return void
      */
     public function resetSessions()
     {
@@ -162,6 +168,8 @@ class Mink
 
     /**
      * Restarts all started sessions.
+     *
+     * @return void
      */
     public function restartSessions()
     {
@@ -174,6 +182,8 @@ class Mink
 
     /**
      * Stops all started sessions.
+     *
+     * @return void
      */
     public function stopSessions()
     {

@@ -21,6 +21,9 @@ use Behat\Mink\Exception\ElementNotFoundException;
  */
 class NodeElement extends TraversableElement
 {
+    /**
+     * @var string
+     */
     private $xpath;
 
     /**
@@ -99,6 +102,8 @@ class NodeElement extends TraversableElement
      *
      * @param string|bool|array $value
      *
+     * @return void
+     *
      * @see NodeElement::getValue for the format of the value for each type of field
      */
     public function setValue($value)
@@ -111,7 +116,7 @@ class NodeElement extends TraversableElement
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAttribute($name)
     {
@@ -148,6 +153,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Clicks current node.
+     *
+     * @return void
      */
     public function click()
     {
@@ -156,6 +163,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Presses current button.
+     *
+     * @return void
      */
     public function press()
     {
@@ -164,6 +173,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Double-clicks current node.
+     *
+     * @return void
      */
     public function doubleClick()
     {
@@ -172,6 +183,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Right-clicks current node.
+     *
+     * @return void
      */
     public function rightClick()
     {
@@ -180,6 +193,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Checks current node if it's a checkbox field.
+     *
+     * @return void
      */
     public function check()
     {
@@ -188,6 +203,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Unchecks current node if it's a checkbox field.
+     *
+     * @return void
      */
     public function uncheck()
     {
@@ -199,11 +216,11 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on any other elements is not allowed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isChecked()
     {
-        return (boolean) $this->getDriver()->isChecked($this->getXpath());
+        return (bool) $this->getDriver()->isChecked($this->getXpath());
     }
 
     /**
@@ -216,8 +233,10 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on any other elements is not allowed.
      *
-     * @param string  $option
-     * @param boolean $multiple whether the option should be added to the selection for multiple selects
+     * @param string $option
+     * @param bool   $multiple whether the option should be added to the selection for multiple selects
+     *
+     * @return void
      *
      * @throws ElementNotFoundException when the option is not found in the select box
      */
@@ -243,11 +262,11 @@ class NodeElement extends TraversableElement
      *
      * Calling this method on any other elements is not allowed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSelected()
     {
-        return (boolean) $this->getDriver()->isSelected($this->getXpath());
+        return (bool) $this->getDriver()->isSelected($this->getXpath());
     }
 
     /**
@@ -256,6 +275,8 @@ class NodeElement extends TraversableElement
      * Calling this method on any other elements than file input is not allowed.
      *
      * @param string $path path to file (local)
+     *
+     * @return void
      */
     public function attachFile($path)
     {
@@ -265,15 +286,17 @@ class NodeElement extends TraversableElement
     /**
      * Checks whether current node is visible on page.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {
-        return (boolean) $this->getDriver()->isVisible($this->getXpath());
+        return (bool) $this->getDriver()->isVisible($this->getXpath());
     }
 
     /**
      * Simulates a mouse over on the element.
+     *
+     * @return void
      */
     public function mouseOver()
     {
@@ -284,6 +307,8 @@ class NodeElement extends TraversableElement
      * Drags current node onto other node.
      *
      * @param ElementInterface $destination other node
+     *
+     * @return void
      */
     public function dragTo(ElementInterface $destination)
     {
@@ -292,6 +317,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Brings focus to element.
+     *
+     * @return void
      */
     public function focus()
     {
@@ -300,6 +327,8 @@ class NodeElement extends TraversableElement
 
     /**
      * Removes focus from element.
+     *
+     * @return void
      */
     public function blur()
     {
@@ -313,6 +342,8 @@ class NodeElement extends TraversableElement
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
+     *
+     * @return void
      */
     public function keyPress($char, $modifier = null)
     {
@@ -326,6 +357,8 @@ class NodeElement extends TraversableElement
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
+     *
+     * @return void
      */
     public function keyDown($char, $modifier = null)
     {
@@ -339,6 +372,8 @@ class NodeElement extends TraversableElement
      * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
+     *
+     * @return void
      */
     public function keyUp($char, $modifier = null)
     {
@@ -349,6 +384,8 @@ class NodeElement extends TraversableElement
      * Submits the form.
      *
      * Calling this method on anything else than form elements is not allowed.
+     *
+     * @return void
      */
     public function submit()
     {

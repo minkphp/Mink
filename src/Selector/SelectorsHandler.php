@@ -19,13 +19,19 @@ use Behat\Mink\Selector\Xpath\Escaper;
  */
 class SelectorsHandler
 {
-    private $selectors;
+    /**
+     * @var array<string, SelectorInterface>
+     */
+    private $selectors = [];
+    /**
+     * @var Escaper
+     */
     private $escaper;
 
     /**
      * Initializes selectors handler.
      *
-     * @param SelectorInterface[] $selectors default selectors to register
+     * @param array<string, SelectorInterface> $selectors default selectors to register
      */
     public function __construct(array $selectors = array())
     {
@@ -45,6 +51,8 @@ class SelectorsHandler
      *
      * @param string            $name     selector engine name
      * @param SelectorInterface $selector selector engine instance
+     *
+     * @return void
      */
     public function registerSelector($name, SelectorInterface $selector)
     {
@@ -56,7 +64,7 @@ class SelectorsHandler
      *
      * @param string $name selector engine name
      *
-     * @return boolean
+     * @return bool
      */
     public function isSelectorRegistered($name)
     {
@@ -94,7 +102,7 @@ class SelectorsHandler
      * Translates selector with specified name to XPath.
      *
      * @param string       $selector selector engine name (registered)
-     * @param string|array $locator  selector locator (an array or a string depending of the selector being used)
+     * @param string|array $locator  selector locator (an array or a string depending on the selector being used)
      *
      * @return string
      */

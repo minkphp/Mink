@@ -36,7 +36,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator link id, title, text or image alt
      *
-     * @return boolean
+     * @return bool
      */
     public function hasLink($locator)
     {
@@ -60,6 +60,8 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator link id, title, text or image alt
      *
+     * @return void
+     *
      * @throws ElementNotFoundException
      */
     public function clickLink($locator)
@@ -78,7 +80,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator button id, value or alt
      *
-     * @return boolean
+     * @return bool
      */
     public function hasButton($locator)
     {
@@ -102,6 +104,8 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator button id, value or alt
      *
+     * @return void
+     *
      * @throws ElementNotFoundException
      */
     public function pressButton($locator)
@@ -120,7 +124,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return boolean
+     * @return bool
      */
     public function hasField($locator)
     {
@@ -145,6 +149,8 @@ abstract class TraversableElement extends Element
      * @param string $locator input id, name or label
      * @param string $value   value
      *
+     * @return void
+     *
      * @throws ElementNotFoundException
      *
      * @see NodeElement::setValue
@@ -165,7 +171,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return boolean
+     * @return bool
      *
      * @see NodeElement::isChecked
      */
@@ -181,7 +187,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
-     * @return boolean
+     * @return bool
      *
      * @see NodeElement::isChecked
      */
@@ -196,6 +202,8 @@ abstract class TraversableElement extends Element
      * Checks checkbox with specified locator.
      *
      * @param string $locator input id, name or label
+     *
+     * @return void
      *
      * @throws ElementNotFoundException
      */
@@ -215,6 +223,8 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      *
+     * @return void
+     *
      * @throws ElementNotFoundException
      */
     public function uncheckField($locator)
@@ -233,7 +243,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator select id, name or label
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSelect($locator)
     {
@@ -243,9 +253,11 @@ abstract class TraversableElement extends Element
     /**
      * Selects option from select field with specified locator.
      *
-     * @param string  $locator  input id, name or label
-     * @param string  $value    option value
-     * @param boolean $multiple select multiple options
+     * @param string $locator  input id, name or label
+     * @param string $value    option value
+     * @param bool   $multiple select multiple options
+     *
+     * @return void
      *
      * @throws ElementNotFoundException
      *
@@ -267,7 +279,7 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator table id or caption
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTable($locator)
     {
@@ -279,6 +291,8 @@ abstract class TraversableElement extends Element
      *
      * @param string $locator input id, name or label
      * @param string $path    path to file
+     *
+     * @return void
      *
      * @throws ElementNotFoundException
      *
