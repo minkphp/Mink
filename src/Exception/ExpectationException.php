@@ -22,7 +22,13 @@ use Behat\Mink\Session;
  */
 class ExpectationException extends Exception
 {
+    /**
+     * @var Session|null
+     */
     private $session;
+    /**
+     * @var DriverInterface
+     */
     private $driver;
 
     /**

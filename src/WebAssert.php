@@ -27,6 +27,9 @@ use Behat\Mink\Exception\ElementTextException;
  */
 class WebAssert
 {
+    /**
+     * @var Session
+     */
     protected $session;
 
     /**
@@ -44,6 +47,8 @@ class WebAssert
      *
      * @param string $page
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function addressEquals($page)
@@ -58,6 +63,8 @@ class WebAssert
      * Checks that current session address is not equals to provided one.
      *
      * @param string $page
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -74,6 +81,8 @@ class WebAssert
      *
      * @param string $regex
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function addressMatches($regex)
@@ -89,6 +98,8 @@ class WebAssert
      *
      * @param string $name  cookie name
      * @param string $value cookie value
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -107,6 +118,8 @@ class WebAssert
      *
      * @param string $name cookie name
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function cookieExists($name)
@@ -119,6 +132,8 @@ class WebAssert
      * Checks that current response code equals to provided one.
      *
      * @param int $code
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -134,6 +149,8 @@ class WebAssert
      * Checks that current response code not equals to provided one.
      *
      * @param int $code
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -151,6 +168,8 @@ class WebAssert
      * @param string $name
      * @param string $value
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function responseHeaderEquals($name, $value)
@@ -166,6 +185,8 @@ class WebAssert
      *
      * @param string $name
      * @param string $value
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -183,6 +204,8 @@ class WebAssert
      * @param string $name
      * @param string $value
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function responseHeaderContains($name, $value)
@@ -198,6 +221,8 @@ class WebAssert
      *
      * @param string $name
      * @param string $value
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -215,6 +240,8 @@ class WebAssert
      * @param string $name
      * @param string $regex
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function responseHeaderMatches($name, $regex)
@@ -230,6 +257,8 @@ class WebAssert
      *
      * @param string $name
      * @param string $regex
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -250,6 +279,8 @@ class WebAssert
      *
      * @param string $text
      *
+     * @return void
+     *
      * @throws ResponseTextException
      */
     public function pageTextContains($text)
@@ -263,9 +294,11 @@ class WebAssert
     }
 
     /**
-     * Checks that current page does not contains text.
+     * Checks that current page does not contain text.
      *
      * @param string $text
+     *
+     * @return void
      *
      * @throws ResponseTextException
      */
@@ -284,6 +317,8 @@ class WebAssert
      *
      * @param string $regex
      *
+     * @return void
+     *
      * @throws ResponseTextException
      */
     public function pageTextMatches($regex)
@@ -295,9 +330,11 @@ class WebAssert
     }
 
     /**
-     * Checks that current page text does not matches regex.
+     * Checks that current page text does not match regex.
      *
      * @param string $regex
+     *
+     * @return void
      *
      * @throws ResponseTextException
      */
@@ -314,6 +351,8 @@ class WebAssert
      *
      * @param string $text
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function responseContains($text)
@@ -328,6 +367,8 @@ class WebAssert
      * Checks that page HTML (response content) does not contains text.
      *
      * @param string $text
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -344,6 +385,8 @@ class WebAssert
      *
      * @param string $regex
      *
+     * @return void
+     *
      * @throws ExpectationException
      */
     public function responseMatches($regex)
@@ -357,7 +400,9 @@ class WebAssert
     /**
      * Checks that page HTML (response content) does not matches regex.
      *
-     * @param $regex
+     * @param string $regex
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -372,10 +417,12 @@ class WebAssert
     /**
      * Checks that there is specified number of specific elements on the page.
      *
-     * @param string           $selectorType element selector type (css, xpath)
-     * @param string|array     $selector     element selector
-     * @param int              $count        expected count
-     * @param ElementInterface $container    document to check against
+     * @param string                $selectorType element selector type (css, xpath)
+     * @param string|array          $selector     element selector
+     * @param int                   $count        expected count
+     * @param ElementInterface|null $container    document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -397,9 +444,9 @@ class WebAssert
     /**
      * Checks that specific element exists on the current page.
      *
-     * @param string           $selectorType element selector type (css, xpath)
-     * @param string|array     $selector     element selector
-     * @param ElementInterface $container    document to check against
+     * @param string                $selectorType element selector type (css, xpath)
+     * @param string|array          $selector     element selector
+     * @param ElementInterface|null $container    document to check against
      *
      * @return NodeElement
      *
@@ -424,9 +471,11 @@ class WebAssert
     /**
      * Checks that specific element does not exists on the current page.
      *
-     * @param string           $selectorType element selector type (css, xpath)
-     * @param string|array     $selector     element selector
-     * @param ElementInterface $container    document to check against
+     * @param string                $selectorType element selector type (css, xpath)
+     * @param string|array          $selector     element selector
+     * @param ElementInterface|null $container    document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -450,7 +499,10 @@ class WebAssert
      * @param string|array $selector     element selector
      * @param string       $text         expected text
      *
+     * @return void
+     *
      * @throws ElementTextException
+     * @throws ElementNotFoundException
      */
     public function elementTextContains($selectorType, $selector, $text)
     {
@@ -474,7 +526,10 @@ class WebAssert
      * @param string|array $selector     element selector
      * @param string       $text         expected text
      *
+     * @return void
+     *
      * @throws ElementTextException
+     * @throws ElementNotFoundException
      */
     public function elementTextNotContains($selectorType, $selector, $text)
     {
@@ -498,7 +553,10 @@ class WebAssert
      * @param string|array $selector     element selector
      * @param string       $html         expected text
      *
+     * @return void
+     *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementContains($selectorType, $selector, $html)
     {
@@ -522,7 +580,10 @@ class WebAssert
      * @param string|array $selector     element selector
      * @param string       $html         expected text
      *
+     * @return void
+     *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementNotContains($selectorType, $selector, $html)
     {
@@ -549,6 +610,7 @@ class WebAssert
      * @return NodeElement
      *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementAttributeExists($selectorType, $selector, $attribute)
     {
@@ -575,6 +637,7 @@ class WebAssert
      * @return NodeElement
      *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementAttributeNotExists($selectorType, $selector, $attribute)
     {
@@ -599,7 +662,10 @@ class WebAssert
      * @param string       $attribute
      * @param string       $text
      *
+     * @return void
+     *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementAttributeContains($selectorType, $selector, $attribute, $text)
     {
@@ -625,7 +691,10 @@ class WebAssert
      * @param string       $attribute
      * @param string       $text
      *
+     * @return void
+     *
      * @throws ElementHtmlException
+     * @throws ElementNotFoundException
      */
     public function elementAttributeNotContains($selectorType, $selector, $attribute, $text)
     {
@@ -646,8 +715,8 @@ class WebAssert
     /**
      * Checks that specific field exists on the current page.
      *
-     * @param string             $field     field id|name|label|value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param TraversableElement|null $container document to check against
      *
      * @return NodeElement
      *
@@ -666,10 +735,12 @@ class WebAssert
     }
 
     /**
-     * Checks that specific field does not exists on the current page.
+     * Checks that specific field does not exist on the current page.
      *
-     * @param string             $field     field id|name|label|value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param TraversableElement|null $container document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -684,9 +755,11 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string             $field     field id|name|label|value
-     * @param string             $value     field value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param string                  $value     field value
+     * @param TraversableElement|null $container document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -704,9 +777,11 @@ class WebAssert
     /**
      * Checks that specific field have provided value.
      *
-     * @param string             $field     field id|name|label|value
-     * @param string             $value     field value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param string                  $value     field value
+     * @param TraversableElement|null $container document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -724,8 +799,10 @@ class WebAssert
     /**
      * Checks that specific checkbox is checked.
      *
-     * @param string             $field     field id|name|label|value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param TraversableElement|null $container document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -739,8 +816,10 @@ class WebAssert
     /**
      * Checks that specific checkbox is unchecked.
      *
-     * @param string             $field     field id|name|label|value
-     * @param TraversableElement $container document to check against
+     * @param string                  $field     field id|name|label|value
+     * @param TraversableElement|null $container document to check against
+     *
+     * @return void
      *
      * @throws ExpectationException
      */
@@ -783,6 +862,8 @@ class WebAssert
      * @param bool   $condition
      * @param string $message   Failure message
      *
+     * @return void
+     *
      * @throws ExpectationException when the condition is not fulfilled
      */
     private function assert($condition, $message)
@@ -799,6 +880,8 @@ class WebAssert
      *
      * @param bool   $condition
      * @param string $message   Failure message
+     *
+     * @return void
      *
      * @throws ResponseTextException when the condition is not fulfilled
      */
@@ -818,6 +901,8 @@ class WebAssert
      * @param string  $message   Failure message
      * @param Element $element
      *
+     * @return void
+     *
      * @throws ElementHtmlException when the condition is not fulfilled
      */
     private function assertElement($condition, $message, Element $element)
@@ -835,6 +920,8 @@ class WebAssert
      * @param bool    $condition
      * @param string  $message   Failure message
      * @param Element $element
+     *
+     * @return void
      *
      * @throws ElementTextException when the condition is not fulfilled
      */

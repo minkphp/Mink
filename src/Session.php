@@ -21,8 +21,17 @@ use Behat\Mink\Element\DocumentElement;
  */
 class Session
 {
+    /**
+     * @var DriverInterface
+     */
     private $driver;
+    /**
+     * @var DocumentElement
+     */
     private $page;
+    /**
+     * @var SelectorsHandler
+     */
     private $selectorsHandler;
 
     /**
@@ -47,7 +56,7 @@ class Session
     /**
      * Checks whether session (driver) was started.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStarted()
     {
@@ -64,6 +73,8 @@ class Session
      * - setBasicAuth()
      * - reset()
      * - stop()
+     *
+     * @return void
      */
     public function start()
     {
@@ -72,6 +83,8 @@ class Session
 
     /**
      * Stops session driver.
+     *
+     * @return void
      */
     public function stop()
     {
@@ -80,6 +93,8 @@ class Session
 
     /**
      * Restart session driver.
+     *
+     * @return void
      */
     public function restart()
     {
@@ -97,6 +112,8 @@ class Session
      * - setBasicAuth()
      * - reset()
      * - stop()
+     *
+     * @return void
      */
     public function reset()
     {
@@ -137,6 +154,8 @@ class Session
      * Visit specified URL and automatically start session if not already running.
      *
      * @param string $url url of the page
+     *
+     * @return void
      */
     public function visit($url)
     {
@@ -151,8 +170,10 @@ class Session
     /**
      * Sets HTTP Basic authentication parameters.
      *
-     * @param string|boolean $user     user name or false to disable authentication
-     * @param string         $password password
+     * @param string|false $user     user name or false to disable authentication
+     * @param string       $password password
+     *
+     * @return void
      */
     public function setBasicAuth($user, $password = '')
     {
@@ -164,6 +185,8 @@ class Session
      *
      * @param string $name
      * @param string $value
+     *
+     * @return void
      */
     public function setRequestHeader($name, $value)
     {
@@ -208,6 +231,8 @@ class Session
      *
      * @param string      $name
      * @param string|null $value
+     *
+     * @return void
      */
     public function setCookie($name, $value = null)
     {
@@ -279,6 +304,8 @@ class Session
 
     /**
      * Reloads current session page.
+     *
+     * @return void
      */
     public function reload()
     {
@@ -287,6 +314,8 @@ class Session
 
     /**
      * Moves backward 1 page in history.
+     *
+     * @return void
      */
     public function back()
     {
@@ -295,6 +324,8 @@ class Session
 
     /**
      * Moves forward 1 page in history.
+     *
+     * @return void
      */
     public function forward()
     {
@@ -305,6 +336,8 @@ class Session
      * Switches to specific browser window.
      *
      * @param string|null $name window name (null for switching back to main window)
+     *
+     * @return void
      */
     public function switchToWindow($name = null)
     {
@@ -315,6 +348,8 @@ class Session
      * Switches to specific iFrame.
      *
      * @param string|null $name iframe name (null for switching back)
+     *
+     * @return void
      */
     public function switchToIFrame($name = null)
     {
@@ -325,6 +360,8 @@ class Session
      * Execute JS in browser.
      *
      * @param string $script javascript
+     *
+     * @return void
      */
     public function executeScript($script)
     {
@@ -362,6 +399,8 @@ class Session
      * @param int         $width  set the window width, measured in pixels
      * @param int         $height set the window height, measured in pixels
      * @param string|null $name   window name (null for the main window)
+     *
+     * @return void
      */
     public function resizeWindow($width, $height, $name = null)
     {
@@ -372,6 +411,8 @@ class Session
      * Maximize the window if it is not maximized already.
      *
      * @param string|null $name window name (null for the main window)
+     *
+     * @return void
      */
     public function maximizeWindow($name = null)
     {

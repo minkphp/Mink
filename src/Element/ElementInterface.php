@@ -41,7 +41,7 @@ interface ElementInterface
      * @param string       $selector selector engine name
      * @param string|array $locator  selector locator
      *
-     * @return boolean
+     * @return bool
      *
      * @see ElementInterface::findAll for the supported selectors
      */

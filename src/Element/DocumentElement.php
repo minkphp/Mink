@@ -42,7 +42,7 @@ class DocumentElement extends TraversableElement
      *
      * @param string $content
      *
-     * @return boolean
+     * @return bool
      */
     public function hasContent($content)
     {
