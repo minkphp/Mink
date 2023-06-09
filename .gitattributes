@@ -5,4 +5,5 @@
 .gitignore export-ignore
 CONTRIBUTING.md export-ignore
 phpdoc.ini.dist export-ignore
+phpstan*.neon export-ignore
 phpunit.xml.dist export-ignore
