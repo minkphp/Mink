@@ -32,7 +32,7 @@ abstract class ElementTest extends TestCase
     /**
      * @before
      */
-    protected function prepareSession()
+    protected function prepareSession(): void
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->driver
@@ -43,7 +43,7 @@ abstract class ElementTest extends TestCase
         $this->session = new Session($this->driver, $this->selectors);
     }
 
-    protected function mockNamedFinder($xpath, array $results, $locator, $times = 2)
+    protected function mockNamedFinder(string $xpath, array $results, array $locator, int $times = 2): void
     {
         if (!is_array($results[0])) {
             $results = array($results, array());
