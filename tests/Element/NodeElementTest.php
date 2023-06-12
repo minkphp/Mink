@@ -153,7 +153,7 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('input_tag', $this->session);
 
         $this->driver
-            ->expects($this->exactly(6))
+            ->expects($this->any())
             ->method('getAttribute')
             ->with('input_tag', 'class')
             ->will($this->returnValue('

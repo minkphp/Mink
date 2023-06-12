@@ -6,16 +6,6 @@ parameters:
 			path: src/Element/NodeElement.php
 
 		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, string\\>\\|false given\\.$#"
-			count: 1
-			path: src/Element/NodeElement.php
-
-		-
-			message: "#^Parameter \\#2 \\$subject of function preg_split expects string, string\\|null given\\.$#"
-			count: 1
-			path: src/Element/NodeElement.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of method Behat\\\\Mink\\\\Driver\\\\DriverInterface\\:\\:selectOption\\(\\) expects string, array\\|bool\\|string\\|null given\\.$#"
 			count: 1
 			path: src/Element/NodeElement.php
