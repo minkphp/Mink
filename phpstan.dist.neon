@@ -10,6 +10,5 @@ parameters:
         - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:get\w*\(\) has no return type specified\.$#'
 
 includes:
-    - phpstan-baseline.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon

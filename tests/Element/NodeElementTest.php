@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
 
 class NodeElementTest extends ElementTest
 {
@@ -391,6 +392,27 @@ class NodeElementTest extends ElementTest
             ->will($this->returnValue('..'));
 
         $this->assertSame($parent, $node->getParent());
+    }
+
+    public function testGetParentNotFound()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('find')
+            ->with('elem/..')
+            ->will($this->returnValue(array()));
+
+        $this->selectors
+            ->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('xpath', '..')
+            ->will($this->returnValue('..'));
+
+        $this->expectException(DriverException::class);
+        $this->expectExceptionMessage('Could not find the element parent. Maybe the element has been removed from the page.');
+        $node->getParent();
     }
 
     public function testAttachFile()

@@ -1,6 +1,0 @@
-parameters:
-	ignoreErrors:
-		-
-			message: "#^Method Behat\\\\Mink\\\\Element\\\\NodeElement\\:\\:getParent\\(\\) should return Behat\\\\Mink\\\\Element\\\\NodeElement but returns Behat\\\\Mink\\\\Element\\\\NodeElement\\|null\\.$#"
-			count: 1
-			path: src/Element/NodeElement.php

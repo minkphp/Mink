@@ -10,6 +10,7 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
 use Behat\Mink\Exception\ElementNotFoundException;
@@ -56,7 +57,13 @@ class NodeElement extends TraversableElement
      */
     public function getParent()
     {
-        return $this->find('xpath', '..');
+        $parent = $this->find('xpath', '..');
+
+        if ($parent === null) {
+            throw new DriverException('Could not find the element parent. Maybe the element has been removed from the page.');
+        }
+
+        return $parent;
     }
 
     /**
