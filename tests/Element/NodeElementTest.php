@@ -116,6 +116,7 @@ class NodeElementTest extends ElementTest
         $this->expectException('\InvalidArgumentException');
 
         $node = new NodeElement('some xpath', $this->session);
+        // @phpstan-ignore-next-line
         $node->waitFor(5, 'not a callable');
     }
 
