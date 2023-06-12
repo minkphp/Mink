@@ -56,8 +56,10 @@ class CoreDriverTest extends TestCase
     {
         $refl = new \ReflectionClass('Behat\Mink\Driver\CoreDriver');
 
+        $coreDriverMethod = $refl->getMethod($method->getName());
+
         $this->assertFalse(
-            $refl->getMethod($method->getName())->isAbstract(),
+            $coreDriverMethod->isAbstract(),
             sprintf('CoreDriver should implement a dummy %s method', $method->getName())
         );
 
@@ -69,7 +71,7 @@ class CoreDriverTest extends TestCase
 
         $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
 
-        call_user_func_array(array($driver, $method->getName()), $this->getArguments($method));
+        $coreDriverMethod->invokeArgs($driver, $this->getArguments($method));
     }
 
     public function getDriverInterfaceMethods()
