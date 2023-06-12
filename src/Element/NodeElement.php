@@ -262,7 +262,11 @@ class NodeElement extends TraversableElement
             throw new ElementNotFoundException($this->getDriver(), 'select option', 'value|text', $option);
         }
 
-        $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
+        $optionValue = $opt->getValue();
+
+        \assert(\is_string($optionValue), 'The value of an option element should always be a string.');
+
+        $this->getDriver()->selectOption($this->getXpath(), $optionValue, $multiple);
     }
 
     /**

@@ -4,8 +4,3 @@ parameters:
 			message: "#^Method Behat\\\\Mink\\\\Element\\\\NodeElement\\:\\:getParent\\(\\) should return Behat\\\\Mink\\\\Element\\\\NodeElement but returns Behat\\\\Mink\\\\Element\\\\NodeElement\\|null\\.$#"
 			count: 1
 			path: src/Element/NodeElement.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of method Behat\\\\Mink\\\\Driver\\\\DriverInterface\\:\\:selectOption\\(\\) expects string, array\\|bool\\|string\\|null given\\.$#"
-			count: 1
-			path: src/Element/NodeElement.php
