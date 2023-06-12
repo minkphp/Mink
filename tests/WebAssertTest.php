@@ -43,10 +43,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
         ;
 
-        $this->assertCorrectAssertion('addressEquals', array('/sub/url#webapp/nav'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/sub/url#webapp/nav');
+        });
         $this->assertWrongAssertion(
-            'addressEquals',
-            array('sub_url'),
+            function () {
+                $this->assert->addressEquals('sub_url');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/sub/url#webapp/nav", but "sub_url" expected.'
         );
@@ -60,7 +63,9 @@ class WebAssertTest extends TestCase
             ->willReturn('http://example.com')
         ;
 
-        $this->assertCorrectAssertion('addressEquals', array('/'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/');
+        });
     }
 
     public function testAddressEqualsEndingInScript()
@@ -71,10 +76,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php'))
         ;
 
-        $this->assertCorrectAssertion('addressEquals', array('/script.php'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/script.php');
+        });
         $this->assertWrongAssertion(
-            'addressEquals',
-            array('/'),
+            function () {
+                $this->assert->addressEquals('/');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/script.php", but "/" expected.'
         );
@@ -88,10 +96,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php/sub/url'))
         ;
 
-        $this->assertCorrectAssertion('addressNotEquals', array('sub_url'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressNotEquals('sub_url');
+        });
         $this->assertWrongAssertion(
-            'addressNotEquals',
-            array('/sub/url'),
+            function () {
+                $this->assert->addressNotEquals('/sub/url');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/sub/url", but should not be.'
         );
@@ -105,10 +116,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php'))
         ;
 
-        $this->assertCorrectAssertion('addressNotEquals', array('/'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressNotEquals('/');
+        });
         $this->assertWrongAssertion(
-            'addressNotEquals',
-            array('/script.php'),
+            function () {
+                $this->assert->addressNotEquals('/script.php');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page is "/script.php", but should not be.'
         );
@@ -122,10 +136,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('http://example.com/script.php/sub/url'))
         ;
 
-        $this->assertCorrectAssertion('addressMatches', array('/su.*rl/'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressMatches('/su.*rl/');
+        });
         $this->assertWrongAssertion(
-            'addressMatches',
-            array('/suburl/'),
+            function () {
+                $this->assert->addressMatches('/suburl/');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current page "/sub/url" does not match the regex "/suburl/".'
         );
@@ -143,10 +160,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('cookieEquals', array('foo', 'bar'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->cookieEquals('foo', 'bar');
+        });
         $this->assertWrongAssertion(
-            'cookieEquals',
-            array('bar', 'foo'),
+            function () {
+                $this->assert->cookieEquals('bar', 'foo');
+            },
             'Behat\Mink\Exception\ExpectationException',
             'Cookie "bar" value is "baz", but should be "foo".'
         );
@@ -164,10 +184,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('cookieExists', array('foo'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->cookieExists('foo');
+        });
         $this->assertWrongAssertion(
-            'cookieExists',
-            array('bar'),
+            function () {
+                $this->assert->cookieExists('bar');
+            },
             'Behat\Mink\Exception\ExpectationException',
             'Cookie "bar" is not set, but should be.'
         );
@@ -181,10 +204,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue(200))
         ;
 
-        $this->assertCorrectAssertion('statusCodeEquals', array(200));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->statusCodeEquals(200);
+        });
         $this->assertWrongAssertion(
-            'statusCodeEquals',
-            array(404),
+            function () {
+                $this->assert->statusCodeEquals(404);
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current response status code is 200, but 404 expected.'
         );
@@ -198,10 +224,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue(404))
         ;
 
-        $this->assertCorrectAssertion('statusCodeNotEquals', array(200));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->statusCodeNotEquals(200);
+        });
         $this->assertWrongAssertion(
-            'statusCodeNotEquals',
-            array(404),
+            function () {
+                $this->assert->statusCodeNotEquals(404);
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current response status code is 404, but should not be.'
         );
@@ -219,10 +248,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderEquals', array('foo', 'bar'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderEquals('foo', 'bar');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderEquals',
-            array('bar', 'foo'),
+            function () {
+                $this->assert->responseHeaderEquals('bar', 'foo');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current response header "bar" is "baz", but "foo" expected.'
         );
@@ -240,10 +272,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderNotEquals', array('foo', 'baz'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderNotEquals('foo', 'baz');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderNotEquals',
-            array('bar', 'baz'),
+            function () {
+                $this->assert->responseHeaderNotEquals('bar', 'baz');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Current response header "bar" is "baz", but should not be.'
         );
@@ -261,10 +296,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderContains', array('foo', 'ba'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderContains('foo', 'ba');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderContains',
-            array('bar', 'bz'),
+            function () {
+                $this->assert->responseHeaderContains('bar', 'bz');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "bz" was not found anywhere in the "bar" response header.'
         );
@@ -282,10 +320,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', 'bz'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderNotContains('foo', 'bz');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderNotContains',
-            array('bar', 'ba'),
+            function () {
+                $this->assert->responseHeaderNotContains('bar', 'ba');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "ba" was found in the "bar" response header, but it should not.'
         );
@@ -303,10 +344,13 @@ class WebAssertTest extends TestCase
               )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderContains', array('foo', new Stringer('ba')));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderContains('foo', new Stringer('ba'));
+        });
         $this->assertWrongAssertion(
-            'responseHeaderContains',
-            array('bar', 'bz'),
+            function () {
+                $this->assert->responseHeaderContains('bar', 'bz');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "bz" was not found anywhere in the "bar" response header.'
         );
@@ -326,10 +370,13 @@ class WebAssertTest extends TestCase
                 )
             );
 
-        $this->assertCorrectAssertion('responseHeaderNotContains', array('foo', new Stringer('bz')));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderNotContains('foo', new Stringer('bz'));
+        });
         $this->assertWrongAssertion(
-            'responseHeaderNotContains',
-            array('bar', 'ba'),
+            function () {
+                $this->assert->responseHeaderNotContains('bar', 'ba');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "ba" was found in the "bar" response header, but it should not.'
         );
@@ -347,10 +394,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderMatches', array('foo', '/ba(.*)/'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderMatches('foo', '/ba(.*)/');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderMatches',
-            array('bar', '/b[^a]/'),
+            function () {
+                $this->assert->responseHeaderMatches('bar', '/b[^a]/');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The pattern "/b[^a]/" was not found anywhere in the "bar" response header.'
         );
@@ -368,10 +418,13 @@ class WebAssertTest extends TestCase
                 )
             ));
 
-        $this->assertCorrectAssertion('responseHeaderNotMatches', array('foo', '/bz/'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseHeaderNotMatches('foo', '/bz/');
+        });
         $this->assertWrongAssertion(
-            'responseHeaderNotMatches',
-            array('bar', '/b[ab]z/'),
+            function () {
+                $this->assert->responseHeaderNotMatches('bar', '/b[ab]z/');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The pattern "/b[ab]z/" was found in the text of the "bar" response header, but it should not.'
         );
@@ -396,10 +449,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue("Some  page\n\ttext"))
         ;
 
-        $this->assertCorrectAssertion('pageTextContains', array('PAGE text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->pageTextContains('PAGE text');
+        });
         $this->assertWrongAssertion(
-            'pageTextContains',
-            array('html text'),
+            function () {
+                $this->assert->pageTextContains('html text');
+            },
             'Behat\\Mink\\Exception\\ResponseTextException',
             'The text "html text" was not found anywhere in the text of the current page.'
         );
@@ -424,10 +480,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue("Some  html\n\ttext"))
         ;
 
-        $this->assertCorrectAssertion('pageTextNotContains', array('PAGE text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->pageTextNotContains('PAGE text');
+        });
         $this->assertWrongAssertion(
-            'pageTextNotContains',
-            array('HTML text'),
+            function () {
+                $this->assert->pageTextNotContains('HTML text');
+            },
             'Behat\\Mink\\Exception\\ResponseTextException',
             'The text "HTML text" appears in the text of this page, but it should not.'
         );
@@ -452,10 +511,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some page text'))
         ;
 
-        $this->assertCorrectAssertion('pageTextMatches', array('/PA.E/i'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->pageTextMatches('/PA.E/i');
+        });
         $this->assertWrongAssertion(
-            'pageTextMatches',
-            array('/html/'),
+            function () {
+                $this->assert->pageTextMatches('/html/');
+            },
             'Behat\\Mink\\Exception\\ResponseTextException',
             'The pattern /html/ was not found anywhere in the text of the current page.'
         );
@@ -480,10 +542,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some html text'))
         ;
 
-        $this->assertCorrectAssertion('pageTextNotMatches', array('/PA.E/i'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->pageTextNotMatches('/PA.E/i');
+        });
         $this->assertWrongAssertion(
-            'pageTextNotMatches',
-            array('/HTML/i'),
+            function () {
+                $this->assert->pageTextNotMatches('/HTML/i');
+            },
             'Behat\\Mink\\Exception\\ResponseTextException',
             'The pattern /HTML/i was found in the text of the current page, but it should not.'
         );
@@ -508,10 +573,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some page text'))
         ;
 
-        $this->assertCorrectAssertion('responseContains', array('PAGE text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseContains('PAGE text');
+        });
         $this->assertWrongAssertion(
-            'responseContains',
-            array('html text'),
+            function () {
+                $this->assert->responseContains('html text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "html text" was not found anywhere in the HTML response of the current page.'
         );
@@ -536,10 +604,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some html text'))
         ;
 
-        $this->assertCorrectAssertion('responseNotContains', array('PAGE text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseNotContains('PAGE text');
+        });
         $this->assertWrongAssertion(
-            'responseNotContains',
-            array('HTML text'),
+            function () {
+                $this->assert->responseNotContains('HTML text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "HTML text" appears in the HTML response of this page, but it should not.'
         );
@@ -564,10 +635,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some page text'))
         ;
 
-        $this->assertCorrectAssertion('responseContains', array(new Stringer('PAGE text')));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseContains(new Stringer('PAGE text'));
+        });
         $this->assertWrongAssertion(
-            'responseContains',
-            array('html text'),
+            function () {
+                $this->assert->responseContains('html text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "html text" was not found anywhere in the HTML response of the current page.'
         );
@@ -592,10 +666,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some html text'))
         ;
 
-        $this->assertCorrectAssertion('responseNotContains', array(new Stringer('PAGE text')));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseNotContains(new Stringer('PAGE text'));
+        });
         $this->assertWrongAssertion(
-            'responseNotContains',
-            array('HTML text'),
+            function () {
+                $this->assert->responseNotContains('HTML text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "HTML text" appears in the HTML response of this page, but it should not.'
         );
@@ -620,10 +697,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some page text'))
         ;
 
-        $this->assertCorrectAssertion('responseMatches', array('/PA.E/i'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseMatches('/PA.E/i');
+        });
         $this->assertWrongAssertion(
-            'responseMatches',
-            array('/html/'),
+            function () {
+                $this->assert->responseMatches('/html/');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The pattern /html/ was not found anywhere in the HTML response of the page.'
         );
@@ -648,10 +728,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('Some html text'))
         ;
 
-        $this->assertCorrectAssertion('responseNotMatches', array('/PA.E/i'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->responseNotMatches('/PA.E/i');
+        });
         $this->assertWrongAssertion(
-            'responseNotMatches',
-            array('/HTML/i'),
+            function () {
+                $this->assert->responseNotMatches('/HTML/i');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The pattern /HTML/i was found in the HTML response of the page, but it should not.'
         );
@@ -677,10 +760,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue(array(1, 2)))
         ;
 
-        $this->assertCorrectAssertion('elementsCount', array('css', 'h2 > span', 2));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementsCount('css', 'h2 > span', 2);
+        });
         $this->assertWrongAssertion(
-            'elementsCount',
-            array('css', 'h2 > span', 3),
+            function () {
+                $this->assert->elementsCount('css', 'h2 > span', 3);
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             '2 elements matching css "h2 > span" found on the page, but should be 3.'
         );
@@ -706,18 +792,24 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(1, null, 1, null))
         ;
 
-        $this->assertCorrectAssertion('elementExists', array('css', 'h2 > span'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementExists('css', 'h2 > span');
+        });
         $this->assertWrongAssertion(
-            'elementExists',
-            array('css', 'h2 > span'),
+            function () {
+                $this->assert->elementExists('css', 'h2 > span');
+            },
             'Behat\\Mink\\Exception\\ElementNotFoundException',
             'Element matching css "h2 > span" not found.'
         );
 
-        $this->assertCorrectAssertion('elementExists', array('css', 'h2 > span', $page));
+        $this->assertCorrectAssertion(function () use ($page) {
+            $this->assert->elementExists('css', 'h2 > span', $page);
+        });
         $this->assertWrongAssertion(
-            'elementExists',
-            array('css', 'h2 > span', $page),
+            function () use ($page) {
+                $this->assert->elementExists('css', 'h2 > span', $page);
+            },
             'Behat\\Mink\\Exception\\ElementNotFoundException',
             'Element matching css "h2 > span" not found.'
         );
@@ -741,10 +833,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(1, null))
         ;
 
-        $this->assertCorrectAssertion('elementExists', array('named', array('element', 'Test'), $container));
+        $this->assertCorrectAssertion(function () use ($container) {
+            $this->assert->elementExists('named', array('element', 'Test'), $container);
+        });
         $this->assertWrongAssertion(
-            'elementExists',
-            array('named', array('element', 'Test'), $container),
+            function () use ($container) {
+                $this->assert->elementExists('named', array('element', 'Test'), $container);
+            },
             'Behat\\Mink\\Exception\\ElementNotFoundException',
             'Element with named "element Test" not found.'
         );
@@ -770,18 +865,24 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(null, 1, null, 1))
         ;
 
-        $this->assertCorrectAssertion('elementNotExists', array('css', 'h2 > span'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementNotExists('css', 'h2 > span');
+        });
         $this->assertWrongAssertion(
-            'elementNotExists',
-            array('css', 'h2 > span'),
+            function () {
+                $this->assert->elementNotExists('css', 'h2 > span');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'An element matching css "h2 > span" appears on this page, but it should not.'
         );
 
-        $this->assertCorrectAssertion('elementNotExists', array('css', 'h2 > span', $page));
+        $this->assertCorrectAssertion(function () use ($page) {
+            $this->assert->elementNotExists('css', 'h2 > span', $page);
+        });
         $this->assertWrongAssertion(
-            'elementNotExists',
-            array('css', 'h2 > span', $page),
+            function () use ($page) {
+                $this->assert->elementNotExists('css', 'h2 > span', $page);
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'An element matching css "h2 > span" appears on this page, but it should not.'
         );
@@ -811,8 +912,9 @@ class WebAssertTest extends TestCase
         ;
 
         $this->assertWrongAssertion(
-            'elementNotExists',
-            array($selector, $locator),
+            function () use ($selector, $locator) {
+                $this->assert->elementNotExists($selector, $locator);
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             $expectedMessage
         );
@@ -865,10 +967,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('element text'))
         ;
 
-        $this->assertCorrectAssertion('elementTextContains', array('css', 'h2 > span', 'text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementTextContains('css', 'h2 > span', 'text');
+        });
         $this->assertWrongAssertion(
-            'elementTextContains',
-            array('css', 'h2 > span', 'html'),
+            function () {
+                $this->assert->elementTextContains('css', 'h2 > span', 'html');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "html" was not found in the text of the element matching css "h2 > span".'
         );
@@ -905,10 +1010,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('element text'))
         ;
 
-        $this->assertCorrectAssertion('elementTextNotContains', array('css', 'h2 > span', 'html'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementTextNotContains('css', 'h2 > span', 'html');
+        });
         $this->assertWrongAssertion(
-            'elementTextNotContains',
-            array('css', 'h2 > span', 'text'),
+            function () {
+                $this->assert->elementTextNotContains('css', 'h2 > span', 'text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The text "text" appears in the text of the element matching css "h2 > span", but it should not.'
         );
@@ -945,10 +1053,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('element html'))
         ;
 
-        $this->assertCorrectAssertion('elementContains', array('css', 'h2 > span', 'html'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementContains('css', 'h2 > span', 'html');
+        });
         $this->assertWrongAssertion(
-            'elementContains',
-            array('css', 'h2 > span', 'text'),
+            function () {
+                $this->assert->elementContains('css', 'h2 > span', 'text');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "text" was not found in the HTML of the element matching css "h2 > span".'
         );
@@ -985,10 +1096,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('element html'))
         ;
 
-        $this->assertCorrectAssertion('elementNotContains', array('css', 'h2 > span', 'text'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementNotContains('css', 'h2 > span', 'text');
+        });
         $this->assertWrongAssertion(
-            'elementNotContains',
-            array('css', 'h2 > span', 'html'),
+            function () {
+                $this->assert->elementNotContains('css', 'h2 > span', 'html');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The string "html" appears in the HTML of the element matching css "h2 > span", but it should not.'
         );
@@ -1032,10 +1146,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('foo'))
         ;
 
-        $this->assertCorrectAssertion('elementAttributeContains', array('css', 'h2 > span', 'name', 'foo'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementAttributeContains('css', 'h2 > span', 'name', 'foo');
+        });
         $this->assertWrongAssertion(
-            'elementAttributeContains',
-            array('css', 'h2 > span', 'name', 'bar'),
+            function () {
+                $this->assert->elementAttributeContains('css', 'h2 > span', 'name', 'bar');
+            },
             'Behat\\Mink\\Exception\\ElementHtmlException',
             'The text "bar" was not found in the attribute "name" of the element matching css "h2 > span".'
         );
@@ -1072,10 +1189,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(true, false))
         ;
 
-        $this->assertCorrectAssertion('elementAttributeExists', array('css', 'h2 > span', 'name'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementAttributeExists('css', 'h2 > span', 'name');
+        });
         $this->assertWrongAssertion(
-            'elementAttributeExists',
-            array('css', 'h2 > span', 'name'),
+            function () {
+                $this->assert->elementAttributeExists('css', 'h2 > span', 'name');
+            },
             'Behat\\Mink\\Exception\\ElementHtmlException',
             'The attribute "name" was not found in the element matching css "h2 > span".'
         );
@@ -1112,10 +1232,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(false, true))
         ;
 
-        $this->assertCorrectAssertion('elementAttributeNotExists', array('css', 'h2 > span', 'name'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementAttributeNotExists('css', 'h2 > span', 'name');
+        });
         $this->assertWrongAssertion(
-            'elementAttributeNotExists',
-            array('css', 'h2 > span', 'name'),
+            function () {
+                $this->assert->elementAttributeNotExists('css', 'h2 > span', 'name');
+            },
             'Behat\\Mink\\Exception\\ElementHtmlException',
             'The attribute "name" was found in the element matching css "h2 > span".'
         );
@@ -1159,10 +1282,13 @@ class WebAssertTest extends TestCase
             ->will($this->returnValue('foo'))
         ;
 
-        $this->assertCorrectAssertion('elementAttributeNotContains', array('css', 'h2 > span', 'name', 'bar'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->elementAttributeNotContains('css', 'h2 > span', 'name', 'bar');
+        });
         $this->assertWrongAssertion(
-            'elementAttributeNotContains',
-            array('css', 'h2 > span', 'name', 'foo'),
+            function () {
+                $this->assert->elementAttributeNotContains('css', 'h2 > span', 'name', 'foo');
+            },
             'Behat\\Mink\\Exception\\ElementHtmlException',
             'The text "foo" was found in the attribute "name" of the element matching css "h2 > span".'
         );
@@ -1193,10 +1319,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls($element, null))
         ;
 
-        $this->assertCorrectAssertion('fieldExists', array('username'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldExists('username');
+        });
         $this->assertWrongAssertion(
-            'fieldExists',
-            array('username'),
+            function () {
+                $this->assert->fieldExists('username');
+            },
             'Behat\\Mink\\Exception\\ElementNotFoundException',
             'Form field with id|name|label|value "username" not found.'
         );
@@ -1227,10 +1356,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(null, $element))
         ;
 
-        $this->assertCorrectAssertion('fieldNotExists', array('username'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldNotExists('username');
+        });
         $this->assertWrongAssertion(
-            'fieldNotExists',
-            array('username'),
+            function () {
+                $this->assert->fieldNotExists('username');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'A field "username" appears on this page, but it should not.'
         );
@@ -1264,25 +1396,30 @@ class WebAssertTest extends TestCase
         $element
             ->expects($this->exactly(4))
             ->method('getValue')
-            ->will($this->returnValue(234))
+            ->will($this->returnValue('234'))
         ;
 
-        $this->assertCorrectAssertion('fieldValueEquals', array('username', 234));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldValueEquals('username', '234');
+        });
         $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', 235),
+            function () {
+                $this->assert->fieldValueEquals('username', '235');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "234", but "235" expected.'
         );
         $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', 23),
+            function () {
+                $this->assert->fieldValueEquals('username', '23');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "234", but "23" expected.'
         );
         $this->assertWrongAssertion(
-            'fieldValueEquals',
-            array('username', ''),
+            function () {
+                $this->assert->fieldValueEquals('username', '');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "234", but "" expected.'
         );
@@ -1316,18 +1453,25 @@ class WebAssertTest extends TestCase
         $element
             ->expects($this->exactly(4))
             ->method('getValue')
-            ->will($this->returnValue(235))
+            ->will($this->returnValue('235'))
         ;
 
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 234));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldValueNotEquals('username', '234');
+        });
         $this->assertWrongAssertion(
-            'fieldValueNotEquals',
-            array('username', 235),
+            function () {
+                $this->assert->fieldValueNotEquals('username', '235');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'The field "username" value is "235", but it should not be.'
         );
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', 23));
-        $this->assertCorrectAssertion('fieldValueNotEquals', array('username', ''));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldValueNotEquals('username', '23');
+        });
+        $this->assertCorrectAssertion(function () {
+            $this->assert->fieldValueNotEquals('username', '');
+        });
     }
 
     public function testCheckboxChecked()
@@ -1361,10 +1505,13 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(true, false))
         ;
 
-        $this->assertCorrectAssertion('checkboxChecked', array('remember_me'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->checkboxChecked('remember_me');
+        });
         $this->assertWrongAssertion(
-            'checkboxChecked',
-            array('remember_me'),
+            function () {
+                $this->assert->checkboxChecked('remember_me');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Checkbox "remember_me" is not checked, but it should be.'
         );
@@ -1401,32 +1548,41 @@ class WebAssertTest extends TestCase
             ->will($this->onConsecutiveCalls(false, true))
         ;
 
-        $this->assertCorrectAssertion('checkboxNotChecked', array('remember_me'));
+        $this->assertCorrectAssertion(function () {
+            $this->assert->checkboxNotChecked('remember_me');
+        });
         $this->assertWrongAssertion(
-            'checkboxNotChecked',
-            array('remember_me'),
+            function () {
+                $this->assert->checkboxNotChecked('remember_me');
+            },
             'Behat\\Mink\\Exception\\ExpectationException',
             'Checkbox "remember_me" is checked, but it should not be.'
         );
     }
 
-    private function assertCorrectAssertion(string $assertion, array $arguments): void
+    /**
+     * @param callable(): void $callback
+     */
+    private function assertCorrectAssertion(callable $callback): void
     {
         try {
-            call_user_func_array(array($this->assert, $assertion), $arguments);
+            $callback();
         } catch (ExpectationException $e) {
             $this->fail('Correct assertion should not throw an exception: '.$e->getMessage());
         }
     }
 
-    private function assertWrongAssertion(string $assertion, array $arguments, string $exceptionClass, string $exceptionMessage): void
+    /**
+     * @param callable(): void $callback
+     */
+    private function assertWrongAssertion(callable $callback, string $exceptionClass, string $exceptionMessage): void
     {
         if ('Behat\Mink\Exception\ExpectationException' !== $exceptionClass && !is_subclass_of($exceptionClass, 'Behat\Mink\Exception\ExpectationException')) {
             throw new \LogicException('Wrong expected exception for the failed assertion. It should be a Behat\Mink\Exception\ExpectationException.');
         }
 
         try {
-            call_user_func_array(array($this->assert, $assertion), $arguments);
+            $callback();
             $this->fail('Wrong assertion should throw an exception');
         } catch (ExpectationException $e) {
             $this->assertInstanceOf($exceptionClass, $e);

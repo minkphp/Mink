@@ -39,8 +39,3 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of method Behat\\\\Mink\\\\Element\\\\Element\\:\\:waitFor\\(\\) expects callable\\(\\)\\: mixed, 'not a callable' given\\.$#"
 			count: 1
 			path: tests/Element/NodeElementTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{Behat\\\\Mink\\\\WebAssert, string\\} given\\.$#"
-			count: 2
-			path: tests/WebAssertTest.php
