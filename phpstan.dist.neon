@@ -1,0 +1,15 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:test\w*\(\) has no return type specified\.$#'
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:provide\w*\(\) has no return type specified\.$#'
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:get\w*\(\) has no return type specified\.$#'
+
+includes:
+    - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon

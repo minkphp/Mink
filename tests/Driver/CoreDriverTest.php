@@ -81,6 +81,9 @@ class CoreDriverTest extends TestCase
         }, $ref->getMethods());
     }
 
+    /**
+     * @return list<mixed>
+     */
     private function getArguments(\ReflectionMethod $method)
     {
         $arguments = array();
@@ -92,6 +95,9 @@ class CoreDriverTest extends TestCase
         return $arguments;
     }
 
+    /**
+     * @return mixed
+     */
     private function getArgument(\ReflectionParameter $argument)
     {
         if ($argument->isOptional()) {

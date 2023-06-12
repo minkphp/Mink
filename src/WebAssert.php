@@ -193,7 +193,7 @@ class WebAssert
     public function responseHeaderNotEquals($name, $value)
     {
         $actual = $this->session->getResponseHeader($name);
-        $message = sprintf('Current response header "%s" is "%s", but should not be.', $name, $actual, $value);
+        $message = sprintf('Current response header "%s" is "%s", but should not be.', $name, $actual);
 
         $this->assert($value !== $actual, $message);
     }
@@ -286,7 +286,7 @@ class WebAssert
     public function pageTextContains($text)
     {
         $actual = $this->session->getPage()->getText();
-        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $actual = preg_replace('/\s+/u', ' ', $actual) ?? $actual;
         $regex = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The text "%s" was not found anywhere in the text of the current page.', $text);
 
@@ -305,7 +305,7 @@ class WebAssert
     public function pageTextNotContains($text)
     {
         $actual = $this->session->getPage()->getText();
-        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $actual = preg_replace('/\s+/u', ' ', $actual) ?? $actual;
         $regex = '/'.preg_quote($text, '/').'/ui';
         $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
 

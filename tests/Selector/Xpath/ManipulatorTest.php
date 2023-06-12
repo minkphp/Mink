@@ -10,7 +10,7 @@ class ManipulatorTest extends TestCase
     /**
      * @dataProvider getPrependedXpath
      */
-    public function testPrepend($prefix, $xpath, $expectedXpath)
+    public function testPrepend(string $prefix, string $xpath, string $expectedXpath)
     {
         $manipulator = new Manipulator();
 

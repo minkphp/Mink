@@ -2,7 +2,9 @@
 
 namespace Behat\Mink\Tests\Exception;
 
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ElementTextException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ElementTextExceptionTest extends TestCase
@@ -40,6 +42,9 @@ TXT;
         $this->assertEquals($expected, $exception->__toString());
     }
 
+    /**
+     * @return NodeElement&MockObject
+     */
     private function getElementMock()
     {
         return $this->getMockBuilder('Behat\Mink\Element\NodeElement')

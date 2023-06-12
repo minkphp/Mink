@@ -1,0 +1,46 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Behat\\\\Mink\\\\Element\\\\NodeElement\\:\\:getParent\\(\\) should return Behat\\\\Mink\\\\Element\\\\NodeElement but returns Behat\\\\Mink\\\\Element\\\\NodeElement\\|null\\.$#"
+			count: 1
+			path: src/Element/NodeElement.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/Element/NodeElement.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_split expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/Element/NodeElement.php
+
+		-
+			message: "#^Parameter \\#2 \\$value of method Behat\\\\Mink\\\\Driver\\\\DriverInterface\\:\\:selectOption\\(\\) expects string, array\\|bool\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Element/NodeElement.php
+
+		-
+			message: "#^Method Behat\\\\Mink\\\\Exception\\\\ExpectationException\\:\\:trimBody\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Exception/ExpectationException.php
+
+		-
+			message: "#^Cannot cast array\\|bool\\|string\\|null to string\\.$#"
+			count: 2
+			path: src/WebAssert.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{Behat\\\\Mink\\\\Driver\\\\CoreDriver&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject, non\\-empty\\-string\\} given\\.$#"
+			count: 1
+			path: tests/Driver/CoreDriverTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of method Behat\\\\Mink\\\\Element\\\\Element\\:\\:waitFor\\(\\) expects callable\\(\\)\\: mixed, 'not a callable' given\\.$#"
+			count: 1
+			path: tests/Element/NodeElementTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{Behat\\\\Mink\\\\WebAssert, string\\} given\\.$#"
+			count: 2
+			path: tests/WebAssertTest.php

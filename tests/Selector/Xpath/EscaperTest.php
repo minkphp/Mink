@@ -10,7 +10,7 @@ class EscaperTest extends TestCase
     /**
      * @dataProvider getXpathLiterals
      */
-    public function testXpathLiteral($string, $expected)
+    public function testXpathLiteral(string $string, string $expected)
     {
         $escaper = new Escaper();
 

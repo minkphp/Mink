@@ -3,6 +3,8 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Mink;
+use Behat\Mink\Session;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class MinkTest extends TestCase
@@ -15,7 +17,7 @@ class MinkTest extends TestCase
     /**
      * @before
      */
-    protected function prepareMink()
+    protected function prepareMink(): void
     {
         $this->mink = new Mink();
     }
@@ -217,6 +219,9 @@ class MinkTest extends TestCase
         $this->mink->restartSessions();
     }
 
+    /**
+     * @return Session&MockObject
+     */
     private function getSessionMock()
     {
         return $this->getMockBuilder('Behat\Mink\Session')

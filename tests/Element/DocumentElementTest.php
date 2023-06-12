@@ -16,7 +16,7 @@ class DocumentElementTest extends ElementTest
     /**
      * @before
      */
-    protected function prepareSession()
+    protected function prepareSession(): void
     {
         parent::prepareSession();
         $this->document = new DocumentElement($this->session);

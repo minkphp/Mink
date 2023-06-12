@@ -2,6 +2,7 @@
 
 namespace Behat\Mink\Tests\Exception;
 
+use Behat\Mink\Element\Element;
 use Behat\Mink\Exception\ElementException;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +29,7 @@ class ElementExceptionTest extends TestCase
         $this->assertSame($element, $exception->getElement());
     }
 
-    private function getElementMock()
+    private function getElementMock(): Element
     {
         $mock = $this->getMockBuilder('Behat\Mink\Element\Element')
             ->disableOriginalConstructor()

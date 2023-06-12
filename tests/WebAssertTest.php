@@ -23,7 +23,7 @@ class WebAssertTest extends TestCase
     /**
      * @before
      */
-    public function prepareSession()
+    public function prepareSession(): void
     {
         $this->session = $this->getMockBuilder('Behat\\Mink\\Session')
             ->disableOriginalConstructor()
@@ -790,7 +790,7 @@ class WebAssertTest extends TestCase
     /**
      * @dataProvider getArrayLocatorFormats
      */
-    public function testElementNotExistsArrayLocator($selector, $locator, $expectedMessage)
+    public function testElementNotExistsArrayLocator(string $selector, array $locator, string $expectedMessage)
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
             ->disableOriginalConstructor()
@@ -1410,7 +1410,7 @@ class WebAssertTest extends TestCase
         );
     }
 
-    private function assertCorrectAssertion($assertion, $arguments)
+    private function assertCorrectAssertion(string $assertion, array $arguments): void
     {
         try {
             call_user_func_array(array($this->assert, $assertion), $arguments);
@@ -1419,7 +1419,7 @@ class WebAssertTest extends TestCase
         }
     }
 
-    private function assertWrongAssertion($assertion, $arguments, $exceptionClass, $exceptionMessage)
+    private function assertWrongAssertion(string $assertion, array $arguments, string $exceptionClass, string $exceptionMessage): void
     {
         if ('Behat\Mink\Exception\ExpectationException' !== $exceptionClass && !is_subclass_of($exceptionClass, 'Behat\Mink\Exception\ExpectationException')) {
             throw new \LogicException('Wrong expected exception for the failed assertion. It should be a Behat\Mink\Exception\ExpectationException.');
