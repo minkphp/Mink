@@ -10,6 +10,7 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
 use Behat\Mink\Exception\ElementNotFoundException;
@@ -56,7 +57,13 @@ class NodeElement extends TraversableElement
      */
     public function getParent()
     {
-        return $this->find('xpath', '..');
+        $parent = $this->find('xpath', '..');
+
+        if ($parent === null) {
+            throw new DriverException('Could not find the element parent. Maybe the element has been removed from the page.');
+        }
+
+        return $parent;
     }
 
     /**
@@ -144,11 +151,19 @@ class NodeElement extends TraversableElement
      */
     public function hasClass($className)
     {
-        if ($this->hasAttribute('class')) {
-            return in_array($className, preg_split('/\s+/', $this->getAttribute('class')));
+        $class = $this->getAttribute('class');
+
+        if ($class === null) {
+            return false;
         }
 
-        return false;
+        $classes = preg_split('/\s+/', $class);
+
+        if ($classes === false) {
+            $classes = [];
+        }
+
+        return in_array($className, $classes);
     }
 
     /**
@@ -254,7 +269,11 @@ class NodeElement extends TraversableElement
             throw new ElementNotFoundException($this->getDriver(), 'select option', 'value|text', $option);
         }
 
-        $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
+        $optionValue = $opt->getValue();
+
+        \assert(\is_string($optionValue), 'The value of an option element should always be a string.');
+
+        $this->getDriver()->selectOption($this->getXpath(), $optionValue, $multiple);
     }
 
     /**

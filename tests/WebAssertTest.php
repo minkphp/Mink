@@ -2,6 +2,8 @@
 
 namespace Behat\Mink\Tests;
 
+use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Session;
 use Behat\Mink\Tests\Helper\Stringer;
@@ -1425,6 +1427,37 @@ class WebAssertTest extends TestCase
         );
     }
 
+    public function testFieldValueEqualsBadUsage()
+    {
+        $page = $this->createMock(DocumentElement::class);
+
+        $element = $this->createMock(NodeElement::class);
+
+        $this->session
+            ->expects($this->once())
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->once())
+            ->method('findField')
+            ->with('username')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue(array('235')))
+        ;
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Field value assertions cannot be used for multi-select fields as they have multiple values.');
+
+        $this->assert->fieldValueEquals('username', '234');
+    }
+
     public function testFieldValueNotEquals()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
@@ -1472,6 +1505,37 @@ class WebAssertTest extends TestCase
         $this->assertCorrectAssertion(function () {
             $this->assert->fieldValueNotEquals('username', '');
         });
+    }
+
+    public function testFieldValueNotEqualsBadUsage()
+    {
+        $page = $this->createMock(DocumentElement::class);
+
+        $element = $this->createMock(NodeElement::class);
+
+        $this->session
+            ->expects($this->once())
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->once())
+            ->method('findField')
+            ->with('username')
+            ->will($this->returnValue($element))
+        ;
+
+        $element
+            ->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue(array('235')))
+        ;
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Field value assertions cannot be used for multi-select fields as they have multiple values.');
+
+        $this->assert->fieldValueNotEquals('username', '234');
     }
 
     public function testCheckboxChecked()

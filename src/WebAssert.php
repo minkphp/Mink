@@ -766,7 +766,14 @@ class WebAssert
     public function fieldValueEquals($field, $value, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
-        $actual = (string) $node->getValue();
+
+        $actual = $node->getValue();
+
+        if (\is_array($actual)) {
+            throw new \LogicException('Field value assertions cannot be used for multi-select fields as they have multiple values.');
+        }
+
+        $actual = (string) $actual;
         $regex = '/^'.preg_quote($value, '/').'$/ui';
 
         $message = sprintf('The field "%s" value is "%s", but "%s" expected.', $field, $actual, $value);
@@ -788,7 +795,13 @@ class WebAssert
     public function fieldValueNotEquals($field, $value, TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
-        $actual = (string) $node->getValue();
+        $actual = $node->getValue();
+
+        if (\is_array($actual)) {
+            throw new \LogicException('Field value assertions cannot be used for multi-select fields as they have multiple values.');
+        }
+
+        $actual = (string) $actual;
         $regex = '/^'.preg_quote($value, '/').'$/ui';
 
         $message = sprintf('The field "%s" value is "%s", but it should not be.', $field, $actual);
