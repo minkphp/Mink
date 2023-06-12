@@ -11,11 +11,6 @@ parameters:
 			path: src/Element/NodeElement.php
 
 		-
-			message: "#^Method Behat\\\\Mink\\\\Exception\\\\ExpectationException\\:\\:trimBody\\(\\) should return string but returns string\\|null\\.$#"
-			count: 1
-			path: src/Exception/ExpectationException.php
-
-		-
 			message: "#^Cannot cast array\\|bool\\|string\\|null to string\\.$#"
 			count: 2
 			path: src/WebAssert.php

@@ -135,7 +135,7 @@ class ExpectationException extends Exception
      */
     protected function trimBody($string)
     {
-        $string = preg_replace(array('/^.*<body>/s', '/<\/body>.*$/s'), array('<body>', '</body>'), $string);
+        $string = preg_replace(array('/^.*<body>/s', '/<\/body>.*$/s'), array('<body>', '</body>'), $string) ?? $string;
 
         return $string;
     }
