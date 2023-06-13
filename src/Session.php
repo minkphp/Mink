@@ -11,6 +11,7 @@
 namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Element\ElementFinder;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Element\DocumentElement;
 
@@ -30,27 +31,28 @@ class Session
      */
     private $page;
     /**
-     * @var SelectorsHandler
+     * @var ElementFinder
      */
-    private $selectorsHandler;
+    private $elementFinder;
 
     /**
-     * Initializes session.
-     *
-     * @param DriverInterface       $driver
-     * @param SelectorsHandler|null $selectorsHandler
+     * @param ElementFinder|SelectorsHandler|null $elementFinder
      */
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
+    public function __construct(DriverInterface $driver, $elementFinder = null)
     {
-        $driver->setSession($this);
-
-        if (null === $selectorsHandler) {
-            $selectorsHandler = new SelectorsHandler();
+        if ($elementFinder instanceof SelectorsHandler) {
+            $elementFinder = new ElementFinder($driver, $elementFinder);
+        } elseif ($elementFinder === null) {
+            $elementFinder = new ElementFinder($driver);
+        } elseif (!$elementFinder instanceof ElementFinder) {
+            throw new \TypeError(sprintf('Argument #2 of %s expects %s|%s|null, %s given.', __METHOD__, ElementFinder::class, SelectorsHandler::class, \is_object($elementFinder) ? get_class($elementFinder) : gettype($elementFinder)));
         }
 
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler;
+        $this->elementFinder = $elementFinder;
         $this->page = new DocumentElement($this);
+
+        $driver->setSession($this);
     }
 
     /**
@@ -141,13 +143,23 @@ class Session
     }
 
     /**
+     * @internal
+     */
+    public function getElementFinder(): ElementFinder
+    {
+        return $this->elementFinder;
+    }
+
+    /**
      * Returns selectors handler.
      *
      * @return SelectorsHandler
+     *
+     * @internal since 1.11
      */
     public function getSelectorsHandler()
     {
-        return $this->selectorsHandler;
+        return $this->elementFinder->getSelectorsHandler();
     }
 
     /**

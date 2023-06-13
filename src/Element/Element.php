@@ -13,7 +13,6 @@ namespace Behat\Mink\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Selector\SelectorsHandler;
-use Behat\Mink\Selector\Xpath\Manipulator;
 use Behat\Mink\Session;
 
 /**
@@ -36,14 +35,9 @@ abstract class Element implements ElementInterface
     private $driver;
 
     /**
-     * @var SelectorsHandler
+     * @var ElementFinder
      */
-    private $selectorsHandler;
-
-    /**
-     * @var Manipulator
-     */
-    private $xpathManipulator;
+    private $elementFinder;
 
     /**
      * Initialize element.
@@ -52,11 +46,10 @@ abstract class Element implements ElementInterface
      */
     public function __construct(Session $session)
     {
-        $this->xpathManipulator = new Manipulator();
         $this->session = $session;
 
         $this->driver = $session->getDriver();
-        $this->selectorsHandler = $session->getSelectorsHandler();
+        $this->elementFinder = $session->getElementFinder();
     }
 
     /**
@@ -94,7 +87,7 @@ abstract class Element implements ElementInterface
     {
         @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->selectorsHandler;
+        return $this->session->getSelectorsHandler();
     }
 
     /**
@@ -153,19 +146,7 @@ abstract class Element implements ElementInterface
      */
     public function findAll($selector, $locator)
     {
-        if ('named' === $selector) {
-            $items = $this->findAll('named_exact', $locator);
-            if (empty($items)) {
-                $items = $this->findAll('named_partial', $locator);
-            }
-
-            return $items;
-        }
-
-        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
-        $xpath = $this->xpathManipulator->prepend($xpath, $this->getXpath());
-
-        return $this->getDriver()->find($xpath);
+        return $this->elementFinder->findAll($selector, $locator, $this->getXpath());
     }
 
     /**
