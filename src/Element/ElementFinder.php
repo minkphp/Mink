@@ -16,6 +16,7 @@ use Behat\Mink\Selector\Xpath\Manipulator;
 
 /**
  * @final
+ * @internal
  */
 class ElementFinder
 {
@@ -32,10 +33,10 @@ class ElementFinder
      */
     private $xpathManipulator;
 
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null, Manipulator $xpathManipulator = null)
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, Manipulator $xpathManipulator = null)
     {
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
+        $this->selectorsHandler = $selectorsHandler;
         $this->xpathManipulator = $xpathManipulator ?? new Manipulator();
     }
 
@@ -59,13 +60,5 @@ class ElementFinder
         $xpath = $this->xpathManipulator->prepend($xpath, $parentXpath);
 
         return $this->driver->find($xpath);
-    }
-
-    /**
-     * @internal
-     */
-    public function getSelectorsHandler(): SelectorsHandler
-    {
-        return $this->selectorsHandler;
     }
 }

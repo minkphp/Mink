@@ -33,11 +33,10 @@ abstract class ElementTest extends TestCase
     protected function prepareSession(): void
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $this->driver
-            ->expects($this->once())
-            ->method('setSession');
 
         $this->elementFinder = $this->createMock(ElementFinder::class);
-        $this->session = new Session($this->driver, $this->elementFinder);
+        $this->session = $this->createStub(Session::class);
+        $this->session->method('getDriver')->willReturn($this->driver);
+        $this->session->method('getElementFinder')->willReturn($this->elementFinder);
     }
 }
