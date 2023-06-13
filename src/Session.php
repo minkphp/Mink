@@ -34,22 +34,16 @@ class Session
      * @var ElementFinder
      */
     private $elementFinder;
-
     /**
-     * @param ElementFinder|SelectorsHandler|null $elementFinder
+     * @var SelectorsHandler
      */
-    public function __construct(DriverInterface $driver, $elementFinder = null)
-    {
-        if ($elementFinder instanceof SelectorsHandler) {
-            $elementFinder = new ElementFinder($driver, $elementFinder);
-        } elseif ($elementFinder === null) {
-            $elementFinder = new ElementFinder($driver);
-        } elseif (!$elementFinder instanceof ElementFinder) {
-            throw new \TypeError(sprintf('Argument #2 of %s expects %s|%s|null, %s given.', __METHOD__, ElementFinder::class, SelectorsHandler::class, \is_object($elementFinder) ? get_class($elementFinder) : gettype($elementFinder)));
-        }
+    private $selectorsHandler;
 
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
+    {
         $this->driver = $driver;
-        $this->elementFinder = $elementFinder;
+        $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
+        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler);
         $this->page = new DocumentElement($this);
 
         $driver->setSession($this);
@@ -155,11 +149,13 @@ class Session
      *
      * @return SelectorsHandler
      *
-     * @internal since 1.11
+     * @deprecated since 1.11
      */
     public function getSelectorsHandler()
     {
-        return $this->elementFinder->getSelectorsHandler();
+        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->selectorsHandler;
     }
 
     /**
