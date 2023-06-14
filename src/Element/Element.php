@@ -106,9 +106,6 @@ abstract class Element implements ElementInterface
         return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function waitFor($timeout, $callback)
     {
         if (!is_callable($callback)) {
