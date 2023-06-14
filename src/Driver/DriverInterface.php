@@ -370,19 +370,21 @@ interface DriverInterface
     /**
      * Returns element's value by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::getValue
+     *
      * @param string $xpath
      *
      * @return string|bool|array|null
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::getValue
      */
     public function getValue($xpath);
 
     /**
      * Sets element's value by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::setValue
      *
      * @param string            $xpath
      * @param string|bool|array $value
@@ -391,41 +393,41 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::setValue
      */
     public function setValue($xpath, $value);
 
     /**
      * Checks checkbox by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::check
+     *
      * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::check
      */
     public function check($xpath);
 
     /**
      * Unchecks checkbox by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::uncheck
+     *
      * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::uncheck
      */
     public function uncheck($xpath);
 
     /**
      * Checks whether checkbox or radio button located by its XPath query is checked.
+     *
+     * @see \Behat\Mink\Element\NodeElement::isChecked
      *
      * @param string $xpath
      *
@@ -433,13 +435,13 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::isChecked
      */
     public function isChecked($xpath);
 
     /**
      * Selects option from select field or value in radio group located by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::selectOption
      *
      * @param string $xpath
      * @param string $value
@@ -449,13 +451,13 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::selectOption
      */
     public function selectOption($xpath, $value, $multiple = false);
 
     /**
      * Checks whether select option, located by its XPath query, is selected.
+     *
+     * @see \Behat\Mink\Element\NodeElement::isSelected
      *
      * @param string $xpath
      *
@@ -463,8 +465,6 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::isSelected
      */
     public function isSelected($xpath);
 
@@ -507,6 +507,8 @@ interface DriverInterface
     /**
      * Attaches file path to file field located by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::attachFile
+     *
      * @param string $xpath
      * @param string $path
      *
@@ -514,8 +516,6 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::attachFile
      */
     public function attachFile($xpath, $path);
 
@@ -697,14 +697,14 @@ interface DriverInterface
     /**
      * Submits the form.
      *
-     * @param string $xpath Xpath.
+     * @see \Behat\Mink\Element\NodeElement::submitForm
+     *
+     * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see \Behat\Mink\Element\NodeElement::submitForm
      */
     public function submitForm($xpath);
 }
