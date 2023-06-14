@@ -55,13 +55,22 @@ interface ElementInterface
     public function isValid();
 
     /**
-     * Waits for an element(-s) to appear and returns it.
+     * Waits for a value to be available and returns it.
      *
-     * @param int|float $timeout  Maximal allowed waiting time in seconds.
-     * @param callable  $callback Callback, which result is both used as waiting condition and returned.
-     *                            Will receive reference to `this element` as first argument.
+     * A falsy value returned by the callback is considered not found and will
+     * retry after some waiting time, until a value is found or the timeout is
+     * reached.
+     * When the timeout is reached, the falsy value of the last attempt is returned.
+     *
+     * @template T
+     *
+     * @param int|float           $timeout  Maximal allowed waiting time in seconds.
+     * @param callable(static): T $callback Callback, which result is both used as waiting condition and returned.
+     *                                      Will receive reference to `this element` as first argument.
      *
      * @return mixed
+     *
+     * @phpstan-return T
      *
      * @throws \InvalidArgumentException When invalid callback given.
      */

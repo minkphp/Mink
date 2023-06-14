@@ -4,6 +4,7 @@ parameters:
         - src
         - tests
     checkMissingIterableValueType: false
+    checkMissingCallableSignature: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:test\w*\(\) has no return type specified\.$#'
