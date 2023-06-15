@@ -525,7 +525,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function attachFile(string $xpath, $path)
+    public function attachFile(string $xpath, string $path)
     {
         throw new UnsupportedDriverActionException('Attaching a file in an input is not supported by %s', $this);
     }
