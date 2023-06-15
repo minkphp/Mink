@@ -110,10 +110,31 @@ class CoreDriverTest extends TestCase
             return null;
         }
 
-        if ($argument->getClass()) {
-            return $this->getMockBuilder($argument->getClass()->getName())
-                ->disableOriginalConstructor()
-                ->getMock();
+        $type = $argument->getType();
+
+        if ($type instanceof \ReflectionNamedType) {
+            switch ($type->getName()) {
+                case 'string':
+                    return '';
+
+                case 'int':
+                    return 0;
+
+                case 'bool':
+                    return false;
+
+                case 'float':
+                    return 0.0;
+
+                default:
+                    if ($type->isBuiltin()) {
+                        throw new \UnexpectedValueException(sprintf('The type "%s" is not supported by the generation of fake value. Please update the implementation.', $type->getName()));
+                    }
+
+                    \assert(class_exists($type->getName()) || interface_exists($type->getName()));
+
+                    return $this->createStub($type->getName());
+            }
         }
 
         return null;

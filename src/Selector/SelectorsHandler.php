@@ -54,7 +54,7 @@ class SelectorsHandler
      *
      * @return void
      */
-    public function registerSelector($name, SelectorInterface $selector)
+    public function registerSelector(string $name, SelectorInterface $selector)
     {
         $this->selectors[$name] = $selector;
     }
@@ -66,7 +66,7 @@ class SelectorsHandler
      *
      * @return bool
      */
-    public function isSelectorRegistered($name)
+    public function isSelectorRegistered(string $name)
     {
         return isset($this->selectors[$name]);
     }
@@ -80,7 +80,7 @@ class SelectorsHandler
      *
      * @throws \InvalidArgumentException
      */
-    public function getSelector($name)
+    public function getSelector(string $name)
     {
         if ('named' === $name) {
             @trigger_error(
@@ -106,7 +106,7 @@ class SelectorsHandler
      *
      * @return string
      */
-    public function selectorToXpath($selector, $locator)
+    public function selectorToXpath(string $selector, $locator)
     {
         if ('xpath' === $selector) {
             if (!is_string($locator)) {
@@ -129,7 +129,7 @@ class SelectorsHandler
      *
      * @return string
      */
-    public function xpathLiteral($s)
+    public function xpathLiteral(string $s)
     {
         @trigger_error(
             'The '.__METHOD__.' method is deprecated as of 1.7 and will be removed in 2.0.'

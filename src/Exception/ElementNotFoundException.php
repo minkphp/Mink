@@ -28,7 +28,7 @@ class ElementNotFoundException extends ExpectationException
      * @param string|null             $selector element selector type
      * @param string|null             $locator  element locator
      */
-    public function __construct($driver, $type = null, $selector = null, $locator = null)
+    public function __construct($driver, ?string $type = null, ?string $selector = null, ?string $locator = null)
     {
         $message = '';
 

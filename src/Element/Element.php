@@ -93,7 +93,7 @@ abstract class Element implements ElementInterface
     /**
      * {@inheritdoc}
      */
-    public function has($selector, $locator)
+    public function has(string $selector, $locator)
     {
         return null !== $this->find($selector, $locator);
     }
@@ -106,12 +106,8 @@ abstract class Element implements ElementInterface
         return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
-    public function waitFor($timeout, $callback)
+    public function waitFor($timeout, callable $callback)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Given callback is not a valid callable');
-        }
-
         $start = microtime(true);
         $end = $start + $timeout;
 
@@ -131,7 +127,7 @@ abstract class Element implements ElementInterface
     /**
      * {@inheritdoc}
      */
-    public function find($selector, $locator)
+    public function find(string $selector, $locator)
     {
         $items = $this->findAll($selector, $locator);
 
@@ -141,7 +137,7 @@ abstract class Element implements ElementInterface
     /**
      * {@inheritdoc}
      */
-    public function findAll($selector, $locator)
+    public function findAll(string $selector, $locator)
     {
         return $this->elementFinder->findAll($selector, $locator, $this->getXpath());
     }
@@ -183,7 +179,7 @@ abstract class Element implements ElementInterface
      *
      * @deprecated as of 1.7, to be removed in 2.0
      */
-    protected function elementNotFound($type, $selector = null, $locator = null)
+    protected function elementNotFound(string $type, ?string $selector = null, ?string $locator = null)
     {
         @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
 

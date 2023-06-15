@@ -34,7 +34,7 @@ class Manipulator
      *
      * @return string
      */
-    public function prepend($xpath, $prefix)
+    public function prepend(string $xpath, string $prefix)
     {
         $expressions = array();
 
@@ -74,7 +74,7 @@ class Manipulator
      *
      * @return string[]
      */
-    private function splitUnionParts($xpath)
+    private function splitUnionParts(string $xpath): array
     {
         if (false === strpos($xpath, '|')) {
             return array($xpath); // If there is no pipe in the string, we know for sure that there is no union
