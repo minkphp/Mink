@@ -194,7 +194,7 @@ XPATH
      *
      * @return void
      */
-    public function registerNamedXpath($name, $xpath)
+    public function registerNamedXpath(string $name, string $xpath)
     {
         $this->selectors[$name] = strtr($xpath, $this->replacements);
     }
@@ -265,7 +265,7 @@ XPATH
      *
      * @return void
      */
-    public function registerReplacement($from, $to)
+    public function registerReplacement(string $from, string $to)
     {
         $this->replacements[$from] = strtr($to, $this->replacements);
     }

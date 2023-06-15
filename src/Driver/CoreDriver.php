@@ -83,7 +83,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function visit($url)
+    public function visit(string $url)
     {
         throw new UnsupportedDriverActionException('Visiting an url is not supported by %s', $this);
     }
@@ -141,7 +141,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setBasicAuth($user, $password)
+    public function setBasicAuth($user, string $password)
     {
         throw new UnsupportedDriverActionException('Basic auth setup is not supported by %s', $this);
     }
@@ -154,7 +154,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToWindow($name = null)
+    public function switchToWindow(?string $name = null)
     {
         throw new UnsupportedDriverActionException('Windows management is not supported by %s', $this);
     }
@@ -167,7 +167,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToIFrame($name = null)
+    public function switchToIFrame(?string $name = null)
     {
         throw new UnsupportedDriverActionException('iFrames management is not supported by %s', $this);
     }
@@ -181,7 +181,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setRequestHeader($name, $value)
+    public function setRequestHeader(string $name, string $value)
     {
         throw new UnsupportedDriverActionException('Request headers manipulation is not supported by %s', $this);
     }
@@ -206,7 +206,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setCookie($name, $value = null)
+    public function setCookie(string $name, ?string $value = null)
     {
         throw new UnsupportedDriverActionException('Cookies manipulation is not supported by %s', $this);
     }
@@ -219,7 +219,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getCookie($name)
+    public function getCookie(string $name)
     {
         throw new UnsupportedDriverActionException('Cookies are not available from %s', $this);
     }
@@ -289,7 +289,7 @@ abstract class CoreDriver implements DriverInterface
      *
      * @final since 1.11
      */
-    public function find($xpath)
+    public function find(string $xpath)
     {
         $elements = array();
 
@@ -312,7 +312,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    protected function findElementXpaths($xpath)
+    protected function findElementXpaths(string $xpath)
     {
         throw new UnsupportedDriverActionException('Finding elements is not supported by %s', $this);
     }
@@ -325,7 +325,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getTagName($xpath)
+    public function getTagName(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the tag name is not supported by %s', $this);
     }
@@ -338,7 +338,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getText($xpath)
+    public function getText(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the element text is not supported by %s', $this);
     }
@@ -351,7 +351,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getHtml($xpath)
+    public function getHtml(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the element inner HTML is not supported by %s', $this);
     }
@@ -364,7 +364,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getOuterHtml($xpath)
+    public function getOuterHtml(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the element outer HTML is not supported by %s', $this);
     }
@@ -378,7 +378,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getAttribute($xpath, $name)
+    public function getAttribute(string $xpath, string $name)
     {
         throw new UnsupportedDriverActionException('Getting the element attribute is not supported by %s', $this);
     }
@@ -391,7 +391,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getValue($xpath)
+    public function getValue(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the field value is not supported by %s', $this);
     }
@@ -405,7 +405,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setValue($xpath, $value)
+    public function setValue(string $xpath, $value)
     {
         throw new UnsupportedDriverActionException('Setting the field value is not supported by %s', $this);
     }
@@ -418,7 +418,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function check($xpath)
+    public function check(string $xpath)
     {
         throw new UnsupportedDriverActionException('Checking a checkbox is not supported by %s', $this);
     }
@@ -431,7 +431,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function uncheck($xpath)
+    public function uncheck(string $xpath)
     {
         throw new UnsupportedDriverActionException('Unchecking a checkbox is not supported by %s', $this);
     }
@@ -444,7 +444,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isChecked($xpath)
+    public function isChecked(string $xpath)
     {
         throw new UnsupportedDriverActionException('Getting the state of a checkbox is not supported by %s', $this);
     }
@@ -459,7 +459,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function selectOption($xpath, $value, $multiple = false)
+    public function selectOption(string $xpath, string $value, bool $multiple = false)
     {
         throw new UnsupportedDriverActionException('Selecting an option is not supported by %s', $this);
     }
@@ -472,7 +472,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isSelected($xpath)
+    public function isSelected(string $xpath)
     {
         throw new UnsupportedDriverActionException('Element selection check is not supported by %s', $this);
     }
@@ -485,7 +485,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function click($xpath)
+    public function click(string $xpath)
     {
         throw new UnsupportedDriverActionException('Clicking on an element is not supported by %s', $this);
     }
@@ -498,7 +498,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function doubleClick($xpath)
+    public function doubleClick(string $xpath)
     {
         throw new UnsupportedDriverActionException('Double-clicking is not supported by %s', $this);
     }
@@ -511,7 +511,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function rightClick($xpath)
+    public function rightClick(string $xpath)
     {
         throw new UnsupportedDriverActionException('Right-clicking is not supported by %s', $this);
     }
@@ -525,7 +525,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function attachFile($xpath, $path)
+    public function attachFile(string $xpath, $path)
     {
         throw new UnsupportedDriverActionException('Attaching a file in an input is not supported by %s', $this);
     }
@@ -538,7 +538,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isVisible($xpath)
+    public function isVisible(string $xpath)
     {
         throw new UnsupportedDriverActionException('Element visibility check is not supported by %s', $this);
     }
@@ -551,7 +551,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function mouseOver($xpath)
+    public function mouseOver(string $xpath)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
     }
@@ -564,7 +564,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function focus($xpath)
+    public function focus(string $xpath)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
     }
@@ -577,58 +577,52 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function blur($xpath)
+    public function blur(string $xpath)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
     }
 
     /**
-     * @param string      $xpath
-     * @param string|int  $char
-     * @param string|null $modifier
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char
+     * @param KeyModifier::*|null $modifier
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyPress($xpath, $char, $modifier = null)
+    public function keyPress(string $xpath, $char, ?string $modifier = null)
     {
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
 
     /**
-     * @param string      $xpath
-     * @param string|int  $char
-     * @param string|null $modifier
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char
+     * @param KeyModifier::*|null $modifier
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyDown($xpath, $char, $modifier = null)
+    public function keyDown(string $xpath, $char, ?string $modifier = null)
     {
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
 
     /**
-     * @param string      $xpath
-     * @param string|int  $char
-     * @param string|null $modifier
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char
+     * @param KeyModifier::*|null $modifier
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyUp($xpath, $char, $modifier = null)
+    public function keyUp(string $xpath, $char, ?string $modifier = null)
     {
         throw new UnsupportedDriverActionException('Keyboard manipulations are not supported by %s', $this);
     }
@@ -642,7 +636,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function dragTo($sourceXpath, $destinationXpath)
+    public function dragTo(string $sourceXpath, string $destinationXpath)
     {
         throw new UnsupportedDriverActionException('Mouse manipulations are not supported by %s', $this);
     }
@@ -655,7 +649,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function executeScript($script)
+    public function executeScript(string $script)
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
@@ -668,7 +662,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function evaluateScript($script)
+    public function evaluateScript(string $script)
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
@@ -682,7 +676,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function wait($timeout, $condition)
+    public function wait(int $timeout, string $condition)
     {
         throw new UnsupportedDriverActionException('JS is not supported by %s', $this);
     }
@@ -697,7 +691,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function resizeWindow($width, $height, $name = null)
+    public function resizeWindow(int $width, int $height, ?string $name = null)
     {
         throw new UnsupportedDriverActionException('Window resizing is not supported by %s', $this);
     }
@@ -710,7 +704,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function maximizeWindow($name = null)
+    public function maximizeWindow(?string $name = null)
     {
         throw new UnsupportedDriverActionException('Window maximize is not supported by %s', $this);
     }
@@ -723,7 +717,7 @@ abstract class CoreDriver implements DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function submitForm($xpath)
+    public function submitForm(string $xpath)
     {
         throw new UnsupportedDriverActionException('Form submission is not supported by %s', $this);
     }

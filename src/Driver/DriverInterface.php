@@ -114,7 +114,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function visit($url);
+    public function visit(string $url);
 
     /**
      * Returns current URL address.
@@ -167,7 +167,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setBasicAuth($user, $password);
+    public function setBasicAuth($user, string $password);
 
     /**
      * Switches to specific browser window.
@@ -179,7 +179,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToWindow($name = null);
+    public function switchToWindow(?string $name = null);
 
     /**
      * Switches to specific iFrame.
@@ -191,7 +191,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToIFrame($name = null);
+    public function switchToIFrame(?string $name = null);
 
     /**
      * Sets specific request header on client.
@@ -204,7 +204,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setRequestHeader($name, $value);
+    public function setRequestHeader(string $name, string $value);
 
     /**
      * Returns last response headers.
@@ -229,7 +229,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setCookie($name, $value = null);
+    public function setCookie(string $name, ?string $value = null);
 
     /**
      * Returns cookie by name.
@@ -241,7 +241,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getCookie($name);
+    public function getCookie(string $name);
 
     /**
      * Returns last response status code.
@@ -304,7 +304,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function find($xpath);
+    public function find(string $xpath);
 
     /**
      * Returns element's tag name by its XPath query.
@@ -316,7 +316,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getTagName($xpath);
+    public function getTagName(string $xpath);
 
     /**
      * Returns element's text by its XPath query.
@@ -328,7 +328,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getText($xpath);
+    public function getText(string $xpath);
 
     /**
      * Returns element's inner html by its XPath query.
@@ -340,7 +340,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getHtml($xpath);
+    public function getHtml(string $xpath);
 
     /**
      * Returns element's outer html by its XPath query.
@@ -352,7 +352,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getOuterHtml($xpath);
+    public function getOuterHtml(string $xpath);
 
     /**
      * Returns element's attribute by its XPath query.
@@ -365,7 +365,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getAttribute($xpath, $name);
+    public function getAttribute(string $xpath, string $name);
 
     /**
      * Returns element's value by its XPath query.
@@ -379,7 +379,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getValue($xpath);
+    public function getValue(string $xpath);
 
     /**
      * Sets element's value by its XPath query.
@@ -394,7 +394,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setValue($xpath, $value);
+    public function setValue(string $xpath, $value);
 
     /**
      * Checks checkbox by its XPath query.
@@ -408,7 +408,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function check($xpath);
+    public function check(string $xpath);
 
     /**
      * Unchecks checkbox by its XPath query.
@@ -422,7 +422,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function uncheck($xpath);
+    public function uncheck(string $xpath);
 
     /**
      * Checks whether checkbox or radio button located by its XPath query is checked.
@@ -436,7 +436,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isChecked($xpath);
+    public function isChecked(string $xpath);
 
     /**
      * Selects option from select field or value in radio group located by its XPath query.
@@ -452,7 +452,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function selectOption($xpath, $value, $multiple = false);
+    public function selectOption(string $xpath, string $value, bool $multiple = false);
 
     /**
      * Checks whether select option, located by its XPath query, is selected.
@@ -466,7 +466,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isSelected($xpath);
+    public function isSelected(string $xpath);
 
     /**
      * Clicks button or link located by its XPath query.
@@ -478,7 +478,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function click($xpath);
+    public function click(string $xpath);
 
     /**
      * Double-clicks button or link located by its XPath query.
@@ -490,7 +490,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function doubleClick($xpath);
+    public function doubleClick(string $xpath);
 
     /**
      * Right-clicks button or link located by its XPath query.
@@ -502,7 +502,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function rightClick($xpath);
+    public function rightClick(string $xpath);
 
     /**
      * Attaches file path to file field located by its XPath query.
@@ -517,7 +517,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function attachFile($xpath, $path);
+    public function attachFile(string $xpath, string $path);
 
     /**
      * Checks whether element visible located by its XPath query.
@@ -529,7 +529,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function isVisible($xpath);
+    public function isVisible(string $xpath);
 
     /**
      * Simulates a mouse over on the element.
@@ -541,7 +541,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function mouseOver($xpath);
+    public function mouseOver(string $xpath);
 
     /**
      * Brings focus to element.
@@ -553,7 +553,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function focus($xpath);
+    public function focus(string $xpath);
 
     /**
      * Removes focus from element.
@@ -565,55 +565,49 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function blur($xpath);
+    public function blur(string $xpath);
 
     /**
      * Presses specific keyboard key.
      *
-     * @param string      $xpath
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyPress($xpath, $char, $modifier = null);
+    public function keyPress(string $xpath, $char, ?string $modifier = null);
 
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string      $xpath
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyDown($xpath, $char, $modifier = null);
+    public function keyDown(string $xpath, $char, ?string $modifier = null);
 
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string      $xpath
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function keyUp($xpath, $char, $modifier = null);
+    public function keyUp(string $xpath, $char, ?string $modifier = null);
 
     /**
      * Drag one element onto another.
@@ -626,7 +620,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function dragTo($sourceXpath, $destinationXpath);
+    public function dragTo(string $sourceXpath, string $destinationXpath);
 
     /**
      * Executes JS script.
@@ -638,7 +632,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function executeScript($script);
+    public function executeScript(string $script);
 
     /**
      * Evaluates JS script.
@@ -653,7 +647,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function evaluateScript($script);
+    public function evaluateScript(string $script);
 
     /**
      * Waits some time or until JS condition turns true.
@@ -666,7 +660,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function wait($timeout, $condition);
+    public function wait(int $timeout, string $condition);
 
     /**
      * Set the dimensions of the window.
@@ -680,7 +674,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function resizeWindow($width, $height, $name = null);
+    public function resizeWindow(int $width, int $height, ?string $name = null);
 
     /**
      * Maximizes the window if it is not maximized already.
@@ -692,7 +686,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function maximizeWindow($name = null);
+    public function maximizeWindow(?string $name = null);
 
     /**
      * Submits the form.
@@ -706,5 +700,5 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function submitForm($xpath);
+    public function submitForm(string $xpath);
 }

@@ -24,7 +24,7 @@ class Escaper
      *
      * @return string
      */
-    public function escapeLiteral($s)
+    public function escapeLiteral(string $s)
     {
         if (false === strpos($s, "'")) {
             return sprintf("'%s'", $s);

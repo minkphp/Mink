@@ -124,15 +124,6 @@ class NodeElementTest extends ElementTest
         $this->assertEquals($expectedTimeout, round($endTime - $startTime));
     }
 
-    public function testWaitForFailure()
-    {
-        $this->expectException('\InvalidArgumentException');
-
-        $node = new NodeElement('some xpath', $this->session);
-        // @phpstan-ignore-next-line
-        $node->waitFor(5, 'not a callable');
-    }
-
     public function testHasAttribute()
     {
         $node = new NodeElement('input_tag', $this->session);

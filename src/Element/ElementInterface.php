@@ -45,7 +45,7 @@ interface ElementInterface
      *
      * @see ElementInterface::findAll for the supported selectors
      */
-    public function has($selector, $locator);
+    public function has(string $selector, $locator);
 
     /**
      * Checks if an element still exists in the DOM.
@@ -71,10 +71,8 @@ interface ElementInterface
      * @return mixed
      *
      * @phpstan-return T
-     *
-     * @throws \InvalidArgumentException When invalid callback given.
      */
-    public function waitFor($timeout, $callback);
+    public function waitFor($timeout, callable $callback);
 
     /**
      * Finds first element with specified selector inside the current element.
@@ -86,7 +84,7 @@ interface ElementInterface
      *
      * @see ElementInterface::findAll for the supported selectors
      */
-    public function find($selector, $locator);
+    public function find(string $selector, $locator);
 
     /**
      * Finds all elements with specified selector inside the current element.
@@ -106,7 +104,7 @@ interface ElementInterface
      *
      * @see NamedSelector for the locators supported by the named selectors
      */
-    public function findAll($selector, $locator);
+    public function findAll(string $selector, $locator);
 
     /**
      * Returns element text (inside tag).
