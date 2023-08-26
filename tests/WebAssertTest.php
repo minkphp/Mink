@@ -680,6 +680,34 @@ class WebAssertTest extends TestCase
         );
     }
 
+    public function testResponseContainsCount()
+    {
+        $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getPage')
+            ->will($this->returnValue($page))
+        ;
+
+        $page
+            ->expects($this->exactly(2))
+            ->method('getContent')
+            ->will($this->returnValue('Some page text with page in it twice'))
+        ;
+
+        $this->assertCorrectAssertion('responseContainsCount', array('page', 2));
+        $this->assertWrongAssertion(
+            'responseContainsCount',
+            array('page', 3),
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'The string "page" was not found the expected 3 times in the HTML response of the current page.'
+        );
+    }
+
     public function testResponseMatches()
     {
         $page = $this->getMockBuilder('Behat\\Mink\\Element\\DocumentElement')
