@@ -379,6 +379,14 @@ class Session
     /**
      * Execute JS in browser and return its response.
      *
+     * The "return" keyword is optional in the script passed as argument.
+     * Multiline scripts must be wrapped in an immediately-invoked
+     * function expression.
+     * Examples of valid scripts:
+     * - '1 + 1'
+     * - 'return 1 + 1;'
+     * - '(function () {return 1 + 1;})()'
+     *
      * @param string $script javascript
      *
      * @return mixed
