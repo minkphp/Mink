@@ -160,14 +160,14 @@ abstract class CoreDriver implements DriverInterface
     }
 
     /**
-     * @param string|null $name
+     * @param int|null $name
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToIFrame(?string $name = null)
+    public function switchToIFrame(?int $name = null)
     {
         throw new UnsupportedDriverActionException('iFrames management is not supported by %s', $this);
     }
