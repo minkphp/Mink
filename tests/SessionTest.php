@@ -300,9 +300,9 @@ class SessionTest extends TestCase
     {
         $this->driver->expects($this->once())
             ->method('switchToIFrame')
-            ->with('test');
+            ->with(0);
 
-        $this->session->switchToIFrame('test');
+        $this->session->switchToIFrame(0);
     }
 
     public function testExecuteScript()
