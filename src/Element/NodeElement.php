@@ -277,6 +277,21 @@ class NodeElement extends TraversableElement
     }
 
     /**
+     * Returns that the option is in the element or not.
+     *
+     * @param string $option
+     * @return Boolean
+     */
+    public function hasOption($option)
+    {
+        if ('select' !== $this->getTagName()) {
+            throw new ExpectationException("Element should be a select element.", $this->getDriver());
+        }
+
+        return $this->find('named', array('option', $option)) !== null;
+    }
+
+    /**
      * Checks whether current node is selected if it's a option field.
      *
      * Calling this method on any other elements is not allowed.
