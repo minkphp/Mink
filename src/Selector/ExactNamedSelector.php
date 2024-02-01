@@ -23,6 +23,7 @@ class ExactNamedSelector extends NamedSelector
         $this->registerReplacement('%altMatch%', './@alt = %locator%');
         $this->registerReplacement('%relMatch%', './@rel = %locator%');
         $this->registerReplacement('%labelAttributeMatch%', './@label = %locator%');
+        $this->registerReplacement('%ariaLabelAttributeMatch%', './@aria-label = %locator%');
 
         parent::__construct();
     }
