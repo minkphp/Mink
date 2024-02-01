@@ -46,7 +46,7 @@ class NamedSelector implements SelectorInterface
         '%fieldFilterWithoutPlaceholder%' => 'self::input[%inputTypeWithoutPlaceholderFilter%] | self::select',
         '%buttonTypeFilter%' => "%lowercaseType% = 'submit' or %lowercaseType% = 'image' or %lowercaseType% = 'button' or %lowercaseType% = 'reset'",
         '%notFieldTypeFilter%' => "not(%buttonTypeFilter% or %lowercaseType% = 'hidden')",
-        '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch%',
+        '%buttonMatch%' => '%idOrNameMatch% or %valueMatch% or %titleMatch% or %ariaLabelAttributeMatch%',
         '%linkMatch%' => '(%idMatch% or %tagTextMatch% or %titleMatch% or %relMatch%)',
         '%imgAltMatch%' => './/img[%altMatch%]',
     );
@@ -99,16 +99,16 @@ XPATH
 [./@href][(%linkMatch% or %imgAltMatch%)]
 |
 .//input
-[%buttonTypeFilter%][(%idOrValueMatch% or %titleMatch%)]
+[%buttonTypeFilter%][(%idOrValueMatch% or %titleMatch% or %ariaLabelAttributeMatch%)]
 |
 .//input
 [%lowercaseType% = 'image'][%altMatch%]
 |
 .//button
-[(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[(%idOrValueMatch% or %titleMatch% or %tagTextMatch% or %ariaLabelAttributeMatch%)]
 |
 .//*
-[(%lowercaseRole% = 'button' or %lowercaseRole% = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch%)]
+[(%lowercaseRole% = 'button' or %lowercaseRole% = 'link')][(%idOrValueMatch% or %titleMatch% or %tagTextMatch% or %ariaLabelAttributeMatch%)]
 XPATH
 
         ,'content' => <<<XPATH
