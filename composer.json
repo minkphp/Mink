@@ -16,11 +16,11 @@
 
     "require": {
         "php":                   "^7.4|^8.0",
-        "symfony/css-selector":  "^4.4|^5.0|^6.0"
+        "symfony/css-selector":  "^4.4|^5.0|^6.0|^7.0"
     },
 
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.2|^6.0"
+        "symfony/phpunit-bridge": "^5.2|^6.0|^7.0"
     },
 
     "replace": {
