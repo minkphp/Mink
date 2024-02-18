@@ -296,13 +296,29 @@ class SessionTest extends TestCase
         $this->session->switchToWindow('test');
     }
 
-    public function testSwitchToIFrame()
+    /**
+     * @param string|int $iframeIdentifier
+     *
+     * @dataProvider iFrameDataProvider
+     */
+    public function testSwitchToIFrame($iframeIdentifier)
     {
         $this->driver->expects($this->once())
             ->method('switchToIFrame')
-            ->with('test');
+            ->with($iframeIdentifier);
 
-        $this->session->switchToIFrame('test');
+        $this->session->switchToIFrame($iframeIdentifier);
+    }
+
+    /**
+     * @return array
+     */
+    public function iFrameDataProvider()
+    {
+        return array(
+            'by name' => array('test'),
+            'by index' => array(0),
+        );
     }
 
     public function testExecuteScript()

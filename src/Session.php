@@ -355,11 +355,11 @@ class Session
     /**
      * Switches to specific iFrame.
      *
-     * @param string|null $name iframe name (null for switching back)
+     * @param string|int|null $name iframe name/index (null for switching back)
      *
      * @return void
      */
-    public function switchToIFrame(?string $name = null)
+    public function switchToIFrame($name = null)
     {
         $this->driver->switchToIFrame($name);
     }

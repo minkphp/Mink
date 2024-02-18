@@ -184,14 +184,14 @@ interface DriverInterface
     /**
      * Switches to specific iFrame.
      *
-     * @param string|null $name iframe name (null for switching back)
+     * @param string|int|null $name iframe name/index (null for switching back)
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToIFrame(?string $name = null);
+    public function switchToIFrame($name = null);
 
     /**
      * Sets specific request header on client.
