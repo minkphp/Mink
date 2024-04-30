@@ -426,7 +426,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function elementsCount(string $selectorType, $selector, int $count, ElementInterface $container = null)
+    public function elementsCount(string $selectorType, $selector, int $count, ?ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $nodes = $container->findAll($selectorType, $selector);
@@ -452,7 +452,7 @@ class WebAssert
      *
      * @throws ElementNotFoundException
      */
-    public function elementExists(string $selectorType, $selector, ElementInterface $container = null)
+    public function elementExists(string $selectorType, $selector, ?ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
@@ -479,7 +479,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function elementNotExists(string $selectorType, $selector, ElementInterface $container = null)
+    public function elementNotExists(string $selectorType, $selector, ?ElementInterface $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->find($selectorType, $selector);
@@ -722,7 +722,7 @@ class WebAssert
      *
      * @throws ElementNotFoundException
      */
-    public function fieldExists(string $field, TraversableElement $container = null)
+    public function fieldExists(string $field, ?TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -744,7 +744,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function fieldNotExists(string $field, TraversableElement $container = null)
+    public function fieldNotExists(string $field, ?TraversableElement $container = null)
     {
         $container = $container ?: $this->session->getPage();
         $node = $container->findField($field);
@@ -763,7 +763,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function fieldValueEquals(string $field, string $value, TraversableElement $container = null)
+    public function fieldValueEquals(string $field, string $value, ?TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
@@ -792,7 +792,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function fieldValueNotEquals(string $field, string $value, TraversableElement $container = null)
+    public function fieldValueNotEquals(string $field, string $value, ?TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
         $actual = $node->getValue();
@@ -819,7 +819,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function checkboxChecked(string $field, TraversableElement $container = null)
+    public function checkboxChecked(string $field, ?TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 
@@ -836,7 +836,7 @@ class WebAssert
      *
      * @throws ExpectationException
      */
-    public function checkboxNotChecked(string $field, TraversableElement $container = null)
+    public function checkboxNotChecked(string $field, ?TraversableElement $container = null)
     {
         $node = $this->fieldExists($field, $container);
 

@@ -36,7 +36,7 @@ class ElementHtmlException extends ExpectationException
      * @param Element                 $element   element
      * @param \Throwable|null         $exception expectation exception
      */
-    public function __construct(string $message, $driver, Element $element, \Throwable $exception = null)
+    public function __construct(string $message, $driver, Element $element, ?\Throwable $exception = null)
     {
         $this->element = $element;
 

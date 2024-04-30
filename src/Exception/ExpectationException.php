@@ -38,7 +38,7 @@ class ExpectationException extends Exception
      * @param DriverInterface|Session $driver    driver instance (or session for BC)
      * @param \Throwable|null         $exception expectation exception
      */
-    public function __construct(string $message, $driver, \Throwable $exception = null)
+    public function __construct(string $message, $driver, ?\Throwable $exception = null)
     {
         if ($driver instanceof Session) {
             @trigger_error('Passing a Session object to the ExpectationException constructor is deprecated as of Mink 1.7. Pass the driver instead.', E_USER_DEPRECATED);
