@@ -810,6 +810,44 @@ class WebAssert
     }
 
     /**
+     * Checks that specific field matches provided regex.
+     *
+     * @param string             $field     field id|name|label|value
+     * @param string             $regex     pattern
+     * @param TraversableElement $container document to check against
+     *
+     * @throws ExpectationException
+     */
+    public function fieldValueMatches($field, $regex, TraversableElement $container = null)
+    {
+        $node = $this->fieldExists($field, $container);
+        $actual = $node->getValue();
+    
+        $message = sprintf('The pattern "%s" was not found in the value "%s" of field "%s".', $regex, $actual, $field);
+    
+        $this->assert((bool) preg_match($regex, $actual), $message);
+    }
+  
+    /**
+     * Checks that specific field have provided value.
+     *
+     * @param string             $field     field id|name|label|value
+     * @param string             $regex     pattern
+     * @param TraversableElement $container document to check against
+     *
+     * @throws ExpectationException
+     */
+    public function fieldValueNotMatches($field, $regex, TraversableElement $container = null)
+    {
+        $node = $this->fieldExists($field, $container);
+        $actual = $node->getValue();
+    
+        $message = sprintf('The pattern "%s" was found in the value "%s" of field "%s", but it should not.', $regex, $actual, $field);
+    
+        $this->assert(!(bool) preg_match($regex, $actual), $message);
+    }
+    
+    /**
      * Checks that specific checkbox is checked.
      *
      * @param string                  $field     field id|name|label|value
