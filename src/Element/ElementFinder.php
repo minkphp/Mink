@@ -33,7 +33,7 @@ class ElementFinder
      */
     private $xpathManipulator;
 
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, Manipulator $xpathManipulator = null)
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, ?Manipulator $xpathManipulator = null)
     {
         $this->driver = $driver;
         $this->selectorsHandler = $selectorsHandler;

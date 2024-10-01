@@ -39,7 +39,7 @@ class Session
      */
     private $selectorsHandler;
 
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
+    public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
     {
         $this->driver = $driver;
         $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
