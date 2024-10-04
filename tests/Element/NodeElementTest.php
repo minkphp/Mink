@@ -5,7 +5,7 @@ namespace Behat\Mink\Tests\Element;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\DriverException;
 
-class NodeElementTest extends ElementTest
+class NodeElementTest extends ElementTestCase
 {
     public function testGetXpath()
     {
