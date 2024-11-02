@@ -24,9 +24,9 @@ class UnsupportedDriverActionException extends DriverException
      *
      * @param string          $template what is unsupported?
      * @param DriverInterface $driver   driver instance
-     * @param \Exception|null $previous previous exception
+     * @param \Throwable|null $previous previous exception
      */
-    public function __construct($template, DriverInterface $driver, \Exception $previous = null)
+    public function __construct(string $template, DriverInterface $driver, ?\Throwable $previous = null)
     {
         $message = sprintf($template, get_class($driver));
 

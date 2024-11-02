@@ -34,9 +34,9 @@ class ElementHtmlException extends ExpectationException
      * @param string                  $message   optional message
      * @param DriverInterface|Session $driver    driver instance
      * @param Element                 $element   element
-     * @param \Exception|null         $exception expectation exception
+     * @param \Throwable|null         $exception expectation exception
      */
-    public function __construct($message, $driver, Element $element, \Exception $exception = null)
+    public function __construct(string $message, $driver, Element $element, ?\Throwable $exception = null)
     {
         $this->element = $element;
 

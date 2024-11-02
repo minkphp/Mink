@@ -10,7 +10,7 @@ class ElementNotFoundExceptionTest extends TestCase
     /**
      * @dataProvider provideExceptionMessage
      */
-    public function testBuildMessage($message, $type, $selector = null, $locator = null)
+    public function testBuildMessage(string $message, ?string $type, ?string $selector = null, ?string $locator = null)
     {
         $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
 

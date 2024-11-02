@@ -10,7 +10,7 @@ class ManipulatorTest extends TestCase
     /**
      * @dataProvider getPrependedXpath
      */
-    public function testPrepend($prefix, $xpath, $expectedXpath)
+    public function testPrepend(string $prefix, string $xpath, string $expectedXpath)
     {
         $manipulator = new Manipulator();
 
@@ -64,6 +64,22 @@ class ManipulatorTest extends TestCase
                 'some_xpath',
                 "some_tag[(contains(normalize-space(string(.)), 'foo|bar') | other_tag[contains(./@some_attribute, 'foo|bar')])]",
                 "some_xpath/some_tag[(contains(normalize-space(string(.)), 'foo|bar') | other_tag[contains(./@some_attribute, 'foo|bar')])]",
+            ),
+            // Invalid XPath queries should be handled gracefully to let the DOMQuery report a proper failure for them later
+            'unclosed string literal single quote' => array(
+                'some_xpath',
+                "some_tag1 | some_tag2[@foo = 'bar]",
+                "some_xpath/some_tag1 | some_tag2[@foo = 'bar]",
+            ),
+            'unclosed string literal double quote' => array(
+                'some_xpath',
+                'some_tag1 | some_tag2[@foo = "bar]',
+                'some_xpath/some_tag1 | some_tag2[@foo = "bar]',
+            ),
+            'unclosed bracket' => array(
+                'some_xpath',
+                'some_tag1 | some_tag2[@foo = "bar"',
+                'some_xpath/some_tag1 | some_tag2[@foo = "bar"',
             ),
         );
     }

@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
 
 class NodeElementTest extends ElementTest
 {
@@ -51,7 +52,7 @@ class NodeElementTest extends ElementTest
             ->expects($this->once())
             ->method('find')
             ->with($elementXpath)
-            ->will($this->returnValue(array($elementXpath)));
+            ->willReturn(array($this->createStub(NodeElement::class)));
 
         $this->assertTrue($node->isValid());
     }
@@ -61,12 +62,24 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('some xpath', $this->session);
 
         $this->driver
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('find')
             ->with('some xpath')
-            ->will($this->onConsecutiveCalls(array(), array('xpath1', 'xpath2')));
+            ->willReturn(array());
 
         $this->assertFalse($node->isValid(), 'no elements found is invalid element');
+    }
+
+    public function testElementIsNotValidWithMultipleFound()
+    {
+        $node = new NodeElement('some xpath', $this->session);
+
+        $this->driver
+            ->expects($this->once())
+            ->method('find')
+            ->with('some xpath')
+            ->willReturn(array($this->createStub(NodeElement::class), $this->createStub(NodeElement::class)));
+
         $this->assertFalse($node->isValid(), 'more then 1 element found is invalid element');
     }
 
@@ -111,14 +124,6 @@ class NodeElementTest extends ElementTest
         $this->assertEquals($expectedTimeout, round($endTime - $startTime));
     }
 
-    public function testWaitForFailure()
-    {
-        $this->expectException('\InvalidArgumentException');
-
-        $node = new NodeElement('some xpath', $this->session);
-        $node->waitFor(5, 'not a callable');
-    }
-
     public function testHasAttribute()
     {
         $node = new NodeElement('input_tag', $this->session);
@@ -152,7 +157,7 @@ class NodeElementTest extends ElementTest
         $node = new NodeElement('input_tag', $this->session);
 
         $this->driver
-            ->expects($this->exactly(6))
+            ->expects($this->any())
             ->method('getAttribute')
             ->with('input_tag', 'class')
             ->will($this->returnValue('
@@ -279,9 +284,7 @@ class NodeElementTest extends ElementTest
     public function testSelectOption()
     {
         $node = new NodeElement('select', $this->session);
-        $option = $this->getMockBuilder('Behat\Mink\Element\NodeElement')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $option = $this->createMock(NodeElement::class);
         $option
             ->expects($this->once())
             ->method('getValue')
@@ -293,17 +296,10 @@ class NodeElementTest extends ElementTest
             ->with('select')
             ->will($this->returnValue('select'));
 
-        $this->driver
-            ->expects($this->once())
-            ->method('find')
-            ->with('select/option')
-            ->will($this->returnValue(array($option)));
-
-        $this->selectors
-            ->expects($this->once())
-            ->method('selectorToXpath')
-            ->with('named_exact', array('option', 'item1'))
-            ->will($this->returnValue('option'));
+        $this->elementFinder->expects($this->once())
+            ->method('findAll')
+            ->with('named', array('option', 'item1'), 'select')
+            ->willReturn(array($option));
 
         $this->driver
             ->expects($this->once())
@@ -315,7 +311,6 @@ class NodeElementTest extends ElementTest
 
     public function testSelectOptionNotFound()
     {
-        $this->expectException('\Behat\Mink\Exception\ElementNotFoundException');
         $node = new NodeElement('select', $this->session);
 
         $this->driver
@@ -324,18 +319,12 @@ class NodeElementTest extends ElementTest
             ->with('select')
             ->will($this->returnValue('select'));
 
-        $this->driver
-            ->expects($this->exactly(2))
-            ->method('find')
-            ->with('select/option')
-            ->will($this->returnValue(array()));
+        $this->elementFinder->expects($this->once())
+            ->method('findAll')
+            ->with('named', array('option', 'item1'), 'select')
+            ->willReturn(array());
 
-        $this->selectors
-            ->expects($this->exactly(2))
-            ->method('selectorToXpath')
-            ->with($this->logicalOr('named_exact', 'named_partial'), array('option', 'item1'))
-            ->will($this->returnValue('option'));
-
+        $this->expectException('\Behat\Mink\Exception\ElementNotFoundException');
         $node->selectOption('item1');
     }
 
@@ -377,19 +366,26 @@ class NodeElementTest extends ElementTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->driver
-            ->expects($this->once())
-            ->method('find')
-            ->with('elem/..')
-            ->will($this->returnValue(array($parent)));
-
-        $this->selectors
-            ->expects($this->once())
-            ->method('selectorToXpath')
-            ->with('xpath', '..')
-            ->will($this->returnValue('..'));
+        $this->elementFinder->expects($this->once())
+            ->method('findAll')
+            ->with('xpath', '..', 'elem')
+            ->willReturn(array($parent));
 
         $this->assertSame($parent, $node->getParent());
+    }
+
+    public function testGetParentNotFound()
+    {
+        $node = new NodeElement('elem', $this->session);
+
+        $this->elementFinder->expects($this->once())
+            ->method('findAll')
+            ->with('xpath', '..', 'elem')
+            ->willReturn(array());
+
+        $this->expectException(DriverException::class);
+        $this->expectExceptionMessage('Could not find the element parent. Maybe the element has been removed from the page.');
+        $node->getParent();
     }
 
     public function testAttachFile()
@@ -545,51 +541,5 @@ class NodeElementTest extends ElementTest
             ->with('some_xpath');
 
         $node->submit();
-    }
-
-    public function testFindAllUnion()
-    {
-        $node = new NodeElement('some_xpath', $this->session);
-        $xpath = "some_tag1 | some_tag2[@foo =\n 'bar|']\n | some_tag3[foo | bar]";
-        $expected = "some_xpath/some_tag1 | some_xpath/some_tag2[@foo =\n 'bar|'] | some_xpath/some_tag3[foo | bar]";
-
-        $this->driver
-            ->expects($this->exactly(1))
-            ->method('find')
-            ->will($this->returnValueMap(array(
-                array($expected, array(2, 3, 4)),
-            )));
-
-        $this->selectors
-            ->expects($this->exactly(1))
-            ->method('selectorToXpath')
-            ->will($this->returnValueMap(array(
-                array('xpath', $xpath, $xpath),
-            )));
-
-        $this->assertEquals(3, count($node->findAll('xpath', $xpath)));
-    }
-
-    public function testFindAllParentUnion()
-    {
-        $node = new NodeElement('some_xpath | another_xpath', $this->session);
-        $xpath = 'some_tag1 | some_tag2';
-        $expectedPrefixed = '(some_xpath | another_xpath)/some_tag1 | (some_xpath | another_xpath)/some_tag2';
-
-        $this->driver
-            ->expects($this->exactly(1))
-            ->method('find')
-            ->will($this->returnValueMap(array(
-                array($expectedPrefixed, array(2, 3, 4)),
-            )));
-
-        $this->selectors
-            ->expects($this->exactly(1))
-            ->method('selectorToXpath')
-            ->will($this->returnValueMap(array(
-                array('xpath', $xpath, $xpath),
-            )));
-
-        $this->assertEquals(3, count($node->findAll('xpath', $xpath)));
     }
 }

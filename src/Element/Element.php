@@ -13,7 +13,6 @@ namespace Behat\Mink\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Selector\SelectorsHandler;
-use Behat\Mink\Selector\Xpath\Manipulator;
 use Behat\Mink\Session;
 
 /**
@@ -36,14 +35,9 @@ abstract class Element implements ElementInterface
     private $driver;
 
     /**
-     * @var SelectorsHandler
+     * @var ElementFinder
      */
-    private $selectorsHandler;
-
-    /**
-     * @var Manipulator
-     */
-    private $xpathManipulator;
+    private $elementFinder;
 
     /**
      * Initialize element.
@@ -52,11 +46,10 @@ abstract class Element implements ElementInterface
      */
     public function __construct(Session $session)
     {
-        $this->xpathManipulator = new Manipulator();
         $this->session = $session;
 
         $this->driver = $session->getDriver();
-        $this->selectorsHandler = $session->getSelectorsHandler();
+        $this->elementFinder = $session->getElementFinder();
     }
 
     /**
@@ -94,13 +87,13 @@ abstract class Element implements ElementInterface
     {
         @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->selectorsHandler;
+        return $this->session->getSelectorsHandler();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function has($selector, $locator)
+    public function has(string $selector, $locator)
     {
         return null !== $this->find($selector, $locator);
     }
@@ -113,15 +106,8 @@ abstract class Element implements ElementInterface
         return 1 === count($this->getDriver()->find($this->getXpath()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function waitFor($timeout, $callback)
+    public function waitFor($timeout, callable $callback)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Given callback is not a valid callable');
-        }
-
         $start = microtime(true);
         $end = $start + $timeout;
 
@@ -141,7 +127,7 @@ abstract class Element implements ElementInterface
     /**
      * {@inheritdoc}
      */
-    public function find($selector, $locator)
+    public function find(string $selector, $locator)
     {
         $items = $this->findAll($selector, $locator);
 
@@ -151,21 +137,9 @@ abstract class Element implements ElementInterface
     /**
      * {@inheritdoc}
      */
-    public function findAll($selector, $locator)
+    public function findAll(string $selector, $locator)
     {
-        if ('named' === $selector) {
-            $items = $this->findAll('named_exact', $locator);
-            if (empty($items)) {
-                $items = $this->findAll('named_partial', $locator);
-            }
-
-            return $items;
-        }
-
-        $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
-        $xpath = $this->xpathManipulator->prepend($xpath, $this->getXpath());
-
-        return $this->getDriver()->find($xpath);
+        return $this->elementFinder->findAll($selector, $locator, $this->getXpath());
     }
 
     /**
@@ -205,7 +179,7 @@ abstract class Element implements ElementInterface
      *
      * @deprecated as of 1.7, to be removed in 2.0
      */
-    protected function elementNotFound($type, $selector = null, $locator = null)
+    protected function elementNotFound(string $type, ?string $selector = null, ?string $locator = null)
     {
         @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
 

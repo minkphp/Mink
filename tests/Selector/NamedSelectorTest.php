@@ -32,7 +32,7 @@ abstract class NamedSelectorTest extends TestCase
     /**
      * @dataProvider getSelectorTests
      */
-    public function testSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
+    public function testSelectors(string $fixtureFile, string $selector, string $locator, int $expectedExactCount, ?int $expectedPartialCount = null)
     {
         $expectedCount = $this->allowPartialMatch() && null !== $expectedPartialCount
             ? $expectedPartialCount
@@ -40,7 +40,9 @@ abstract class NamedSelectorTest extends TestCase
 
         // Don't use "loadHTMLFile" due HHVM 3.3.0 issue.
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->loadHTML(file_get_contents(__DIR__.'/fixtures/'.$fixtureFile));
+        $html = file_get_contents(__DIR__.'/fixtures/'.$fixtureFile);
+        \assert($html !== false);
+        $dom->loadHTML($html);
 
         $namedSelector = $this->getSelector();
 
@@ -49,13 +51,17 @@ abstract class NamedSelectorTest extends TestCase
         $domXpath = new \DOMXPath($dom);
         $nodeList = $domXpath->query($xpath);
 
+        $this->assertNotFalse($nodeList, 'The XPath should be valid.');
         $this->assertEquals($expectedCount, $nodeList->length);
     }
 
     /**
      * @dataProvider getLateRegisteredReplacements
+     *
+     * @param array<string, string> $replacements
+     * @param array<string, string> $selectors
      */
-    public function testLateRegisteredReplacements($fixtureFile, $replacements, $selectors, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
+    public function testLateRegisteredReplacements(string $fixtureFile, array $replacements, array $selectors, string $selector, string $locator, int $expectedExactCount, ?int $expectedPartialCount = null)
     {
         $expectedCount = $this->allowPartialMatch() && null !== $expectedPartialCount
             ? $expectedPartialCount
@@ -63,7 +69,9 @@ abstract class NamedSelectorTest extends TestCase
 
         // Don't use "loadHTMLFile" due HHVM 3.3.0 issue.
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->loadHTML(file_get_contents(__DIR__.'/fixtures/'.$fixtureFile));
+        $html = file_get_contents(__DIR__.'/fixtures/'.$fixtureFile);
+        \assert($html !== false);
+        $dom->loadHTML($html);
 
         $namedSelector = $this->getSelector();
 
@@ -80,6 +88,7 @@ abstract class NamedSelectorTest extends TestCase
         $domXpath = new \DOMXPath($dom);
         $nodeList = $domXpath->query($xpath);
 
+        $this->assertNotFalse($nodeList, 'The XPath should be valid.');
         $this->assertEquals($expectedCount, $nodeList->length);
     }
 
@@ -87,7 +96,7 @@ abstract class NamedSelectorTest extends TestCase
      * @dataProvider getSelectorTests
      * @group legacy
      */
-    public function testEscapedSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
+    public function testEscapedSelectors(string $fixtureFile, string $selector, string $locator, int $expectedExactCount, ?int $expectedPartialCount = null)
     {
         // Escape the locator as Mink 1.x expects the caller of the NamedSelector to handle it
         $escaper = new Escaper();

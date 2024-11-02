@@ -1,0 +1,16 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    checkMissingIterableValueType: false
+    checkMissingCallableSignature: true
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:test\w*\(\) has no return type specified\.$#'
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:provide\w*\(\) has no return type specified\.$#'
+        - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:get\w*\(\) has no return type specified\.$#'
+
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon

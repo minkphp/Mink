@@ -11,6 +11,7 @@
 namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Element\ElementFinder;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Element\DocumentElement;
 
@@ -30,27 +31,22 @@ class Session
      */
     private $page;
     /**
+     * @var ElementFinder
+     */
+    private $elementFinder;
+    /**
      * @var SelectorsHandler
      */
     private $selectorsHandler;
 
-    /**
-     * Initializes session.
-     *
-     * @param DriverInterface       $driver
-     * @param SelectorsHandler|null $selectorsHandler
-     */
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler = null)
+    public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
     {
-        $driver->setSession($this);
-
-        if (null === $selectorsHandler) {
-            $selectorsHandler = new SelectorsHandler();
-        }
-
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler;
+        $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
+        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler);
         $this->page = new DocumentElement($this);
+
+        $driver->setSession($this);
     }
 
     /**
@@ -141,12 +137,24 @@ class Session
     }
 
     /**
+     * @internal
+     */
+    public function getElementFinder(): ElementFinder
+    {
+        return $this->elementFinder;
+    }
+
+    /**
      * Returns selectors handler.
      *
      * @return SelectorsHandler
+     *
+     * @deprecated since 1.11
      */
     public function getSelectorsHandler()
     {
+        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
+
         return $this->selectorsHandler;
     }
 
@@ -157,7 +165,7 @@ class Session
      *
      * @return void
      */
-    public function visit($url)
+    public function visit(string $url)
     {
         // start session if needed
         if (!$this->isStarted()) {
@@ -175,7 +183,7 @@ class Session
      *
      * @return void
      */
-    public function setBasicAuth($user, $password = '')
+    public function setBasicAuth($user, string $password = '')
     {
         $this->driver->setBasicAuth($user, $password);
     }
@@ -188,7 +196,7 @@ class Session
      *
      * @return void
      */
-    public function setRequestHeader($name, $value)
+    public function setRequestHeader(string $name, string $value)
     {
         $this->driver->setRequestHeader($name, $value);
     }
@@ -210,7 +218,7 @@ class Session
      *
      * @return string|null
      */
-    public function getResponseHeader($name)
+    public function getResponseHeader(string $name)
     {
         $headers = $this->driver->getResponseHeaders();
 
@@ -234,7 +242,7 @@ class Session
      *
      * @return void
      */
-    public function setCookie($name, $value = null)
+    public function setCookie(string $name, ?string $value = null)
     {
         $this->driver->setCookie($name, $value);
     }
@@ -246,7 +254,7 @@ class Session
      *
      * @return string|null
      */
-    public function getCookie($name)
+    public function getCookie(string $name)
     {
         return $this->driver->getCookie($name);
     }
@@ -339,7 +347,7 @@ class Session
      *
      * @return void
      */
-    public function switchToWindow($name = null)
+    public function switchToWindow(?string $name = null)
     {
         $this->driver->switchToWindow($name);
     }
@@ -351,7 +359,7 @@ class Session
      *
      * @return void
      */
-    public function switchToIFrame($name = null)
+    public function switchToIFrame(?string $name = null)
     {
         $this->driver->switchToIFrame($name);
     }
@@ -363,7 +371,7 @@ class Session
      *
      * @return void
      */
-    public function executeScript($script)
+    public function executeScript(string $script)
     {
         $this->driver->executeScript($script);
     }
@@ -375,7 +383,7 @@ class Session
      *
      * @return mixed
      */
-    public function evaluateScript($script)
+    public function evaluateScript(string $script)
     {
         return $this->driver->evaluateScript($script);
     }
@@ -388,7 +396,7 @@ class Session
      *
      * @return bool
      */
-    public function wait($time, $condition = 'false')
+    public function wait(int $time, string $condition = 'false')
     {
         return $this->driver->wait($time, $condition);
     }
@@ -402,7 +410,7 @@ class Session
      *
      * @return void
      */
-    public function resizeWindow($width, $height, $name = null)
+    public function resizeWindow(int $width, int $height, ?string $name = null)
     {
         $this->driver->resizeWindow($width, $height, $name);
     }
@@ -414,7 +422,7 @@ class Session
      *
      * @return void
      */
-    public function maximizeWindow($name = null)
+    public function maximizeWindow(?string $name = null)
     {
         $this->driver->maximizeWindow($name);
     }

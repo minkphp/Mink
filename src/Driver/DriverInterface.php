@@ -115,7 +115,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function visit($url);
+    public function visit(string $url);
 
     /**
      * Returns current URL address.
@@ -168,7 +168,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setBasicAuth($user, $password);
+    public function setBasicAuth($user, string $password);
 
     /**
      * Switches to specific browser window.
@@ -180,7 +180,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToWindow($name = null);
+    public function switchToWindow(?string $name = null);
 
     /**
      * Switches to specific iFrame.
@@ -192,7 +192,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function switchToIFrame($name = null);
+    public function switchToIFrame(?string $name = null);
 
     /**
      * Sets specific request header on client.
@@ -205,7 +205,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setRequestHeader($name, $value);
+    public function setRequestHeader(string $name, string $value);
 
     /**
      * Returns last response headers.
@@ -230,7 +230,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function setCookie($name, $value = null);
+    public function setCookie(string $name, ?string $value = null);
 
     /**
      * Returns cookie by name.
@@ -242,7 +242,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function getCookie($name);
+    public function getCookie(string $name);
 
     /**
      * Returns last response status code.
@@ -307,7 +307,7 @@ interface DriverInterface
      */
     public function find(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -322,7 +322,7 @@ interface DriverInterface
      */
     public function getTagName(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -337,7 +337,7 @@ interface DriverInterface
      */
     public function getText(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -352,7 +352,7 @@ interface DriverInterface
      */
     public function getHtml(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -367,7 +367,7 @@ interface DriverInterface
      */
     public function getOuterHtml(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -383,12 +383,14 @@ interface DriverInterface
      */
     public function getAttribute(
         #[Language('XPath')]
-        $xpath,
-        $name
+        string $xpath,
+        string $name
     );
 
     /**
      * Returns element's value by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::getValue
      *
      * @param string $xpath
      *
@@ -396,16 +398,16 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::getValue
      */
     public function getValue(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Sets element's value by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::setValue
      *
      * @param string            $xpath
      * @param string|bool|array $value
@@ -414,51 +416,51 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::setValue
      */
     public function setValue(
         #[Language('XPath')]
-        $xpath,
+        string $xpath,
         $value
     );
 
     /**
      * Checks checkbox by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::check
+     *
      * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::check
      */
     public function check(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Unchecks checkbox by its XPath query.
      *
+     * @see \Behat\Mink\Element\NodeElement::uncheck
+     *
      * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::uncheck
      */
     public function uncheck(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Checks whether checkbox or radio button located by its XPath query is checked.
+     *
+     * @see \Behat\Mink\Element\NodeElement::isChecked
      *
      * @param string $xpath
      *
@@ -466,16 +468,16 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::isChecked
      */
     public function isChecked(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Selects option from select field or value in radio group located by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::selectOption
      *
      * @param string $xpath
      * @param string $value
@@ -485,18 +487,18 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::selectOption
      */
     public function selectOption(
         #[Language('XPath')]
-        $xpath,
-        $value,
-        $multiple = false
+        string $xpath,
+        string $value,
+        bool $multiple = false
     );
 
     /**
      * Checks whether select option, located by its XPath query, is selected.
+     *
+     * @see \Behat\Mink\Element\NodeElement::isSelected
      *
      * @param string $xpath
      *
@@ -504,12 +506,10 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::isSelected
      */
     public function isSelected(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -524,7 +524,7 @@ interface DriverInterface
      */
     public function click(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -539,7 +539,7 @@ interface DriverInterface
      */
     public function doubleClick(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -554,11 +554,13 @@ interface DriverInterface
      */
     public function rightClick(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Attaches file path to file field located by its XPath query.
+     *
+     * @see \Behat\Mink\Element\NodeElement::attachFile
      *
      * @param string $xpath
      * @param string $path
@@ -567,14 +569,12 @@ interface DriverInterface
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::attachFile
      */
     public function attachFile(
         #[Language('XPath')]
-        $xpath,
+        string $xpath,
         #[Language('file-reference')]
-        $path
+        string $path
     );
 
     /**
@@ -589,7 +589,7 @@ interface DriverInterface
      */
     public function isVisible(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -604,7 +604,7 @@ interface DriverInterface
      */
     public function mouseOver(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -619,7 +619,7 @@ interface DriverInterface
      */
     public function focus(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
@@ -634,17 +634,15 @@ interface DriverInterface
      */
     public function blur(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 
     /**
      * Presses specific keyboard key.
      *
-     * @param string                           $xpath
-     * @param string|int                       $char     could be either char ('b') or char-code (98)
-     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
@@ -653,19 +651,17 @@ interface DriverInterface
      */
     public function keyPress(
         #[Language('XPath')]
-        $xpath,
+        string $xpath,
         $char,
-        $modifier = null
+        ?string $modifier = null
     );
 
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string                           $xpath
-     * @param string|int                       $char     could be either char ('b') or char-code (98)
-     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
@@ -674,19 +670,17 @@ interface DriverInterface
      */
     public function keyDown(
         #[Language('XPath')]
-        $xpath,
+        string $xpath,
         $char,
-        $modifier = null
+        ?string $modifier = null
     );
 
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string                           $xpath
-     * @param string|int                       $char     could be either char ('b') or char-code (98)
-     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string              $xpath
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      *
@@ -695,9 +689,9 @@ interface DriverInterface
      */
     public function keyUp(
         #[Language('XPath')]
-        $xpath,
+        string $xpath,
         $char,
-        $modifier = null
+        ?string $modifier = null
     );
 
     /**
@@ -713,9 +707,9 @@ interface DriverInterface
      */
     public function dragTo(
         #[Language('XPath')]
-        $sourceXpath,
+        string $sourceXpath,
         #[Language('XPath')]
-        $destinationXpath
+        string $destinationXpath
     );
 
     /**
@@ -730,7 +724,7 @@ interface DriverInterface
      */
     public function executeScript(
         #[Language('JavaScript')]
-        $script
+        string $script
     );
 
     /**
@@ -748,7 +742,7 @@ interface DriverInterface
      */
     public function evaluateScript(
         #[Language('JavaScript')]
-        $script
+        string $script
     );
 
     /**
@@ -763,9 +757,9 @@ interface DriverInterface
      * @throws DriverException                  When the operation cannot be done
      */
     public function wait(
-        $timeout,
+        int $timeout,
         #[Language('JavaScript')]
-        $condition
+        string $condition
     );
 
     /**
@@ -780,7 +774,7 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function resizeWindow($width, $height, $name = null);
+    public function resizeWindow(int $width, int $height, ?string $name = null);
 
     /**
      * Maximizes the window if it is not maximized already.
@@ -792,22 +786,22 @@ interface DriverInterface
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
-    public function maximizeWindow($name = null);
+    public function maximizeWindow(?string $name = null);
 
     /**
      * Submits the form.
      *
-     * @param string $xpath Xpath.
+     * @see \Behat\Mink\Element\NodeElement::submitForm
+     *
+     * @param string $xpath
      *
      * @return void
      *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
-     *
-     * @see NodeElement::submitForm
      */
     public function submitForm(
         #[Language('XPath')]
-        $xpath
+        string $xpath
     );
 }

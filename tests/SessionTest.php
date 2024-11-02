@@ -3,6 +3,7 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +14,9 @@ class SessionTest extends TestCase
      * @var DriverInterface&MockObject
      */
     private $driver;
+    /**
+     * @var SelectorsHandler
+     */
     private $selectorsHandler;
 
     /**
@@ -25,7 +29,7 @@ class SessionTest extends TestCase
     /**
      * @before
      */
-    protected function prepareSession()
+    protected function prepareSession(): void
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
         $this->selectorsHandler = $this->getMockBuilder('Behat\Mink\Selector\SelectorsHandler')->getMock();
@@ -42,11 +46,17 @@ class SessionTest extends TestCase
         $this->assertInstanceOf('Behat\Mink\Element\DocumentElement', $this->session->getPage());
     }
 
+    /**
+     * @group legacy
+     */
     public function testGetSelectorsHandler()
     {
         $this->assertSame($this->selectorsHandler, $this->session->getSelectorsHandler());
     }
 
+    /**
+     * @group legacy
+     */
     public function testInstantiateWithoutOptionalDeps()
     {
         $session = new Session($this->driver);
@@ -167,7 +177,7 @@ class SessionTest extends TestCase
     /**
      * @dataProvider provideResponseHeader
      */
-    public function testGetResponseHeader($expected, $name, array $headers)
+    public function testGetResponseHeader(?string $expected, string $name, array $headers)
     {
         $this->driver->expects($this->once())
             ->method('getResponseHeaders')

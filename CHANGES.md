@@ -1,3 +1,25 @@
+1.12.0 / 2024-10-31
+===================
+
+Bug fixes:
+
+* Explicitly mark method parameters with `null` default values as nullable to avoid deprecation notice in PHP 8.4
+
+1.11.0 / 2023-12-09
+===================
+
+New features:
+
+* Added support for `symfony/css-selector` 7
+* Added constants for the supported key modifiers
+* Improved types to help static analysis
+* Added parameter types for most methods
+
+Testsuite:
+
+* Added CI jobs for PHP 8.2 and 8.3
+* Added static analysis in our CI
+
 1.10.0 / 2022-03-28
 ===================
 

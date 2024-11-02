@@ -56,8 +56,10 @@ class CoreDriverTest extends TestCase
     {
         $refl = new \ReflectionClass('Behat\Mink\Driver\CoreDriver');
 
+        $coreDriverMethod = $refl->getMethod($method->getName());
+
         $this->assertFalse(
-            $refl->getMethod($method->getName())->isAbstract(),
+            $coreDriverMethod->isAbstract(),
             sprintf('CoreDriver should implement a dummy %s method', $method->getName())
         );
 
@@ -69,7 +71,7 @@ class CoreDriverTest extends TestCase
 
         $this->expectException('Behat\Mink\Exception\UnsupportedDriverActionException');
 
-        call_user_func_array(array($driver, $method->getName()), $this->getArguments($method));
+        $coreDriverMethod->invokeArgs($driver, $this->getArguments($method));
     }
 
     public function getDriverInterfaceMethods()
@@ -81,6 +83,9 @@ class CoreDriverTest extends TestCase
         }, $ref->getMethods());
     }
 
+    /**
+     * @return list<mixed>
+     */
     private function getArguments(\ReflectionMethod $method)
     {
         $arguments = array();
@@ -92,6 +97,9 @@ class CoreDriverTest extends TestCase
         return $arguments;
     }
 
+    /**
+     * @return mixed
+     */
     private function getArgument(\ReflectionParameter $argument)
     {
         if ($argument->isOptional()) {
@@ -102,10 +110,31 @@ class CoreDriverTest extends TestCase
             return null;
         }
 
-        if ($argument->getClass()) {
-            return $this->getMockBuilder($argument->getClass()->getName())
-                ->disableOriginalConstructor()
-                ->getMock();
+        $type = $argument->getType();
+
+        if ($type instanceof \ReflectionNamedType) {
+            switch ($type->getName()) {
+                case 'string':
+                    return '';
+
+                case 'int':
+                    return 0;
+
+                case 'bool':
+                    return false;
+
+                case 'float':
+                    return 0.0;
+
+                default:
+                    if ($type->isBuiltin()) {
+                        throw new \UnexpectedValueException(sprintf('The type "%s" is not supported by the generation of fake value. Please update the implementation.', $type->getName()));
+                    }
+
+                    \assert(class_exists($type->getName()) || interface_exists($type->getName()));
+
+                    return $this->createStub($type->getName());
+            }
         }
 
         return null;

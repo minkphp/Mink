@@ -36,9 +36,9 @@ class ExpectationException extends Exception
      *
      * @param string                  $message   optional message
      * @param DriverInterface|Session $driver    driver instance (or session for BC)
-     * @param \Exception|null         $exception expectation exception
+     * @param \Throwable|null         $exception expectation exception
      */
-    public function __construct($message, $driver, \Exception $exception = null)
+    public function __construct(string $message, $driver, ?\Throwable $exception = null)
     {
         if ($driver instanceof Session) {
             @trigger_error('Passing a Session object to the ExpectationException constructor is deprecated as of Mink 1.7. Pass the driver instead.', E_USER_DEPRECATED);
@@ -135,7 +135,7 @@ class ExpectationException extends Exception
      */
     protected function trimBody($string)
     {
-        $string = preg_replace(array('/^.*<body>/s', '/<\/body>.*$/s'), array('<body>', '</body>'), $string);
+        $string = preg_replace(array('/^.*<body>/s', '/<\/body>.*$/s'), array('<body>', '</body>'), $string) ?? $string;
 
         return $string;
     }

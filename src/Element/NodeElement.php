@@ -10,6 +10,7 @@
 
 namespace Behat\Mink\Element;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
 use Behat\Mink\Exception\ElementNotFoundException;
@@ -32,7 +33,7 @@ class NodeElement extends TraversableElement
      * @param string  $xpath   element xpath
      * @param Session $session session instance
      */
-    public function __construct($xpath, Session $session)
+    public function __construct(string $xpath, Session $session)
     {
         $this->xpath = $xpath;
 
@@ -56,7 +57,13 @@ class NodeElement extends TraversableElement
      */
     public function getParent()
     {
-        return $this->find('xpath', '..');
+        $parent = $this->find('xpath', '..');
+
+        if ($parent === null) {
+            throw new DriverException('Could not find the element parent. Maybe the element has been removed from the page.');
+        }
+
+        return $parent;
     }
 
     /**
@@ -118,7 +125,7 @@ class NodeElement extends TraversableElement
      *
      * @return bool
      */
-    public function hasAttribute($name)
+    public function hasAttribute(string $name)
     {
         return null !== $this->getDriver()->getAttribute($this->getXpath(), $name);
     }
@@ -130,7 +137,7 @@ class NodeElement extends TraversableElement
      *
      * @return string|null
      */
-    public function getAttribute($name)
+    public function getAttribute(string $name)
     {
         return $this->getDriver()->getAttribute($this->getXpath(), $name);
     }
@@ -142,13 +149,21 @@ class NodeElement extends TraversableElement
      *
      * @return bool
      */
-    public function hasClass($className)
+    public function hasClass(string $className)
     {
-        if ($this->hasAttribute('class')) {
-            return in_array($className, preg_split('/\s+/', $this->getAttribute('class')));
+        $class = $this->getAttribute('class');
+
+        if ($class === null) {
+            return false;
         }
 
-        return false;
+        $classes = preg_split('/\s+/', $class);
+
+        if ($classes === false) {
+            $classes = [];
+        }
+
+        return in_array($className, $classes);
     }
 
     /**
@@ -240,7 +255,7 @@ class NodeElement extends TraversableElement
      *
      * @throws ElementNotFoundException when the option is not found in the select box
      */
-    public function selectOption($option, $multiple = false)
+    public function selectOption(string $option, bool $multiple = false)
     {
         if ('select' !== $this->getTagName()) {
             $this->getDriver()->selectOption($this->getXpath(), $option, $multiple);
@@ -254,7 +269,11 @@ class NodeElement extends TraversableElement
             throw new ElementNotFoundException($this->getDriver(), 'select option', 'value|text', $option);
         }
 
-        $this->getDriver()->selectOption($this->getXpath(), $opt->getValue(), $multiple);
+        $optionValue = $opt->getValue();
+
+        \assert(\is_string($optionValue), 'The value of an option element should always be a string.');
+
+        $this->getDriver()->selectOption($this->getXpath(), $optionValue, $multiple);
     }
 
     /**
@@ -278,7 +297,7 @@ class NodeElement extends TraversableElement
      *
      * @return void
      */
-    public function attachFile($path)
+    public function attachFile(string $path)
     {
         $this->getDriver()->attachFile($this->getXpath(), $path);
     }
@@ -338,14 +357,12 @@ class NodeElement extends TraversableElement
     /**
      * Presses specific keyboard key.
      *
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      */
-    public function keyPress($char, $modifier = null)
+    public function keyPress($char, ?string $modifier = null)
     {
         $this->getDriver()->keyPress($this->getXpath(), $char, $modifier);
     }
@@ -353,14 +370,12 @@ class NodeElement extends TraversableElement
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      */
-    public function keyDown($char, $modifier = null)
+    public function keyDown($char, ?string $modifier = null)
     {
         $this->getDriver()->keyDown($this->getXpath(), $char, $modifier);
     }
@@ -368,14 +383,12 @@ class NodeElement extends TraversableElement
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string|int  $char     could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
-     *
-     * @phpstan-param KeyModifier::*|null $modifier
+     * @param string|int          $char     could be either char ('b') or char-code (98)
+     * @param KeyModifier::*|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @return void
      */
-    public function keyUp($char, $modifier = null)
+    public function keyUp($char, ?string $modifier = null)
     {
         $this->getDriver()->keyUp($this->getXpath(), $char, $modifier);
     }
