@@ -6,12 +6,6 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
- * @noinspection PhpLanguageLevelInspection
- * @noinspection PhpMissingParamTypeInspection
- * @noinspection PhpMissingReturnTypeInspection
- * @noinspection ReturnTypeCanBeDeclaredInspection
- * @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection
  */
 
 namespace Behat\Mink\Driver;
@@ -21,7 +15,6 @@ use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\Mink\KeyModifier;
 use Behat\Mink\Session;
-use JetBrains\PhpStorm\ExpectedValues;
 use JetBrains\PhpStorm\Language;
 
 /**
@@ -167,8 +160,8 @@ interface DriverInterface
     /**
      * Sets HTTP Basic authentication parameters.
      *
-     * @param string|false $user user name or false to disable authentication
-     * @param string $password password
+     * @param string|false $user     user name or false to disable authentication
+     * @param string       $password password
      *
      * @return void
      *
@@ -229,7 +222,7 @@ interface DriverInterface
      *
      * Passing null as value will delete the cookie.
      *
-     * @param string $name
+     * @param string      $name
      * @param string|null $value
      *
      * @return void
@@ -414,7 +407,7 @@ interface DriverInterface
     /**
      * Sets element's value by its XPath query.
      *
-     * @param string $xpath
+     * @param string            $xpath
      * @param string|bool|array $value
      *
      * @return void
@@ -486,7 +479,7 @@ interface DriverInterface
      *
      * @param string $xpath
      * @param string $value
-     * @param bool $multiple
+     * @param bool   $multiple
      *
      * @return void
      *
@@ -647,9 +640,9 @@ interface DriverInterface
     /**
      * Presses specific keyboard key.
      *
-     * @param string $xpath
-     * @param string|int $char could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string                           $xpath
+     * @param string|int                       $char     could be either char ('b') or char-code (98)
+     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
      *
@@ -662,16 +655,15 @@ interface DriverInterface
         #[Language('XPath')]
         $xpath,
         $char,
-        #[ExpectedValues([null, 'ctrl', 'alt', 'shift', 'meta'])]
         $modifier = null
     );
 
     /**
      * Pressed down specific keyboard key.
      *
-     * @param string $xpath
-     * @param string|int $char could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string                           $xpath
+     * @param string|int                       $char     could be either char ('b') or char-code (98)
+     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
      *
@@ -684,16 +676,15 @@ interface DriverInterface
         #[Language('XPath')]
         $xpath,
         $char,
-        #[ExpectedValues([null, 'ctrl', 'alt', 'shift', 'meta'])]
         $modifier = null
     );
 
     /**
      * Pressed up specific keyboard key.
      *
-     * @param string $xpath
-     * @param string|int $char could be either char ('b') or char-code (98)
-     * @param string|null $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
+     * @param string                           $xpath
+     * @param string|int                       $char     could be either char ('b') or char-code (98)
+     * @param null|'ctrl'|'alt'|'shift'|'meta' $modifier keyboard modifier (could be 'ctrl', 'alt', 'shift' or 'meta')
      *
      * @phpstan-param KeyModifier::*|null $modifier
      *
@@ -706,7 +697,6 @@ interface DriverInterface
         #[Language('XPath')]
         $xpath,
         $char,
-        #[ExpectedValues([null, 'ctrl', 'alt', 'shift', 'meta'])]
         $modifier = null
     );
 
@@ -764,7 +754,7 @@ interface DriverInterface
     /**
      * Waits some time or until JS condition turns true.
      *
-     * @param int $timeout timeout in milliseconds
+     * @param int    $timeout   timeout in milliseconds
      * @param string $condition JS condition
      *
      * @return bool
@@ -781,9 +771,9 @@ interface DriverInterface
     /**
      * Set the dimensions of the window.
      *
-     * @param int $width set the window width, measured in pixels
-     * @param int $height set the window height, measured in pixels
-     * @param string|null $name window name (null for the main window)
+     * @param int         $width  set the window width, measured in pixels
+     * @param int         $height set the window height, measured in pixels
+     * @param string|null $name   window name (null for the main window)
      *
      * @return void
      *

@@ -22,7 +22,8 @@
     "require-dev": {
         "symfony/error-handler": "^4.4 || ^5.0 || ^6.0",
         "phpunit/phpunit": "^8.5.22 || ^9.5.11",
-        "symfony/phpunit-bridge": "^5.4 || ^6.0"
+        "symfony/phpunit-bridge": "^5.4 || ^6.0",
+        "jetbrains/phpstorm-attributes": "*"
     },
 
     "suggest": {
