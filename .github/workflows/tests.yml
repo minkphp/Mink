@@ -74,9 +74,17 @@ jobs:
       - name: Run tests
         env:
           SYMFONY_DEPRECATIONS_HELPER: "${{ matrix.symfony_deprecations_helper }}"
-        run: vendor/bin/phpunit -v --coverage-clover=coverage.xml
+        run: vendor/bin/phpunit -v --coverage-clover=coverage.xml --log-junit junit.xml
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
+      - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
