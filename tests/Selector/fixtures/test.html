@@ -191,6 +191,25 @@
             <button type="button" title="some button-text"></button>
             <button type="reset" title="some button-text"></button>
 
+            <!-- match buttons by `aria-label` attribute -->
+            <input type="submit" aria-label="button-text"/>
+            <input type="image" aria-label="button-text"/>
+            <input type="button" aria-label="button-text"/>
+            <input type="reset" aria-label="button-text"/>
+            <button type="submit" aria-label="button-text"></button>
+            <button type="image" aria-label="button-text"></button>
+            <button type="button" aria-label="button-text"></button>
+            <button type="reset" aria-label="button-text"></button>
+            <!-- partial match -->
+            <input type="submit" aria-label="some button-text"/>
+            <input type="image" aria-label="some button-text"/>
+            <input type="button" aria-label="some button-text"/>
+            <input type="reset" aria-label="some button-text"/>
+            <button type="submit" aria-label="some button-text"></button>
+            <button type="image" aria-label="some button-text"></button>
+            <button type="button" aria-label="some button-text"></button>
+            <button type="reset" aria-label="some button-text"></button>
+
             <!-- match some buttons by `alt` attribute -->
             <input type="submit" alt="button-alt-text"/>
             <input type="imaGe" alt="button-alt-text"/>
