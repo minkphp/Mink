@@ -17,7 +17,7 @@ class ManipulatorTest extends TestCase
         $this->assertEquals($expectedXpath, $manipulator->prepend($xpath, $prefix));
     }
 
-    public function getPrependedXpath()
+    public static function getPrependedXpath()
     {
         return array(
             'simple' => array(
