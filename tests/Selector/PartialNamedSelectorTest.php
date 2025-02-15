@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\PartialNamedSelector;
 
-class PartialNamedSelectorTest extends NamedSelectorTest
+class PartialNamedSelectorTest extends NamedSelectorTestCase
 {
     protected function getSelector()
     {

@@ -5,7 +5,7 @@ namespace Behat\Mink\Tests\Element;
 use Behat\Mink\Element\DocumentElement;
 use Behat\Mink\Element\NodeElement;
 
-class DocumentElementTest extends ElementTest
+class DocumentElementTest extends ElementTestCase
 {
     /**
      * Page.

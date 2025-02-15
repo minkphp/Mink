@@ -22,9 +22,15 @@ class CoreDriverTest extends TestCase
 
     public function testCreateNodeElements()
     {
+        if(\PHPUnit\Runner\Version::id() >= 10) {
+            $driver = $this->getMockBuilder('Behat\Mink\Driver\CoreDriver')
+                ->onlyMethods(array('findElementXpaths'))
+                ->getMockForAbstractClass();
+        } else {
         $driver = $this->getMockBuilder('Behat\Mink\Driver\CoreDriver')
             ->setMethods(array('findElementXpaths'))
             ->getMockForAbstractClass();
+        }
 
         $session = $this->getMockBuilder('Behat\Mink\Session')
             ->disableOriginalConstructor()
@@ -74,7 +80,7 @@ class CoreDriverTest extends TestCase
         $coreDriverMethod->invokeArgs($driver, $this->getArguments($method));
     }
 
-    public function getDriverInterfaceMethods()
+    public static function getDriverInterfaceMethods()
     {
         $ref = new \ReflectionClass('Behat\Mink\Driver\DriverInterface');
 
