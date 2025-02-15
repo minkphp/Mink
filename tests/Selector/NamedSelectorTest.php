@@ -130,7 +130,7 @@ abstract class NamedSelectorTest extends TestCase
             'link (without-href) ignored' => array('test.html', 'link', 'bad-link-text', 0),
             'link* (role=link)' => array('test.html', 'link', 'link-role-text', 4, 7),
 
-            'button (input, name/value/title)' => array('test.html', 'button', 'button-text', 25, 42),
+            'button (input, name/value/title/aria-label)' => array('test.html', 'button', 'button-text', 33, 58),
             'button (type=image, with-alt)' => array('test.html', 'button', 'button-alt-text', 1, 2),
             'button (input type=submit, with-id)' => array('test.html', 'button', 'input-submit-button', 1),
             'button (input type=image, with-id)' => array('test.html', 'button', 'input-image-button', 1),
@@ -150,8 +150,8 @@ abstract class NamedSelectorTest extends TestCase
             'link_or_button (without-href) ignored' => array('test.html', 'link_or_button', 'bad-link-text', 0),
             'link_or_button* (role=link)' => array('test.html', 'link_or_button', 'link-role-text', 4, 7),
 
-            // bug in selector: 17 instead of 25 and 34 instead of 42, because 8 buttons with `name` attribute were not matched
-            'link_or_button (input, name/value/title)' => array('test.html', 'link_or_button', 'button-text', 17, 34),
+            // bug in selector: 25 instead of 33 and 50 instead of 58, because 8 buttons with `name` attribute were not matched
+            'link_or_button (input, name/value/title/aria-label)' => array('test.html', 'link_or_button', 'button-text', 25, 50),
             'link_or_button (type=image, with-alt)' => array('test.html', 'link_or_button', 'button-alt-text', 1, 2),
             'link_or_button (input type=submit, with-id)' => array('test.html', 'link_or_button', 'input-submit-button', 1),
             'link_or_button (input type=image, with-id)' => array('test.html', 'link_or_button', 'input-image-button', 1),
