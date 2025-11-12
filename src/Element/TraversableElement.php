@@ -163,6 +163,10 @@ abstract class TraversableElement extends Element
             throw new ElementNotFoundException($this->getDriver(), 'form field', 'id|name|label|value|placeholder', $locator);
         }
 
+        if ($field->getAttribute('type') === 'checkbox') {
+            $value = (bool) $value && $value !== 'false';
+        }
+
         $field->setValue($value);
     }
 
