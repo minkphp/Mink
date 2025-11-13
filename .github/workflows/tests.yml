@@ -47,7 +47,7 @@ jobs:
           - php: '7.2'
             composer_flags: '--prefer-lowest --prefer-stable'
             symfony_deprecations_helper: weak
-          - php: '8.2'
+          - php: '8.4'
             minimum_stability: dev
       fail-fast: false
 
