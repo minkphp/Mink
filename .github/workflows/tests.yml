@@ -13,22 +13,22 @@ jobs:
     name: Check composer.json
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           coverage: none
-          php-version: '8.2'
+          php-version: '8.4'
       - run: composer validate --strict --no-check-lock
 
   static_analysis:
     name: Static analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: shivammathur/setup-php@v2
         with:
           coverage: none
-          php-version: '8.2'
+          php-version: '8.4'
       - name: Install dependencies
         run: composer update --ansi --no-progress --prefer-dist --no-interaction
       - run: vendor/bin/phpstan analyze
@@ -47,13 +47,13 @@ jobs:
           - php: '7.2'
             composer_flags: '--prefer-lowest --prefer-stable'
             symfony_deprecations_helper: weak
-          - php: '8.2'
+          - php: '8.4'
             minimum_stability: dev
       fail-fast: false
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -62,6 +62,7 @@ jobs:
         with:
           coverage: "xdebug"
           php-version: "${{ matrix.php }}"
+          ini-file: 'development'
           tools: composer
 
       - name: Configure for minimum stability
