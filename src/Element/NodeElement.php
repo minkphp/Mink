@@ -96,6 +96,8 @@ class NodeElement extends TraversableElement
      * Calling this method on other elements than form fields or option elements is not allowed.
      *
      * @return string|bool|array|null
+     *
+     * @phpstan-return string|bool|list<string>|null
      */
     public function getValue()
     {
@@ -108,6 +110,8 @@ class NodeElement extends TraversableElement
      * Calling this method on other elements than form fields is not allowed.
      *
      * @param string|bool|array $value
+     *
+     * @phpstan-param string|bool|list<string> $value
      *
      * @return void
      *

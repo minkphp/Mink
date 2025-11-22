@@ -149,6 +149,8 @@ abstract class TraversableElement extends Element
      * @param string            $locator input id, name or label
      * @param string|bool|array $value   value
      *
+     * @phpstan-param string|bool|list<string> $value
+     *
      * @return void
      *
      * @throws ElementNotFoundException
