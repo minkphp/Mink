@@ -4,7 +4,7 @@ namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\ExactNamedSelector;
 
-class ExactNamedSelectorTest extends NamedSelectorTest
+class ExactNamedSelectorTest extends NamedSelectorTestCase
 {
     protected function getSelector()
     {

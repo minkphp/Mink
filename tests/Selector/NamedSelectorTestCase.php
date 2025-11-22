@@ -6,7 +6,7 @@ use Behat\Mink\Selector\NamedSelector;
 use Behat\Mink\Selector\Xpath\Escaper;
 use PHPUnit\Framework\TestCase;
 
-abstract class NamedSelectorTest extends TestCase
+abstract class NamedSelectorTestCase extends TestCase
 {
     public function testRegisterXpath()
     {
@@ -105,7 +105,7 @@ abstract class NamedSelectorTest extends TestCase
         $this->testSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount);
     }
 
-    public function getSelectorTests()
+    public static function getSelectorTests()
     {
         $fieldCount = 8; // fields without `type` attribute
         $fieldCount += 4; // fields with `type=checkbox` attribute
@@ -196,7 +196,7 @@ abstract class NamedSelectorTest extends TestCase
         );
     }
 
-    public function getLateRegisteredReplacements()
+    public static function getLateRegisteredReplacements()
     {
         // The following tests all use `test.html` from the fixtures directory.
         return array(

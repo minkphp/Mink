@@ -8,7 +8,7 @@ use Behat\Mink\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-abstract class ElementTest extends TestCase
+abstract class ElementTestCase extends TestCase
 {
     /**
      * Session.
