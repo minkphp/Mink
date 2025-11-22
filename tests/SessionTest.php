@@ -175,6 +175,8 @@ class SessionTest extends TestCase
     }
 
     /**
+     * @param array<string, string|list<string>> $headers
+     *
      * @dataProvider provideResponseHeader
      */
     public function testGetResponseHeader(?string $expected, string $name, array $headers)

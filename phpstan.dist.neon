@@ -3,13 +3,18 @@ parameters:
     paths:
         - src
         - tests
-    checkMissingIterableValueType: false
     checkMissingCallableSignature: true
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:test\w*\(\) has no return type specified\.$#'
         - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:provide\w*\(\) has no return type specified\.$#'
         - '#^Method Behat\\Mink\\Tests\\[^:]+Test(Case)?\:\:get\w*\(\) has no return type specified\.$#'
+        -
+            message: '#^Method Behat\\Mink\\[^:]+\:\:\w+\(\) has parameter \$selector with no value type specified in iterable type array\.$#'
+            identifier: missingType.iterableValue
+        -
+            message: '#^Method Behat\\Mink\\[^:]+\:\:\w+\(\) has parameter \$locator with no value type specified in iterable type array\.$#'
+            identifier: missingType.iterableValue
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon

@@ -388,6 +388,8 @@ abstract class CoreDriver implements DriverInterface
      *
      * @return string|bool|array|null
      *
+     * @phpstan-return string|bool|list<string>|null
+     *
      * @throws UnsupportedDriverActionException When operation not supported by the driver
      * @throws DriverException                  When the operation cannot be done
      */
@@ -399,6 +401,8 @@ abstract class CoreDriver implements DriverInterface
     /**
      * @param string            $xpath
      * @param string|bool|array $value
+     *
+     * @phpstan-param string|bool|list<string> $value
      *
      * @return void
      *
