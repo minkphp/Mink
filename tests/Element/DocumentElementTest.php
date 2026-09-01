@@ -164,8 +164,8 @@ class DocumentElementTest extends ElementTestCase
         $this->elementFinder->expects($this->exactly(2))
             ->method('findAll')
             ->willReturnMap(array(
-                array('named', array('content', 'some content'), '//html', array($node1, $node2)),
-                array('named', array('content', 'some other content'), '//html', array()),
+                array('named_partial', array('content', 'some content'), '//html', array($node1, $node2)),
+                array('named_partial', array('content', 'some other content'), '//html', array()),
             ));
 
         $this->assertTrue($this->document->hasContent('some content'));

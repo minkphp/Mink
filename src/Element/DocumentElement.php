@@ -46,6 +46,6 @@ class DocumentElement extends TraversableElement
      */
     public function hasContent(string $content)
     {
-        return $this->has('named', array('content', $content));
+        return $this->has('named_partial', array('content', $content));
     }
 }
