@@ -57,6 +57,92 @@ class WebAssertTest extends TestCase
         );
     }
 
+    public function testAddressEqualsWithQueryString()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/login?return_url=/user'))
+        ;
+
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/login?return_url=/user', true);
+        });
+        $this->assertWrongAssertion(
+            function () {
+                $this->assert->addressEquals('/login', true);
+            },
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page is "/login?return_url=/user", but "/login" expected.'
+        );
+    }
+
+    public function testAddressEqualsIgnoresTheQueryStringByDefault()
+    {
+        $this->session
+            ->expects($this->once())
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/login?return_url=/user'))
+        ;
+
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/login');
+        });
+    }
+
+    public function testAddressEqualsKeepsTheQueryStringInFrontOfTheFragment()
+    {
+        $this->session
+            ->expects($this->once())
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/script.php/sub/url?param=true#webapp/nav'))
+        ;
+
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressEquals('/sub/url?param=true#webapp/nav', true);
+        });
+    }
+
+    public function testAddressNotEqualsWithQueryString()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/login?return_url=/user'))
+        ;
+
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressNotEquals('/login?return_url=/admin', true);
+        });
+        $this->assertWrongAssertion(
+            function () {
+                $this->assert->addressNotEquals('/login?return_url=/user', true);
+            },
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page is "/login?return_url=/user", but should not be.'
+        );
+    }
+
+    public function testAddressMatchesWithQueryString()
+    {
+        $this->session
+            ->expects($this->exactly(2))
+            ->method('getCurrentUrl')
+            ->will($this->returnValue('http://example.com/login?return_url=/user'))
+        ;
+
+        $this->assertCorrectAssertion(function () {
+            $this->assert->addressMatches('/return_url/', true);
+        });
+        $this->assertWrongAssertion(
+            function () {
+                $this->assert->addressMatches('/return_url/');
+            },
+            'Behat\\Mink\\Exception\\ExpectationException',
+            'Current page "/login" does not match the regex "/return_url/".'
+        );
+    }
+
     public function testAddressEqualsEmptyPath()
     {
         $this->session

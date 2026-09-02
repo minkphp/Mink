@@ -46,15 +46,17 @@ class WebAssert
      * Checks that current session address is equals to provided one.
      *
      * @param string $page
+     * @param bool   $compareQueryString Whether the query string takes part in the comparison.
+     *                                   Off by default, so suites comparing the path alone keep working.
      *
      * @return void
      *
      * @throws ExpectationException
      */
-    public function addressEquals(string $page)
+    public function addressEquals(string $page, bool $compareQueryString = false)
     {
-        $expected = $this->cleanUrl($page);
-        $actual = $this->getCurrentUrlPath();
+        $expected = $this->cleanAddress($page, $compareQueryString);
+        $actual = $this->getCurrentAddress($compareQueryString);
 
         $this->assert($actual === $expected, sprintf('Current page is "%s", but "%s" expected.', $actual, $expected));
     }
@@ -63,15 +65,17 @@ class WebAssert
      * Checks that current session address is not equals to provided one.
      *
      * @param string $page
+     * @param bool   $compareQueryString Whether the query string takes part in the comparison.
+     *                                   Off by default, so suites comparing the path alone keep working.
      *
      * @return void
      *
      * @throws ExpectationException
      */
-    public function addressNotEquals(string $page)
+    public function addressNotEquals(string $page, bool $compareQueryString = false)
     {
-        $expected = $this->cleanUrl($page);
-        $actual = $this->getCurrentUrlPath();
+        $expected = $this->cleanAddress($page, $compareQueryString);
+        $actual = $this->getCurrentAddress($compareQueryString);
 
         $this->assert($actual !== $expected, sprintf('Current page is "%s", but should not be.', $actual));
     }
@@ -80,14 +84,16 @@ class WebAssert
      * Checks that current session address matches regex.
      *
      * @param string $regex
+     * @param bool   $compareQueryString Whether the query string is part of the address the regex is
+     *                                   matched against. Off by default.
      *
      * @return void
      *
      * @throws ExpectationException
      */
-    public function addressMatches(string $regex)
+    public function addressMatches(string $regex, bool $compareQueryString = false)
     {
-        $actual = $this->getCurrentUrlPath();
+        $actual = $this->getCurrentAddress($compareQueryString);
         $message = sprintf('Current page "%s" does not match the regex "%s".', $actual, $regex);
 
         $this->assert((bool) preg_match($regex, $actual), $message);
@@ -867,6 +873,50 @@ class WebAssert
         $path = empty($parts['path']) ? '/' : $parts['path'];
 
         return preg_replace('/^\/[^\.\/]+\.php\//', '/', $path).$fragment;
+    }
+
+    /**
+     * Gets the current address the way getCurrentUrlPath() does, optionally keeping its query string.
+     *
+     * Without the query string this is getCurrentUrlPath() itself, so a subclass overriding it keeps
+     * deciding what the address looks like for every assertion written before this option existed.
+     */
+    private function getCurrentAddress(bool $compareQueryString): string
+    {
+        if (!$compareQueryString) {
+            return $this->getCurrentUrlPath();
+        }
+
+        return $this->cleanAddress($this->session->getCurrentUrl(), true);
+    }
+
+    /**
+     * Cleans the URL the way cleanUrl() does, optionally keeping its query string.
+     *
+     * The query is spliced back in front of the fragment rather than parsed here, so that a
+     * subclass overriding cleanUrl() keeps deciding what the rest of the address looks like.
+     */
+    private function cleanAddress(string $url, bool $compareQueryString): string
+    {
+        $address = $this->cleanUrl($url);
+
+        if (!$compareQueryString) {
+            return $address;
+        }
+
+        $query = parse_url($url, \PHP_URL_QUERY);
+
+        if (!\is_string($query) || '' === $query) {
+            return $address;
+        }
+
+        $fragmentPosition = strpos($address, '#');
+
+        if (false === $fragmentPosition) {
+            return $address.'?'.$query;
+        }
+
+        return substr($address, 0, $fragmentPosition).'?'.$query.substr($address, $fragmentPosition);
     }
 
     /**
