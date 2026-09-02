@@ -11,6 +11,7 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Selector\NamedSelectorMode;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Selector\Xpath\Manipulator;
 
@@ -32,12 +33,24 @@ class ElementFinder
      * @var Manipulator
      */
     private $xpathManipulator;
+    /**
+     * @var NamedSelectorMode::*
+     */
+    private $namedSelectorMode;
 
-    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, ?Manipulator $xpathManipulator = null)
+    /**
+     * @param NamedSelectorMode::* $namedSelectorMode How the "named" selector is resolved.
+     */
+    public function __construct(DriverInterface $driver, SelectorsHandler $selectorsHandler, ?Manipulator $xpathManipulator = null, string $namedSelectorMode = NamedSelectorMode::PARTIAL_FALLBACK)
     {
+        if (NamedSelectorMode::PARTIAL_FALLBACK !== $namedSelectorMode && NamedSelectorMode::EXACT !== $namedSelectorMode) {
+            throw new \InvalidArgumentException(sprintf('Unknown named selector mode "%s".', $namedSelectorMode));
+        }
+
         $this->driver = $driver;
         $this->selectorsHandler = $selectorsHandler;
         $this->xpathManipulator = $xpathManipulator ?? new Manipulator();
+        $this->namedSelectorMode = $namedSelectorMode;
     }
 
     /**
@@ -49,7 +62,7 @@ class ElementFinder
     {
         if ('named' === $selector) {
             $items = $this->findAll('named_exact', $locator, $parentXpath);
-            if (empty($items)) {
+            if (empty($items) && NamedSelectorMode::EXACT !== $this->namedSelectorMode) {
                 $items = $this->findAll('named_partial', $locator, $parentXpath);
             }
 

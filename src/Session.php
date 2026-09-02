@@ -12,6 +12,7 @@ namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\ElementFinder;
+use Behat\Mink\Selector\NamedSelectorMode;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Element\DocumentElement;
 
@@ -39,11 +40,14 @@ class Session
      */
     private $selectorsHandler;
 
-    public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
+    /**
+     * @param NamedSelectorMode::* $namedSelectorMode How the "named" selector is resolved.
+     */
+    public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null, string $namedSelectorMode = NamedSelectorMode::PARTIAL_FALLBACK)
     {
         $this->driver = $driver;
         $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
-        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler);
+        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler, null, $namedSelectorMode);
         $this->page = new DocumentElement($this);
 
         $driver->setSession($this);

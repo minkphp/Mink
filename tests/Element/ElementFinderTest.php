@@ -5,6 +5,7 @@ namespace Behat\Mink\Tests\Element;
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\ElementFinder;
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Selector\NamedSelectorMode;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Selector\Xpath\Manipulator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -158,5 +159,51 @@ class ElementFinderTest extends TestCase
         $this->assertContainsOnlyInstancesOf(NodeElement::class, $results);
         $this->assertEquals('element1', $results[0]->getXpath());
         $this->assertEquals('element2', $results[1]->getXpath());
+    }
+
+    public function testNamedExactModeDoesNotFallBackToPartial()
+    {
+        $finder = new ElementFinder($this->driver, $this->selectorsHandler, $this->manipulator, NamedSelectorMode::EXACT);
+
+        $this->selectorsHandler->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('named_exact', 'test')
+            ->will($this->returnValue('named_xpath'));
+
+        $this->manipulator->expects($this->once())
+            ->method('prepend')
+            ->with('named_xpath', 'parent_xpath')
+            ->will($this->returnValue('full_xpath'));
+
+        $this->driver->expects($this->once())
+            ->method('find')
+            ->with('full_xpath')
+            ->will($this->returnValue(array()));
+
+        $this->assertEquals(array(), $finder->findAll('named', 'test', 'parent_xpath'));
+    }
+
+    /**
+     * @dataProvider provideInvalidNamedSelectorModes
+     */
+    public function testUnknownNamedSelectorModeIsRejected(string $namedSelectorMode)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Unknown named selector mode "%s".', $namedSelectorMode));
+
+        // @phpstan-ignore argument.type (this test exercises the runtime guard, on values the narrowed type forbids)
+        new ElementFinder($this->driver, $this->selectorsHandler, $this->manipulator, $namedSelectorMode);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function provideInvalidNamedSelectorModes()
+    {
+        return array(
+            'unknown value' => array('nope'),
+            'empty string' => array(''),
+            'the selector name itself' => array('named_exact'),
+        );
     }
 }

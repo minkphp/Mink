@@ -3,6 +3,8 @@
 namespace Behat\Mink\Tests;
 
 use Behat\Mink\Driver\DriverInterface;
+use Behat\Mink\Element\ElementFinder;
+use Behat\Mink\Selector\NamedSelectorMode;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -354,5 +356,43 @@ class SessionTest extends TestCase
             ->with('test');
 
         $this->session->maximizeWindow('test');
+    }
+
+    public function testNamedSelectorModeIsForwardedToTheElementFinder()
+    {
+        $selectorsHandler = $this->createMock(SelectorsHandler::class);
+        $selectorsHandler->expects($this->once())
+            ->method('selectorToXpath')
+            ->with('named_exact', 'test')
+            ->willReturn('named_xpath');
+
+        // a partial fallback would query the driver a second time
+        $this->driver->expects($this->once())
+            ->method('find')
+            ->willReturn(array());
+
+        $session = new Session($this->driver, $selectorsHandler, NamedSelectorMode::EXACT);
+
+        $this->assertSame(array(), $session->getPage()->findAll('named', 'test'));
+    }
+
+    public function testTheDefaultNamedSelectorModeStillFallsBackToPartial()
+    {
+        $selectorsHandler = $this->createMock(SelectorsHandler::class);
+        $selectorsHandler->expects($this->exactly(2))
+            ->method('selectorToXpath')
+            ->willReturnMap(array(
+                array('named_exact', 'test', 'named_xpath'),
+                array('named_partial', 'test', 'partial_xpath'),
+            ));
+
+        // the exact lookup finds nothing, so the partial one is queried as well
+        $this->driver->expects($this->exactly(2))
+            ->method('find')
+            ->willReturn(array());
+
+        $session = new Session($this->driver, $selectorsHandler);
+
+        $this->assertSame(array(), $session->getPage()->findAll('named', 'test'));
     }
 }
