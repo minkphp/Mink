@@ -381,6 +381,26 @@ class WebAssert
     }
 
     /**
+     * Checks that page HTML (response content) contains case insensitive text n times.
+     *
+     * @param string  $text   expected text
+     *
+     * @param integer $number expected number of occurrences
+     *
+     * @throws ExpectationException
+     */
+    public function responseContainsCount($text, $number)
+    {
+        $actual = $this->session->getPage()->getContent();
+        $message = sprintf(
+            'The string "%s" was not found the expected %d times in the HTML response of the current page.',
+            $text,
+            $number
+        );
+        $this->assert(substr_count(strtolower($actual), strtolower($text)) === $number, $message);
+    }
+
+    /**
      * Checks that page HTML (response content) matches regex.
      *
      * @param string $regex
