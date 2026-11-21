@@ -30,22 +30,4 @@ class ElementNotFoundExceptionTest extends TestCase
             array('Tag with name "foobar" not found.', null, 'name', 'foobar'),
         );
     }
-
-    /**
-     * @group legacy
-     */
-    public function testConstructWithSession()
-    {
-        $driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-        $session = $this->getMockBuilder('Behat\Mink\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $session->expects($this->any())
-            ->method('getDriver')
-            ->will($this->returnValue($driver));
-
-        $exception = new ElementNotFoundException($session);
-
-        $this->assertEquals('Tag not found.', $exception->getMessage());
-    }
 }

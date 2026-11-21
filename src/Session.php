@@ -12,8 +12,8 @@ namespace Behat\Mink;
 
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\ElementFinder;
-use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Selector\SelectorsHandler;
 
 /**
  * Mink session.
@@ -30,23 +30,12 @@ class Session
      * @var DocumentElement
      */
     private $page;
-    /**
-     * @var ElementFinder
-     */
-    private $elementFinder;
-    /**
-     * @var SelectorsHandler
-     */
-    private $selectorsHandler;
 
     public function __construct(DriverInterface $driver, ?SelectorsHandler $selectorsHandler = null)
     {
         $this->driver = $driver;
-        $this->selectorsHandler = $selectorsHandler ?? new SelectorsHandler();
-        $this->elementFinder = new ElementFinder($driver, $this->selectorsHandler);
-        $this->page = new DocumentElement($this);
-
-        $driver->setSession($this);
+        $elementFinder = new ElementFinder($driver, $selectorsHandler ?? new SelectorsHandler());
+        $this->page = new DocumentElement($driver, $elementFinder);
     }
 
     /**
@@ -134,28 +123,6 @@ class Session
     public function getPage()
     {
         return $this->page;
-    }
-
-    /**
-     * @internal
-     */
-    public function getElementFinder(): ElementFinder
-    {
-        return $this->elementFinder;
-    }
-
-    /**
-     * Returns selectors handler.
-     *
-     * @return SelectorsHandler
-     *
-     * @deprecated since 1.11
-     */
-    public function getSelectorsHandler()
-    {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.11 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->selectorsHandler;
     }
 
     /**

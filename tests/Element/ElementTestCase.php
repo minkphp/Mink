@@ -4,19 +4,11 @@ namespace Behat\Mink\Tests\Element;
 
 use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Element\ElementFinder;
-use Behat\Mink\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class ElementTestCase extends TestCase
 {
-    /**
-     * Session.
-     *
-     * @var Session
-     */
-    protected $session;
-
     /**
      * @var DriverInterface&MockObject
      */
@@ -33,10 +25,6 @@ abstract class ElementTestCase extends TestCase
     protected function prepareSession(): void
     {
         $this->driver = $this->getMockBuilder('Behat\Mink\Driver\DriverInterface')->getMock();
-
         $this->elementFinder = $this->createMock(ElementFinder::class);
-        $this->session = $this->createStub(Session::class);
-        $this->session->method('getDriver')->willReturn($this->driver);
-        $this->session->method('getElementFinder')->willReturn($this->elementFinder);
     }
 }

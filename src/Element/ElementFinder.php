@@ -43,9 +43,9 @@ class ElementFinder
     /**
      * @param string|array $locator
      *
-     * @return NodeElement[]
+     * @return list<NodeElement>
      */
-    public function findAll(string $selector, $locator, string $parentXpath)
+    public function findAll(string $selector, $locator, string $parentXpath): array
     {
         if ('named' === $selector) {
             $items = $this->findAll('named_exact', $locator, $parentXpath);
@@ -59,6 +59,12 @@ class ElementFinder
         $xpath = $this->selectorsHandler->selectorToXpath($selector, $locator);
         $xpath = $this->xpathManipulator->prepend($xpath, $parentXpath);
 
-        return $this->driver->find($xpath);
+        $elements = array();
+
+        foreach ($this->driver->find($xpath) as $elementXpath) {
+            $elements[] = new NodeElement($elementXpath, $this->driver, $this);
+        }
+
+        return $elements;
     }
 }
